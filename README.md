@@ -50,7 +50,7 @@ Run the application:
     python run.py
 
 
-Deploy it (not tested yet)
+Deploy it (Coming Soon!)
 =========
 
 To deploy it, I'm using gunicorn and supervisord::
@@ -82,3 +82,4 @@ Project/Project Settings
     Testing
         Default Test Framework
             Nose
+
