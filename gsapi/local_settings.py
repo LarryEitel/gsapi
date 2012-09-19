@@ -25,3 +25,13 @@ class Config(object):
     MAIL_PASSWORD       = None
     DEFAULT_MAIL_SENDER = None
 
+
+    # fabric settings
+    FABRIC = {
+        'live': {
+            'HOSTS': ['50.116.35.54:53'],
+            'WEB_USER': 'www-data',
+            'ADMIN_USER': 'larry',
+            'PROJECT_ROOT': '/usr/var/www/gsapi',
+        }
+    }

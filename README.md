@@ -55,9 +55,9 @@ Deploy it (not tested yet)
 
 To deploy it, I'm using gunicorn and supervisord::
 
-    $ virtualenv venv
-    $ source venv/bin/activate
-    $ pip install -r requirements.txt
+    virtualenv venv
+    source venv/bin/activate
+    pip install -r requirements.txt
 
 Also, create a `local_settings.py` file with the appropriate values to use a different database for instance.
 
@@ -67,6 +67,7 @@ Developer Notes
 If you use WingWare IDE (Highly recommended), here are some useful settings for debugging:
 
 Project/Project Settings
+
     Environment
         Python Path (Added):
             c:\Users\Larry\__prjs\_ex\_prjs\gsapi\venv\Lib\site-packages
