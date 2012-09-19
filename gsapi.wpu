@@ -1,0 +1,1343 @@
+#!wing
+#!version=4.0
+##################################################################
+# Wing IDE project file : User-specific branch                   #
+##################################################################
+[user attributes]
+guimgr.overall-gui-state = {'windowing-policy': 'combined-window',
+                            'windows': [{'name': 'cyTlbCAUmxSyeyLIVHJME2EKxq'\
+        'uBTuPh',
+        'size-state': '',
+        'type': 'dock',
+        'view': {'area': 'tall',
+                 'constraint': None,
+                 'current_pages': [0,
+                                   0],
+                 'full-screen': False,
+                 'notebook_display': 'normal',
+                 'notebook_percent': 0.25,
+                 'override_title': None,
+                 'pagelist': [('debug-stack',
+                               'tall',
+                               1,
+                               {'codeline-mode': 'below'}),
+                              ('indent',
+                               'tall',
+                               2,
+                               {}),
+                              ('project',
+                               'tall',
+                               0,
+                               {'tree-state': {'file-sort-method': 'by name',
+        'list-files-first': False,
+        'tree-states': {'deep': {'column-widths': [1.0],
+                                 'expanded-nodes': [(1,),
+        (1,
+         1)],
+                                 'selected-nodes': [(1,
+        1,
+        2)],
+                                 'top-node': (0,)}},
+        'tree-style': 'deep'}}),
+                              ('snippets',
+                               'tall',
+                               0,
+                               {'tree-states': {'__all__': [],
+        u'c': [],
+        u'django': [],
+        u'html': [],
+        u'py': []}}),
+                              ('source-assistant',
+                               'tall',
+                               2,
+                               {'docstring-during-complete': False,
+                                'wrap-lines': True}),
+                              ('browser',
+                               'tall',
+                               0,
+                               {})],
+                 'primary_view_state': {'area': 'wide',
+        'constraint': None,
+        'current_pages': [-1],
+        'notebook_display': 'hidden',
+        'notebook_percent': 0.0,
+        'override_title': None,
+        'pagelist': [],
+        'primary_view_state': {'editor_states': {'bookmarks': ([[loc('../f2/ex/tests/base.py'),
+        {'attrib-starts': [],
+         'first-line': 0,
+         'folded-linenos': [],
+         'sel-line': 0,
+         'sel-line-start': 0,
+         'selection_end': 0,
+         'selection_start': 0},
+        1348067728.984],
+        (loc('../exapi/exapi/tests/test_utils.py'),
+         {'attrib-starts': [],
+          'first-line': 0,
+          'folded-linenos': [],
+          'sel-line': 0,
+          'sel-line-start': 0,
+          'selection_end': 0,
+          'selection_start': 0},
+         1348067846.865),
+        (loc('../exapi/exapi/views/generic.py'),
+         {'attrib-starts': [],
+          'first-line': 0,
+          'folded-linenos': [],
+          'sel-line': 4,
+          'sel-line-start': 98,
+          'selection_end': 98,
+          'selection_start': 98},
+         1348067881.1170001),
+        (loc('../exapi/exapi/views/generic.py'),
+         {'attrib-starts': [],
+          'first-line': 0,
+          'folded-linenos': [],
+          'sel-line': 4,
+          'sel-line-start': 98,
+          'selection_end': 98,
+          'selection_start': 98},
+         1348067975.5009999),
+        (loc('../exapi/exapi/views/generic.py'),
+         {'attrib-starts': [],
+          'first-line': 0,
+          'folded-linenos': [],
+          'sel-line': 4,
+          'sel-line-start': 98,
+          'selection_end': 98,
+          'selection_start': 98},
+         1348067998.3629999),
+        (loc('../exapi/exapi/views/generic.py'),
+         {'attrib-starts': [],
+          'first-line': 0,
+          'folded-linenos': [],
+          'sel-line': 4,
+          'sel-line-start': 98,
+          'selection_end': 98,
+          'selection_start': 98},
+         1348068118.02),
+        (loc('../exapi/exapi/views/generic.py'),
+         {'attrib-starts': [],
+          'first-line': 0,
+          'folded-linenos': [],
+          'sel-line': 4,
+          'sel-line-start': 98,
+          'selection_end': 98,
+          'selection_start': 98},
+         1348068215.273),
+        (loc('../exapi/exapi/extensions.py'),
+         {'attrib-starts': [],
+          'first-line': 0,
+          'folded-linenos': [],
+          'sel-line': 0,
+          'sel-line-start': 0,
+          'selection_end': 0,
+          'selection_start': 0},
+         1348068221.2980001),
+        (loc('../exapi/exapi/extensions.py'),
+         {'attrib-starts': [],
+          'first-line': 0,
+          'folded-linenos': [],
+          'sel-line': 0,
+          'sel-line-start': 0,
+          'selection_end': 0,
+          'selection_start': 0},
+         1348068540.723),
+        (loc('../exapi/exapi/extensions.py'),
+         {'attrib-starts': [],
+          'first-line': 0,
+          'folded-linenos': [],
+          'sel-line': 0,
+          'sel-line-start': 0,
+          'selection_end': 0,
+          'selection_start': 0},
+         1348068938.3759999),
+        (loc('../exapi/exapi/extensions.py'),
+         {'attrib-starts': [],
+          'first-line': 0,
+          'folded-linenos': [],
+          'sel-line': 0,
+          'sel-line-start': 0,
+          'selection_end': 0,
+          'selection_start': 0},
+         1348069259.596),
+        (loc('../exapi/exapi/extensions.py'),
+         {'attrib-starts': [],
+          'first-line': 0,
+          'folded-linenos': [],
+          'sel-line': 0,
+          'sel-line-start': 0,
+          'selection_end': 0,
+          'selection_start': 0},
+         1348069264.1589999),
+        (loc('../exapi/venv/src/pymongo/pymongo/connection.py'),
+         {'attrib-starts': [('Connection',
+                             76),
+                            ('Connection.__find_node',
+                             612)],
+          'first-line': 625,
+          'folded-linenos': [],
+          'sel-line': 670,
+          'sel-line-start': 26699,
+          'selection_end': 26699,
+          'selection_start': 26699},
+         1348069298.2260001),
+        (loc('../../../../../../Python27/Lib/site-packages/nose/loader.py'),
+         {'attrib-starts': [('TestLoader',
+                             43),
+                            ('TestLoader.loadTestsFromName',
+                             333)],
+          'first-line': 344,
+          'folded-linenos': [],
+          'sel-line': 389,
+          'sel-line-start': 16180,
+          'selection_end': 16180,
+          'selection_start': 16180},
+         1348069324.2049999),
+        (loc('../exapi/venv/src/pymongo/pymongo/connection.py'),
+         {'attrib-starts': [('Connection',
+                             76),
+                            ('Connection.__find_node',
+                             612)],
+          'first-line': 625,
+          'folded-linenos': [],
+          'sel-line': 670,
+          'sel-line-start': 26699,
+          'selection_end': 26699,
+          'selection_start': 26699},
+         1348069330.171),
+        (loc('../exapi/venv/src/pymongo/pymongo/connection.py'),
+         {'attrib-starts': [('Connection',
+                             76),
+                            ('Connection.__find_node',
+                             612)],
+          'first-line': 625,
+          'folded-linenos': [],
+          'sel-line': 670,
+          'sel-line-start': 26699,
+          'selection_end': 26699,
+          'selection_start': 26699},
+         1348069482.675),
+        (loc('../exapi/venv/src/pymongo/pymongo/connection.py'),
+         {'attrib-starts': [('Connection',
+                             76),
+                            ('Connection.__find_node',
+                             612)],
+          'first-line': 625,
+          'folded-linenos': [],
+          'sel-line': 670,
+          'sel-line-start': 26699,
+          'selection_end': 26699,
+          'selection_start': 26699},
+         1348069507.8329999),
+        (loc('../exapi/exapi/tests/test_generic.py'),
+         {'attrib-starts': [],
+          'first-line': 0,
+          'folded-linenos': [],
+          'sel-line': 0,
+          'sel-line-start': 0,
+          'selection_end': 0,
+          'selection_start': 0},
+         1348069535.2179999),
+        (loc('gsapi/tests/test_utils.py'),
+         {'attrib-starts': [],
+          'first-line': 0,
+          'folded-linenos': [],
+          'sel-line': 0,
+          'sel-line-start': 0,
+          'selection_end': 0,
+          'selection_start': 0},
+         1348078014.6359999),
+        [loc('gsapi/tests/test_generic.py'),
+         {'attrib-starts': [],
+          'first-line': 0,
+          'folded-linenos': [],
+          'sel-line': 0,
+          'sel-line-start': 0,
+          'selection_end': 0,
+          'selection_start': 0},
+         1348078025.115]],
+        19),
+        'current-loc': loc('gsapi/tests/test_generic.py'),
+        'editor-states': {loc('../exapi/exapi/tests/test_generic.py'): {'att'\
+        'rib-starts': [],
+        'first-line': 0,
+        'folded-linenos': [],
+        'sel-line': 0,
+        'sel-line-start': 0,
+        'selection_end': 0,
+        'selection_start': 0},
+                          loc('../exapi/exapi/tests/test_utils.py'): {'attri'\
+        'b-starts': [],
+        'first-line': 0,
+        'folded-linenos': [],
+        'sel-line': 0,
+        'sel-line-start': 0,
+        'selection_end': 0,
+        'selection_start': 0},
+                          loc('../exapi/venv/src/pymongo/pymongo/connection.py'): {''\
+        'attrib-starts': [('Connection',
+                           76),
+                          ('Connection.__find_node',
+                           612)],
+        'first-line': 625,
+        'folded-linenos': [],
+        'sel-line': 670,
+        'sel-line-start': 26699,
+        'selection_end': 26699,
+        'selection_start': 26699},
+                          loc('gsapi/tests/test_generic.py'): {'attrib-start'\
+        's': [],
+        'first-line': 0,
+        'folded-linenos': [],
+        'sel-line': 0,
+        'sel-line-start': 0,
+        'selection_end': 0,
+        'selection_start': 0},
+                          loc('gsapi/tests/test_utils.py'): {'attrib-starts': [],
+        'first-line': 0,
+        'folded-linenos': [],
+        'sel-line': 0,
+        'sel-line-start': 0,
+        'selection_end': 0,
+        'selection_start': 0}},
+        'has-focus': True},
+                               'open_files': [u'../exapi/exapi/tests/test_utils.py',
+        u'../exapi/exapi/tests/test_generic.py',
+        u'gsapi/tests/test_utils.py',
+        u'gsapi/tests/test_generic.py']},
+        'saved_notebook_display': None,
+        'split_percents': {0: 0.38002059732234811},
+        'splits': 1,
+        'tab_location': 'top',
+        'user_data': {}},
+                 'saved_notebook_display': None,
+                 'split_percents': {0: 0.6495535714285714},
+                 'splits': 2,
+                 'tab_location': 'left',
+                 'user_data': {}},
+        'window-alloc': (309,
+                         18,
+                         1101,
+                         976)},
+        {'name': 'tMgPu8IvfmMKVn8xwI4tJo9f0YcYbNHJ',
+         'size-state': '',
+         'type': 'panel-tall',
+         'view': {'area': 'window-wide',
+                  'constraint': None,
+                  'current_pages': [4,
+                                    2],
+                  'override_title': None,
+                  'pagelist': [('bookmarks',
+                                'window-wide',
+                                1,
+                                {}),
+                               ('debug-breakpoints',
+                                'window-wide',
+                                0,
+                                {'tree-state': []}),
+                               ('debug-io',
+                                'window-wide',
+                                1,
+                                {'attrib-starts': [],
+                                 'first-line': 0,
+                                 'folded-linenos': [],
+                                 'sel-line': 0,
+                                 'sel-line-start': 0,
+                                 'selection_end': 0,
+                                 'selection_start': 0}),
+                               ('debug-exceptions',
+                                'window-wide',
+                                0,
+                                {}),
+                               ('messages',
+                                'window-wide',
+                                2,
+                                {'current-domain': 0}),
+                               ('debug-modules',
+                                'window-wide',
+                                1,
+                                {}),
+                               ('os-command',
+                                'window-wide',
+                                1,
+                                {'last-percent': 0.80000000000000004,
+                                 'toolbox-percent': 1.0,
+                                 'toolbox-tree-sel': ''}),
+                               ('python-shell',
+                                'window-wide',
+                                2,
+                                {'attrib-starts': [],
+                                 'first-line': 0,
+                                 'folded-linenos': [],
+                                 'history': {},
+                                 'sel-line': 2,
+                                 'sel-line-start': 145,
+                                 'selection_end': 145,
+                                 'selection_start': 145}),
+                               ('interactive-search',
+                                'window-wide',
+                                0,
+                                {'fScope': {'fFileSetName': u'All Source Files',
+        'fLocation': None,
+        'fRecursive': True,
+        'fType': 'project-files'},
+                                 'fSearchSpec': {'fEndPos': None,
+        'fIncludeLinenos': True,
+        'fInterpretBackslashes': False,
+        'fMatchCase': True,
+        'fOmitBinary': True,
+        'fRegexFlags': 44,
+        'fReplaceText': u"'Model.Contact.",
+        'fReverse': False,
+        'fSearchText': u'post_array',
+        'fStartPos': 0,
+        'fStyle': 'text',
+        'fWholeWords': False,
+        'fWrap': True},
+                                 'fUIOptions': {'fAutoBackground': True,
+        'fFilePrefix': 'short-file',
+        'fFindAfterReplace': True,
+        'fInSelection': False,
+        'fIncremental': True,
+        'fReplaceOnDisk': False,
+        'fShowFirstMatch': False,
+        'fShowLineno': True,
+        'fShowReplaceWidgets': False},
+                                 'replace-entry-expanded': False,
+                                 'search-entry-expanded': False}),
+                               ('batch-search',
+                                'window-wide',
+                                0,
+                                {'fScope': {'fFileSetName': u'All Source Files',
+        'fLocation': None,
+        'fRecursive': True,
+        'fType': 'project-files'},
+                                 'fSearchSpec': {'fEndPos': None,
+        'fIncludeLinenos': True,
+        'fInterpretBackslashes': False,
+        'fMatchCase': False,
+        'fOmitBinary': True,
+        'fRegexFlags': 46,
+        'fReplaceText': '',
+        'fReverse': False,
+        'fSearchText': u'',
+        'fStartPos': 0,
+        'fStyle': 'text',
+        'fWholeWords': False,
+        'fWrap': True},
+                                 'fUIOptions': {'fAutoBackground': True,
+        'fFilePrefix': 'short-file',
+        'fFindAfterReplace': True,
+        'fInSelection': False,
+        'fIncremental': True,
+        'fReplaceOnDisk': False,
+        'fShowFirstMatch': False,
+        'fShowLineno': True,
+        'fShowReplaceWidgets': False},
+                                 'replace-entry-expanded': False,
+                                 'search-entry-expanded': False}),
+                               ('testing',
+                                'window-wide',
+                                0,
+                                {'added-files': [loc('gsapi/tests/test_utils.py'),
+        loc('gsapi/tests/test_generic.py')],
+                                 'filter': '',
+                                 'recent-filters': ['test',
+        'test_utils',
+        'test_generic',
+        'test_gen',
+        'test_ge',
+        'test_patch',
+        'test_',
+        'test_dev',
+        't',
+        'TestCurrent',
+        'Test',
+        'testc',
+        'test_post_one',
+        'test_post',
+        'tests/test_contacts.py:TestPersons',
+        'tests/test_contacts.pyTestPersons',
+        'tests/test_contacts.py/TestPersons',
+        'tests/test_contacts.py.TestPersons',
+        'tests/test_contacts.py.',
+        'tests/test_contacts.py'],
+                                 'sort-order': 'alpha'}),
+                               ('debug-watch',
+                                'window-wide',
+                                1,
+                                {'node-states': [],
+                                 'tree-state': {'column-widths': [0.47575057736720555,
+        0.5242494226327945],
+        'expanded-nodes': [],
+        'selected-nodes': [],
+        'top-node': (0,)}})],
+                  'split_percents': {0: 0.49092229484386346},
+                  'splits': 2,
+                  'tab_location': 'top',
+                  'user_data': {'origin-window': 'cyTlbCAUmxSyeyLIVHJME2EKxq'\
+        'uBTuPh'}},
+         'window-alloc': (1685,
+                          344,
+                          1382,
+                          578)},
+        {'name': 'ZN61BXtthIaQwBI4IrLLmg4QqZ9T0XEw',
+         'size-state': '',
+         'type': 'panel-tall',
+         'view': {'area': 'window-wide',
+                  'constraint': None,
+                  'current_pages': [0],
+                  'override_title': None,
+                  'pagelist': [('debug-probe',
+                                'window-wide',
+                                2,
+                                {'attrib-starts': [],
+                                 'first-line': 0,
+                                 'folded-linenos': [],
+                                 'history': {None: [],
+        u'file:C:/Program Files (x86)/Wing IDE 4.1/src/testing/runners/run_nosetests_xml.py': [''\
+        '[err for err in errs.error_list]\n',
+        'errs.error_list[0]\n',
+        'len(errs.error_list)\n',
+        'errs.error_list[0].__dict__\n',
+        'dir(m)\n',
+        'm.to_jsonschema\n',
+        'm.to_jsonschema()\n',
+        'm.for_jsonschema()\n',
+        'sample_doc_id\n',
+        'sample_doc_id.__str__\n',
+        'sample_doc_id.__str__()\n',
+        "sample_docs[1]['id']\n",
+        "sample_docs[1]['_id']\n",
+        "sample_docs[1]['_id'].__str__()\n",
+        'patch\n',
+        'dumps(patch)\n',
+        'm   = models[collection](**where)\n',
+        'm.id\n',
+        'm._id\n',
+        'where\n',
+        'k, v\n',
+        "if k == '_id': print ObjectId(v)\n",
+        "patch_errors['errors']\n",
+        "resp['value']\n",
+        "dumps(resp['value'])\n",
+        "loads(dumps(resp['value']))\n",
+        "sample_docs_offset[sample_docs_offset]['fNam']\n",
+        "sample_docs[sample_docs_offset]['fNam']\n",
+        "data[self.collection][0]['fNam']\n",
+        "data['doc']['fNam']\n",
+        "sample['patch']['fnam']\n",
+        "sample['patch']\n",
+        "sample['patch']['fNam']\n",
+        'datetime.datetime.utcnow()\n',
+        "datetime.utcnow().strftime('%Y%m%d%H%M%S%f')\n",
+        "datetime.datetime.utcnow().strftime('%Y%m%d%H%M%S%f')\n",
+        "int(datetime.datetime.utcnow().strftime('%Y%m%d%H%M%S%f'))\n",
+        'datetime.datetime.now()\n',
+        'dthandler = lambda obj: obj.isoformat() if isinstance(obj, datetime'\
+        '.datetime) else None\n',
+        'json.dumps(datetime.datetime.now(), default=dthandler)\n',
+        'from bson import json_util\nimport json\n\n',
+        'import json\n',
+        'now = datetime.datetime.now()\n',
+        'json.dumps(now, default=json_util.default)\n',
+        'from bson import json_util\n',
+        "json.loads('{\"$date\": 1347893866298}', object_hook=dumps.object_h"\
+        "ook)\n",
+        "json.loads('{\"$date\": 1347893866298}', object_hook=json_util.obje"\
+        "ct_hook)\n",
+        "deserial['patch']\n",
+        "deserial['patch']['lvOn']\n",
+        "deserial['patch']['rBy']\n",
+        "g('where')\n",
+        'test_datetime\n',
+        'dir(test_datetime)\n',
+        'test_datetime.microsecond()\n',
+        'test_datetime.microsecond\n',
+        'import datetime\n',
+        'datetime.fromtimestamp(test_datetime)\n',
+        'type(test_datetime)\n',
+        'from matplotlib.dates import date2num\n',
+        '(t-datetime.datetime(1970,1,1)).total_seconds()\n',
+        'test_datetime.second\n',
+        'test_datetime.strptime\n',
+        'test_datetime.strptime()\n',
+        'test_datetime.timetuple()\n',
+        'test_datetime.toordinal()\n',
+        'm = models[collection](**docs[0])\n',
+        'm.dNam\n',
+        "doc['_cls']\n",
+        "_cls[doc['_cls']]\n",
+        "\"From: {json_fname}, {count} docs loaded, {errors} errors.\".forma"\
+        "t(json_fname=json_fname, count=resp['response']['total_inserted'], "\
+        "errors=resp['response']['total_errors'])\n",
+        "resp['response']\n",
+        "resp['response']['total_inserted']\n",
+        "sample_doc['id']\n",
+        'docs[0]\n',
+        "docs[0]['_id']\n",
+        'sample_doc\n',
+        "addParams['route']\n",
+        'request\n',
+        'data\n',
+        "request['data']\n",
+        "sample_doc['_id']\n",
+        "got_doc['_id']['$oid']\n",
+        'vflds = json.loads(virtual_fields)\n',
+        'initialed_model.vfld\n',
+        'initialed_model.dNam\n',
+        'getattr(initialed_model, vfld)()\n',
+        'initialed_model\n',
+        'getattr(model, vfld)()\n',
+        'initialed_model.__class__\n',
+        "getattr(initialed_model, 'dNam')\n",
+        'vfld\n',
+        'getattr(initialed_model, vfld)\n',
+        '[i, doc in enumerate(docs)]\n',
+        '[i for i, doc in enumerate(docs)]\n',
+        '[doc for i, doc in enumerate(docs)]\n',
+        'models\n',
+        'models.Prs\n',
+        "m = getattr(models, doc['_c'])\n",
+        'm\n',
+        "docs_found[i][sort_test['fld']]\n"],
+        u'file:C:/Users/Larry/__prjs/_ex/_prjs/f2/ex/run.py': ['mongo.db.con'\
+        'tacts\n',
+        "current_app.extensions['pymongo']['Database']['Mongo']\n",
+        "current_app.extensions['pymongo']['Database']['MONGO']\n",
+        "current_app.extensions['pymongo']['Database']\n",
+        "current_app.extensions['pymongo']\n",
+        "current_app.extensions['pymongo']['MONGO']['Database']\n",
+        "current_app.extensions['pymongo']['MONGO'][1]\n",
+        "current_app.extensions['pymongo']['MONGO'][0]['ex']\n",
+        'db1.contacts.find()\n',
+        'db1.contacts.find().all()\n',
+        'g\n',
+        "setattr(g, 'mongo', mongo)\n",
+        "current_app.extensions['pymongo']['MONGO'][0]\n",
+        "current_app.extensions['pymongo']['MONGO']\n",
+        'current_app.extensions\n',
+        "db1 = current_app.extensions['pymongo']['MONGO'][0]['ex']\n",
+        'db1.contacts.find()[0]\n',
+        "current_app.config['MONGO_DBNAME']\n",
+        'mongo\n',
+        'mongo.db\n',
+        'print db\n',
+        'print db.contacts.find()[0]\n',
+        "print db.contacts.find()[0]['fnam']\n",
+        'db.contacts.find()\n',
+        'db.contacts.find()[0]\n',
+        'where\n',
+        'args\n'],
+        u'file:C:/Users/Larry/__prjs/_ex/_prjs/f2/ex/tests/api/test_contacts.py': [''\
+        'import sys\n',
+        'sys.path\n'],
+        u'file:C:/Users/Larry/__prjs/_ex/_prjs/f2/ex/tests/test_contacts.py': [''\
+        'self.app.application\n',
+        'current_app\n'],
+        u'file:C:/Users/Larry/__prjs/_of/ofd/d.py': ['note.splitlines()\n',
+        'note.splitlines()[:4]\n',
+        'note.splitlines()[:2]\n',
+        'line\n',
+        'line.strip()\n',
+        'len(line.strip())\n',
+        'dir(match)\n',
+        'match.start()\n',
+        'match.groups\n',
+        'match.groups()\n',
+        'result = re.findall(r"(?m)(\\d{1,4})[-/](\\d{1,2})[-/](\\d{1,4})(.*'\
+        '?$)", note)\n',
+        'result = reobjDat.findall(note)\n',
+        'result\n',
+        'match\n',
+        'match.group(1)\n',
+        'note\n',
+        'match.group(0)\n',
+        'match.group()\n'],
+        u'file:C:/Users/Larry/__prjs/_of/ofd/m.py': ["if 'firstname' in cont"\
+        "act:\n  print contact.firstname\n\n",
+        'for k,v in contact.iteritems():\n  print k, v\n\n',
+        '[for k,v in contact.iteritems()]\n',
+        '[k, v for k,v in contact.iteritems()]\n',
+        '[k for k in contact.iterkeys()]\n',
+        '[k for k in contact.iterkeys() if contact[k]]\n',
+        '[k, contact[k] for k in contact.iterkeys() if contact[k]]\n',
+        '[{k: contact[k]} for k in contact.iterkeys() if contact[k]]\n',
+        "mysql_contact['family_tags']\n",
+        "mysql_contact['family_tags'].split(',')\n",
+        "contact['id']\n",
+        'mongo_contacts.find({"id":5080})\n',
+        'mongo_contacts.find_one({"id":5080})\n',
+        "mongo_contacts.find_one({\"id\":mysql_contacts_related['child_id']}"\
+        ")\n",
+        "mongo_contacts.find_one({\"id\":mysql_contacts_related['child_id']}"\
+        ").ObjectId\n",
+        "mongo_contacts.find_one({\"id\":mysql_contacts_related['child_id']}"\
+        ").ObjectId()\n",
+        "mongo_contacts.find_one({\"id\":mysql_contacts_related['child_id']}"\
+        ")['ObjectId']\n",
+        "mongo_contacts.find_one({\"id\":mysql_contacts_related['child_id'],"\
+        " {ObjectId:1}})\n",
+        "mongo_contacts.find_one({\"id\":mysql_contacts_related['child_id'],"\
+        " {\"ObjectId\":1}})\n",
+        "child = mongo_contacts.find_one({\"id\":mysql_contacts_related['chi"\
+        "ld_id']})\n",
+        "child['ObjectId']\n",
+        "child['_id']\n",
+        "child = mongo_contacts.find_one({\"id\":mysql_contacts_related['chi"\
+        "ld_id']})['_id']\n",
+        'child\n',
+        'mongo_contacts.drop()\n',
+        'mongo_db.mongo_contacts.drop()\n',
+        'mongo_db.drop_collection("contacts")\n',
+        'mongo_contacts\n',
+        'mongo_db.drop_collection("places")\n',
+        'contact\n',
+        "contact['cong_tags']\n",
+        "'elder' in contact['cong_tags']\n",
+        "contact['gender']\n",
+        "contact['gender'].tolower()\n",
+        "contact['gender'].lower()\n",
+        "contact['gender'].upper()\n",
+        "contact['gender'][0].lower()\n",
+        'mongo_contacts.find({"cong_name":"/.*?belen english.*?/i"})\n',
+        'mongo_contacts.find({"cong_name":"/.*?belen english.*?/i"}).count()'\
+        '\n',
+        'mongo_contacts.find({"cong_name":"Belen English"}).count()\n',
+        'mongo_contacts.find({"cong_name":"Belen English"}, {cong_name:1,las'\
+        'tname:1})\n',
+        'mongo_contacts.find({"cong_name":"Belen English"}, {"cong_name":1,"'\
+        'lastname":1})\n',
+        '[c for c in mongo_contacts.find({"cong_name":"Belen English"}, {"co'\
+        'ng_name":1,"lastname":1})]\n',
+        '[c for c in mongo_contacts.find({"cong_name":"Belen English"}, {"la'\
+        'stname":1})]\n',
+        'import re\n',
+        'reobj = re.compile("belen english", re.IGNORECASE)\n',
+        '[c for c in mongo_contacts.find({"cong_name":reobj}, {"lastname":1}'\
+        ')]\n',
+        '[c for c in mongo_contacts.find({"companyname":"Belen English"}, {"'\
+        'companyname":1})]\n',
+        'mongo_contacts.find_one({"companyname":"Belen English"}\n\n)\n',
+        'mongo_contacts.find_one({"companyname":"Belen English"})\n',
+        "del contact['cong_tags']\n",
+        'v\n',
+        'tokenize(v)\n',
+        'type(v)\n',
+        "type(v) == 'str'\n",
+        'type(v) == string\n',
+        'type(v) == str\n',
+        'x = 24345345\n',
+        'x = 24345.345\n',
+        'x = 24345343543345345\n',
+        'type(x)\n',
+        'type(x) in [str, int, long, float]\n',
+        'str(x)\n',
+        "b = ['c','d']\n",
+        "a = ['a','b']\n",
+        "a = ['a','b', 'c']\n",
+        'a += b\n',
+        'a\n',
+        'set(a)\n',
+        'tokens\n',
+        'type(tokens[0])\n',
+        'list(tokens)\n',
+        '[token for token in tokens if len(token) > 1 ]\n',
+        "sws = ['alguna','alguna','algunas','algunas','alguno','alguno','alg"\
+        "unos','algunos','alg\xc3\xban','alg\xc3\xban','ambos','ambos','ampl"\
+        "eamos','ampleamos','ante','ante','antes','antes','aquel','aquel','a"\
+        "quellas','aquellas','aquellos','aquellos','aqui','aqui','arriba','a"\
+        "rriba','atras','atras','bajo','bajo','bastante','bastante','bien','"\
+        "bien','cada','cada','cierta','cierta','ciertas','ciertas','cierto',"\
+        "'cierto','ciertos','ciertos','como','como','con','con','conseguimos"\
+        "','conseguimos','conseguir','conseguir','consigo','consigo','consig"\
+        "ue','consigue','consiguen','consiguen','consigues','consigues','cua"\
+        "l','cual','cuando','cuando','dentro','dentro','desde','desde','dond"\
+        "e','donde','dos','dos','el','el','ellas','ellas','ellos','ellos','e"\
+        "mpleais','empleais','emplean','emplean','emplear','emplear','emplea"\
+        "s','empleas','empleo','empleo','en','en','encima','encima','entonce"\
+        "s','entonces','entre','entre','era','era','eramos','eramos','eran',"\
+        "'eran','eras','eras','eres','eres','es','es','esta','esta','estaba'"\
+        ",'estaba','estado','estado','estais','estais','estamos','estamos','"\
+        "estan','estan','estoy','estoy','fin','fin','fue','fue','fueron','fu"\
+        "eron','fui','fui','fuimos','fuimos','gueno','gueno','ha','ha','hace"\
+        "','hace','haceis','haceis','hacemos','hacemos','hacen','hacen','hac"\
+        "er','hacer','haces','haces','hago','hago','incluso','incluso','inte"\
+        "nta','intenta','intentais','intentais','intentamos','intentamos','i"\
+        "ntentan','intentan','intentar','intentar','intentas','intentas','in"\
+        "tento','intento','ir','ir','la','la','largo','largo','las','las','l"\
+        "o','lo','los','los','mientras','mientras','mio','mio','modo','modo'"\
+        ",'muchos','muchos','muy','muy','nos','nos','nosotros','nosotros','o"\
+        "tro','otro','para','para','pero','pero','podeis','podeis','podemos'"\
+        ",'podemos','poder','poder','podria','podria','podriais','podriais',"\
+        "'podriamos','podriamos','podrian','podrian','podrias','podrias','po"\
+        "r','por','por','qu\xc3\xa9','por','qu\xc3\xa9','porque','porque','p"\
+        "rimero','primero','puede','puede','pueden','pueden','puedo','puedo'"\
+        ",'quien','quien','sabe','sabe','sabeis','sabeis','sabemos','sabemos"\
+        "','saben','saben','saber','saber','sabes','sabes','ser','ser','si',"\
+        "'si','siendo','siendo','sin','sin','sobre','sobre','sois','sois','s"\
+        "olamente','solamente','solo','solo','somos','somos','soy','soy','su"\
+        "','su','sus','sus','tambi\xc3\xa9n','tambi\xc3\xa9n','teneis','tene"\
+        "is','tenemos','tenemos','tener','tener','tengo','tengo','tiempo','t"\
+        "iempo','tiene','tiene','tienen','tienen','todo','todo','trabaja','t"\
+        "rabaja','trabajais','trabajais','trabajamos','trabajamos','trabajan"\
+        "','trabajan','trabajar','trabajar','trabajas','trabajas','trabajo',"\
+        "'trabajo','tras','tras','tuyo','tuyo','ultimo','ultimo','un','un','"\
+        "una','una','unas','unas','uno','uno','unos','unos','usa','usa','usa"\
+        "is','usais','usamos','usamos','usan','usan','usar','usar','usas','u"\
+        "sas','uso','uso','va','va','vais','vais','valor','valor','vamos','v"\
+        "amos','van','van','vaya','vaya','verdad','verdad','verdadera','verd"\
+        "adera','verdadero','verdadero','vosotras','vosotras','vosotros','vo"\
+        "sotros','voy','voy','yo','a','about','above','after','again','again"\
+        "st','all','am','an','and','any','are','aren't','as','at','be','beca"\
+        "use','been','before','being','below','between','both','but','by','c"\
+        "an't','cannot','could','couldn't','did','didn't','do','does','doesn"\
+        "'t','doing','don't','down','during','each','few','for','from','furt"\
+        "her','had','hadn't','has','hasn't','have','haven't','having','he','"\
+        "he'd','he'll','he's','her','here','here's','hers','herself','him','"\
+        "himself','his','how','how's','i','i'd','i'll','i'm','i've','if','in"\
+        "','into','is','isn't','it','it's','its','itself','let's','me','more"\
+        "','most','mustn't','my','myself','no','nor','not','of','off','on','"\
+        "once','only','or','other','ought','our','ours','ourselves','out','o"\
+        "ver','own','same','shan't','she','she'd','she'll','she's','should',"\
+        "'shouldn't','so','some','such','than','that','that's','the','their'"\
+        ",'theirs','them','themselves','then','there','there's','these','the"\
+        "y','they'd','they'll','they're','they've','this','those','through',"\
+        "'to','too','under','until','up','very','was','wasn't','we','we'd','"\
+        "we'll','we're','we've','were','weren't','what','what's','when','whe"\
+        "n's','where','where's','which','while','who','who's','whom','why','"\
+        "why's','with','won't','would','wouldn't','you','you'd','you'll','yo"\
+        "u're','you've','your','yours','yourself','yourselves']\n",
+        "sws = [\"alguna\",\"alguna\",\"algunas\",\"algunas\",\"alguno\",\"a"\
+        "lguno\",\"algunos\",\"algunos\",\"alg\xc3\xban\",\"alg\xc3\xban\",\""\
+        "ambos\",\"ambos\",\"ampleamos\",\"ampleamos\",\"ante\",\"ante\",\"a"\
+        "ntes\",\"antes\",\"aquel\",\"aquel\",\"aquellas\",\"aquellas\",\"aq"\
+        "uellos\",\"aquellos\",\"aqui\",\"aqui\",\"arriba\",\"arriba\",\"atr"\
+        "as\",\"atras\",\"bajo\",\"bajo\",\"bastante\",\"bastante\",\"bien\""\
+        ",\"bien\",\"cada\",\"cada\",\"cierta\",\"cierta\",\"ciertas\",\"cie"\
+        "rtas\",\"cierto\",\"cierto\",\"ciertos\",\"ciertos\",\"como\",\"com"\
+        "o\",\"con\",\"con\",\"conseguimos\",\"conseguimos\",\"conseguir\",\""\
+        "conseguir\",\"consigo\",\"consigo\",\"consigue\",\"consigue\",\"con"\
+        "siguen\",\"consiguen\",\"consigues\",\"consigues\",\"cual\",\"cual\""\
+        ",\"cuando\",\"cuando\",\"dentro\",\"dentro\",\"desde\",\"desde\",\""\
+        "donde\",\"donde\",\"dos\",\"dos\",\"el\",\"el\",\"ellas\",\"ellas\""\
+        ",\"ellos\",\"ellos\",\"empleais\",\"empleais\",\"emplean\",\"emplea"\
+        "n\",\"emplear\",\"emplear\",\"empleas\",\"empleas\",\"empleo\",\"em"\
+        "pleo\",\"en\",\"en\",\"encima\",\"encima\",\"entonces\",\"entonces\""\
+        ",\"entre\",\"entre\",\"era\",\"era\",\"eramos\",\"eramos\",\"eran\""\
+        ",\"eran\",\"eras\",\"eras\",\"eres\",\"eres\",\"es\",\"es\",\"esta\""\
+        ",\"esta\",\"estaba\",\"estaba\",\"estado\",\"estado\",\"estais\",\""\
+        "estais\",\"estamos\",\"estamos\",\"estan\",\"estan\",\"estoy\",\"es"\
+        "toy\",\"fin\",\"fin\",\"fue\",\"fue\",\"fueron\",\"fueron\",\"fui\""\
+        ",\"fui\",\"fuimos\",\"fuimos\",\"gueno\",\"gueno\",\"ha\",\"ha\",\""\
+        "hace\",\"hace\",\"haceis\",\"haceis\",\"hacemos\",\"hacemos\",\"hac"\
+        "en\",\"hacen\",\"hacer\",\"hacer\",\"haces\",\"haces\",\"hago\",\"h"\
+        "ago\",\"incluso\",\"incluso\",\"intenta\",\"intenta\",\"intentais\""\
+        ",\"intentais\",\"intentamos\",\"intentamos\",\"intentan\",\"intenta"\
+        "n\",\"intentar\",\"intentar\",\"intentas\",\"intentas\",\"intento\""\
+        ",\"intento\",\"ir\",\"ir\",\"la\",\"la\",\"largo\",\"largo\",\"las\""\
+        ",\"las\",\"lo\",\"lo\",\"los\",\"los\",\"mientras\",\"mientras\",\""\
+        "mio\",\"mio\",\"modo\",\"modo\",\"muchos\",\"muchos\",\"muy\",\"muy"\
+        "\",\"nos\",\"nos\",\"nosotros\",\"nosotros\",\"otro\",\"otro\",\"pa"\
+        "ra\",\"para\",\"pero\",\"pero\",\"podeis\",\"podeis\",\"podemos\",\""\
+        "podemos\",\"poder\",\"poder\",\"podria\",\"podria\",\"podriais\",\""\
+        "podriais\",\"podriamos\",\"podriamos\",\"podrian\",\"podrian\",\"po"\
+        "drias\",\"podrias\",\"por\",\"por\",\"por\",\"qu\xc3\xa9\",\"por\","\
+        "\"qu\xc3\xa9\",\"porque\",\"porque\",\"primero\",\"primero\",\"pued"\
+        "e\",\"puede\",\"pueden\",\"pueden\",\"puedo\",\"puedo\",\"quien\",\""\
+        "quien\",\"sabe\",\"sabe\",\"sabeis\",\"sabeis\",\"sabemos\",\"sabem"\
+        "os\",\"saben\",\"saben\",\"saber\",\"saber\",\"sabes\",\"sabes\",\""\
+        "ser\",\"ser\",\"si\",\"si\",\"siendo\",\"siendo\",\"sin\",\"sin\",\""\
+        "sobre\",\"sobre\",\"sois\",\"sois\",\"solamente\",\"solamente\",\"s"\
+        "olo\",\"solo\",\"somos\",\"somos\",\"soy\",\"soy\",\"su\",\"su\",\""\
+        "sus\",\"sus\",\"tambi\xc3\xa9n\",\"tambi\xc3\xa9n\",\"teneis\",\"te"\
+        "neis\",\"tenemos\",\"tenemos\",\"tener\",\"tener\",\"tengo\",\"teng"\
+        "o\",\"tiempo\",\"tiempo\",\"tiene\",\"tiene\",\"tienen\",\"tienen\""\
+        ",\"todo\",\"todo\",\"trabaja\",\"trabaja\",\"trabajais\",\"trabajai"\
+        "s\",\"trabajamos\",\"trabajamos\",\"trabajan\",\"trabajan\",\"traba"\
+        "jar\",\"trabajar\",\"trabajas\",\"trabajas\",\"trabajo\",\"trabajo\""\
+        ",\"tras\",\"tras\",\"tuyo\",\"tuyo\",\"ultimo\",\"ultimo\",\"un\",\""\
+        "un\",\"una\",\"una\",\"unas\",\"unas\",\"uno\",\"uno\",\"unos\",\"u"\
+        "nos\",\"usa\",\"usa\",\"usais\",\"usais\",\"usamos\",\"usamos\",\"u"\
+        "san\",\"usan\",\"usar\",\"usar\",\"usas\",\"usas\",\"uso\",\"uso\","\
+        "\"va\",\"va\",\"vais\",\"vais\",\"valor\",\"valor\",\"vamos\",\"vam"\
+        "os\",\"van\",\"van\",\"vaya\",\"vaya\",\"verdad\",\"verdad\",\"verd"\
+        "adera\",\"verdadera\",\"verdadero\",\"verdadero\",\"vosotras\",\"vo"\
+        "sotras\",\"vosotros\",\"vosotros\",\"voy\",\"voy\",\"yo\",\"a\",\"a"\
+        "bout\",\"above\",\"after\",\"again\",\"against\",\"all\",\"am\",\"a"\
+        "n\",\"and\",\"any\",\"are\",\"aren't\",\"as\",\"at\",\"be\",\"becau"\
+        "se\",\"been\",\"before\",\"being\",\"below\",\"between\",\"both\",\""\
+        "but\",\"by\",\"can't\",\"cannot\",\"could\",\"couldn't\",\"did\",\""\
+        "didn't\",\"do\",\"does\",\"doesn't\",\"doing\",\"don't\",\"down\",\""\
+        "during\",\"each\",\"few\",\"for\",\"from\",\"further\",\"had\",\"ha"\
+        "dn't\",\"has\",\"hasn't\",\"have\",\"haven't\",\"having\",\"he\",\""\
+        "he'd\",\"he'll\",\"he's\",\"her\",\"here\",\"here's\",\"hers\",\"he"\
+        "rself\",\"him\",\"himself\",\"his\",\"how\",\"how's\",\"i\",\"i'd\""\
+        ",\"i'll\",\"i'm\",\"i've\",\"if\",\"in\",\"into\",\"is\",\"isn't\","\
+        "\"it\",\"it's\",\"its\",\"itself\",\"let's\",\"me\",\"more\",\"most"\
+        "\",\"mustn't\",\"my\",\"myself\",\"no\",\"nor\",\"not\",\"of\",\"of"\
+        "f\",\"on\",\"once\",\"only\",\"or\",\"other\",\"ought\",\"our\",\"o"\
+        "urs\",\"ourselves\",\"out\",\"over\",\"own\",\"same\",\"shan't\",\""\
+        "she\",\"she'd\",\"she'll\",\"she's\",\"should\",\"shouldn't\",\"so\""\
+        ",\"some\",\"such\",\"than\",\"that\",\"that's\",\"the\",\"their\",\""\
+        "theirs\",\"them\",\"themselves\",\"then\",\"there\",\"there's\",\"t"\
+        "hese\",\"they\",\"they'd\",\"they'll\",\"they're\",\"they've\",\"th"\
+        "is\",\"those\",\"through\",\"to\",\"too\",\"under\",\"until\",\"up\""\
+        ",\"very\",\"was\",\"wasn't\",\"we\",\"we'd\",\"we'll\",\"we're\",\""\
+        "we've\",\"were\",\"weren't\",\"what\",\"what's\",\"when\",\"when's\""\
+        ",\"where\",\"where's\",\"which\",\"while\",\"who\",\"who's\",\"whom"\
+        "\",\"why\",\"why's\",\"with\",\"won't\",\"would\",\"wouldn't\",\"yo"\
+        "u\",\"you'd\",\"you'll\",\"you're\",\"you've\",\"your\",\"yours\",\""\
+        "yourself\",\"yourselves\"]\n",
+        'n = list(set(sws))\n',
+        'n\n',
+        "  stopwords = ['all', 'ampleamos', 'otro', \"when\", 'to', 'under',"\
+        " 'estaba', 'very', 'algunos', 'yourselves', 'trabajais', \"we\", 'd"\
+        "id', \"they\", 'somos', 'largo', \"i\", \"you\", 'further', 'ellas'"\
+        ", 'encima', 'what', 'tienen', 'sus', 'above', 'vamos', 'here', \"ha"\
+        "dn\", \"aren\", \"i\", \"weren\", \"i'm\", 'from', 'would', 'uso', "\
+        "'pero', 'trabaja', 'few', 'ellos', 'themselves', 'until', 'trabajo'"\
+        ", 'more', 'saber', 'sabes', 'saben', 'me', 'this', 'ciertas', 'era'"\
+        ", 'theirs', 'my', 'sabe', 'consigue', \"didn\", 'ambos', 'bastante'"\
+        ", 'usais', 'aquel', 'how', 'eramos', 'cual', 'sin', 'after', 'such'"\
+        ", 'las', 'a', 'su', 'dentro', 'si', 'so', 'vaya', \"that\", \"don\""\
+        ", 'over', 'trabajan', \"won\", 'its', 'before', 'la', 'lo', \"he\","\
+        " 'valor', 'ours', 'fin', \"haven\", 'then', 'them', 'yo', 'consigo'"\
+        ", \"you\", 'they', 'not', 'trabajamos', 'nor', 'nos', 'desde', 'tra"\
+        "s', 'each', 'sabeis', \"isn\", 'modo', 'el', 'en', 'doing', \"we\","\
+        " 'our', 'todo', 'es', 'out', 'teneis', 'tuyo', \"shouldn\", \"they\""\
+        ", 'verdadero', 'verdadera', 'fuimos', 'intentan', 'could', 'nosotro"\
+        "s', 'podemos', 'intentas', 'intentar', 'yourself', 'cada', \"doesn\""\
+        ", 'their', 'solamente', 'too', 'para', 'that', 'bajo', 'herself', '"\
+        "than', \"here\", 'were', 'and', 'esta', 'siendo', 'have', 'any', 'm"\
+        "io', 'aquellas', 'which', 'intentais', 'empleo', 'who', \"where\", "\
+        "'most', 'why', 'alguno', 'alguna', \"you\", 'dos', 'primero', 'tene"\
+        "r', 'estais', 'estoy', 'hace', 'with', 'should', 'only', 'intentamo"\
+        "s', 'porque', 'do', 'his', 'sobre', \"they\", 'cannot', 'during', '"\
+        "podeis', 'him', 'emplear', 'alg\\xc3\\xban', 'she', 'through', 'whe"\
+        "re', 'ser', 'podriamos', 'are', 'estamos', 'eres', 'estan', 'muy', "\
+        "'bien', \"there\", 'between', 'solo', 'we', 'como', 'both', 'aqui',"\
+        " 'ciertos', \"wouldn\", \"he\", 'against', 'conseguir', 'una', \"we"\
+        "\", \"can\", 'uno', 'cierto', 'por', 'cierta', 'haceis', 'hers', \""\
+        "couldn\", 'vais', 'ante', 'tiene', 'podria', \"it\", 'been', 'whom'"\
+        ", 'tenemos', 'qu\\xc3\\xa9', 'aquellos', 'pueden', \"what\", 'those"\
+        "', 'myself', 'these', 'tengo', 'podriais', 'while', 'fue', 'fui', '"\
+        "va', 'unos', 'eran', 'is', 'ir', 'it', 'itself', 'eras', 'sois', 'i"\
+        "n', 'voy', 'if', 'same', 'fueron', 'tiempo', 'quien', 'entonces', '"\
+        "on', 'estado', \"he\", 'hacer', 'haces', 'off', 'entre', 'i', 'hago"\
+        "', 'the', 'con', 'hacen', 'yours', \"she\", 'incluso', 'being', 'em"\
+        "plean', 'empleas', 'mientras', 'verdad', 'antes', 'gueno', 'had', '"\
+        "conseguimos', 'arriba', 'hacemos', 'has', 'ought', 'cuando', \"who\""\
+        ", 'usamos', \"why\", 'because', 'tambi\\xc3\\xa9n', 'vosotros', 'so"\
+        "me', 'ourselves', \"shan\", 'consiguen', 'for', 'algunas', 'does', "\
+        "'consigues', 'be', 'puedo', 'usan', 'puede', 'usas', 'usar', 'by', "\
+        "'vosotras', 'about', 'usa', 'of', \"mustn\", 'or', 'own', 'podrian'"\
+        ", 'into', 'down', 'donde', 'soy', 'empleais', 'your', 'trabajas', '"\
+        "trabajar', 'unas', 'van', \"how\", 'her', 'there', 'los', \"we\", '"\
+        "atras', 'was', 'poder', 'podrias', 'himself', 'sabemos', \"i\", 'bu"\
+        "t', 'ha', 'ultimo', 'he', \"they\", \"wasn\", \"hasn\", 'below', 'u"\
+        "n', 'up', 'am', 'an', 'intenta', 'as', 'at', 'intento', 'again', 'n"\
+        "o', 'when', 'other', 'you', \"you\", \"let\", 'muchos', \"she\", \""\
+        "she\", 'having', 'once']\n",
+        "stopwords = ['all', 'ampleamos', 'otro', \"when\", 'to', 'under', '"\
+        "estaba', 'very', 'algunos', 'yourselves', 'trabajais', \"we\", 'did"\
+        "', \"they\", 'somos', 'largo', \"i\", \"you\", 'further', 'ellas', "\
+        "'encima', 'what', 'tienen', 'sus', 'above', 'vamos', 'here', \"hadn"\
+        "\", \"aren\", \"i\", \"weren\", \"i'm\", 'from', 'would', 'uso', 'p"\
+        "ero', 'trabaja', 'few', 'ellos', 'themselves', 'until', 'trabajo', "\
+        "'more', 'saber', 'sabes', 'saben', 'me', 'this', 'ciertas', 'era', "\
+        "'theirs', 'my', 'sabe', 'consigue', \"didn\", 'ambos', 'bastante', "\
+        "'usais', 'aquel', 'how', 'eramos', 'cual', 'sin', 'after', 'such', "\
+        "'las', 'a', 'su', 'dentro', 'si', 'so', 'vaya', \"that\", \"don\", "\
+        "'over', 'trabajan', \"won\", 'its', 'before', 'la', 'lo', \"he\", '"\
+        "valor', 'ours', 'fin', \"haven\", 'then', 'them', 'yo', 'consigo', "\
+        "\"you\", 'they', 'not', 'trabajamos', 'nor', 'nos', 'desde', 'tras'"\
+        ", 'each', 'sabeis', \"isn\", 'modo', 'el', 'en', 'doing', \"we\", '"\
+        "our', 'todo', 'es', 'out', 'teneis', 'tuyo', \"shouldn\", \"they\","\
+        " 'verdadero', 'verdadera', 'fuimos', 'intentan', 'could', 'nosotros"\
+        "', 'podemos', 'intentas', 'intentar', 'yourself', 'cada', \"doesn\""\
+        ", 'their', 'solamente', 'too', 'para', 'that', 'bajo', 'herself', '"\
+        "than', \"here\", 'were', 'and', 'esta', 'siendo', 'have', 'any', 'm"\
+        "io', 'aquellas', 'which', 'intentais', 'empleo', 'who', \"where\", "\
+        "'most', 'why', 'alguno', 'alguna', \"you\", 'dos', 'primero', 'tene"\
+        "r', 'estais', 'estoy', 'hace', 'with', 'should', 'only', 'intentamo"\
+        "s', 'porque', 'do', 'his', 'sobre', \"they\", 'cannot', 'during', '"\
+        "podeis', 'him', 'emplear', 'alg\\xc3\\xban', 'she', 'through', 'whe"\
+        "re', 'ser', 'podriamos', 'are', 'estamos', 'eres', 'estan', 'muy', "\
+        "'bien', \"there\", 'between', 'solo', 'we', 'como', 'both', 'aqui',"\
+        " 'ciertos', \"wouldn\", \"he\", 'against', 'conseguir', 'una', \"we"\
+        "\", \"can\", 'uno', 'cierto', 'por', 'cierta', 'haceis', 'hers', \""\
+        "couldn\", 'vais', 'ante', 'tiene', 'podria', \"it\", 'been', 'whom'"\
+        ", 'tenemos', 'qu\\xc3\\xa9', 'aquellos', 'pueden', \"what\", 'those"\
+        "', 'myself', 'these', 'tengo', 'podriais', 'while', 'fue', 'fui', '"\
+        "va', 'unos', 'eran', 'is', 'ir', 'it', 'itself', 'eras', 'sois', 'i"\
+        "n', 'voy', 'if', 'same', 'fueron', 'tiempo', 'quien', 'entonces', '"\
+        "on', 'estado', \"he\", 'hacer', 'haces', 'off', 'entre', 'i', 'hago"\
+        "', 'the', 'con', 'hacen', 'yours', \"she\", 'incluso', 'being', 'em"\
+        "plean', 'empleas', 'mientras', 'verdad', 'antes', 'gueno', 'had', '"\
+        "conseguimos', 'arriba', 'hacemos', 'has', 'ought', 'cuando', \"who\""\
+        ", 'usamos', \"why\", 'because', 'tambi\\xc3\\xa9n', 'vosotros', 'so"\
+        "me', 'ourselves', \"shan\", 'consiguen', 'for', 'algunas', 'does', "\
+        "'consigues', 'be', 'puedo', 'usan', 'puede', 'usas', 'usar', 'by', "\
+        "'vosotras', 'about', 'usa', 'of', \"mustn\", 'or', 'own', 'podrian'"\
+        ", 'into', 'down', 'donde', 'soy', 'empleais', 'your', 'trabajas', '"\
+        "trabajar', 'unas', 'van', \"how\", 'her', 'there', 'los', \"we\", '"\
+        "atras', 'was', 'poder', 'podrias', 'himself', 'sabemos', \"i\", 'bu"\
+        "t', 'ha', 'ultimo', 'he', \"they\", \"wasn\", \"hasn\", 'below', 'u"\
+        "n', 'up', 'am', 'an', 'intenta', 'as', 'at', 'intento', 'again', 'n"\
+        "o', 'when', 'other', 'you', \"you\", \"let\", 'muchos', \"she\", \""\
+        "she\", 'having', 'once']\n",
+        'stopwords = list(set(stopwords))\n',
+        'stopwords\n',
+        'body\n',
+        "rec['body']\n",
+        'noteEvents\n',
+        'match.group()\n',
+        "l = 'Log asdfasdfd'\n",
+        "l >= 'Log'\n",
+        "l >= 'Lod'\n",
+        "l >= 'ddd'\n",
+        "l >= 'Log '\n",
+        "l = 'Log '\n",
+        'l[:4] == "Log "\n',
+        'l[:4] == "Log"\n',
+        'events\n',
+        'events[-1]\n',
+        "l = '<br /> adfasfdasfd'\n",
+        "l.replace('<br />', '')\n"],
+        u'file:C:/Users/Larry/__prjs/_of/ofd/of_places.py': ['int(match.grou'\
+        'p(1))\n',
+        'val(match.group(1))\n',
+        'double(match.group(1))\n',
+        'float(match.group(1))\n',
+        "row['notes']\n",
+        'notes = notes.replace("&nbsp_place_holder;", " ")\n',
+        'notes.replace("&nbsp_place_holder;", " ")\n',
+        'match\n',
+        'match.groups\n',
+        'match.groups()\n',
+        'type(v)\n',
+        'type(v) == str\n',
+        "event['dt']\n",
+        "event['dt'].strftime(\"%y-%m-%d:%D\")  \n",
+        "event['dt'].strftime(\"%y-%m-%d:%dd\")  \n",
+        "print event['dt'], event['dt'].strftime(\"%y-%m-%d:%dd\")  \n",
+        "print event['dt'], event['dt'].strftime(\"%y-%m-%d:%a\")  \n",
+        "print event['dt'], event['dt'].strftime(\"%Y-%m-%d:%a\")  \n",
+        'emails\n',
+        '[x[email] for x in emails]\n',
+        '[x[email] for x in emails.iteritems()]\n',
+        "[x['email'] for x in emails]\n",
+        'notes\n',
+        're.sub(r"(?si)_JJM\\s+T\\d+-\\d+-\\d+.*?b[0-9\\-]+\\s*", "", notes)'\
+        '\n',
+        'outstr\n',
+        'match.group(1)\n',
+        'match.group()\n',
+        'placestr.split("\\n")\n',
+        'placestr.split("\\n").count()\n',
+        'len(placestr.split("\\n"))\n'],
+        u'file:C:/Users/Larry/_db/_x/web2py.py': ['len(form.vars.q < 10)\n',
+        'x.searchform()\n',
+        'auth.user_group\n',
+        'auth.user.id\n',
+        'form[0]\n',
+        'form[0].attributes\n',
+        "form[0].attributes['name']\n",
+        "not form[0].attributes['value']\n",
+        "form[0].attributes['value']\n",
+        "form[0].attributes['value'] == ''\n",
+        "type(form[0].attributes['value'])\n",
+        "form[0].attributes['value'] == None\n",
+        'request.env.query_string\n',
+        's = request.env.query_string\n',
+        's\n',
+        "s.split('&')\n",
+        "params - s.split('&')\n",
+        "params = s.split('&')\n",
+        'params\n',
+        'params[0]\n',
+        "params[0][0] == 'q'\n",
+        "params[0].split('=')\n",
+        "params[0].split('=')[1]\n",
+        "params[0].split('=')[1].strip()\n"],
+        u'file:C:/_f/py/blocks.py': ['points_inside_poly([(5,9)], poly_verts'\
+                                     ')\x0d\n',
+                                     'points_inside_poly((5,9), poly_verts)\x0d'\
+                                     '\n',
+                                     'points_inside_poly([(2,8)], poly_verts'\
+                                     ')\x0d\n',
+                                     'points_inside_poly([(0,8)], poly_verts'\
+                                     ')\x0d\n',
+                                     'points_inside_poly([(3,8)], poly_verts'\
+                                     ')\x0d\n',
+                                     'points_inside_poly([(3,10)], poly_vert'\
+                                     's)\x0d\n',
+                                     "[(pt['lat'], pt['lng']) for pt in bloc"\
+                                     "ks_polygons['pts']]\x0d\n",
+                                     "[(block['lat'], block['lng']) for bloc"\
+                                     "k in blocks_numbers]\x0d\n",
+                                     'block_numbers\x0d\n',
+                                     'block_numbers[0]\x0d\n',
+                                     "[(block['lat'], block['lng']) for bloc"\
+                                     "k in block_numbers]\x0d\n",
+                                     'mask\x0d\n',
+                                     '[i for i in enumerate(mask) if mask[i]'\
+                                     ']\x0d\n',
+                                     'mask[0]\x0d\n',
+                                     '[i for i in range(mask) if mask[i]]\x0d'\
+                                     '\n',
+                                     'len(mask)\x0d\n',
+                                     '[i for i in len(mask) if mask[i]]\x0d\n',
+                                     'for i in enumerate(mask):\x0d\n  print'\
+                                     ' i;\x0d\n\x0d\n',
+                                     '[i for i, b in enumerate(mask) if b]\x0d'\
+                                     '\n',
+                                     'pts[0]\x0d\n',
+                                     'pnts[0]\x0d\n',
+                                     'points_inside_poly([pnts[0]], poly_ver'\
+                                     'ts)\x0d\n',
+                                     'poly_verts\x0d\n',
+                                     'points_inside_poly([(-84.2230754713311'\
+                                     '3, 9.900431813992872)], poly_verts)\x0d'\
+                                     '\n',
+                                     'poly_verts = [(-84.22307547133113, 9.9'\
+                                     '00431813992872), (-84.22297662549559, '\
+                                     '9.900286579063486), (-84.2227960089079'\
+                                     '9, 9.900174911616709)]\x0d\n',
+                                     'poly_verts = [(-84.2, 9.9), (-84.2, 9.'\
+                                     '9), (-85.2, 8.9)]\x0d\n',
+                                     'points_inside_poly([(-84.3, 9.0)], pol'\
+                                     'y_verts)\x0d\n',
+                                     'poly_verts = [(1, 1), (1, 10), (10, 1)'\
+                                     ', (10, 10)]\x0d\n',
+                                     'points_inside_poly([(5, 5)], [(1, 1), '\
+                                     '(1, 10), (10, 1), (10, 10)])\x0d\n',
+                                     "[[pt['lat'], pt['lng']] for pt in bloc"\
+                                     "k_polygon['pts']]\x0d\n",
+                                     'block_polygon\x0d\n',
+                                     'import cPickle as pickle\x0d\n',
+                                     'pickle.dump( new_blocks, open( "blocks'\
+                                     '.pkl", "wb" ) )\x0d\n',
+                                     'blocks[0]\x0d\n',
+                                     "blocks[0]['lng']\x0d\n",
+                                     "blocks[0]['pts']\x0d\n",
+                                     "pts = blocks[0]['pts']\x0d\n",
+                                     'pts\x0d\n',
+                                     "[[pt['lng'], pt['lng']] for pt in pts]"\
+                                     "\x0d\n",
+                                     "[[pt['lng'], pt['lat']] for pt in pts]"\
+                                     "\x0d\n",
+                                     'new_blocks[0]\x0d\n'],
+        u'file:C:/_f/py/house_pts.py': ["[house_pt['lat'], house_pt['lng']]\x0d"\
+        "\n",
+        'house_pt\x0d\n'],
+        u'file:c:/Users/Larry/__prjs/_ex/_prjs/ab/exapi/app.py': ['import sy'\
+        's\n',
+        'sys.path\n',
+        "sys.path.insert('c:\\\\Users\\\\Larry\\\\__prjs\\\\_ex\\\\_prjs\\\\"\
+        "ab\\')\n",
+        "sys.path.insert('c:\\\\Users\\\\Larry\\\\__prjs\\\\_ex\\\\_prjs\\\\"\
+        "ab')\n",
+        "sys.path.append('c:\\\\Users\\\\Larry\\\\__prjs\\\\_ex\\\\_prjs\\\\"\
+        "ab')\n",
+        'import exapi.lib.bottle\n'],
+        u'file:c:/Users/Larry/__prjs/_ex/_prjs/exapi/exapi/a.py': ['contact.'\
+        'save()\n',
+        'contact.update()\n',
+        'contact.displayName()\n',
+        'if self.phones: s.append(self.phones)\n',
+        'if self.emails: s.append(self.emails)\n',
+        "', '.join(s)\n",
+        'document.cnam\n',
+        'document.dnam = document.cnam\n',
+        'Cnt(Cmp, document).pre_save(cls, sender, document)\n',
+        'super(Cmp, document).pre_save(cls, sender, document)\n'],
+        u'file:c:/Users/Larry/__prjs/_ex/_prjs/exapi/manage.py': ["manager['"\
+        "commands']\n",
+        'manager.commands\n',
+        "manager._commands['runserver']\n",
+        "manager._commands['runserver'].host\n",
+        "manager._commands['runserver'].host = '0.0.0.0'\n",
+        "manager._commands['runserver'].port = 3000\n",
+        "manager._commands['runserver'].port\n",
+        "config['PORT']\n",
+        'runserver.post\n'],
+        u'file:c:/Users/Larry/__prjs/_ex/_prjs/f1/ex/run.py': ['m\n',
+        'm.to_python()\n',
+        'jsonify(docs_to_post)\n',
+        'type(docs_to_post)\n',
+        'json.dumps(docs_to_post)\n',
+        'jsonify(dumps(docs_to_post))\n',
+        'dumps(docs_to_post)\n',
+        'loads(dumps(docs_to_post))\n',
+        'json.loads(dumps(docs_to_post))\n',
+        'base_model.emails[0]\n',
+        'base_model.emails.append(docs_to_post[0])\n',
+        'base_model.emails\n',
+        'doc\n',
+        '[x for x in doc_to_patch.items()]\n',
+        "[x['email'] for x in doc_to_patch.items()]\n",
+        "[x['email'] for x in doc_to_patch.iteritems()]\n",
+        '[k,v for k,v in doc_to_patch.items()]\n',
+        '[k,v for k,v in doc_to_patch.iteritems()]\n',
+        '[{k,v} for k,v in doc_to_patch.iteritems()]\n',
+        "[v for v in doc_to_patch['emails'].items()]\n",
+        "[v for v in doc_to_patch['emails'].iteritems()]\n",
+        "[v for k,v in doc_to_patch['emails'].iteritems()]\n",
+        '[k for k,v in doc_to_patch.iteritems()]\n',
+        '[v for k,v in doc_to_patch.iteritems()]\n',
+        'doc_to_patch\n',
+        "[e for e in doc_to_patch['emails']]\n",
+        "[e['email'] for e in doc_to_patch['emails']]\n",
+        "u'larry@hotmail.com' in [e['email'] for e in doc_to_patch['emails']"\
+        "]\n",
+        "[i for i,e in enumerate([e['email'] for e in doc_to_patch['emails']"\
+        "]) if e == u'larry@hotmail.com']\n",
+        'doc_to_patch[field_name]]\n',
+        "doc_to_patch['emails']]\n",
+        '[doc_to_patch[field_name] for x in doc_to_patch[field_name]]\n',
+        'enumerate([doc_to_patch[field_name] for x in doc_to_patch[field_nam'\
+        'e]])\n',
+        "original_values['value']\n",
+        "_to_patch['emails']]\n",
+        "x in enumerate([doc_to_patch[field_name] for x in doc_to_patch['ema"\
+        "ils']]) if x == 'larry@gmail.com']\n",
+        "doc_to_patch['emails']\n",
+        "x in enumerate([doc_to_patch['emails'] for x in doc_to_patch['email"\
+        "s']]) if x == 'larry@gmail.com']\n",
+        "[i for i,x in enumerate([doc_to_patch[field_name] for x in doc_to_p"\
+        "atch[field_name]]) if x == 'larry@gmail.com']\n",
+        "te([doc_to_patch[field_name] for x in doc_to_patch[field_name]]) if"\
+        " x == 'larry@gmail.com']\n",
+        "[i for i,x in enumerate([doc_to_patch[field_name] for x in doc_to_p"\
+        "atch[field_name]]) if x == original_values['value']]\n",
+        "[i for i,x in enumerate([x for x in doc_to_patch[field_name]]) if x"\
+        " == original_values['value']]\n",
+        "[i for i,x in enumerate([x for x in doc_to_patch[field_name]]) if x"\
+        " == 'larry@gmail.com']\n",
+        "[i for i,x in enumerate([v for k,v in doc_to_patch[field_name]].ite"\
+        "ritems()) if x == 'larry@gmail.com']\n",
+        "[i for i,x in enumerate([v for k,v in doc_to_patch[field_name].iter"\
+        "items()) if x == 'larry@gmail.com'])}}\n]\n]\n\n",
+        '}\n',
+        "[i for i,x in enumerate([v for k,v in doc_to_patch[field_name]].ite"\
+        "ritems()) if v == 'larry@gmail.com']\n",
+        "[i for i,x in enumerate([v for k,v in doc_to_patch[field_name].iter"\
+        "items()) if v == 'larry@gmail.com']]\n",
+        "[v for k,v in doc_to_patch[field_name].iteritems()) if v == 'larry@"\
+        "gmail.com']\n",
+        "[v for k,v in doc_to_patch[field_name].iteritems() if v == 'larry@g"\
+        "mail.com']\n",
+        "[x for x in doc_to_patch[field_name] if v == 'larry@gmail.com']\n",
+        '[x for x in doc_to_patch[field_name]]\n',
+        "[x for x in doc_to_patch[field_name] if x == 'larry@gmail.com']\n",
+        '[x[doc_to_patch[field_name]]] for x in doc_to_patch[field_name]]\n',
+        '[x[doc_to_patch[field_name]] for x in doc_to_patch[field_name]]\n',
+        "[x['email'] for x in doc_to_patch[field_name]]\n",
+        'doc_to_patch[field_name]\n',
+        "original_values['key_field']\n",
+        'doc = db.db[col].update({"_id":ObjectId(id)}, {"$set": {field_name:'\
+        'replacement_values}})\n',
+        'field_name\n',
+        '"%s.%d.%s" % (field_name, embedded_pos, key_field)\n',
+        'validate(models[collection], doc_patch)\n',
+        'db.db[col]\n',
+        'response.ok\n',
+        "'ok' in response and response['ok'] = 1.0\n",
+        'response\n',
+        "response['ok']\n",
+        "type(response['ok'])\n",
+        "'ok' in response and response['ok'] == 1.0\n",
+        "response['value']\n"],
+        u'file:c:/Users/Larry/__prjs/_ex/_prjs/f1/ex/tests/api/test_contacts.py': [''\
+        'self.app.application.config\n',
+        'from ex.run.app import mongo\n',
+        'import ex.run.app\n',
+        'from ex.app import create_app\n'],
+        u'file:c:/Users/Larry/__prjs/_ex/_prjs/py/flask-mongorest/play.py': [''\
+        'r\n',
+        'r._content\n',
+        'r.text.__str__()\n',
+        'p(r.text)\n',
+        'r.text\n',
+        'json.loads(r.text)\n',
+        'json.loads(r.text).id\n',
+        "json.loads(r.text)['id']\n"],
+        u'file:c:/Users/Larry/_db/_x/web2py.py': ['cts.__repr__()\n'],
+        u'file:c:/_f/py/kml.py': ['xml\x0d\n',
+                                  'pt\x0d\n',
+                                  "pt.split(',')\x0d\n",
+                                  "strpt = pt.split(',')\x0d\n",
+                                  'strpt\x0d\n',
+                                  'strpt[0]\x0d\n',
+                                  'float(strpt[0])\x0d\n',
+                                  'float(strpt[0]) + 100\x0d\n',
+                                  'ptstring\x0d\n',
+                                  "ptstring.split(',')\x0d\n",
+                                  "[float(n) for n in ptstring.split(',')]\x0d"\
+                                  "\n",
+                                  'blocks[0]\x0d\n',
+                                  'blocks[1]\x0d\n']},
+                                 'sel-line': 0,
+                                 'sel-line-start': 0,
+                                 'selection_end': 0,
+                                 'selection_start': 0})],
+                  'split_percents': {},
+                  'splits': 1,
+                  'tab_location': 'top',
+                  'user_data': {}},
+         'window-alloc': (1774,
+                          562,
+                          1375,
+                          448)},
+        {'name': 'LMS40UQ5pGD6veylGaDfNY8SrltQNKdz',
+         'size-state': '',
+         'type': 'panel-tall',
+         'view': {'area': 'window-wide',
+                  'constraint': None,
+                  'current_pages': [0],
+                  'override_title': None,
+                  'pagelist': [('debug-data',
+                                'window-wide',
+                                1,
+                                {})],
+                  'split_percents': {},
+                  'splits': 1,
+                  'tab_location': 'top',
+                  'user_data': {}},
+         'window-alloc': (2207,
+                          0,
+                          954,
+                          519)}]}
+guimgr.recent-documents = [loc('gsapi/tests/test_generic.py'),
+                           loc('gsapi/tests/test_utils.py'),
+                           loc('../exapi/exapi/tests/test_generic.py'),
+                           loc('../exapi/venv/src/pymongo/pymongo/connection.py'),
+                           loc('../exapi/exapi/tests/test_utils.py')]
+guimgr.visual-state = {loc('../../../../../../Python27/Lib/site-packages/nose/loader.py'): {''\
+        'attrib-starts': [('TestLoader',
+                           43),
+                          ('TestLoader.loadTestsFromName',
+                           333)],
+        'first-line': 344,
+        'folded-linenos': [],
+        'sel-line': 389,
+        'sel-line-start': 16180,
+        'selection_end': 16180,
+        'selection_start': 16180}}
+proj.env-vars = {None: ('custom',
+                        [''])}
+proj.initial-dir = {None: ('custom',
+                           'c:\\Users\\Larry\\__prjs\\_ex\\_prjs\\gsapi\\gsa'\
+                           'pi')}
+proj.matplotlib-event-loop = False
+proj.pypath = {None: ('custom',
+                      'c:\\Users\\Larry\\__prjs\\_ex\\_prjs\\gsapi\\venv\\Li'\
+                      'b\\site-packages\\;c:\\Users\\Larry\\__prjs\\_ex\\_pr'\
+                      'js\\gsapi\\gsapi;')}
+proj.pyrunargs = {None: ('custom',
+                         '-u -t')}
+proj.template-debugging = False
