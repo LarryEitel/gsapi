@@ -29,9 +29,9 @@ class Config(object):
     # fabric settings
     FABRIC = {
         'live': {
-            'HOSTS': ['50.116.35.54:53'],
-            'WEB_USER': 'www-data',
+            'HOSTS': ['50.116.35.54:22'],
+            'WEB_USER': 'larry',
             'ADMIN_USER': 'larry',
-            'PROJECT_ROOT': '/usr/var/www/gsapi',
+            'PROJECT_ROOT': '/srv/gs/api/gsapi',
         }
     }
