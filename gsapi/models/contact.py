@@ -1,4 +1,5 @@
 from model import Mod
+from schematics.models import Model as _Model
 from schematics.types import IntType, StringType, FloatType, DateTimeType, EmailType
 from schematics.types.compound import ListType, ModelType
 
@@ -8,47 +9,39 @@ from generic import Email
 
 
 
-class RoleType(Model):
+class RoleType(Mod):
+    '''
     type = StringType(enum) # j=job, f=family, fr=friend
     downName = StringType(default)
     upName = StringType() #optional
-
+    '''
     meta = {
         'collection': 'roletypes',
         '_c': 'roletype',
         }
 
-
-GSNI
-    Add cntX Mary
-        pick Mary
-            role pick from RoleType 
-                show job/company roletypes
-                    Employee 
-                    Employer - Employee
-                    Daughter
-                    OlderSister
-                    YoungerSister
-                    Twin - No upName
-
-class RoleTitle(Model):
+class RoleTitle(Mod):
+    '''
     roleType_id = ObjectIdType()
     name = StringType()
     short = StringType()
+    '''
+    pass
 
-class Role(Model):
-    type = 
+class Role(_Model):
+    '''
+    type =
     roleType_id = ObjectId()
     title = StringType()
     permissions = ListType(['f', 'r'])
     #title_id = ObjectIdType()
 
-    ''' Examples
+    Examples
         Parent = Employer
         Child = Employee
         Mary is Employee of GSNI
 
-    Mary and her Associations   
+    Mary and her Associations
         GSNI - Employer - Associate/Role
     '''
 
@@ -131,7 +124,7 @@ class Prs(Cnt):
             dnam += fNam
         self.dnam = dnam
 
-    
+
 class Usr(Prs):
     unam         = StringType(minimized_field_name='UserName', description='')
     lvOn         = DateTimeType(minimized_field_name='Last Viewed', description='DataTime when user last viewed the site.')

@@ -19,7 +19,7 @@ class Mod(_Model):
     dOn     = DateTimeType()
     dLoc    = StringType()
     note    = StringType()
-    deleted = BooleanType()
+    #deleted = BooleenType()
 
     meta = {
         'collection': 'contacts',

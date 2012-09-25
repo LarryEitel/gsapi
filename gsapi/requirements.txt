@@ -6,6 +6,8 @@ mimerender
 simplejson
 bpython
 schematics
+rawes
+pyes
 
 -e git+git://github.com/mongodb/mongo-python-driver.git#egg=pymongo
 fabric
