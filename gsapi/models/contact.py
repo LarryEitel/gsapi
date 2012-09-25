@@ -7,8 +7,6 @@ from schematics.types.mongo import ObjectIdType
 from bson import ObjectId
 from generic import Email
 
-
-
 class RoleType(Mod):
     '''
     type = StringType(enum) # j=job, f=family, fr=friend
@@ -19,7 +17,6 @@ class RoleType(Mod):
         'collection': 'roletypes',
         '_c': 'roletype',
         }
-
 class RoleTitle(Mod):
     '''
     roleType_id = ObjectIdType()
@@ -27,7 +24,6 @@ class RoleTitle(Mod):
     short = StringType()
     '''
     pass
-
 class Role(_Model):
     '''
     type =
@@ -49,9 +45,6 @@ class Role(_Model):
         'collection': 'roles',
         '_c': 'role',
         }
-
-
-
 class CntX(Mod):
     cnt_id = ObjectIdType(ObjectId)
     role_id = ObjectIdType(ObjectId)
@@ -72,6 +65,7 @@ class Cnt(Mod):
         'collection': 'contacts',
         '_c': 'cnt',
         }
+
 
 class Cmp(Cnt):
     cNam = StringType(required=True, minimized_field_name='Company Name', description='')
@@ -99,11 +93,7 @@ class Prs(Cnt):
 
     @property
     def dNam(self):
-        return 'hello'
-
-    def onUpdate(self):
-        super(Prs, self).onUpdate()
-        dnam = ''
+        dNam = ''
         fNam = ''
         fNam += self.title + ' ' if self.title else ''
         fNam += self.fNam + ' ' if self.fNam else ''
@@ -117,12 +107,15 @@ class Prs(Cnt):
         lNam = lNam[:-1] if lNam else ''
 
         if lNam:
-            dnam += lNam
+            dNam += lNam
             if fNam:
-                dnam += ', ' + fNam
+                dNam += ', ' + fNam
         elif fNam:
-            dnam += fNam
-        self.dnam = dnam
+            dNam += fNam
+        return dNam
+
+    # def onUpdate(self):
+    #     super(Prs, self).onUpdate()
 
 
 class Usr(Prs):
@@ -133,3 +126,24 @@ class Usr(Prs):
         'collection': 'contacts',
         '_c': 'usr',
         }
+
+esCnt = {
+    'parsedtext': {
+        'boost': 1.0,
+        'index': 'analyzed',
+        'store': 'yes',
+        'type': u'string',
+        "term_vector" : "with_positions_offsets"},
+    'dNam': {
+        'boost': 1.0,
+        'index': 'analyzed',
+        'store': 'yes',
+        'type': u'string',
+        "term_vector" : "with_positions_offsets"},
+    'title': {
+        'boost': 1.0,
+        'index': 'analyzed',
+        'store': 'yes',
+        'type': u'string',
+        "term_vector" : "with_positions_offsets"}
+    }
