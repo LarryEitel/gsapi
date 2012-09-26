@@ -3,6 +3,8 @@ from schematics.types import StringType, DateTimeType
 from schematics.types.mongo import ObjectIdType
 import datetime
 
+from db import db
+
 class Mod(_Model):
     _c   = StringType(required=True, description='Class')
     _public_fields = ['_c']
@@ -19,7 +21,6 @@ class Mod(_Model):
     dOn     = DateTimeType()
     dLoc    = StringType()
     note    = StringType()
-    #deleted = BooleenType()
 
     meta = {
         'collection': 'contacts',

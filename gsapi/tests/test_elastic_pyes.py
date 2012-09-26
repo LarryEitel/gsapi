@@ -22,7 +22,7 @@ class TestESPyes(TestCase):
         assert resp['status'] == 200
 
         sample_docs   = resp['response']['docs']
-        
+
         index_name    = "test-contacts"
         document_type = 'Cnt'
         es = self.es
@@ -40,20 +40,6 @@ class TestESPyes(TestCase):
         for r in results:
             print r
             # add assert for expected result
-
-
-
-    def test_elasticsearch_put(self):
-        response = self.ES.put('tweets/tweet/1', data={
-            'user' : 'shiv',
-            'post_date' : '2012-09-25T01:40:30',
-            'message' : 'Tweeting about elasticsearch'
-        })
-
-        if response["_type"] == "tweet" and response["ok"] == True and response["_index"] == "tweets":
-            self.assertTrue(True)
-        else:
-            self.assertTrue(False)
 
 if __name__ == "__main__":
     unittest.main()
