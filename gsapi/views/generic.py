@@ -30,6 +30,16 @@ render_html = lambda message: '<html><body>%s</body></html>'%message
 render_txt  = lambda message: message
 
 def get_document_link(model_name, id):
+    '''
+    Returns the link to the document
+    
+    Parameters:
+        model_name - 
+        id - 
+        
+    Returns
+        The document link
+    '''
     return "http://localhost:5000/%s/%s" % (model_name, id)
 
 

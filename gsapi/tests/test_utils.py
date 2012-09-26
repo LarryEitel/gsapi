@@ -14,6 +14,10 @@ from bson import ObjectId
 #TODO: Test validation
 class TestUtils(TestCase):
     def test_load_data(self):
+        '''
+        1. Load a file
+        2. Check the http response status
+        '''
         print "\nTestUtils.test_load_data"
         print """LOAD SAMPLE DOCS:\n"""
 
