@@ -57,55 +57,69 @@ def post(class_name):
     return prep_response(response['response'], status = response['status_code'])
 
 
-
 def put(class_name):
     from db import db
 
-    model           = getattr(models, class_name)
-    collection_name = model.meta['collection']
+    data          = json.loads(request.data, object_hook=json_util.object_hook)
+    
+    args          = dict(request.view_args.items() + request.args.items())
+    args['data']  = data
+    args['usrid'] = "50468de92558713d84b03fd7"
+    
+    response      = controllers.generic.put(db, **args)
 
-    user_id = "50468de92558713d84b03fd7"
+    return prep_response(response['response'], status = response['status_code'])
 
-    response = {}
-    status   = 200
-    docs     = []
 
-    # let's deserialize mongo objects
-    data = json.loads(request.data, object_hook=json_util.object_hook)
 
-    # expecting where
-    where = data['where']
-    patch = data['patch']
+# def put(class_name):
+#     from db import db
 
-    # validata patch
-    # init model for this doc
-    patch_errors    = validate(model, patch)
-    if patch_errors:
-        response['errors']        = patch_errors['errors']
-        response['total_errors']  = patch_errors['count']
-        status                    = 400
+#     model           = getattr(models, class_name)
+#     collection_name = model.meta['collection']
 
-        return prep_response(response, status = status)
+#     user_id = "50468de92558713d84b03fd7"
 
-    # until we get signals working
-    # manually include modified event details
-    # patch['mBy'] = user_id
-    patch['mBy'] = ObjectId(user_id)
-    patch['mOn'] = datetime.datetime.utcnow()
+#     response = {}
+#     status   = 200
+#     docs     = []
 
-    # https://github.com/mongodb/mongo-python-driver/blob/master/pymongo/collection.py#L1035
-    resp = db.command('findAndModify', collection_name,
-        query = where,
-        update = {"$set": patch},
-        new = True
-    )
+#     # let's deserialize mongo objects
+#     data = json.loads(request.data, object_hook=json_util.object_hook)
 
-    response['collection']    = collection_name
-    response['total_invalid'] = 0
-    response['id']            = id.__str__()
-    response['doc']           = resp['value']
+#     # expecting where
+#     where = data['where']
+#     patch = data['patch']
 
-    return prep_response(response, status = status)
+#     # validata patch
+#     # init model for this doc
+#     patch_errors    = validate(model, patch)
+#     if patch_errors:
+#         response['errors']        = patch_errors['errors']
+#         response['total_errors']  = patch_errors['count']
+#         status                    = 400
+
+#         return prep_response(response, status = status)
+
+#     # until we get signals working
+#     # manually include modified event details
+#     # patch['mBy'] = user_id
+#     patch['mBy'] = ObjectId(user_id)
+#     patch['mOn'] = datetime.datetime.utcnow()
+
+#     # https://github.com/mongodb/mongo-python-driver/blob/master/pymongo/collection.py#L1035
+#     resp = db.command('findAndModify', collection_name,
+#         query = where,
+#         update = {"$set": patch},
+#         new = True
+#     )
+
+#     response['collection']    = collection_name
+#     response['total_invalid'] = 0
+#     response['id']            = id.__str__()
+#     response['doc']           = resp['value']
+
+#     return prep_response(response, status = status)
 
 
 def patch_embedded(collection, id, embedded):

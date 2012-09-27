@@ -11,6 +11,60 @@ import re
 import datetime
 import models
 
+def put(db, **kwargs):
+    '''Put a patch to one doc'''
+    # TODO: accomodate where clause to put changes to more than one doc.
+    class_name      = kwargs['class_name']
+    model           = getattr(models, class_name)
+    collection_name = model.meta['collection']
+    collection      = db[collection_name]
+
+    response = {}
+    docs     = []
+    status   = 200
+
+    data = kwargs['data']
+    usrid = kwargs['usrid']
+
+    # expecting where
+    where = data['where']
+    patch = data['patch']
+
+    # validata patch
+    # init model for this doc
+    patch_errors    = validate(model, patch)
+    if patch_errors:
+        response['errors']        = patch_errors['errors']
+        response['total_errors']  = patch_errors['count']
+        status                    = 400
+
+        return prep_response(response, status = status)
+
+    # until we get signals working
+    # manually include modified event details
+    # patch['mBy'] = user_id
+    patch['mBy'] = ObjectId(usrid)
+    patch['mOn'] = datetime.datetime.utcnow()
+
+    # https://github.com/mongodb/mongo-python-driver/blob/master/pymongo/collection.py#L1035
+    resp = db.command('findAndModify', collection_name,
+        query = where,
+        update = {"$set": patch},
+        new = True
+    )
+
+    response['collection']    = collection_name
+    response['total_invalid'] = 0
+    response['id']            = id.__str__()
+    response['doc']           = resp['value']
+
+    return {'response': response, 'status_code': status}
+
+
+
+
+
+
 def post(db, **kwargs):
     class_name      = kwargs['class_name']
     model           = getattr(models, class_name)

@@ -24,6 +24,62 @@ def pprint(varname, dat):
 class TestGeneric(TestCase):
     class_name = 'Prs'
 
+    def test_put(self):
+        print "TestGeneric.test_put"
+        print """LOAD SAMPLE DOCS:\n"""
+
+        db       = self.db
+        response = self.load_sample('contacts')
+        assert response['status'] == 200
+
+        sample_docs = response['response']['docs']
+        # grab a random doc from sample docs
+        sample_doc_offset        = randint(0, len(sample_docs)-1)
+        sample_doc               = sample_docs[sample_doc_offset]
+        sample_doc_id            = sample_doc['_id']
+
+        # here is the basic function call being tested
+        fn = "controllers.generic.put(db, **args)"
+
+        test_field = 'fNam'
+        print "Sample data to submit for patch:"
+        sample_doc = {'where': {'_id': sample_doc['_id']},
+            'patch': {
+                "_c": self.class_name,
+                test_field: "longname",
+                "oOn": isodate.parse_datetime("2012-09-27T21:43:33.927Z"),
+                "oBy": ObjectId("50468de92558713d84b03fd0"),
+                "rBy": ObjectId("50468de92558713d84b03fd7"),
+                "emails" : [{
+                    "email" : "larry@eitel.com"
+                }]
+            }
+        }
+
+        args               = {}
+        args['class_name'] = self.class_name
+        args['data']       = sample_doc
+        args['usrid']      = ObjectId("50468de92558713d84b03fd0")
+
+        print
+        print "PUT ONE doc:"
+        print "CALL:\n" + fn + "\nWITH:"
+        print 'args =', args
+        print
+
+        response = controllers.generic.put(db, **args)
+
+        assert response['status_code'] == 200
+        data     = response['response']
+        got_doc = data['doc']
+
+        # verify that the doc correctly shows user that modified the doc
+        assert got_doc['mBy'] == args['usrid']
+
+        # verify that the doc correctly reflects new fNam
+        assert got_doc[test_field] == sample_doc['patch'][test_field]
+
+
     def test_post_one(self):
         print "## nTestGeneric.test_post_one"
         print '''### INSERT NEW PERSON:'''
