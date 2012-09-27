@@ -40,7 +40,6 @@ class TestGeneric(TestCase):
             "lNam":"doe",
             # "mOn": {"$date": 1347893866298},
             "mOn": isodate.parse_datetime("2012-09-27T21:43:33.927Z"),
-            "dOn": isodate.parse_datetime("2012-09-29T21:43:33.927Z"),
             "oBy": ObjectId("50468de92558713d84b03fd0"),
             "rBy": ObjectId("50468de92558713d84b03fd7"),
             "gen":'m',
@@ -72,20 +71,71 @@ class TestGeneric(TestCase):
         id  = data['docs'][0]['id']
         print "INSERTED OBJECT_ID:", id
         assert doc['fNam'] == sample_doc['fNam']
+    def test_post_list(self):
+        print "## nTestGeneric.test_post_list"
+        print '''### INSERT NEW PERSONS:'''
+
+        db       = self.db
+
+        # here is the basic function call being tested
+        fn = "controllers.generic.get(db, **args)"
+
+        # POST THREE ################################
+        host = self.host
+        sample_docs = [{
+            "fNam":"larry",
+            "lNam":"stooge",
+            "mOn": isodate.parse_datetime("2012-09-27T21:43:33.927Z"),
+            "oBy": ObjectId("50468de92558713d84b03fd0"),
+            "rBy": ObjectId("50468de92558713d84b03fd7"),
+            "gen":'m',
+            "emails" : [{
+                "email" : "larry@stooge.com"
+            }]
+        },{
+            "fNam":"moe",
+            "lNam":"stooge",
+            "mOn": isodate.parse_datetime("2012-09-27T21:43:33.927Z"),
+            "oBy": ObjectId("50468de92558713d84b03fd0"),
+            "rBy": ObjectId("50468de92558713d84b03fd7"),
+            "gen":'m',
+            "emails" : [{
+                "email" : "moe@stooge.com"
+            }]
+        },{
+            "fNam":"curly",
+            "lNam":"stooge",
+            "mOn": isodate.parse_datetime("2012-09-27T21:43:33.927Z"),
+            "oBy": ObjectId("50468de92558713d84b03fd0"),
+            "rBy": ObjectId("50468de92558713d84b03fd7"),
+            "gen":'m',
+            "emails" : [{
+                "email" : "curly@stooge.com"
+            }]
+        }]
 
 
 
+        args               = {}
+        args['class_name'] = self.class_name
+        args['docs']       = sample_docs
 
+        print
+        print "POST ONE doc:"
+        print "CALL:\n" + fn + "\nWITH:"
+        print 'args =', args
+        print
 
+        response = controllers.generic.post(db, **args)
 
+        assert response['status_code'] == 200
+        data     = response['response']
+        got_docs = data['docs']
 
+        assert data['total_inserted'] == len(sample_docs)
 
-
-
-
-
-
-
+        doc = data['docs'][0]['doc']
+        assert doc['fNam'] == sample_docs[0]['fNam']
     def test_get(self):
         print "\nTestGeneric.test_get"
         print """LOAD SAMPLE DOCS:\n"""
