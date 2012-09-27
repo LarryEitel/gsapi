@@ -143,7 +143,7 @@ class TestGeneric(TestCase):
         # ALL
         print "\nVerify GET all docs:"
         query               = "/" + self.collection
-        test_expected_count = 4 # Note the filter on _cls
+        test_expected_count = 5  # Note the filter on _cls
         print "RAW REQUEST:\n%s\n" % (route + query)
 
         response = self.app.get(query)
@@ -256,7 +256,7 @@ class TestGeneric(TestCase):
         #SORT
         # Expected Values:
         # the following identifies correct results given sample data. If sample data is refreshed, make sure you identify what field to sort and expected return values
-        sort_test = {'fld':'fNam', 'values':['nam1','nam2']}
+        sort_test = {'fld':'fNam', 'values':['Susan','nam1']}
         sort='[{"fNam":"1"}]'
         query = '/%(collection)s?sort=%(sort)s' % {'collection':self.collection, 'sort':sort}
         print "\nVerify SORT:"
