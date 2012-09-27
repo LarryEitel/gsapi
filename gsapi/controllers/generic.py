@@ -11,8 +11,76 @@ import re
 import datetime
 import models
 
+def post(db, **kwargs):
+    class_name      = kwargs['class_name']
+    model           = getattr(models, class_name)
+    collection_name = model.meta['collection']
+    collection      = db[collection_name]
+
+    response = {}
+    docs     = []
+    status   = 200
+
+    docs_to_post = kwargs['docs']
+
+    post_errors = []
+    total_errors = 0
+    for doc in docs_to_post:
+        errors = {}
+        user_id = "50468de92558713d84b03fd7"
+
+        # need to stuff in class_name
+        doc['_c']     = class_name
+
+        # Validate
+        doc_errors    = validate(model, doc)
+        if doc_errors:
+            total_errors += doc_errors['count']
+            post_errors.append(doc_errors)
+            continue
+
+        # init model for this doc
+        m   = model(**doc)
+
+        #log date time user involved with this event
+        m.logit(user_id, 'post')
+
+        # need to stuff into mongo
+        doc_validated    = m.to_python()
+        try:
+            doc_validated['_c'] = m.meta['_c']
+        except:
+            pass
+
+        dumped = dumps(doc_validated)
+        doc_info         = {}
+
+        id               = str(collection.insert(doc_validated, safe=True))
+        doc_info['id']   = id
+        doc_info['doc']  = doc_validated
+        #doc_info['link'] = get_document_link(class_name, id)
+
+        docs.append(doc_info)
+
+    response['total_inserted'] = len(docs)
+
+    if post_errors:
+        response['total_invalid'] = len(post_errors)
+        response['errors']        = post_errors
+        response['total_errors']  = total_errors
+        status                    = 400
+    else:
+        response['total_invalid'] = 0
+
+
+    response['docs'] = docs
+
+    return {'response': response, 'status_code': status}
+
+
+
 def get(db, **kwargs):
-    class_name = kwargs['class_name']
+    class_name      = kwargs['class_name']
     model           = getattr(models, class_name)
     collection_name = model.meta['collection']
     collection      = db[collection_name]
@@ -25,9 +93,8 @@ def get(db, **kwargs):
     if 'id' in kwargs:
         id = kwargs['id']
         doc = collection.find_one({"_id": ObjectId(id)})
-        docs.append(doc)
-        response['docs'] = docs
-        return {'response': response, 'status': status}
+        response['doc'] = doc
+        return {'response': response, 'status_code': status}
 
 
 
@@ -49,7 +116,7 @@ def get(db, **kwargs):
     if sort_raw:
         flds = sort_raw
         for fld in flds:
-            sorts = [(k,int(v)) for k,v in fld.iteritems()]
+            sorts = [(k, v) for k,v in fld.iteritems()]
 
     skip       = int(json.loads(kwargs['skip'])) if 'skip' in kwargs else 0
     limit       = int(json.loads(kwargs['limit'])) if 'limit' in kwargs else 0
@@ -74,7 +141,7 @@ def get(db, **kwargs):
 
     response['docs'] = docs
 
-    return {'response': response, 'status': status}
+    return {'response': response, 'status_code': status}
 
 
 

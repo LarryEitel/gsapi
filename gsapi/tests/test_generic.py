@@ -181,7 +181,7 @@ class TestGeneric(TestCase):
         # assert response.status_code == 200
         if response.status_code == 200:
             data = json.loads(response.data)
-            got_doc = data['docs'][0]
+            got_doc = data['doc']
             assert sample_doc['_id'].__str__() == got_doc['_id']['$oid']
             print 'Success'
         else:
@@ -257,7 +257,7 @@ class TestGeneric(TestCase):
         # Expected Values:
         # the following identifies correct results given sample data. If sample data is refreshed, make sure you identify what field to sort and expected return values
         sort_test = {'fld':'fNam', 'values':['nam1','nam2']}
-        sort='[{"fNam":"1"}]'
+        sort='[{"fNam": 1}]'
         query = '/%(collection)s?sort=%(sort)s' % {'collection':self.collection, 'sort':sort}
         print "\nVerify SORT:"
         print "RAW REQUEST:\n%s\n" % (route + query)

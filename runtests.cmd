@@ -1,6 +1,8 @@
 REM All
 nosetests -s
 
+REM nosetests -v gsapi.tests.controllers.test_generic
+
 REM nosetests -v gsapi.tests.test_elastic_pyes:TestESPyes.test_index_sample_data
 REM nosetests -v gsapi.tests.test_elastic_pyes:TestESPyes
 

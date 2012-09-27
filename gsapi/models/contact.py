@@ -75,6 +75,9 @@ class Cmp(Cnt):
         '_c': 'cmp',
         }
 
+    @property
+    def dNam(self):
+        return self.cNam
 
 class Prs(Cnt):
     title  = StringType(minimized_field_name='Title', description='Examples: Mr, Mrs, Ms, etc')

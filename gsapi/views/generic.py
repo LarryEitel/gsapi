@@ -5,7 +5,6 @@ import json
 from extensions import validate
 from jsondatetime import loads
 import mimerender
-#from json import loads
 import json
 from flask import request
 from bson import ObjectId
@@ -14,14 +13,8 @@ from bson import json_util
 import re
 import datetime
 from flask import current_app
-#from flask.ext.pymongo import PyMongo
-#from db import get_db, get_db2, get_db3
-#from models import model_classes_by_route, model_classes_by_id
 import models
 import controllers
-#from ex.app import mongo
-
-# from ex.extensions import db
 
 mimerender  = mimerender.FlaskMimeRender()
 
@@ -46,6 +39,24 @@ def prep_response(dct, status=200):
     resp = make_response(rendered, status)
     resp.mimetype = mime
     return resp
+
+
+def post(class_name):
+    from db import db
+
+    docs_to_post = json.loads(request.data, object_hook=json_util.object_hook)
+
+    # if a dict, then stuff it into a list
+    if type(docs_to_post) == dict: docs_to_post = [docs_to_post]
+
+    args = dict(request.view_args.items() + request.args.items())
+    args['docs'] = docs_to_post
+
+    response = controllers.generic.post(db, **args)
+
+    return prep_response(response['response'], status = response['status_code'])
+
+
 
 def put(class_name):
     from db import db
@@ -257,75 +268,79 @@ def post_embedded(collection, id, embedded):
 
     return prep_response(response, status = status)
 
-def post(class_name):
-    from db import db
+# def post(class_name):
+#     from db import db
 
-    model           = getattr(models, class_name)
-    collection_name = model.meta['collection']
+#     model           = getattr(models, class_name)
+#     collection_name = model.meta['collection']
 
-    collection      = db[collection_name]
-    response        = {}
-    status          = 200
-    docs            = []
+#     collection      = db[collection_name]
+#     response        = {}
+#     status          = 200
+#     docs            = []
 
-    # let's deserialize mongo objects
-    docs_to_post = json.loads(request.data, object_hook=json_util.object_hook)
+#     # let's deserialize mongo objects
+#     docs_to_post = json.loads(request.data, object_hook=json_util.object_hook)
 
-    # if a dict, then stuff it into a list
-    if type(docs_to_post) == dict: docs_to_post = [docs_to_post]
+#     # if a dict, then stuff it into a list
+#     if type(docs_to_post) == dict: docs_to_post = [docs_to_post]
 
-    post_errors = []
-    total_errors = 0
-    for doc in docs_to_post:
-        errors = {}
-        user_id = "50468de92558713d84b03fd7"
+#     post_errors = []
+#     total_errors = 0
+#     for doc in docs_to_post:
+#         errors = {}
+#         user_id = "50468de92558713d84b03fd7"
 
-        # need to stuff in class_name
-        doc['_c']     = class_name
+#         # need to stuff in class_name
+#         doc['_c']     = class_name
 
-        # Validate
-        doc_errors    = validate(model, doc)
-        if doc_errors:
-            total_errors += doc_errors['count']
-            post_errors.append(doc_errors)
-            continue
+#         # Validate
+#         doc_errors    = validate(model, doc)
+#         if doc_errors:
+#             total_errors += doc_errors['count']
+#             post_errors.append(doc_errors)
+#             continue
 
-        # init model for this doc
-        m   = model(**doc)
+#         # init model for this doc
+#         m   = model(**doc)
 
-        #log date time user involved with this event
-        m.logit(user_id, 'post')
+#         #log date time user involved with this event
+#         m.logit(user_id, 'post')
 
-        # need to stuff into mongo
-        doc_validated    = m.to_python()
-        try:
-            doc_validated['_c'] = m.meta['_c']
-        except:
-            pass
+#         # need to stuff into mongo
+#         doc_validated    = m.to_python()
+#         try:
+#             doc_validated['_c'] = m.meta['_c']
+#         except:
+#             pass
 
-        dumped = dumps(doc_validated)
-        doc_info         = {}
+#         dumped = dumps(doc_validated)
+#         doc_info         = {}
 
-        id               = str(collection.insert(doc_validated, safe=True))
-        doc_info['id']   = id
-        doc_info['doc']  = doc_validated
-        doc_info['link'] = get_document_link(class_name, id)
+#         id               = str(collection.insert(doc_validated, safe=True))
+#         doc_info['id']   = id
+#         doc_info['doc']  = doc_validated
+#         doc_info['link'] = get_document_link(class_name, id)
 
-        docs.append(doc_info)
+#         docs.append(doc_info)
 
-    response['total_inserted'] = len(docs)
+#     response['total_inserted'] = len(docs)
 
-    if post_errors:
-        response['total_invalid'] = len(post_errors)
-        response['errors']        = post_errors
-        response['total_errors']  = total_errors
-        status                    = 400
-    else:
-        response['total_invalid'] = 0
+#     if post_errors:
+#         response['total_invalid'] = len(post_errors)
+#         response['errors']        = post_errors
+#         response['total_errors']  = total_errors
+#         status                    = 400
+#     else:
+#         response['total_invalid'] = 0
 
-    response['docs'] = docs
+#     response['docs'] = docs
 
-    return prep_response(response, status = status)
+#     return prep_response(response, status = status)
+
+
+
+
 def get(class_name, id=None):
     from db import db
 
@@ -333,7 +348,7 @@ def get(class_name, id=None):
 
     resp = controllers.generic.get(db, **args)
 
-    return prep_response(resp['response'], status = resp['status'])
+    return prep_response(resp['response'], status = resp['status_code'])
 
 def remove(collection, id):
     col = models[model].meta['collection']
