@@ -15,9 +15,10 @@ import re
 import datetime
 from flask import current_app
 #from flask.ext.pymongo import PyMongo
-from db import get_db
+from db import get_db, get_db2, get_db3
 #from models import model_classes_by_route, model_classes_by_id
 import models
+import controllers
 #from ex.app import mongo
 
 # from ex.extensions import db
@@ -325,71 +326,14 @@ def post(class_name):
 
     return prep_response(response, status = status)
 def get(class_name, id=None):
-    model           = getattr(models, class_name)
-    collection_name = model.meta['collection']
+    db              = get_db3()
 
-    db              = get_db(current_app)
-    collection      = db[collection_name]
+    args = dict(request.view_args.items() + request.args.items())
 
-    args     = {}
-    response = {}
-    status   = 200
-    docs     = []
+    resp = controllers.generic.get(db, **args)
 
-    # if an id was passed, try to return only that one
-    if id:
-        doc = collection.find_one({"_id": ObjectId(id)})
-        docs.append(doc)
-        response['docs'] = docs
-        return prep_response(response, status = status)
+    return prep_response(resp['response'], status = resp['status'])
 
-    g        = request.args.get
-
-    where    = g('where')
-    if where:
-        where = json.loads(where, object_hook=json_util.object_hook)
-    else:
-        where = {}
-
-    # this allows us to filter results on the type of contact involved
-    # contacts return all
-    # persons return contacts that are persons, etc.
-    where['_c']           = class_name
-
-    fields                  = json.loads(g('fields')) if g('fields') else None
-    sort_raw                = json.loads(g('sort'))   if g('sort') else None
-
-    # mongo wants sorts like: [("fld1", <order>), ("fld2", <order>)]
-    sorts                   = []
-    if sort_raw:
-        flds = sort_raw
-        for fld in flds:
-            sorts = [(k,int(v)) for k,v in fld.iteritems()]
-
-    skip       = int(json.loads(g('skip')))   if g('skip') else 0
-    limit      = int(json.loads(g('limit')))  if g('limit') else 0
-    skip_limit = skip > -1 and limit
-
-    if sorts:
-        cursor = collection.find(spec=where, fields=fields, skip=skip, limit=limit).sort(sorts)
-    else:
-        cursor = collection.find(spec=where, fields=fields, skip=skip, limit=limit)
-    for doc in cursor:
-        docs.append(doc)
-
-    # handle any virtual fields
-    virtual_fields    = g('vflds')
-    if virtual_fields:
-        vflds = json.loads(virtual_fields)
-        for i, doc in enumerate(docs):
-            initialed_model = model(**doc)
-            for vfld in vflds:
-                docs[i][vfld] = getattr(initialed_model, vfld)
-
-
-    response['docs'] = docs
-
-    return prep_response(response, status = status)
 def remove(collection, id):
     col = models[model].meta['collection']
     return db[col].remove({"_id":ObjectId(id)})

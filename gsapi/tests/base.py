@@ -21,7 +21,8 @@ from flask import session
 
 import gsapi.run as run
 from flask import current_app
-from gsapi.db import get_db
+from gsapi.db import get_db, get_db2
+#from gsapi.db import db
 from gsapi.utils import load_data
 
 es_conn = {"host":"localhost", "port":9200}
@@ -38,13 +39,24 @@ class TestCase(unittest.TestCase):
         app.config['TESTING'] = True
         app = app.test_client()
 
-        db = get_db(app.application)
+        dbname = app.application.config['MONGO_TEST_DBNAME']
+
+        db = get_db2(dbname)
 
         # delete existing test db
-        db.connection.drop_database(db.name)
+        db.connection.drop_database(dbname)
+        #app.db = db
+        self.db = db
+
+        #db = get_db(app.application)
+        # db = app.application.extensions['pymongo']['MONGO'][1]
+
+        # delete existing test db
+        #db.connection.drop_database(dbname)
 
         # recreate
-        self.db = get_db(app.application)
+        #self.db = get_db(app.application)
+        # self.db = db.connection.drop_database(db.name)
         self.app = app
 
         # es = elasticsearch
