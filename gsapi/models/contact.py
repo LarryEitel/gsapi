@@ -91,6 +91,9 @@ class Prs(Cnt):
         '_c': 'Prs',
         }
 
+    def save(self):
+        pass
+
     @property
     def dNam(self):
         dNam = ''

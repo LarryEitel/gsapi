@@ -15,7 +15,7 @@ import re
 import datetime
 from flask import current_app
 #from flask.ext.pymongo import PyMongo
-from db import get_db, get_db2, get_db3
+#from db import get_db, get_db2, get_db3
 #from models import model_classes_by_route, model_classes_by_id
 import models
 import controllers
@@ -48,6 +48,8 @@ def prep_response(dct, status=200):
     return resp
 
 def put(class_name):
+    from db import db
+
     model           = getattr(models, class_name)
     collection_name = model.meta['collection']
 
@@ -79,8 +81,6 @@ def put(class_name):
     # patch['mBy'] = user_id
     patch['mBy'] = ObjectId(user_id)
     patch['mOn'] = datetime.datetime.utcnow()
-
-    db = get_db(current_app)
 
     # https://github.com/mongodb/mongo-python-driver/blob/master/pymongo/collection.py#L1035
     resp = db.command('findAndModify', collection_name,
@@ -258,10 +258,11 @@ def post_embedded(collection, id, embedded):
     return prep_response(response, status = status)
 
 def post(class_name):
+    from db import db
+
     model           = getattr(models, class_name)
     collection_name = model.meta['collection']
 
-    db              = get_db(current_app)
     collection      = db[collection_name]
     response        = {}
     status          = 200
@@ -326,7 +327,7 @@ def post(class_name):
 
     return prep_response(response, status = status)
 def get(class_name, id=None):
-    db              = get_db3()
+    from db import db
 
     args = dict(request.view_args.items() + request.args.items())
 

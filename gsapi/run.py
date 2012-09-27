@@ -24,7 +24,6 @@ mongo.init_app(app)
 # add regex for routing
 app.url_map.converters['regex'] = RegexConverter
 
-
 ##################### PUT
 @app.route( '/<regex("[\w]*[Ss]"):class_name>', methods=['PUT','PATCH'])
 def put(class_name):

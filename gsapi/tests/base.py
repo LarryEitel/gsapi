@@ -20,10 +20,11 @@ from pyes.es import ES
 from flask import session
 
 import gsapi.run as run
-from flask import current_app
-from gsapi.db import get_db, get_db2
+#from flask import current_app
+# from gsapi.db import get_db, get_db2
 #from gsapi.db import db
 from gsapi.utils import load_data
+from pymongo import Connection
 
 es_conn = {"host":"localhost", "port":9200}
 
@@ -40,8 +41,9 @@ class TestCase(unittest.TestCase):
         app = app.test_client()
 
         dbname = app.application.config['MONGO_TEST_DBNAME']
-
-        db = get_db2(dbname)
+        db = Connection()[dbname]
+        # db = c[dbname]
+        # db = get_db2(dbname)
 
         # delete existing test db
         db.connection.drop_database(dbname)
