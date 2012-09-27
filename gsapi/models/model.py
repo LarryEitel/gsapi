@@ -6,19 +6,19 @@ import datetime
 class Mod(_Model):
     _c   = StringType(required=True, description='Class')
     _public_fields = ['_c']
-    oBy  = ObjectIdType()
-    oOn  = DateTimeType() # ObjectIdType()
-    oLoc = StringType()
-    cOn  = DateTimeType()
-    cBy  = ObjectIdType()
-    cLoc = StringType()
-    mOn  = DateTimeType()
-    mBy  = ObjectIdType()
-    mLoc = StringType()
-    dBy  = ObjectIdType()
-    dOn  = DateTimeType()
-    dLoc = StringType()
-    note = StringType()
+    oBy     = ObjectIdType()
+    oOn     = DateTimeType() # ObjectIdType()
+    oLoc    = StringType()
+    cOn     = DateTimeType()
+    cBy     = ObjectIdType()
+    cLoc    = StringType()
+    mOn     = DateTimeType()
+    mBy     = ObjectIdType()
+    mLoc    = StringType()
+    dBy     = ObjectIdType()
+    dOn     = DateTimeType()
+    dLoc    = StringType()
+    note    = StringType()
 
     meta = {
         'collection': 'contacts',

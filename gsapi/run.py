@@ -18,6 +18,7 @@ app = Flask(__name__)
 app.config.from_object(Config)
 
 mongo = PyMongo()
+app.mongo = mongo
 mongo.init_app(app)
 
 # add regex for routing
