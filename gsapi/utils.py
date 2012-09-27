@@ -47,17 +47,22 @@ def load_data(db, json_filepath):
 
         # init model for this doc
         initialized_model    = model(**doc)
-        
+
         #log date time user involved with this event
         # m.logit(user_id, 'post')
-        
+
         # need to stuff into mongo
         doc_validated        = initialized_model.to_python()
-        
+
         dumped               = bson_json_util.dumps(doc_validated)
         doc_info             = {}
         doc_validated['_id'] = doc['_id']
         doc_validated['_id'] = collection.save(doc_validated, safe=True)
+        # try to load generic display name used for indexing, etc
+        try:
+            doc_validated['dNam'] = initialized_model.dNam
+        except:
+            pass
         docs.append(doc_validated)
         total_added += 1
 

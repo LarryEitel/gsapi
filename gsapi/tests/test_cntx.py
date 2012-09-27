@@ -14,9 +14,51 @@ from bson import ObjectId
 from bson.json_util import dumps
 host = "localhost:5000"
 
-class TestGeneric(TestCase):
+class TestCntX(TestCase):
     collection = 'Prs'
     collection_name = 'Prs'
+
+'''
+    class TestRoleType
+        post RoleType
+        put RoleType
+        get RoleType
+            get one
+            get list
+                downName - upName
+                downName - upName
+                downName - upName
+                downName - upName
+
+        bulk sample data
+
+    class TestRole
+        post Role
+        put Role
+        get Role
+        bulk sample data
+
+    class TestCntX
+        post CntX
+        put CntX
+        get CntX
+        bulk sample data
+
+    class TestCnt
+        putCntX
+            load sample Cnt data
+            putCntX
+
+
+
+
+
+
+
+
+'''
+
+
     def test_post_one(self):
         print "## TestPersons.test_post_one"
         print '''### INSERT NEW PERSON:'''
