@@ -96,7 +96,6 @@ class TestGeneric(TestCase):
         sample_doc = {
             "fNam":"johnathan",
             "lNam":"doe",
-            # "mOn": {"$date": 1347893866298},
             "mOn": isodate.parse_datetime("2012-09-27T21:43:33.927Z"),
             "oBy": ObjectId("50468de92558713d84b03fd0"),
             "rBy": ObjectId("50468de92558713d84b03fd7"),
@@ -303,14 +302,14 @@ class TestGeneric(TestCase):
             print 'Success'
         if doit: # WHERE by datetime ################################
             test_field          = 'dOn'
-            isodate             = "$isodate:2012-09-14T23:00Z"
-            test_value          = isodate
+            test_value          = isodate.parse_datetime("2012-09-14T23:00Z")
             test_expected_count = 1
-            where_test          = '{"%s":"%s"}' % (test_field, test_value)
+            # where_test          = '{"%s":"%s"}' % (test_field, test_value)
+            where_test          = {test_field:test_value}
             args                = {}
             args['class_name']  = self.class_name
-            #args['where']       = json.dumps(where_test)
-            args['where']       = json.loads(where_test, object_hook=mongo_json_object_hook)
+            args['where']       = where_test
+            #args['where']       = json.loads(where_test, object_hook=mongo_json_object_hook)
 
             print
             print "WHERE by datetime:"

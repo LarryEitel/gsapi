@@ -73,6 +73,28 @@ def put(class_name):
 
     return prep_response(response['response'], status = response['status_code'])
 
+def get(class_name, id=None):
+    from db import db
+    generic  = controllers.Generic(db)
+
+    parsed_args = {}
+    for k, v in dict(request.args.items()).iteritems():
+        parsed_args[k] = json.loads(v, object_hook=mongo_json_object_hook)
+
+
+    args = dict(request.view_args.items() + parsed_args.items())
+    #args = dict(request.view_args.items() + request.args.items())
+
+
+    #if 'where' in args:
+        #args['where'] = dumps(json.loads(args['where'], object_hook=mongo_json_object_hook))
+
+    resp = generic.get(**args)
+
+    return prep_response(resp['response'], status = resp['status_code'])
+def remove(collection, id):
+    col = models[model].meta['collection']
+    return db[col].remove({"_id":ObjectId(id)})
 
 def patch_embedded(collection, id, embedded):
     # get collection name for this model
@@ -233,25 +255,3 @@ def post_embedded(collection, id, embedded):
     response[collection] = docs
 
     return prep_response(response, status = status)
-def get(class_name, id=None):
-    from db import db
-    generic  = controllers.Generic(db)
-
-    parsed_args = {}
-    for k, v in dict(request.args.items()).iteritems():
-        parsed_args[k] = json.loads(v, object_hook=mongo_json_object_hook)
-
-
-    args = dict(request.view_args.items() + parsed_args.items())
-    #args = dict(request.view_args.items() + request.args.items())
-
-
-    #if 'where' in args:
-        #args['where'] = dumps(json.loads(args['where'], object_hook=mongo_json_object_hook))
-
-    resp = generic.get(**args)
-
-    return prep_response(resp['response'], status = resp['status_code'])
-def remove(collection, id):
-    col = models[model].meta['collection']
-    return db[col].remove({"_id":ObjectId(id)})

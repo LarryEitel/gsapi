@@ -1,11 +1,7 @@
 # -*- coding: utf-8 -*-
 import os
-import json
 from gsapi.extensions import validate
-import json
 from bson import ObjectId
-from bson.json_util import dumps
-from bson import json_util
 import re
 import datetime
 from gsapi import models
@@ -105,7 +101,6 @@ class Generic(object):
             except:
                 pass
 
-            dumped = dumps(doc_validated)
             doc_info         = {}
 
             id               = str(collection.insert(doc_validated, safe=True))
@@ -192,20 +187,3 @@ class Generic(object):
 
         return {'response': response, 'status_code': status}
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-        print class_name
