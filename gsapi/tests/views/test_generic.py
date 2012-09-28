@@ -5,13 +5,16 @@ except ImportError:
     import unittest  # NOQA
 
 import os
-from base import TestCase
+from gsapi.tests.base import TestCase
 import json
 import time
+import datetime
+import dateutil.parser
 from flask import request
 from random import randint
 from bson import ObjectId
 from bson.json_util import dumps
+import isodate
 host = "localhost:5000"
 
 class TestGeneric(TestCase):
@@ -208,12 +211,18 @@ class TestGeneric(TestCase):
 
 
         # WHERE by datetime
-        test_field          = 'mOn'
+        test_field          = 'dOn'
         # hard coded, would rather convert from sample_doc
         # test_datetime       = sample_doc[test_field]
-        test_value       = 1347644492400
+        isodate          = "$isodate:2012-09-14T23:00Z"
+        # http://coderstoolbox.net/unixtimestamp/
+        #timetuple       = dateutil.parser.parse(isodate).timetuple()
+        #test_value       = time.mktime(timetuple)
+        test_value       = isodate
 
-        where_test          = '{"%s":{"$date":%d}}' % (test_field, test_value)
+        #where_test          = '{"%s":{"$date":%d}}' % (test_field, test_value)
+        #where_test          = '{"%s":"2012-09-14T23:00Z"}' % (test_field)
+        where_test          = '{"%s":"%s"}' % (test_field, test_value)
         test_expected_count = 1
 
         query = '/%(collection)s?where=%(where_test)s' % {'collection':self.collection, 'where_test':where_test}
@@ -234,9 +243,9 @@ class TestGeneric(TestCase):
         test_field          = 'mBy'
         # hard coded, would rather convert from sample_doc
         # test_datetime       = sample_doc[test_field]
-        test_value       = "50468de92558713d84b03ed7"
+        test_value       = "$oid:50468de92558713d84b03ed7"
 
-        where_test          = '{"%s":{"$oid":"%s"}}' % (test_field, test_value)
+        where_test          = '{"%s":"%s"}' % (test_field, test_value)
         test_expected_count = 1
 
         query = '/%(collection)s?where=%(where_test)s' % {'collection':self.collection, 'where_test':where_test}
@@ -257,7 +266,7 @@ class TestGeneric(TestCase):
         # Expected Values:
         # the following identifies correct results given sample data. If sample data is refreshed, make sure you identify what field to sort and expected return values
         sort_test = {'fld':'fNam', 'values':['nam1','nam2']}
-        sort='[{"fNam": 1}]'
+        sort='[{"fNam": "1"}]'
         query = '/%(collection)s?sort=%(sort)s' % {'collection':self.collection, 'sort':sort}
         print "\nVerify SORT:"
         print "RAW REQUEST:\n%s\n" % (route + query)

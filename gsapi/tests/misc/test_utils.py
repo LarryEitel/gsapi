@@ -5,7 +5,7 @@ except ImportError:
     import unittest  # NOQA
 
 import os
-from base import TestCase
+from gsapi.tests.base import TestCase
 import json
 import time
 from bson import ObjectId

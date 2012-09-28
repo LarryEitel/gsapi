@@ -6,6 +6,7 @@ except ImportError:
 
 import os
 from gsapi.tests.base import TestCase
+from gsapi.utils import mongo_json_object_hook
 import json
 import time
 import isodate
@@ -29,6 +30,8 @@ class TestGeneric(TestCase):
         print """LOAD SAMPLE DOCS:\n"""
 
         db       = self.db
+        generic  = controllers.Generic(db)
+
         response = self.load_sample('contacts')
         assert response['status'] == 200
 
@@ -67,7 +70,7 @@ class TestGeneric(TestCase):
         print 'args =', args
         print
 
-        response = controllers.generic.put(db, **args)
+        response = generic.put(**args)
 
         assert response['status_code'] == 200
         data     = response['response']
@@ -78,13 +81,12 @@ class TestGeneric(TestCase):
 
         # verify that the doc correctly reflects new fNam
         assert got_doc[test_field] == sample_doc['patch'][test_field]
-
-
     def test_post_one(self):
         print "## nTestGeneric.test_post_one"
         print '''### INSERT NEW PERSON:'''
 
         db       = self.db
+        generic  = controllers.Generic(db)
 
         # here is the basic function call being tested
         fn = "controllers.generic.get(db, **args)"
@@ -114,7 +116,7 @@ class TestGeneric(TestCase):
         print 'args =', args
         print
 
-        response = controllers.generic.post(db, **args)
+        response = generic.post(**args)
 
         assert response['status_code'] == 200
         data     = response['response']
@@ -132,6 +134,7 @@ class TestGeneric(TestCase):
         print '''### INSERT NEW PERSONS:'''
 
         db       = self.db
+        generic  = controllers.Generic(db)
 
         # here is the basic function call being tested
         fn = "controllers.generic.get(db, **args)"
@@ -182,7 +185,7 @@ class TestGeneric(TestCase):
         print 'args =', args
         print
 
-        response = controllers.generic.post(db, **args)
+        response = generic.post(**args)
 
         assert response['status_code'] == 200
         data     = response['response']
@@ -197,6 +200,8 @@ class TestGeneric(TestCase):
         print """LOAD SAMPLE DOCS:\n"""
 
         db       = self.db
+        generic  = controllers.Generic(db)
+
         response = self.load_sample('contacts')
         assert response['status'] == 200
 
@@ -207,10 +212,11 @@ class TestGeneric(TestCase):
         sample_doc_id            = sample_doc['_id']
 
         # here is the basic function call being tested
-        fn = "controllers.generic.get(db, **args)"
+        fn = "generic  = controllers.Generic(db)\n"
+        fn += "generic.get(**args)"
 
         # I have all these if doit: so that I can code-fold and/or switch off
-        doit = 0
+        doit = 1
         if doit: # ALL ################################
             test_expected_count = 4 # Note the filter on _c
 
@@ -222,7 +228,7 @@ class TestGeneric(TestCase):
             pprint('args', args)
             print
 
-            response = controllers.generic.get(db, **args)
+            response = generic.get(**args)
 
             assert response['status_code'] == 200
             data     = response['response']
@@ -234,7 +240,7 @@ class TestGeneric(TestCase):
             vflds              = ["dNam"]
             args               = {}
             args['class_name'] = self.class_name
-            args['vflds']      = json.dumps(vflds)
+            args['vflds']      = vflds
 
             print
             print "VIRTUAL FIELDS:"
@@ -242,7 +248,7 @@ class TestGeneric(TestCase):
             pprint('args', args)
             print
 
-            response = controllers.generic.get(db, **args)
+            response = generic.get(**args)
 
             assert response['status_code'] == 200
 
@@ -263,7 +269,7 @@ class TestGeneric(TestCase):
             pprint('args', args)
             print
 
-            response = controllers.generic.get(db, **args)
+            response = generic.get(**args)
 
             assert response['status_code'] == 200
 
@@ -277,7 +283,7 @@ class TestGeneric(TestCase):
             where_test         = {"fNam":"sue"}
             args               = {}
             args['class_name'] = self.class_name
-            args['where']      = json.dumps(where_test)
+            args['where']      = where_test
 
             print
             print "WHERE by fNam:"
@@ -285,7 +291,7 @@ class TestGeneric(TestCase):
             pprint('args', args)
             print
 
-            response = controllers.generic.get(db, **args)
+            response = generic.get(**args)
 
             assert response['status_code'] == 200
 
@@ -296,21 +302,24 @@ class TestGeneric(TestCase):
             assert len(got_docs) == test_expected_count
             print 'Success'
         if doit: # WHERE by datetime ################################
-            test_field          = 'mOn'
-            test_value          = 1347644492400
+            test_field          = 'dOn'
+            isodate             = "$isodate:2012-09-14T23:00Z"
+            test_value          = isodate
             test_expected_count = 1
-            where_test          = {test_field:{"$date":test_value}}
+            where_test          = '{"%s":"%s"}' % (test_field, test_value)
             args                = {}
             args['class_name']  = self.class_name
-            args['where']       = json.dumps(where_test)
+            #args['where']       = json.dumps(where_test)
+            args['where']       = json.loads(where_test, object_hook=mongo_json_object_hook)
 
             print
             print "WHERE by datetime:"
             print "CALL:\n" + fn + "\nWITH:"
-            pprint('args', args)
+            # pprint('args', args)
+            print 'args', args
             print
 
-            response = controllers.generic.get(db, **args)
+            response = generic.get(**args)
 
             assert response['status_code'] == 200
 
@@ -322,20 +331,21 @@ class TestGeneric(TestCase):
             print 'Success'
         if doit: # WHERE by ObjectId ################################
             test_field          = 'mBy'
-            test_value          = "50468de92558713d84b03ed7"
-            where_test          = {test_field:{"$oid":test_value}}
+            test_value          = ObjectId("50468de92558713d84b03ed7")
+            where_test          = {test_field:test_value}
             args                = {}
             args['class_name']  = self.class_name
-            args['where']       = json.dumps(where_test)
+            #args['where']       = json.dumps(where_test)
+            args['where']       = where_test
             test_expected_count = 1
 
             print
             print "WHERE by ObjectId:"
             print "CALL:\n" + fn + "\nWITH:"
-            pprint('args', args)
+            print 'args', args
             print
 
-            response = controllers.generic.get(db, **args)
+            response = generic.get(**args)
 
             assert response['status_code'] == 200
 
@@ -349,18 +359,18 @@ class TestGeneric(TestCase):
             test_field          = 'fNam'
             sort_test           = {'fld':test_field, 'values':['nam1','nam2']}
             # sort                = [{test_field:"1"}]
-            sort                = [{test_field: 1}]
+            sort                = [{test_field: "1"}]
             args                = {}
             args['class_name']  = self.class_name
-            args['sort']        = json.dumps(sort)
+            args['sort']        = sort
 
             print
             print "SORT:"
             print "CALL:\n" + fn + "\nWITH:"
-            pprint('args', args)
+            print 'args', args
             print
 
-            response = controllers.generic.get(db, **args)
+            response = generic.get(**args)
 
             assert response['status_code'] == 200
 
@@ -375,7 +385,7 @@ class TestGeneric(TestCase):
             fields              = ["fNam", "title"]
             args                = {}
             args['class_name']  = self.class_name
-            args['fields']      = json.dumps(fields)
+            args['fields']      = fields
 
             print
             print "FIELDS LIST:"
@@ -383,7 +393,7 @@ class TestGeneric(TestCase):
             pprint('args', args)
             print
 
-            response = controllers.generic.get(db, **args)
+            response = generic.get(**args)
 
             assert response['status_code'] == 200
 
@@ -406,7 +416,7 @@ class TestGeneric(TestCase):
             pprint('args', args)
             print
 
-            response = controllers.generic.get(db, **args)
+            response = generic.get(**args)
 
             assert response['status_code'] == 200
 

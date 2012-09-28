@@ -2,8 +2,6 @@
 from flask import make_response, jsonify, abort
 import os
 import json
-from extensions import validate
-from jsondatetime import loads
 import mimerender
 import json
 from flask import request
@@ -13,8 +11,11 @@ from bson import json_util
 import re
 import datetime
 from flask import current_app
-import models
-import controllers
+
+from gsapi import models, controllers
+from gsapi.utils import mongo_json_object_hook
+from gsapi.extensions import validate
+from gsapi.jsondatetime import loads
 
 mimerender  = mimerender.FlaskMimeRender()
 
@@ -43,6 +44,7 @@ def prep_response(dct, status=200):
 
 def post(class_name):
     from db import db
+    generic  = controllers.Generic(db)
 
     docs_to_post = json.loads(request.data, object_hook=json_util.object_hook)
 
@@ -52,74 +54,24 @@ def post(class_name):
     args = dict(request.view_args.items() + request.args.items())
     args['docs'] = docs_to_post
 
-    response = controllers.generic.post(db, **args)
+    response = generic.post(**args)
 
     return prep_response(response['response'], status = response['status_code'])
 
 
 def put(class_name):
     from db import db
+    generic  = controllers.Generic(db)
 
     data          = json.loads(request.data, object_hook=json_util.object_hook)
-    
+
     args          = dict(request.view_args.items() + request.args.items())
     args['data']  = data
     args['usrid'] = "50468de92558713d84b03fd7"
-    
-    response      = controllers.generic.put(db, **args)
+
+    response      = generic.put(**args)
 
     return prep_response(response['response'], status = response['status_code'])
-
-
-
-# def put(class_name):
-#     from db import db
-
-#     model           = getattr(models, class_name)
-#     collection_name = model.meta['collection']
-
-#     user_id = "50468de92558713d84b03fd7"
-
-#     response = {}
-#     status   = 200
-#     docs     = []
-
-#     # let's deserialize mongo objects
-#     data = json.loads(request.data, object_hook=json_util.object_hook)
-
-#     # expecting where
-#     where = data['where']
-#     patch = data['patch']
-
-#     # validata patch
-#     # init model for this doc
-#     patch_errors    = validate(model, patch)
-#     if patch_errors:
-#         response['errors']        = patch_errors['errors']
-#         response['total_errors']  = patch_errors['count']
-#         status                    = 400
-
-#         return prep_response(response, status = status)
-
-#     # until we get signals working
-#     # manually include modified event details
-#     # patch['mBy'] = user_id
-#     patch['mBy'] = ObjectId(user_id)
-#     patch['mOn'] = datetime.datetime.utcnow()
-
-#     # https://github.com/mongodb/mongo-python-driver/blob/master/pymongo/collection.py#L1035
-#     resp = db.command('findAndModify', collection_name,
-#         query = where,
-#         update = {"$set": patch},
-#         new = True
-#     )
-
-#     response['collection']    = collection_name
-#     response['total_invalid'] = 0
-#     response['id']            = id.__str__()
-#     response['doc']           = resp['value']
-
-#     return prep_response(response, status = status)
 
 
 def patch_embedded(collection, id, embedded):
@@ -281,89 +233,25 @@ def post_embedded(collection, id, embedded):
     response[collection] = docs
 
     return prep_response(response, status = status)
-
-# def post(class_name):
-#     from db import db
-
-#     model           = getattr(models, class_name)
-#     collection_name = model.meta['collection']
-
-#     collection      = db[collection_name]
-#     response        = {}
-#     status          = 200
-#     docs            = []
-
-#     # let's deserialize mongo objects
-#     docs_to_post = json.loads(request.data, object_hook=json_util.object_hook)
-
-#     # if a dict, then stuff it into a list
-#     if type(docs_to_post) == dict: docs_to_post = [docs_to_post]
-
-#     post_errors = []
-#     total_errors = 0
-#     for doc in docs_to_post:
-#         errors = {}
-#         user_id = "50468de92558713d84b03fd7"
-
-#         # need to stuff in class_name
-#         doc['_c']     = class_name
-
-#         # Validate
-#         doc_errors    = validate(model, doc)
-#         if doc_errors:
-#             total_errors += doc_errors['count']
-#             post_errors.append(doc_errors)
-#             continue
-
-#         # init model for this doc
-#         m   = model(**doc)
-
-#         #log date time user involved with this event
-#         m.logit(user_id, 'post')
-
-#         # need to stuff into mongo
-#         doc_validated    = m.to_python()
-#         try:
-#             doc_validated['_c'] = m.meta['_c']
-#         except:
-#             pass
-
-#         dumped = dumps(doc_validated)
-#         doc_info         = {}
-
-#         id               = str(collection.insert(doc_validated, safe=True))
-#         doc_info['id']   = id
-#         doc_info['doc']  = doc_validated
-#         doc_info['link'] = get_document_link(class_name, id)
-
-#         docs.append(doc_info)
-
-#     response['total_inserted'] = len(docs)
-
-#     if post_errors:
-#         response['total_invalid'] = len(post_errors)
-#         response['errors']        = post_errors
-#         response['total_errors']  = total_errors
-#         status                    = 400
-#     else:
-#         response['total_invalid'] = 0
-
-#     response['docs'] = docs
-
-#     return prep_response(response, status = status)
-
-
-
-
 def get(class_name, id=None):
     from db import db
+    generic  = controllers.Generic(db)
 
-    args = dict(request.view_args.items() + request.args.items())
+    parsed_args = {}
+    for k, v in dict(request.args.items()).iteritems():
+        parsed_args[k] = json.loads(v, object_hook=mongo_json_object_hook)
 
-    resp = controllers.generic.get(db, **args)
+
+    args = dict(request.view_args.items() + parsed_args.items())
+    #args = dict(request.view_args.items() + request.args.items())
+
+
+    #if 'where' in args:
+        #args['where'] = dumps(json.loads(args['where'], object_hook=mongo_json_object_hook))
+
+    resp = generic.get(**args)
 
     return prep_response(resp['response'], status = resp['status_code'])
-
 def remove(collection, id):
     col = models[model].meta['collection']
     return db[col].remove({"_id":ObjectId(id)})
