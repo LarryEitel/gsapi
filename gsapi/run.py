@@ -56,6 +56,11 @@ def get(class_name, id=None):
     response = generic.get(class_name, id)
     return response
 
+##################### GET
+@app.route( '/', methods=['GET'])
+def home():
+    return generic.home(Config.DOMAIN.keys())
+
 def main():
     app.host = sys.argv['-h'] if '-h' in sys.argv else '127.0.0.1'
     if '-t' in sys.argv:

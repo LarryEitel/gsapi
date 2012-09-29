@@ -41,6 +41,15 @@ def prep_response(dct, status=200):
     resp.mimetype = mime
     return resp
 
+def home(models):
+    response = {}
+    links    = []
+    host     = request.url
+    for model in models:
+        links.append("<link rel='child' title='%(name)s' href='%(modelURI)s' />" %
+            {'name':model, 'modelURI': host + model})
+    response['links'] = links
+    return prep_response(response, status = 200)
 
 def post(class_name):
     from db import db
@@ -94,7 +103,21 @@ def get(class_name, id=None):
 
     resp = generic.get(**args)
 
+    links    = []
+    host     = 'http://' + request.environ['HTTP_HOST']
+    links.append("<link rel='parent' title='%(name)s' href='%(modelURI)s' />" %
+            {'name':class_name, 'modelURI': host + class_name})
+    links.append("<link rel='model' title='%(name)s' href='%(modelURI)s' />" %
+            {'name':class_name, 'modelURI': host + class_name})
+
+
+    resp['response']['links'] = links
+
     return prep_response(resp['response'], status = resp['status_code'])
+
+
+
+
 def remove(collection, id):
     col = models[model].meta['collection']
     return db[col].remove({"_id":ObjectId(id)})
