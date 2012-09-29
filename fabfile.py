@@ -11,6 +11,16 @@ env.user       = fab['ADMIN_USER']
 env.admin_     = fab['ADMIN_USER']
 env.admin_user = fab['ADMIN_USER']
 
+# def deploy(push_code=False):
+def deploy(msg="No Msg"):
+    #if push_code:
+        #commit_code()
+    commit(msg)
+    update_remote()
+    #restart()
+    print "Perhaps:"
+    print "fab reload_code"
+
 def hello():
     print("Hello world!")
 
@@ -64,16 +74,6 @@ def restart():
     sudo('supervisorctl restart ourfield')
     # sudo /etc/init.d/nginx restart
     sudo('/etc/init.d/nginx restart')
-
-# def deploy(push_code=False):
-def deploy(msg="No Msg"):
-    #if push_code:
-        #commit_code()
-    commit(msg)
-    update_remote()
-    #restart()
-    print "Perhaps:"
-    print "fab reload_code"
 
 
 def pushpull():
