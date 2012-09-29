@@ -38,6 +38,7 @@ def put(class_name):
 # This regex was breaking on /Usr!!!!!
 # @app.route( '/<regex("[\w]*[Ss]"):class_name>', methods=['POST'])
 @app.route( '/<class_name>', methods=['POST'])
+# @requires_auth
 def post(class_name):
     if not class_name in Config.DOMAIN.keys():
         abort(404)

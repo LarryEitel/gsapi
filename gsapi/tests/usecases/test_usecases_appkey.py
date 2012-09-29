@@ -19,10 +19,9 @@ from gsapi import models
 from pprint import pprint as P
 import requests as R # http://docs.python-requests.org/en/latest/
 # nosetests gsapi/tests/usecases/test_usecases_initial.py
+class TestUseCaseAppKey(TestCase):
 
-class TestUseCaseInitial(TestCase):
-
-    def InsertCnt(self, _c, data, verbose=True):
+    def InsertAppId(self, _c, data, verbose=True):
         dumps_data = dumps(data)
         print "<pre>requests.post('http://" + self.host + '/' + _c + "', data='" + dumps_data + "')</pre>"
 
@@ -48,37 +47,20 @@ class TestUseCaseInitial(TestCase):
             print err
             assert False
 
+
+
+
+    # Flask sessions = {'sessionKey':val}
     def test_one(self):
-        print "\n\nTestUseCaseInitial.test_one\n"
+        print "\n\nTestUseCaseAppKey.test_one\n"
 
-        print "### CREATE Admin Usr:"
-        UsrAdminJosh = self.InsertCnt('Usr', {"uNam":"jkutz", "fNam":"Mary", "lNam":"Smith", "gen":"f", "emails": [{"email":"mary@gsni.org"}], "grps": ["admin"]})
+        ''' 
+        Explore Facebook like oauth2
+        Create AppId doc
+        Generate key, app_id
 
-        print "### ADD Usr:"
-        usrMary = self.InsertCnt('Usr', {"uNam":"marys", "fNam":"Mary", "lNam":"Smith", "gen":"f", "emails": [{"email":"mary@gsni.org"}]})
+        WebApp wants to call api
+            POST /Prs
 
-        # rs = R.post('http://localhost:5000/Prs', data='{"fNam":"Freddy", "lNam":"Doe", "gen":"m", "emails": [{"email":"john@doe.com"}]}')
-        print "### ADD Prs:"
-        prsJohn = self.InsertCnt('Prs', {"fNam":"John", "lNam":"Doe", "gen":"m", "emails": [{"email":"john@doe.com"}]})
-
+        Wrap POST with auth required permission
         '''
-        create Usr
-            uNam
-            pw
-            rBy
-        create Cmp GSNI
-
-        Associate Usr with GSNI
-
-        create Prs
-            owned by Usr
-            associate with GSNI
-                CntXs
-            referred by Usr
-            Handle Address/Places
-
-        Usr Actions
-            List Cnts owned and
-        '''
-
-        pass

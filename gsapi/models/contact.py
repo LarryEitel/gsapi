@@ -125,13 +125,17 @@ class Prs(Cnt):
 
 
 class Usr(Prs):
-    uNam         = StringType(required=True, minimized_field_name='UserName', description='')
-    pw           = StringType(minimized_field_name='Password', description='')
+    uNam   = StringType(required=True, minimized_field_name='UserName', description='')
+    pw     = StringType(minimized_field_name='Password', description='Password Hash')
     # initially, this will contain 'admin' for admin users
-    groups       = ListType(StringType(), minimized_field_name='User Groups', description='List of Groups this Usr is a member of.')
-    lvOn         = DateTimeType(minimized_field_name='Last Viewed', description='DateTime when user last viewed the site.')
-
-    meta = {
+    grps   = ListType(StringType(), minimized_field_name='Groups', description='List of Groups this Usr is a member of.')
+    
+    rstTkn = StringType(minimized_field_name='Reset Token', description='Used for resetting credentials.')
+    rstOn  = DateTimeType(minimized_field_name='Reset Token DateTime Expiration', description='Used for resetting credentials.')
+    
+    lvOn   = DateTimeType(minimized_field_name='Last Viewed', description='DateTime when user last viewed the site.')
+    
+    meta   = {
         'collection': 'contacts',
         '_c': 'Usr',
         }
