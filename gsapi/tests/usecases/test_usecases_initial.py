@@ -22,7 +22,10 @@ from pprint import pprint as P
 class TestUseCaseInitial(TestCase):
 
     def InsertCnt(self, _c, data, verbose=True):
-        rs = self.app.post('/'+_c, data=dumps(data))
+        dumps_data = dumps(data)
+        print "requests.post('http://" + self.host + '/' + _c + "', data='" + dumps_data + "')"
+
+        rs = self.app.post('/'+_c, data=dumps_data)
 
         err = "\nInsertCnt of %s FAILED!" % _c
 
@@ -32,6 +35,8 @@ class TestUseCaseInitial(TestCase):
             m = getattr(models, _c)(**doc)
             if verbose:
                 print m.dNam
+
+
             return m
         elif rs.status_code == 400:
             data = json.loads(rs.data)
@@ -45,10 +50,32 @@ class TestUseCaseInitial(TestCase):
 
     def test_one(self):
         print "\n\nTestUseCaseInitial.test_one\n"
-        print "### ADD Usr:"
-        usrMary = self.InsertCnt('Usr', {"uNam":"marys", "fNam":"Mary", "lNam":"Smith", "gen":'f', "emails": [{"email":"mary@gsni.org"}]})
 
+        print "### ADD Usr:"
+        usrMary = self.InsertCnt('Usr', {"uNam":"marys", "fNam":"Mary", "lNam":"Smith", "gen":"f", "emails": [{"email":"mary@gsni.org"}]})
+
+        # rs = R.post('http://localhost:5000/Prs', data='{"fNam":"Freddy", "lNam":"Doe", "gen":"m", "emails": [{"email":"john@doe.com"}]}')
         print "### ADD Prs:"
-        prsJohn = self.InsertCnt('Prs', {"fNam":"John", "lNam":"Doe", "gen":'m', "emails": [{"email":"john@doe.com"}]})
+        prsJohn = self.InsertCnt('Prs', {"fNam":"John", "lNam":"Doe", "gen":"m", "emails": [{"email":"john@doe.com"}]})
+
+        '''
+        create Usr
+            uNam
+            pw
+            rBy
+        create Cmp GSNI
+
+        Associate Usr with GSNI
+
+        create Prs
+            owned by Usr
+            associate with GSNI
+                CntXs
+            referred by Usr
+            Handle Address/Places
+
+        Usr Actions
+            List Cnts owned and 
+        '''
 
         pass

@@ -46,7 +46,10 @@ def post(class_name):
     from db import db
     generic  = controllers.Generic(db)
 
-    docs_to_post = json.loads(request.data, object_hook=json_util.object_hook)
+    #data = loads(request.data)
+    data = request.data
+
+    docs_to_post = json.loads(data, object_hook=json_util.object_hook)
 
     # if a dict, then stuff it into a list
     if type(docs_to_post) == dict: docs_to_post = [docs_to_post]
