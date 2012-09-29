@@ -1,6 +1,7 @@
 set pythonPath=c:\Python27
 set mongoPath=c:\mongodb\bin\mongod.exe
 set mongoDbPath=c:\mongodb\data\db
+set elasticSearchPath=c:\elasticsearch-0.19.9\bin\elasticsearch.bat
 set appPath=c:\gsapi
 set docFolder=%appPath%\doc
 set testResultsFile=%docFolder%\testResults.xml
