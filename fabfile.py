@@ -11,11 +11,21 @@ env.user       = fab['ADMIN_USER']
 env.admin_     = fab['ADMIN_USER']
 env.admin_user = fab['ADMIN_USER']
 
+# TODOs
+'''
+How to restore to a previous state 
+Reload uwsgi without sudo
+How to kill all uwsgi
+pkill uwsgi
+'''
+
+
 # def deploy(push_code=False):
 def deploy(msg="No Msg"):
     #if push_code:
         #commit_code()
     commit(msg)
+    #reload_uwsgi()
     update_remote()
     #restart()
     print "Perhaps:"
@@ -52,6 +62,9 @@ def restart_gunicorn():
     with cd(fab['PROJECT_ROOT']):
         sudo('kill `cat gunicorn.pid`')
         sudo('python manage.py run_gunicorn -c gunicorn.conf.py --traceback 0.0.0.0:8001')
+
+def reload_uwsgi():
+    run('/etc/init.d/uwsgi reload')
 
 def reload_nginx_conf():
     sudo('/etc/init.d/nginx check')
