@@ -17,13 +17,13 @@ import dateutil.parser
 from flask import request
 from gsapi import models
 from pprint import pprint as P
-
+import requests as R # http://docs.python-requests.org/en/latest/
 # nosetests gsapi/tests/usecases/test_usecases_initial.py
 class TestUseCaseInitial(TestCase):
 
     def InsertCnt(self, _c, data, verbose=True):
         dumps_data = dumps(data)
-        print "requests.post('http://" + self.host + '/' + _c + "', data='" + dumps_data + "')"
+        print "<pre>requests.post('http://" + self.host + '/' + _c + "', data='" + dumps_data + "')</pre>"
 
         rs = self.app.post('/'+_c, data=dumps_data)
 
@@ -35,7 +35,6 @@ class TestUseCaseInitial(TestCase):
             m = getattr(models, _c)(**doc)
             if verbose:
                 print m.dNam
-
 
             return m
         elif rs.status_code == 400:
@@ -50,6 +49,9 @@ class TestUseCaseInitial(TestCase):
 
     def test_one(self):
         print "\n\nTestUseCaseInitial.test_one\n"
+
+        print "### CREATE Admin Usr:"
+        UsrAdminJosh = self.InsertCnt('Usr', {"uNam":"jkutz", "fNam":"Mary", "lNam":"Smith", "gen":"f", "emails": [{"email":"mary@gsni.org"}], "groups": ["admin"]})
 
         print "### ADD Usr:"
         usrMary = self.InsertCnt('Usr', {"uNam":"marys", "fNam":"Mary", "lNam":"Smith", "gen":"f", "emails": [{"email":"mary@gsni.org"}]})
@@ -75,7 +77,7 @@ class TestUseCaseInitial(TestCase):
             Handle Address/Places
 
         Usr Actions
-            List Cnts owned and 
+            List Cnts owned and
         '''
 
         pass

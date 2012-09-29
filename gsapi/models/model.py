@@ -1,23 +1,29 @@
 from schematics.models import Model as _Model
-from schematics.types import StringType, DateTimeType
+from schematics.types import StringType, DateTimeType, BooleanType
 from schematics.types.mongo import ObjectIdType
 import datetime
 
 class Mod(_Model):
     _c   = StringType(required=True, description='Class')
     _public_fields = ['_c']
+    # owned
     oBy     = ObjectIdType()
     oOn     = DateTimeType() # ObjectIdType()
     oLoc    = StringType()
+    # created
     cOn     = DateTimeType()
     cBy     = ObjectIdType()
     cLoc    = StringType()
+    # modified
     mOn     = DateTimeType()
     mBy     = ObjectIdType()
     mLoc    = StringType()
+    # deleted
+    dele     = BooleanType(minimized_field_name='Deleted', description='Marked for removal.')
     dBy     = ObjectIdType()
     dOn     = DateTimeType()
     dLoc    = StringType()
+    
     note    = StringType()
 
     meta = {

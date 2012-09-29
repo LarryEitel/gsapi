@@ -15,7 +15,7 @@ from random import randint
 from bson import ObjectId
 from bson.json_util import dumps
 import isodate
-host = "localhost:5000"
+#host = "localhost:5000"
 
 class TestGeneric(TestCase):
     collection = 'Prs'

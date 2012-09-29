@@ -126,7 +126,10 @@ class Prs(Cnt):
 
 class Usr(Prs):
     uNam         = StringType(required=True, minimized_field_name='UserName', description='')
-    lvOn         = DateTimeType(minimized_field_name='Last Viewed', description='DataTime when user last viewed the site.')
+    pw           = StringType(minimized_field_name='Password', description='')
+    # initially, this will contain 'admin' for admin users
+    groups       = ListType(StringType(), minimized_field_name='User Groups', description='List of Groups this Usr is a member of.')
+    lvOn         = DateTimeType(minimized_field_name='Last Viewed', description='DateTime when user last viewed the site.')
 
     meta = {
         'collection': 'contacts',
