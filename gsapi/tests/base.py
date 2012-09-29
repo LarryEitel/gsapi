@@ -6,7 +6,7 @@ except ImportError:
 
 import sys, os
 
-sys.path.insert(0, os.getcwd())
+sys.path.insert(0, "..")
 sys.path.insert(0, os.getcwd() + os.sep + 'gsapi')
 # # sys.path.insert(0, os.sep.join(os.getcwd().split(os.sep)[:-1]))
 # # sys.path.insert(0, os.sep.join(__file__.split(os.sep)[:-1]))

@@ -6,7 +6,6 @@ except ImportError:
 
 import os
 from gsapi.tests.base import TestCase
-from gsapi.utils import mongo_json_object_hook
 import json
 import time
 import isodate
@@ -309,7 +308,6 @@ class TestGeneric(TestCase):
             args                = {}
             args['class_name']  = self.class_name
             args['where']       = where_test
-            #args['where']       = json.loads(where_test, object_hook=mongo_json_object_hook)
 
             print
             print "WHERE by datetime:"

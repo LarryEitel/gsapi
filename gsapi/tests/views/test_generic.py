@@ -30,7 +30,8 @@ class TestGeneric(TestCase):
         sample = {
             "fNam":"johnathan",
             "lNam":"doe",
-            "lvOn":{"$date": 1347893866298},
+            #"lvOn":{"$date": 1347893866298},
+            "dOn":"$isodate:2012-09-14T17:41:32.471Z",
             "oBy":{"$oid":"50468de92558713d84b03fd0"},
             "rBy":{"$oid":"50468de92558713d84b03fd7"},
             "gen":'m',

@@ -125,12 +125,12 @@ class Prs(Cnt):
 
 
 class Usr(Prs):
-    unam         = StringType(minimized_field_name='UserName', description='')
+    uNam         = StringType(required=True, minimized_field_name='UserName', description='')
     lvOn         = DateTimeType(minimized_field_name='Last Viewed', description='DataTime when user last viewed the site.')
 
     meta = {
         'collection': 'contacts',
-        '_c': 'usr',
+        '_c': 'Usr',
         }
 
 esCnt = {
