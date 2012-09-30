@@ -6,7 +6,7 @@ except ImportError:
 
 import sys, os
 
-sys.path.insert(0, os.getcwd())
+sys.path.insert(0, "..")
 sys.path.insert(0, os.getcwd() + os.sep + 'gsapi')
 # # sys.path.insert(0, os.sep.join(os.getcwd().split(os.sep)[:-1]))
 # # sys.path.insert(0, os.sep.join(__file__.split(os.sep)[:-1]))
@@ -20,10 +20,8 @@ from pyes.es import ES
 from flask import session
 
 import gsapi.run as run
-from flask import current_app
-from gsapi.db import get_db, get_db2
-#from gsapi.db import db
 from gsapi.utils import load_data
+from pymongo import Connection
 
 es_conn = {"host":"localhost", "port":9200}
 
@@ -40,23 +38,14 @@ class TestCase(unittest.TestCase):
         app = app.test_client()
 
         dbname = app.application.config['MONGO_TEST_DBNAME']
-
-        db = get_db2(dbname)
+        db = Connection()[dbname]
 
         # delete existing test db
         db.connection.drop_database(dbname)
-        #app.db = db
-        self.db = db
-
-        #db = get_db(app.application)
-        # db = app.application.extensions['pymongo']['MONGO'][1]
-
-        # delete existing test db
-        #db.connection.drop_database(dbname)
 
         # recreate
-        #self.db = get_db(app.application)
-        # self.db = db.connection.drop_database(db.name)
+        db = Connection()[dbname]
+        self.db = db
         self.app = app
 
         # es = elasticsearch
@@ -66,7 +55,6 @@ class TestCase(unittest.TestCase):
         es.delete_index_if_exists(self.index_name)
         # es.create_index(self.index_name)
         self.es = es
-
 
     def tearDown(self):
         pass

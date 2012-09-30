@@ -1,4 +1,3 @@
-ipython
 Flask
 Flask-PyMongo
 Flask-Testing

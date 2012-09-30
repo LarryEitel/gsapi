@@ -1,27 +1,114 @@
 import re
 import os
 import json
-
+import jsondatetime # https://github.com/nicolaiarocci/json-datetime
 from bson.json_util import dumps, loads
 import bson.json_util as bson_json_util
+from bson import ObjectId
 from extensions import validate
-
+import datetime
 from flask import redirect
 from werkzeug.routing import HTTPException, RoutingException
 
 #from models import model_classes_by_id
 import models
+import dateutil.parser
+
+reobj_oid = re.compile(r'\{\s*"\$oid"\s*:\s*"(.*?)"\s*\}')
+reobj_objectid = re.compile(r'ObjectId\("(.*?)"\)', re.IGNORECASE)
+reobj_date = re.compile(r'\{\s*"\$date"\s*:\s*(\d+)\s*\}')
+reobj_isodate = re.compile(r'ISODate\("(.*?)"\)', re.IGNORECASE)
+
+def preparse_json_doc(jstr):
+    ''' Preparse to better identify ObjectId's and DateTimes
+    Preparse json file which may have been come from mongoexport or MongoVue dump or hand edited.
+
+    OBJECTIDs
+
+    # as exported by mongoexport
+    Convert:    { "$oid" : "50536c4c2558712e205a269a" }
+    To:         "$oid:50536c4c2558712e205a269a"
+
+    # as exported by MongoVue
+    Convert:    ObjectId("50536c4c2558792f205a299d")
+    To:         "$oid:50536c4c2558792f205a299d"
+
+    DATES
+
+    # as exported by mongoexport
+    Convert:    { "$date" : 1347644492471 }
+    To:         "$date:1347644492471"
+
+    # If someone wants to manually set a datetime in more human readable form. Good for testing.
+    Convert:    ISODate("2012-09-14T17:41:32.471Z")
+    To:         "$isodate:2012-09-14T17:41:32.471Z"
+
+    One motivation was that the json.loads object_hook could not handle values that dictionaries. For example:
+            "oBy" : { "$oid" : "50468de92558713d84b03fd7" }
+
+            object_hook function would hook dict.key "$oid" along with numeric value. This needs to be converted to an ObjectId("50468de92558713d84b03fd7") as a value of "oBy".
+            Ultimately the ultimate result should be:
+                "oBy" : ObjectId("50468de92558713d84b03fd7")
+
+                This is what will be sent to MongoDb!
+    '''
+    jstr = reobj_oid.sub(r'"$oid:\1"', jstr)
+    jstr = reobj_objectid.sub(r'"$oid:\1"', jstr)
+    jstr = reobj_date.sub(r'"$date:\1"', jstr)
+    jstr = reobj_isodate.sub(r'"$isodate:\1"', jstr)
+    return jstr
+
+def mongo_json_object_hook(dct):
+    for k, v in dct.items():
+        if v[0:4] == '$oid':
+            dct[k] = ObjectId(v[5:])
+        elif v[0:5] == '$date':
+            dct[k] = datetime.datetime.fromtimestamp(int(v[6:])/1000)
+        elif v[0:8] == '$isodate':
+            try:
+                dct[k] = dateutil.parser.parse(v[9:])
+            except:
+                continue
+    return dct
+
 
 def load_data(db, json_filepath):
     '''Bulk load from json into corresponding collections.
-    Each item is expected to contain '_cls' which represents the model class and the collection it belongs to.
+    Each item is expected to contain '_c' which represents the model class and the collection it belongs to.
     Validation rules are tested for each doc.
     '''
 
-    # let's grab the data, error check?
-    data  = open(json_filepath).read()
+    docs_to_insert = []
 
-    data  = bson_json_util.loads(data)
+    # the data will either come from MongoVue or mongoexport
+    # mongoVue delimits each doc record with },{
+    # mongoexport delimits each doc record with linefeed
+    # let's find out which one it is by reading in file
+    data = open(json_filepath).read()
+    if re.search(r"\},\s*\{", data):
+        # each doc is delimited with },{ like from MongoVue copy to clipboard
+        clean_data = preparse_json_doc(data)
+        # strip beginning {
+        clean_data = re.sub(r"^(\s*\[\s*)*\s*\{\s*", "", clean_data)
+
+        # strip ending
+        clean_data = re.sub(r"\s*\}\s*(\s*\])*$", "", clean_data)
+
+        docs = re.split(r"\},\s*\{", clean_data)
+        for doc in docs:
+            doc = doc.replace('\n','')
+            doc = "{" + doc + "}"
+            doc = json.loads(doc, object_hook=mongo_json_object_hook)
+            docs_to_insert.append(doc)
+    else:
+        # assume mongoexport with each doc on one line
+        file = open(json_filepath)
+        lines = [re.sub('\n','',line) for line in filter(lambda a:(a!='\n'), file.readlines())]
+        for line in lines:
+            clean_line = preparse_json_doc(line)
+            doc = json.loads(clean_line, object_hook=mongo_json_object_hook)
+            docs_to_insert.append(doc)
+        file.close()
 
     response     = {}
     status       = 200
@@ -31,7 +118,7 @@ def load_data(db, json_filepath):
     total_errors = 0
     total_added  = 0
 
-    for doc in data:
+    for doc in docs_to_insert:
         class_id        = doc['_c']
         model           = getattr(models, class_id)
         collection_name = model.meta['collection']
