@@ -110,6 +110,9 @@ def get(class_name, id=None):
     links.append("<link rel='model' title='%(name)s' href='%(modelURI)s' />" %
             {'name':class_name, 'modelURI': host + class_name})
 
+    # need to add a link to each doc along with etag and updated i
+    # links.append("<link rel='model' title='%(name)s' href='%(modelURI)s' />" %
+    #         {'name':class_name, 'modelURI': host + class_name})
 
     resp['response']['links'] = links
 
