@@ -5,6 +5,8 @@ set mongoDbPath=c:\mongodb\data\db
 set elasticSearchPath=c:\elasticsearch-0.19.9\bin\elasticsearch.bat
 set appPath=c:\gsapi
 set docFolder=%appPath%\doc
+REM set srcFolder=%docFolder%\src
+REM set apiFolder=%docFolder%\api
 set confFolder=%docFolder%\conf
 set testsFolder=%appPath%\gsapi\tests
 set mainApiFile=%docFolder%\api.rst
@@ -18,7 +20,7 @@ rmdir /s /q "%docFolder%\_templates"
 del "%docFolder%\Makefile"
 del "%docFolder%\make.bat"
 del "%docFolder%\*.rst"
-
+del "%docFolder%\conf.py"
 
 REM copy the configuration file to doc root folder
 cp %confFolder%\conf.py.orig %docFolder%\conf.py
@@ -33,10 +35,10 @@ echo .. include:: intro.rst >> %mainApiFile%
 echo .. toctree:: >> %mainApiFile%
 echo     :maxdepth: 2 >> %mainApiFile%
 echo. >> %mainApiFile%
-FOR /f %%a in ('DIR %testsFolder%\*.py /B /A:-D') do ( IF NOT "%%a" == "__init__.py" (echo     %%a >> %mainApiFile%))
+FOR /f "delims=" %%a in ('DIR /s /b %testsFolder%\test*.py') do ( IF NOT "%%~na" == "__init__.py" (echo     %%~na >> %mainApiFile%))
 
 REM run tests and append the rest of .rst files to the mainApiFile
- FOR /f %%a in ('DIR %testsFolder%\*.py /B /A:-D') do ( IF NOT "%%a" == "__init__.py" (nosetests -v --nocapture %testsFolder%\%%a >> %docFolder%\%%a.rst))
+FOR /f "delims=" %%a in ('DIR /s /b %testsFolder%\test*.py') do (nosetests -v --nocapture %%a >> %docFolder%\%%~na.rst)
 
 REM build the docs
 "%pythonPath%\Scripts\sphinx-build.exe" -b html "%docFolder%" "%docFolder%\_build\html"
