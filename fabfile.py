@@ -65,15 +65,15 @@ def restart_gunicorn():
         sudo('python manage.py run_gunicorn -c gunicorn.conf.py --traceback 0.0.0.0:8001')
 
 def reload_uwsgi():
-	child = pexpect.spawn ('ssh larry@gsapi.orgtec.com')
-	child.expect ("larry@gsapi.orgtec.com's password:")	# may need editing
-	child.sendline ('your password here')
-	child.expect ('larry@existints:~$') 				# may need editing
-	child.sendline ('sudo pkill -9 uwsgi')
-    child.expect('[sudo] password for larry:')
-	child.sendline('your password here')
-	child.expect('larry@existints:~$')
-	child.sendline('exit')
+    child = pexpect.spawn(pexpect_params[0])
+    child.expect(pexpect_params[1])
+    child.sendline(pexpect_params[2])
+    child.expect(pexpect_params[3])
+    child.sendline(pexpect_params[4])
+    child.expect(pexpect_params[5])
+    child.sendline(pexpect_params[6])
+    child.expect(pexpect_params[7])
+    child.sendline(pexpect_params[8])
 
 def reload_nginx_conf():
     sudo('/etc/init.d/nginx check')
