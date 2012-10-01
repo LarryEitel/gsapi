@@ -13,17 +13,19 @@ from pyes import TermQuery
 import models
 
 class TestESPyes(TestCase):
+    print "ESPyes tests"
+    print "============"
 
     def test_es_sample_data(self):
         print "\TestESPyes.test_es_sample_data"
         print """LOAD SAMPLE DOCS:\n"""
 
-        resp       = self.load_sample('contacts_es')
+        resp = self.load_sample('contacts_es')
         assert resp['status'] == 200
 
-        sample_docs   = resp['response']['docs']
+        sample_docs = resp['response']['docs']
 
-        index_name    = "test-contacts"
+        index_name = "test-contacts"
         document_type = 'Cnt'
         es = self.es
         es.delete_index_if_exists(index_name)
@@ -34,7 +36,7 @@ class TestESPyes(TestCase):
         for doc in sample_docs:
             es.index({"dNam":doc['dNam'], "parsedtext":doc['dNam']}, index_name, doc['_c'], doc['_id'].__str__())
 
-        es.default_indices=[index_name]
+        es.default_indices = [index_name]
         q = TermQuery("dNam", "joe")
         results = es.search(query = q)
         for r in results:
