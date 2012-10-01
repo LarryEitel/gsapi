@@ -1,6 +1,7 @@
 #import wingdbstub
 import time
 import os, sys
+import pexpect
 from fabric.api import local, cd, run, env, sudo, require
 from gsapi.settings import Config
 
@@ -64,7 +65,15 @@ def restart_gunicorn():
         sudo('python manage.py run_gunicorn -c gunicorn.conf.py --traceback 0.0.0.0:8001')
 
 def reload_uwsgi():
-    run('/etc/init.d/uwsgi reload')
+	child = pexpect.spawn ('ssh larry@gsapi.orgtec.com')
+	child.expect ("larry@gsapi.orgtec.com's password:")	# may need editing
+	child.sendline ('your password here')
+	child.expect ('larry@existints:~$') 				# may need editing
+	child.sendline ('sudo pkill -9 uwsgi')
+    child.expect('[sudo] password for larry:')
+	child.sendline('your password here')
+	child.expect('larry@existints:~$')
+	child.sendline('exit')
 
 def reload_nginx_conf():
     sudo('/etc/init.d/nginx check')
