@@ -1,7 +1,7 @@
 #import wingdbstub
 import time
 import os, sys
-import pexpect
+#import pexpect
 from fabric.api import local, cd, run, env, sudo, require
 from gsapi.settings import Config
 
@@ -64,16 +64,16 @@ def restart_gunicorn():
         sudo('kill `cat gunicorn.pid`')
         sudo('python manage.py run_gunicorn -c gunicorn.conf.py --traceback 0.0.0.0:8001')
 
-def reload_uwsgi():
-    child = pexpect.spawn(pexpect_params[0])
-    child.expect(pexpect_params[1])
-    child.sendline(pexpect_params[2])
-    child.expect(pexpect_params[3])
-    child.sendline(pexpect_params[4])
-    child.expect(pexpect_params[5])
-    child.sendline(pexpect_params[6])
-    child.expect(pexpect_params[7])
-    child.sendline(pexpect_params[8])
+# def reload_uwsgi():
+#     child = pexpect.spawn(pexpect_params[0])
+#     child.expect(pexpect_params[1])
+#     child.sendline(pexpect_params[2])
+#     child.expect(pexpect_params[3])
+#     child.sendline(pexpect_params[4])
+#     child.expect(pexpect_params[5])
+#     child.sendline(pexpect_params[6])
+#     child.expect(pexpect_params[7])
+#     child.sendline(pexpect_params[8])
 
 def reload_nginx_conf():
     sudo('/etc/init.d/nginx check')

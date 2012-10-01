@@ -34,7 +34,7 @@ class Config(object):
             'ADMIN_USER': 'larry',
             'ADMIN_PW': 'Stop&Think',
             'PROJECT_ROOT': '/srv/gs/api/gsapi',
-            'pexpect_params' = [
+            'pexpect_params': [
                 'ssh larry@gsapi.orgtec.com',
                 "larry@gsapi.orgtec.com's password:",
                 'Stop&Think',
@@ -44,7 +44,7 @@ class Config(object):
                 'Stop&Think',
                 'larry@existints:~$',
                 'exit',
-                ]
+                ],
             'child.expect': "larry@gsapi.orgtec.com's password:",
             'child.sendline': "larry@gsapi.orgtec.com's password:",
         }
