@@ -21,22 +21,22 @@ del "%docFolder%\*.rst"
 
 
 REM copy the configuration file to doc root folder
-REM cp %confFolder%\conf.py.orig %docFolder%\conf.py
-REM cp %confFolder%\index.rst.orig %docFolder%\index.rst
-REM cp %confFolder%\intro.rst.orig %docFolder%\intro.rst
+cp %confFolder%\conf.py.orig %docFolder%\conf.py
+cp %confFolder%\index.rst.orig %docFolder%\index.rst
+cp %confFolder%\intro.rst.orig %docFolder%\intro.rst
 
 REM get api doc
-REM "%pythonPath%\Scripts\sphinx-apidoc.exe" -F -o %docFolder% gsapi
+"%pythonPath%\Scripts\sphinx-apidoc.exe" -F -o %docFolder% gsapi
 
 REM create the main Api file
-REM echo .. include:: intro.rst >> %mainApiFile%
-REM echo .. toctree:: >> %mainApiFile%
-REM echo     :maxdepth: 2 >> %mainApiFile%
-REM echo. >> %mainApiFile%
-REM FOR /f %%a in ('DIR %testsFolder%\*.py /B /A:-D') do ( IF NOT "%%a" == "__init__.py" (echo     %%a >> %mainApiFile%))
+echo .. include:: intro.rst >> %mainApiFile%
+echo .. toctree:: >> %mainApiFile%
+echo     :maxdepth: 2 >> %mainApiFile%
+echo. >> %mainApiFile%
+FOR /f %%a in ('DIR %testsFolder%\*.py /B /A:-D') do ( IF NOT "%%a" == "__init__.py" (echo     %%a >> %mainApiFile%))
 
 REM run tests and append the rest of .rst files to the mainApiFile
-REM FOR /f %%a in ('DIR %testsFolder%\*.py /B /A:-D') do ( IF NOT "%%a" == "__init__.py" (nosetests -v --nocapture %testsFolder%\%%a >> %docFolder%\%%a.rst))
+ FOR /f %%a in ('DIR %testsFolder%\*.py /B /A:-D') do ( IF NOT "%%a" == "__init__.py" (nosetests -v --nocapture %testsFolder%\%%a >> %docFolder%\%%a.rst))
 
 REM build the docs
 "%pythonPath%\Scripts\sphinx-build.exe" -b html "%docFolder%" "%docFolder%\_build\html"
