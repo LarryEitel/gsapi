@@ -9,9 +9,7 @@ rawes
 pyes
 #pexpect
 sphinx
-sphinx-apidoc
 
 -e git+git://github.com/mongodb/mongo-python-driver.git#egg=pymongo
 fabric
 python-dateutil
-rawes
