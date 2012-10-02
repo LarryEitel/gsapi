@@ -19,3 +19,7 @@
 *.swp
 local_settings
 venv/
+
+*.project
+*.pydevproject
+org.eclipse.core.resources.prefs

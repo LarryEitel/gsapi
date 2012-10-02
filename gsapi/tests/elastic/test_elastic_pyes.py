@@ -5,7 +5,7 @@ except ImportError:
     import unittest  # NOQA
 
 import os
-from base import TestCase
+from gsapi.tests.base import TestCase
 
 import os
 import json
@@ -13,17 +13,19 @@ from pyes import TermQuery
 import models
 
 class TestESPyes(TestCase):
+    print "ESPyes tests"
+    print "============"
 
     def test_es_sample_data(self):
         print "\TestESPyes.test_es_sample_data"
         print """LOAD SAMPLE DOCS:\n"""
 
-        resp       = self.load_sample('contacts_es')
+        resp = self.load_sample('contacts_es')
         assert resp['status'] == 200
 
-        sample_docs   = resp['response']['docs']
-        
-        index_name    = "test-contacts"
+        sample_docs = resp['response']['docs']
+
+        index_name = "test-contacts"
         document_type = 'Cnt'
         es = self.es
         es.delete_index_if_exists(index_name)
@@ -34,26 +36,12 @@ class TestESPyes(TestCase):
         for doc in sample_docs:
             es.index({"dNam":doc['dNam'], "parsedtext":doc['dNam']}, index_name, doc['_c'], doc['_id'].__str__())
 
-        es.default_indices=[index_name]
+        es.default_indices = [index_name]
         q = TermQuery("dNam", "joe")
         results = es.search(query = q)
         for r in results:
             print r
             # add assert for expected result
-
-
-
-    def test_elasticsearch_put(self):
-        response = self.ES.put('tweets/tweet/1', data={
-            'user' : 'shiv',
-            'post_date' : '2012-09-25T01:40:30',
-            'message' : 'Tweeting about elasticsearch'
-        })
-
-        if response["_type"] == "tweet" and response["ok"] == True and response["_index"] == "tweets":
-            self.assertTrue(True)
-        else:
-            self.assertTrue(False)
 
 if __name__ == "__main__":
     unittest.main()

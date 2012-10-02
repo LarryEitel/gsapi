@@ -75,6 +75,9 @@ class Cmp(Cnt):
         '_c': 'cmp',
         }
 
+    @property
+    def dNam(self):
+        return self.cNam
 
 class Prs(Cnt):
     title  = StringType(minimized_field_name='Title', description='Examples: Mr, Mrs, Ms, etc')
@@ -90,6 +93,9 @@ class Prs(Cnt):
         'collection': 'contacts',
         '_c': 'Prs',
         }
+
+    def save(self):
+        pass
 
     @property
     def dNam(self):
@@ -119,12 +125,19 @@ class Prs(Cnt):
 
 
 class Usr(Prs):
-    unam         = StringType(minimized_field_name='UserName', description='')
-    lvOn         = DateTimeType(minimized_field_name='Last Viewed', description='DataTime when user last viewed the site.')
-
-    meta = {
+    uNam   = StringType(required=True, minimized_field_name='UserName', description='')
+    pw     = StringType(minimized_field_name='Password', description='Password Hash')
+    # initially, this will contain 'admin' for admin users
+    grps   = ListType(StringType(), minimized_field_name='Groups', description='List of Groups this Usr is a member of.')
+    
+    rstTkn = StringType(minimized_field_name='Reset Token', description='Used for resetting credentials.')
+    rstOn  = DateTimeType(minimized_field_name='Reset Token DateTime Expiration', description='Used for resetting credentials.')
+    
+    lvOn   = DateTimeType(minimized_field_name='Last Viewed', description='DateTime when user last viewed the site.')
+    
+    meta   = {
         'collection': 'contacts',
-        '_c': 'usr',
+        '_c': 'Usr',
         }
 
 esCnt = {
