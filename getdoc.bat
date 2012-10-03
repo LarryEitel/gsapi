@@ -1,7 +1,7 @@
 @echo off
-set docsFolder=%PROJECTS_ROOT%\docs
+set docsFolder=%PROJECT_ROOT%\docs
 set confFolder=%docsFolder%\conf
-set testsFolder=%PROJECTS_ROOT%\gsapi\tests
+set testsFolder=%PROJECT_ROOT%\gsapi\tests
 set mainApiFile=%docsFolder%\api.rst
 
 REM cleanup the existing files and directories
