@@ -52,7 +52,7 @@ class TestUseCaseInitial(TestCase):
         print "\n\nTestUseCaseInitial.test_one\n"
 
         print "### CREATE Admin Usr:"
-        UsrAdminJosh = self.InsertCnt('Usr', {"uNam":"jkutz", "fNam":"Mary", "lNam":"Smith", "gen":"f", "emails": [{"email":"mary@gsni.org"}], "grps": ["admin"]})
+        UsrAdminJosh = self.InsertCnt('Usr', {"uNam":"jkutz", "fNam":"Mary", "lNam":"Smith", "gen":"f", "emails": [{"email":"mary@gsni.org"}], "grps": ["admin"], "lvOn": "$isodate:2012-09-14T17:41:32.471Z"})
 
         print "### ADD Usr:"
         usrMary = self.InsertCnt('Usr', {"uNam":"marys", "fNam":"Mary", "lNam":"Smith", "gen":"f", "emails": [{"email":"mary@gsni.org"}]})

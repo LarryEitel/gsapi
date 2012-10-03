@@ -30,22 +30,9 @@ class Config(object):
     FABRIC = {
         'live': {
             'HOSTS': ['50.116.35.54:22'],
-            'WEB_USER': 'larry',
-            'ADMIN_USER': 'larry',
+            'WEB_USER': 'root',
+            'ADMIN_USER': 'root',
             'ADMIN_PW': 'Stop&Think',
-            'PROJECT_ROOT': '/srv/gs/api/gsapi',
-            'pexpect_params': [
-                'ssh larry@gsapi.orgtec.com',
-                "larry@gsapi.orgtec.com's password:",
-                'Stop&Think',
-                'larry@existints:~$',
-                'sudo pkill -9 uwsgi',
-                '[sudo] password for larry:',
-                'Stop&Think',
-                'larry@existints:~$',
-                'exit',
-                ],
-            'child.expect': "larry@gsapi.orgtec.com's password:",
-            'child.sendline': "larry@gsapi.orgtec.com's password:",
+            'PROJECT_ROOT': '/srv/gs/api/gsapi'
         }
     }

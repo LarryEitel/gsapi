@@ -64,6 +64,9 @@ def restart_gunicorn():
         sudo('kill `cat gunicorn.pid`')
         sudo('python manage.py run_gunicorn -c gunicorn.conf.py --traceback 0.0.0.0:8001')
 
+def reload_uwsgi():
+    sudo('pkill -9 uwsgi')
+
 # def reload_uwsgi():
 #     child = pexpect.spawn(pexpect_params[0])
 #     child.expect(pexpect_params[1])
