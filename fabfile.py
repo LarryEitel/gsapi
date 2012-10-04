@@ -3,7 +3,7 @@ import time
 import os, sys
 #import pexpect
 from fabric.api import local, cd, run, env, sudo, require
-from gsapi.settings import Config
+from gsapi.local_settings import Config
 
 fab            = Config.FABRIC['live']
 
@@ -11,6 +11,7 @@ env.hosts      = fab['HOSTS']
 env.user       = fab['ADMIN_USER']
 env.admin_     = fab['ADMIN_USER']
 env.admin_user = fab['ADMIN_USER']
+env.password   = fab['ADMIN_PW']
 
 # TODOs
 '''
@@ -64,7 +65,9 @@ def restart_gunicorn():
         sudo('kill `cat gunicorn.pid`')
         sudo('python manage.py run_gunicorn -c gunicorn.conf.py --traceback 0.0.0.0:8001')
 
-# def reload_uwsgi():
+def reload_uwsgi():
+    with cd(fab['PROJECT_ROOT']):
+        run('pkill -9 uwsgi')
 #     child = pexpect.spawn(pexpect_params[0])
 #     child.expect(pexpect_params[1])
 #     child.sendline(pexpect_params[2])

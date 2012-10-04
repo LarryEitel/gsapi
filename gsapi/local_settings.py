@@ -30,8 +30,8 @@ class Config(object):
     FABRIC = {
         'live': {
             'HOSTS': ['50.116.35.54:22'],
-            'WEB_USER': 'larry',
-            'ADMIN_USER': 'larry',
+            'WEB_USER': 'root',
+            'ADMIN_USER': 'root',
             'ADMIN_PW': 'Stop&Think',
             'PROJECT_ROOT': '/srv/gs/api/gsapi',
             'pexpect_params': [
@@ -41,7 +41,7 @@ class Config(object):
                 'larry@existints:~$',
                 'sudo pkill -9 uwsgi',
                 '[sudo] password for larry:',
-                'Stop&Think',
+                'St&Think',
                 'larry@existints:~$',
                 'exit',
                 ],
