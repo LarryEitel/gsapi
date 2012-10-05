@@ -56,7 +56,7 @@ def home(models):
     links    = []
     host     = request.url
     for model in models:
-        links.append("<link rel='child' title='%(name)s' href='%(modelURI)s' />" %
+        links.append("<link rel='child' title='---%(name)s' href='%(modelURI)s' />" %
             {'name':model, 'modelURI': host + model})
     response['links'] = links
     return prep_response(response, status = 200)

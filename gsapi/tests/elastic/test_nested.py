@@ -1,14 +1,26 @@
 # -*- coding: utf-8 -*-
 from __future__ import absolute_import
-from gsapi.tests.esbase import ESTestCase
+from gsapi.tests.esbase import ESTestCase, get_conn
 from pyes.filters import TermFilter, NestedFilter
 from pyes.query import FilteredQuery, MatchAllQuery, BoolQuery, TermQuery, PrefixQuery, WildcardQuery
 
+
+from pyes import decode_json
+from pyes.mappings import Mapper
+
+import time
 class NestedSearchTestCase(ESTestCase):
     def setUp(self):
-        super(NestedSearchTestCase, self).setUp()
+        # super(NestedSearchTestCase, self).setUp()
 
-        if 0:
+        self.conn = get_conn(timeout=300.0)
+        self.index_name = "test-index"
+        self.document_type = "test-type"
+
+        self.datamap = decode_json(self.get_datafile("map.json"))
+        _ = Mapper(self.datamap)
+        
+        if 1:
             mapping = {
                 'shares': {
                     'type': 'nested'
@@ -33,7 +45,9 @@ class NestedSearchTestCase(ESTestCase):
                                           "role": "111"}]},
                             self.index_name, self.document_type, 3)
 
-            #self.conn.refresh(self.index_name)
+            # self.conn.refresh(self.index_name)
+            # a quicker way to see index change without doing refresh
+            time.sleep(1)
 
     def test_nested_filter(self):
 

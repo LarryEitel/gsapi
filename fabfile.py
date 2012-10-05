@@ -11,6 +11,7 @@ env.hosts      = fab['HOSTS']
 env.user       = fab['ADMIN_USER']
 env.admin_     = fab['ADMIN_USER']
 env.admin_user = fab['ADMIN_USER']
+env.password   = fab['ADMIN_PW']
 
 # TODOs
 '''
@@ -26,11 +27,8 @@ def deploy(msg="No Msg"):
     #if push_code:
         #commit_code()
     commit(msg)
-    #reload_uwsgi()
     update_remote()
-    #restart()
-    print "Perhaps:"
-    print "fab reload_code"
+    reload_uwsgi()
 
 def hello():
     print("Hello world!")
