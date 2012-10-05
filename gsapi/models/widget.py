@@ -49,7 +49,7 @@ class Share(_Model):
     permission   = StringType(minimized_field_name='Permission', choices=['aa','ab','b'], description='aa=At and Above, ab=At and below, b=Below.')
 
 
-class Wid(Mod):
+class Wdg(Mod):
     _c    = StringType(required=True, description='Class')
     _public_fields = ['_c']
     name      = StringType()

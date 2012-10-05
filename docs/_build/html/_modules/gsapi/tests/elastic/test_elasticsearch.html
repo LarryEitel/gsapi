@@ -1,0 +1,165 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>gsapi.tests.elastic.test_elasticsearch &mdash; gsapi 1.0 documentation</title>
+    
+    <link rel="stylesheet" href="../../../../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../../../../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../../../',
+        VERSION:     '1.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../../../_static/doctools.js"></script>
+    <link rel="top" title="gsapi 1.0 documentation" href="../../../../index.html" />
+    <link rel="up" title="Module code" href="../../../index.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../../../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li><a href="../../../../index.html">gsapi 1.0 documentation</a> &raquo;</li>
+          <li><a href="../../../index.html" accesskey="U">Module code</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <h1>Source code for gsapi.tests.elastic.test_elasticsearch</h1><div class="highlight"><pre>
+<span class="c"># -*- coding: utf-8 -*-</span>
+<span class="k">try</span><span class="p">:</span>
+    <span class="kn">import</span> <span class="nn">unittest2</span> <span class="kn">as</span> <span class="nn">unittest</span>
+<span class="k">except</span> <span class="ne">ImportError</span><span class="p">:</span>
+    <span class="kn">import</span> <span class="nn">unittest</span>  <span class="c"># NOQA</span>
+
+<span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">import</span> <span class="nn">json</span>
+<span class="kn">import</span> <span class="nn">unittest</span>
+<span class="kn">import</span> <span class="nn">urllib2</span>
+<span class="kn">import</span> <span class="nn">urllib</span>
+<span class="kn">import</span> <span class="nn">rawes</span>
+
+<div class="viewcode-block" id="TestElasticSearch"><a class="viewcode-back" href="../../../../gsapi.tests.elastic.html#gsapi.tests.elastic.test_elasticsearch.TestElasticSearch">[docs]</a><span class="k">class</span> <span class="nc">TestElasticSearch</span><span class="p">(</span><span class="n">unittest</span><span class="o">.</span><span class="n">TestCase</span><span class="p">):</span>
+
+    <span class="c">#by default server runs at port 9200</span>
+    <span class="n">URL</span> <span class="o">=</span> <span class="s">&quot;http://localhost:9200/&quot;</span>
+    <span class="n">ES</span> <span class="o">=</span> <span class="n">rawes</span><span class="o">.</span><span class="n">Elastic</span><span class="p">(</span><span class="s">&#39;localhost:9200&#39;</span><span class="p">)</span>
+
+<div class="viewcode-block" id="TestElasticSearch.test_elastic_server_running"><a class="viewcode-back" href="../../../../gsapi.tests.elastic.html#gsapi.tests.elastic.test_elasticsearch.TestElasticSearch.test_elastic_server_running">[docs]</a>    <span class="k">def</span> <span class="nf">test_elastic_server_running</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">response</span> <span class="o">=</span> <span class="n">urllib2</span><span class="o">.</span><span class="n">urlopen</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">URL</span><span class="p">)</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">response</span><span class="o">.</span><span class="n">read</span><span class="p">()</span><span class="o">.</span><span class="n">strip</span><span class="p">())</span>
+
+        <span class="c">#check if it returns 200 and ok==true</span>
+
+        <span class="k">if</span> <span class="n">data</span><span class="p">[</span><span class="s">&quot;status&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="mi">200</span> <span class="ow">and</span> <span class="n">data</span><span class="p">[</span><span class="s">&quot;ok&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="bp">True</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">assertTrue</span><span class="p">(</span><span class="bp">True</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">assertTrue</span><span class="p">(</span><span class="bp">False</span><span class="p">)</span>
+</div>
+<div class="viewcode-block" id="TestElasticSearch.test_elasticsearch_put"><a class="viewcode-back" href="../../../../gsapi.tests.elastic.html#gsapi.tests.elastic.test_elasticsearch.TestElasticSearch.test_elasticsearch_put">[docs]</a>    <span class="k">def</span> <span class="nf">test_elasticsearch_put</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">response</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">ES</span><span class="o">.</span><span class="n">put</span><span class="p">(</span><span class="s">&#39;tweets/tweet/1&#39;</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="p">{</span>
+            <span class="s">&#39;user&#39;</span> <span class="p">:</span> <span class="s">&#39;shiv&#39;</span><span class="p">,</span>
+            <span class="s">&#39;post_date&#39;</span> <span class="p">:</span> <span class="s">&#39;2012-09-25T01:40:30&#39;</span><span class="p">,</span>
+            <span class="s">&#39;message&#39;</span> <span class="p">:</span> <span class="s">&#39;Tweeting about elasticsearch&#39;</span>
+        <span class="p">})</span>
+
+        <span class="k">if</span> <span class="n">response</span><span class="p">[</span><span class="s">&quot;_type&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="s">&quot;tweet&quot;</span> <span class="ow">and</span> <span class="n">response</span><span class="p">[</span><span class="s">&quot;ok&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="bp">True</span> <span class="ow">and</span> <span class="n">response</span><span class="p">[</span><span class="s">&quot;_index&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="s">&quot;tweets&quot;</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">assertTrue</span><span class="p">(</span><span class="bp">True</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">assertTrue</span><span class="p">(</span><span class="bp">False</span><span class="p">)</span>
+</div>
+<div class="viewcode-block" id="TestElasticSearch.test_elasticsearch_get"><a class="viewcode-back" href="../../../../gsapi.tests.elastic.html#gsapi.tests.elastic.test_elasticsearch.TestElasticSearch.test_elasticsearch_get">[docs]</a>    <span class="k">def</span> <span class="nf">test_elasticsearch_get</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">response</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">ES</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">&#39;tweets/tweet/_search&#39;</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="s">&quot;&quot;&quot;</span>
+<span class="s">        {</span>
+<span class="s">            &quot;query&quot; : {</span>
+<span class="s">		        &quot;match_all&quot; : {}</span>
+<span class="s">    	    }</span>
+<span class="s">        }</span>
+<span class="s">        &quot;&quot;&quot;</span>
+        <span class="p">)</span>
+
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">response</span><span class="p">[</span><span class="s">&quot;hits&quot;</span><span class="p">][</span><span class="s">&quot;hits&quot;</span><span class="p">])</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">assertTrue</span><span class="p">(</span><span class="bp">True</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">assertTrue</span><span class="p">(</span><span class="n">Flase</span><span class="p">)</span>
+</div>
+<div class="viewcode-block" id="TestElasticSearch.test_elasticsearch_post"><a class="viewcode-back" href="../../../../gsapi.tests.elastic.html#gsapi.tests.elastic.test_elasticsearch.TestElasticSearch.test_elasticsearch_post">[docs]</a>    <span class="k">def</span> <span class="nf">test_elasticsearch_post</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">response</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">ES</span><span class="o">.</span><span class="n">post</span><span class="p">(</span><span class="s">&#39;tweets/tweet/&#39;</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="p">{</span>
+            <span class="s">&#39;user&#39;</span> <span class="p">:</span> <span class="s">&#39;larry&#39;</span><span class="p">,</span>
+            <span class="s">&#39;post_date&#39;</span> <span class="p">:</span> <span class="s">&#39;2012-09-25T09:02:01&#39;</span><span class="p">,</span>
+            <span class="s">&#39;message&#39;</span> <span class="p">:</span> <span class="s">&#39;More tweets about elasticsearch&#39;</span>
+        <span class="p">})</span>
+
+        <span class="k">if</span> <span class="n">response</span><span class="p">[</span><span class="s">&quot;_type&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="s">&quot;tweet&quot;</span> <span class="ow">and</span> <span class="n">response</span><span class="p">[</span><span class="s">&quot;ok&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="bp">True</span> <span class="ow">and</span> <span class="n">response</span><span class="p">[</span><span class="s">&quot;_index&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="s">&quot;tweets&quot;</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">assertTrue</span><span class="p">(</span><span class="bp">True</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">assertTrue</span><span class="p">(</span><span class="bp">False</span><span class="p">)</span>
+</div></div>
+<span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s">&quot;__main__&quot;</span><span class="p">:</span>
+    <span class="n">unittest</span><span class="o">.</span><span class="n">main</span><span class="p">()</span>
+</pre></div>
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../../../../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../../../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li><a href="../../../../index.html">gsapi 1.0 documentation</a> &raquo;</li>
+          <li><a href="../../../index.html" >Module code</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2012, Larry Eitel.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.1.3.
+    </div>
+  </body>
+</html>

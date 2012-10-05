@@ -59,14 +59,14 @@ class CntX(Mod):
 class Cnt(Mod):
     shares = ListType(ObjectIdType(ObjectId), minimized_field_name='Share List', description='List of Contacts shared with.')
     emails = ListType(ModelType(Email), minimized_field_name='Emails', description='Email addresses.')
-    cntXs = ListType(ModelType(CntAssnRole), minimized_field_name='Contact Association', description='Contact Association')
+    #cntXs = ListType(ModelType(CntAssnRole), minimized_field_name='Contact Association', description='Contact Association')
     meta   = {
         'collection': 'contacts',
         '_c': 'cnt',
         }
 class Cmp(Cnt):
     cNam = StringType(required=True, minimized_field_name='Company Name/Branch/Div/Department/Group/Troop', description='')
-    cNamShort = StringType(required=True, minimized_field_name='Short Company Name', description='Abbreviation or Acronym')
+    # cNamShort = StringType(required=True, minimized_field_name='Short Company Name', description='Abbreviation or Acronym')
     # default blank which implies top level company/org
     # the following type value is used when a Cmp is a child of a parent Cmp.
     type = StringType(minimized_field_name='Type of cNam.', choices=[
@@ -80,9 +80,9 @@ class Cmp(Cnt):
             ], 
         description='')
 
-    parent   = ObjectIdType(minimized_field_name='Parent Widget ID', description='Parent owner.')
-    ancestors = ListType(ObjectId, minimized_field_name='Ancestors', description='')
-    children  = ListType(ModelType(Wid), minimized_field_name='Child Widgets', description='List of Cnt ')
+    # parent   = ObjectIdType(minimized_field_name='Parent Widget ID', description='Parent owner.')
+    # ancestors = ListType(ObjectId, minimized_field_name='Ancestors', description='')
+    # children  = ListType(ModelType(Wid), minimized_field_name='Child Widgets', description='List of Cnt ')
 
     meta = {
         'collection': 'contacts',
