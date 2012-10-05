@@ -28,7 +28,12 @@ echo .. include:: intro.rst >> %mainApiFile%
 echo .. toctree:: >> %mainApiFile%
 echo     :maxdepth: 2 >> %mainApiFile%
 echo. >> %mainApiFile%
-FOR /f "delims=" %%a in ('DIR /s /b %testsFolder%\test*.py') do ( IF NOT "%%~na" == "__init__.py" (echo     %%~na >> %mainApiFile%))
+
+FOR /f "delims=" %%a in ('DIR /s /b %testsFolder%\test*.py') do ( 
+	IF NOT "%%~na" == "__init__.py" (
+		echo     %%~na >> %mainApiFile%		
+	)
+)
 
 REM run tests and append the rest of .rst files to the mainApiFile
 FOR /f "delims=" %%a in ('DIR /s /b %testsFolder%\test*.py') do (nosetests -v --nocapture %%a >> %docsFolder%\%%~na.rst)

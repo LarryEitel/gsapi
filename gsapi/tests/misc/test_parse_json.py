@@ -6,7 +6,7 @@ except ImportError:
 
 import re
 import json
-from utils import preparse_json_doc
+from gsapi.utils import preparse_json_doc
 
 
 class TestUtils(unittest.TestCase):
