@@ -16,11 +16,9 @@ from bson.json_util import dumps
 from bson import json_util
 from gsapi import models
 from gsapi import controllers
-import pprint
-# from pprint import pprint
 
-#def pprint(varname, dat):
-#    print "%s = %s" % (varname, json.dumps(dat, sort_keys = True, indent = 4))
+def pprint(varname, dat):
+    print "%s = %s" % (varname, json.dumps(dat, sort_keys = True, indent = 4))
 
 #print on a separate line a string with a given indentation    
 def printIndentedString(string, indent = 4):
@@ -44,7 +42,7 @@ def printParams(varname, dat, mainIndent, paramsIndent):
     try:
         printIndentedString("%s = %s" % (varname, json.dumps(dat, sort_keys = True, indent = paramsIndent)), mainIndent)
     except:
-        printIndentedString("%s = %s" % (varname, pprint.pprint(dat, None, paramsIndent, 80, None)), mainIndent)  
+        print("%s = %s" % (varname, dat))  
     
     
 class TestGeneric(TestCase):
@@ -98,8 +96,6 @@ class TestGeneric(TestCase):
         formatParagraph(fn, 8)
         printIndentedString("WHERE:", 4)
         printParams('args', args, 4, 8)
-        #printIndentedString("Sample response:", 4)
-        #printParams('response', response, 4, 8)
 
         assert response['status_code'] == 200
         data = response['response']
@@ -150,8 +146,6 @@ class TestGeneric(TestCase):
         formatParagraph(fn, 8)
         printIndentedString("WHERE:", 4)
         printParams('args', args, 4, 8)
-        #printIndentedString("Sample response:", 4)
-        #printParams('response', response, 4, 8)
 
         assert response['status_code'] == 200
         data = response['response']
@@ -220,8 +214,6 @@ class TestGeneric(TestCase):
         formatParagraph(fn, 8)
         printIndentedString("WHERE:", 4)
         printParams('args', args, 4, 8)
-        printIndentedString("Sample results:", 4)
-        #printParams('response', response, 4, 8)
 
         assert response['status_code'] == 200
         data = response['response']
@@ -270,8 +262,6 @@ class TestGeneric(TestCase):
             formatParagraph(fn, 8)
             printIndentedString("WHERE:", 4)
             printParams('args', args, 4, 8)
-            #printIndentedString("Sample response:", 4)
-            #printParams('response', response, 4, 8)
 
             assert response['status_code'] == 200
             data = response['response']
@@ -296,9 +286,6 @@ class TestGeneric(TestCase):
             formatParagraph(fn, 8)
             printIndentedString("WHERE:", 4)
             printParams('args', args, 4, 8)
-            #printIndentedString("Sample response:", 4)
-            #printParams('response', response, 4, 8)
-
 
             assert response['status_code'] == 200
 
@@ -323,8 +310,6 @@ class TestGeneric(TestCase):
             formatParagraph(fn, 8)
             printIndentedString("WHERE:", 4)
             printParams('args', args, 4, 8)
-            #printIndentedString("Sample response:", 4)
-            #printParams('response', response, 4, 8)
 
             assert response['status_code'] == 200
 
@@ -351,8 +336,6 @@ class TestGeneric(TestCase):
             formatParagraph(fn, 8)
             printIndentedString("WHERE:", 4)
             printParams('args', args, 4, 8)
-            #printIndentedString("Sample response:", 4)
-            #printParams('response', response, 4, 8)
 
             assert response['status_code'] == 200
 
@@ -383,8 +366,6 @@ class TestGeneric(TestCase):
             formatParagraph(fn, 8)
             printIndentedString("WHERE:", 4)
             printParams('args', args, 4, 8)
-            #printIndentedString("Sample response:", 4)
-            #printParams('response', response, 4, 8)
 
             assert response['status_code'] == 200
 
@@ -415,8 +396,6 @@ class TestGeneric(TestCase):
             formatParagraph(fn, 8)
             printIndentedString("WHERE:", 4)
             printParams('args', args, 4, 8)
-            #printIndentedString("Sample response:", 4)
-            #printParams('response', response, 4, 8)
 
             assert response['status_code'] == 200
 
@@ -445,8 +424,6 @@ class TestGeneric(TestCase):
             formatParagraph(fn, 8)
             printIndentedString("WHERE:", 4)
             printParams('args', args, 4, 8)
-            #printIndentedString("Sample response:", 4)
-            #printParams('response', response, 4, 8)
 
             assert response['status_code'] == 200
 
@@ -475,8 +452,6 @@ class TestGeneric(TestCase):
             formatParagraph(fn, 8)
             printIndentedString("WHERE:", 4)
             printParams('args', args, 4, 8)
-            #printIndentedString("Sample response:", 4)
-            #printParams('response', response, 4, 8)
 
             assert response['status_code'] == 200
 
@@ -504,8 +479,6 @@ class TestGeneric(TestCase):
             formatParagraph(fn, 8)
             printIndentedString("WHERE:", 4)
             printParams('args', args, 4, 8)
-            #printIndentedString("Sample response:", 4)
-            #printParams('response', response, 4, 8)
 
             assert response['status_code'] == 200
 
