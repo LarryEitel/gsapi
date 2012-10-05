@@ -17,8 +17,8 @@ class NestedSearchTestCase(ESTestCase):
         self.index_name = "test-index"
         self.document_type = "test-type"
 
-        self.datamap = decode_json(self.get_datafile("map.json"))
-        _ = Mapper(self.datamap)
+        # self.datamap = decode_json(self.get_datafile("map.json"))
+        # _ = Mapper(self.datamap)
         
         if 1:
             mapping = {

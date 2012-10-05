@@ -51,12 +51,19 @@ def prep_response(dct, status=200):
     resp.mimetype = mime
     return resp
 
+def es(models):
+    response = {}
+    links    = []
+    host     = request.url
+    
+    return prep_response(response, status = 200)
+
 def home(models):
     response = {}
     links    = []
     host     = request.url
     for model in models:
-        links.append("<link rel='child' title='---%(name)s' href='%(modelURI)s' />" %
+        links.append("<link rel='child' title='%(name)s' href='%(modelURI)s' />" %
             {'name':model, 'modelURI': host + model})
     response['links'] = links
     return prep_response(response, status = 200)
