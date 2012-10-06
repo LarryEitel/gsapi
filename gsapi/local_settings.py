@@ -5,11 +5,20 @@ class Config(object):
     DEFAULT_MAIL_SENDER = ("mail manager", "mail@manager.com")
     SECRET_KEY          = 'a[U\\^U;N_OGX5WG+9F\:ba[U\\^yA|Nx|xf6"^'
 
-    TESTING_HOST        = 'localhost:5000'
+    TESTING_HOST        = '192.168.1.139:5000'
 
-    MONGO_HOST          = 'localhost'
+    # MONGO_HOST          = 'localhost'
+    MONGO_HOST          = '192.168.1.139'
     MONGO_DBNAME        = 'gsapi-test'
     MONGO_TEST_DBNAME   = 'gsapi-test'
+
+    # ES_HOST             = 'localhost'
+    ES_HOST             = '192.168.1.139'
+    ES_PORT             = 9200
+    ES_NAME             = 'gsapi'
+    ES_TEST_HOST        = '192.168.1.139'
+    ES_TEST_PORT        = 9200
+    ES_TEST_NAME        = 'gsapi-test'
 
     #WTForms Settings
     CSRF_ENABLED        = True
@@ -30,22 +39,9 @@ class Config(object):
     FABRIC = {
         'live': {
             'HOSTS': ['50.116.35.54:22'],
-            'WEB_USER': 'root',
+            'WEB_USER': 'larry',
             'ADMIN_USER': 'root',
             'ADMIN_PW': 'Stop&Think',
-            'PROJECT_ROOT': '/srv/gs/api/gsapi',
-            'pexpect_params': [
-                'ssh larry@gsapi.orgtec.com',
-                "larry@gsapi.orgtec.com's password:",
-                'Stop&Think',
-                'larry@existints:~$',
-                'sudo pkill -9 uwsgi',
-                '[sudo] password for larry:',
-                'St&Think',
-                'larry@existints:~$',
-                'exit',
-                ],
-            'child.expect': "larry@gsapi.orgtec.com's password:",
-            'child.sendline': "larry@gsapi.orgtec.com's password:",
+            'PROJECT_ROOT': '/srv/gs/api/gsapi'
         }
     }

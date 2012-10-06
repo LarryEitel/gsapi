@@ -1,0 +1,521 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>gsapi.tests.controllers.test_generic &mdash; gsapi 1.0 documentation</title>
+    
+    <link rel="stylesheet" href="../../../../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../../../../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../../../',
+        VERSION:     '1.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../../../_static/doctools.js"></script>
+    <link rel="top" title="gsapi 1.0 documentation" href="../../../../index.html" />
+    <link rel="up" title="Module code" href="../../../index.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../../../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li><a href="../../../../index.html">gsapi 1.0 documentation</a> &raquo;</li>
+          <li><a href="../../../index.html" accesskey="U">Module code</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <h1>Source code for gsapi.tests.controllers.test_generic</h1><div class="highlight"><pre>
+<span class="c"># -*- coding: utf-8 -*-</span>
+<span class="k">try</span><span class="p">:</span>
+    <span class="kn">import</span> <span class="nn">unittest2</span> <span class="kn">as</span> <span class="nn">unittest</span>
+<span class="k">except</span> <span class="ne">ImportError</span><span class="p">:</span>
+    <span class="kn">import</span> <span class="nn">unittest</span>  <span class="c"># NOQA</span>
+
+<span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">from</span> <span class="nn">gsapi.tests.base</span> <span class="kn">import</span> <span class="n">TestCase</span>
+<span class="kn">import</span> <span class="nn">json</span>
+<span class="kn">import</span> <span class="nn">time</span>
+<span class="kn">import</span> <span class="nn">isodate</span>
+<span class="kn">from</span> <span class="nn">flask</span> <span class="kn">import</span> <span class="n">request</span>
+<span class="kn">from</span> <span class="nn">random</span> <span class="kn">import</span> <span class="n">randint</span>
+<span class="kn">from</span> <span class="nn">bson</span> <span class="kn">import</span> <span class="n">ObjectId</span>
+<span class="kn">from</span> <span class="nn">bson.json_util</span> <span class="kn">import</span> <span class="n">dumps</span>
+<span class="kn">from</span> <span class="nn">bson</span> <span class="kn">import</span> <span class="n">json_util</span>
+<span class="kn">import</span> <span class="nn">models</span>
+<span class="kn">import</span> <span class="nn">controllers</span>
+<span class="c"># from pprint import pprint</span>
+
+<div class="viewcode-block" id="pprint"><a class="viewcode-back" href="../../../../gsapi.tests.controllers.html#gsapi.tests.controllers.test_generic.pprint">[docs]</a><span class="k">def</span> <span class="nf">pprint</span><span class="p">(</span><span class="n">varname</span><span class="p">,</span> <span class="n">dat</span><span class="p">):</span>
+    <span class="k">print</span> <span class="s">&quot;</span><span class="si">%s</span><span class="s"> = </span><span class="si">%s</span><span class="s">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">varname</span><span class="p">,</span> <span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">dat</span><span class="p">,</span> <span class="n">sort_keys</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">indent</span><span class="o">=</span><span class="mi">4</span><span class="p">))</span>
+</div>
+<div class="viewcode-block" id="TestGeneric"><a class="viewcode-back" href="../../../../gsapi.tests.controllers.html#gsapi.tests.controllers.test_generic.TestGeneric">[docs]</a><span class="k">class</span> <span class="nc">TestGeneric</span><span class="p">(</span><span class="n">TestCase</span><span class="p">):</span>
+    <span class="n">class_name</span> <span class="o">=</span> <span class="s">&#39;Prs&#39;</span>
+
+<div class="viewcode-block" id="TestGeneric.test_put"><a class="viewcode-back" href="../../../../gsapi.tests.controllers.html#gsapi.tests.controllers.test_generic.TestGeneric.test_put">[docs]</a>    <span class="k">def</span> <span class="nf">test_put</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">print</span> <span class="s">&quot;TestGeneric.test_put&quot;</span>
+        <span class="k">print</span> <span class="s">&quot;&quot;&quot;LOAD SAMPLE DOCS:</span><span class="se">\n</span><span class="s">&quot;&quot;&quot;</span>
+
+        <span class="n">db</span>       <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">db</span>
+        <span class="n">generic</span>  <span class="o">=</span> <span class="n">controllers</span><span class="o">.</span><span class="n">Generic</span><span class="p">(</span><span class="n">db</span><span class="p">)</span>
+
+        <span class="n">response</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">load_sample</span><span class="p">(</span><span class="s">&#39;contacts&#39;</span><span class="p">)</span>
+        <span class="k">assert</span> <span class="n">response</span><span class="p">[</span><span class="s">&#39;status&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="mi">200</span>
+
+        <span class="n">sample_docs</span> <span class="o">=</span> <span class="n">response</span><span class="p">[</span><span class="s">&#39;response&#39;</span><span class="p">][</span><span class="s">&#39;docs&#39;</span><span class="p">]</span>
+        <span class="c"># grab a random doc from sample docs</span>
+        <span class="n">sample_doc_offset</span>        <span class="o">=</span> <span class="n">randint</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">sample_docs</span><span class="p">)</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+        <span class="n">sample_doc</span>               <span class="o">=</span> <span class="n">sample_docs</span><span class="p">[</span><span class="n">sample_doc_offset</span><span class="p">]</span>
+        <span class="n">sample_doc_id</span>            <span class="o">=</span> <span class="n">sample_doc</span><span class="p">[</span><span class="s">&#39;_id&#39;</span><span class="p">]</span>
+
+        <span class="c"># here is the basic function call being tested</span>
+        <span class="n">fn</span> <span class="o">=</span> <span class="s">&quot;controllers.generic.put(db, **args)&quot;</span>
+
+        <span class="n">test_field</span> <span class="o">=</span> <span class="s">&#39;fNam&#39;</span>
+        <span class="k">print</span> <span class="s">&quot;Sample data to submit for patch:&quot;</span>
+        <span class="n">sample_doc</span> <span class="o">=</span> <span class="p">{</span><span class="s">&#39;where&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s">&#39;_id&#39;</span><span class="p">:</span> <span class="n">sample_doc</span><span class="p">[</span><span class="s">&#39;_id&#39;</span><span class="p">]},</span>
+            <span class="s">&#39;patch&#39;</span><span class="p">:</span> <span class="p">{</span>
+                <span class="s">&quot;_c&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">class_name</span><span class="p">,</span>
+                <span class="n">test_field</span><span class="p">:</span> <span class="s">&quot;longname&quot;</span><span class="p">,</span>
+                <span class="s">&quot;oOn&quot;</span><span class="p">:</span> <span class="n">isodate</span><span class="o">.</span><span class="n">parse_datetime</span><span class="p">(</span><span class="s">&quot;2012-09-27T21:43:33.927Z&quot;</span><span class="p">),</span>
+                <span class="s">&quot;oBy&quot;</span><span class="p">:</span> <span class="n">ObjectId</span><span class="p">(</span><span class="s">&quot;50468de92558713d84b03fd0&quot;</span><span class="p">),</span>
+                <span class="s">&quot;rBy&quot;</span><span class="p">:</span> <span class="n">ObjectId</span><span class="p">(</span><span class="s">&quot;50468de92558713d84b03fd7&quot;</span><span class="p">),</span>
+                <span class="s">&quot;emails&quot;</span> <span class="p">:</span> <span class="p">[{</span>
+                    <span class="s">&quot;email&quot;</span> <span class="p">:</span> <span class="s">&quot;larry@eitel.com&quot;</span>
+                <span class="p">}]</span>
+            <span class="p">}</span>
+        <span class="p">}</span>
+
+        <span class="n">args</span>               <span class="o">=</span> <span class="p">{}</span>
+        <span class="n">args</span><span class="p">[</span><span class="s">&#39;class_name&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">class_name</span>
+        <span class="n">args</span><span class="p">[</span><span class="s">&#39;data&#39;</span><span class="p">]</span>       <span class="o">=</span> <span class="n">sample_doc</span>
+        <span class="n">args</span><span class="p">[</span><span class="s">&#39;usrid&#39;</span><span class="p">]</span>      <span class="o">=</span> <span class="n">ObjectId</span><span class="p">(</span><span class="s">&quot;50468de92558713d84b03fd0&quot;</span><span class="p">)</span>
+
+        <span class="k">print</span>
+        <span class="k">print</span> <span class="s">&quot;PUT ONE doc:&quot;</span>
+        <span class="k">print</span> <span class="s">&quot;CALL:</span><span class="se">\n</span><span class="s">&quot;</span> <span class="o">+</span> <span class="n">fn</span> <span class="o">+</span> <span class="s">&quot;</span><span class="se">\n</span><span class="s">WITH:&quot;</span>
+        <span class="k">print</span> <span class="s">&#39;args =&#39;</span><span class="p">,</span> <span class="n">args</span>
+        <span class="k">print</span>
+
+        <span class="n">response</span> <span class="o">=</span> <span class="n">generic</span><span class="o">.</span><span class="n">put</span><span class="p">(</span><span class="o">**</span><span class="n">args</span><span class="p">)</span>
+
+        <span class="k">assert</span> <span class="n">response</span><span class="p">[</span><span class="s">&#39;status_code&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="mi">200</span>
+        <span class="n">data</span>     <span class="o">=</span> <span class="n">response</span><span class="p">[</span><span class="s">&#39;response&#39;</span><span class="p">]</span>
+        <span class="n">got_doc</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="s">&#39;doc&#39;</span><span class="p">]</span>
+
+        <span class="c"># verify that the doc correctly shows user that modified the doc</span>
+        <span class="k">assert</span> <span class="n">got_doc</span><span class="p">[</span><span class="s">&#39;mBy&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="n">args</span><span class="p">[</span><span class="s">&#39;usrid&#39;</span><span class="p">]</span>
+
+        <span class="c"># verify that the doc correctly reflects new fNam</span>
+        <span class="k">assert</span> <span class="n">got_doc</span><span class="p">[</span><span class="n">test_field</span><span class="p">]</span> <span class="o">==</span> <span class="n">sample_doc</span><span class="p">[</span><span class="s">&#39;patch&#39;</span><span class="p">][</span><span class="n">test_field</span><span class="p">]</span></div>
+<div class="viewcode-block" id="TestGeneric.test_post_one"><a class="viewcode-back" href="../../../../gsapi.tests.controllers.html#gsapi.tests.controllers.test_generic.TestGeneric.test_post_one">[docs]</a>    <span class="k">def</span> <span class="nf">test_post_one</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">print</span> <span class="s">&quot;## nTestGeneric.test_post_one&quot;</span>
+        <span class="k">print</span> <span class="s">&#39;&#39;&#39;### INSERT NEW PERSON:&#39;&#39;&#39;</span>
+
+        <span class="n">db</span>       <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">db</span>
+        <span class="n">generic</span>  <span class="o">=</span> <span class="n">controllers</span><span class="o">.</span><span class="n">Generic</span><span class="p">(</span><span class="n">db</span><span class="p">)</span>
+
+        <span class="c"># here is the basic function call being tested</span>
+        <span class="n">fn</span> <span class="o">=</span> <span class="s">&quot;controllers.generic.get(db, **args)&quot;</span>
+
+        <span class="c"># POST ONE ################################</span>
+        <span class="n">host</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">host</span>
+        <span class="n">sample_doc</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s">&quot;fNam&quot;</span><span class="p">:</span><span class="s">&quot;johnathan&quot;</span><span class="p">,</span>
+            <span class="s">&quot;lNam&quot;</span><span class="p">:</span><span class="s">&quot;doe&quot;</span><span class="p">,</span>
+            <span class="s">&quot;mOn&quot;</span><span class="p">:</span> <span class="n">isodate</span><span class="o">.</span><span class="n">parse_datetime</span><span class="p">(</span><span class="s">&quot;2012-09-27T21:43:33.927Z&quot;</span><span class="p">),</span>
+            <span class="s">&quot;oBy&quot;</span><span class="p">:</span> <span class="n">ObjectId</span><span class="p">(</span><span class="s">&quot;50468de92558713d84b03fd0&quot;</span><span class="p">),</span>
+            <span class="s">&quot;rBy&quot;</span><span class="p">:</span> <span class="n">ObjectId</span><span class="p">(</span><span class="s">&quot;50468de92558713d84b03fd7&quot;</span><span class="p">),</span>
+            <span class="s">&quot;gen&quot;</span><span class="p">:</span><span class="s">&#39;m&#39;</span><span class="p">,</span>
+            <span class="s">&quot;emails&quot;</span> <span class="p">:</span> <span class="p">[{</span>
+                <span class="s">&quot;email&quot;</span> <span class="p">:</span> <span class="s">&quot;john@doe.com&quot;</span>
+            <span class="p">}]</span>
+        <span class="p">}</span>
+
+        <span class="n">args</span>               <span class="o">=</span> <span class="p">{}</span>
+        <span class="n">args</span><span class="p">[</span><span class="s">&#39;class_name&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">class_name</span>
+        <span class="n">args</span><span class="p">[</span><span class="s">&#39;docs&#39;</span><span class="p">]</span>       <span class="o">=</span> <span class="p">[</span><span class="n">sample_doc</span><span class="p">]</span>
+
+        <span class="k">print</span>
+        <span class="k">print</span> <span class="s">&quot;POST ONE doc:&quot;</span>
+        <span class="k">print</span> <span class="s">&quot;CALL:</span><span class="se">\n</span><span class="s">&quot;</span> <span class="o">+</span> <span class="n">fn</span> <span class="o">+</span> <span class="s">&quot;</span><span class="se">\n</span><span class="s">WITH:&quot;</span>
+        <span class="k">print</span> <span class="s">&#39;args =&#39;</span><span class="p">,</span> <span class="n">args</span>
+        <span class="k">print</span>
+
+        <span class="n">response</span> <span class="o">=</span> <span class="n">generic</span><span class="o">.</span><span class="n">post</span><span class="p">(</span><span class="o">**</span><span class="n">args</span><span class="p">)</span>
+
+        <span class="k">assert</span> <span class="n">response</span><span class="p">[</span><span class="s">&#39;status_code&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="mi">200</span>
+        <span class="n">data</span>     <span class="o">=</span> <span class="n">response</span><span class="p">[</span><span class="s">&#39;response&#39;</span><span class="p">]</span>
+        <span class="n">got_docs</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="s">&#39;docs&#39;</span><span class="p">]</span>
+
+
+        <span class="k">assert</span> <span class="n">data</span><span class="p">[</span><span class="s">&#39;total_inserted&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="mi">1</span>
+
+        <span class="n">doc</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="s">&#39;docs&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="s">&#39;doc&#39;</span><span class="p">]</span>
+        <span class="nb">id</span>  <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="s">&#39;docs&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="s">&#39;id&#39;</span><span class="p">]</span>
+        <span class="k">print</span> <span class="s">&quot;INSERTED OBJECT_ID:&quot;</span><span class="p">,</span> <span class="nb">id</span>
+        <span class="k">assert</span> <span class="n">doc</span><span class="p">[</span><span class="s">&#39;fNam&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="n">sample_doc</span><span class="p">[</span><span class="s">&#39;fNam&#39;</span><span class="p">]</span></div>
+<div class="viewcode-block" id="TestGeneric.test_post_list"><a class="viewcode-back" href="../../../../gsapi.tests.controllers.html#gsapi.tests.controllers.test_generic.TestGeneric.test_post_list">[docs]</a>    <span class="k">def</span> <span class="nf">test_post_list</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">print</span> <span class="s">&quot;## nTestGeneric.test_post_list&quot;</span>
+        <span class="k">print</span> <span class="s">&#39;&#39;&#39;### INSERT NEW PERSONS:&#39;&#39;&#39;</span>
+
+        <span class="n">db</span>       <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">db</span>
+        <span class="n">generic</span>  <span class="o">=</span> <span class="n">controllers</span><span class="o">.</span><span class="n">Generic</span><span class="p">(</span><span class="n">db</span><span class="p">)</span>
+
+        <span class="c"># here is the basic function call being tested</span>
+        <span class="n">fn</span> <span class="o">=</span> <span class="s">&quot;controllers.generic.get(db, **args)&quot;</span>
+
+        <span class="c"># POST THREE ################################</span>
+        <span class="n">host</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">host</span>
+        <span class="n">sample_docs</span> <span class="o">=</span> <span class="p">[{</span>
+            <span class="s">&quot;fNam&quot;</span><span class="p">:</span><span class="s">&quot;larry&quot;</span><span class="p">,</span>
+            <span class="s">&quot;lNam&quot;</span><span class="p">:</span><span class="s">&quot;stooge&quot;</span><span class="p">,</span>
+            <span class="s">&quot;mOn&quot;</span><span class="p">:</span> <span class="n">isodate</span><span class="o">.</span><span class="n">parse_datetime</span><span class="p">(</span><span class="s">&quot;2012-09-27T21:43:33.927Z&quot;</span><span class="p">),</span>
+            <span class="s">&quot;oBy&quot;</span><span class="p">:</span> <span class="n">ObjectId</span><span class="p">(</span><span class="s">&quot;50468de92558713d84b03fd0&quot;</span><span class="p">),</span>
+            <span class="s">&quot;rBy&quot;</span><span class="p">:</span> <span class="n">ObjectId</span><span class="p">(</span><span class="s">&quot;50468de92558713d84b03fd7&quot;</span><span class="p">),</span>
+            <span class="s">&quot;gen&quot;</span><span class="p">:</span><span class="s">&#39;m&#39;</span><span class="p">,</span>
+            <span class="s">&quot;emails&quot;</span> <span class="p">:</span> <span class="p">[{</span>
+                <span class="s">&quot;email&quot;</span> <span class="p">:</span> <span class="s">&quot;larry@stooge.com&quot;</span>
+            <span class="p">}]</span>
+        <span class="p">},{</span>
+            <span class="s">&quot;fNam&quot;</span><span class="p">:</span><span class="s">&quot;moe&quot;</span><span class="p">,</span>
+            <span class="s">&quot;lNam&quot;</span><span class="p">:</span><span class="s">&quot;stooge&quot;</span><span class="p">,</span>
+            <span class="s">&quot;mOn&quot;</span><span class="p">:</span> <span class="n">isodate</span><span class="o">.</span><span class="n">parse_datetime</span><span class="p">(</span><span class="s">&quot;2012-09-27T21:43:33.927Z&quot;</span><span class="p">),</span>
+            <span class="s">&quot;oBy&quot;</span><span class="p">:</span> <span class="n">ObjectId</span><span class="p">(</span><span class="s">&quot;50468de92558713d84b03fd0&quot;</span><span class="p">),</span>
+            <span class="s">&quot;rBy&quot;</span><span class="p">:</span> <span class="n">ObjectId</span><span class="p">(</span><span class="s">&quot;50468de92558713d84b03fd7&quot;</span><span class="p">),</span>
+            <span class="s">&quot;gen&quot;</span><span class="p">:</span><span class="s">&#39;m&#39;</span><span class="p">,</span>
+            <span class="s">&quot;emails&quot;</span> <span class="p">:</span> <span class="p">[{</span>
+                <span class="s">&quot;email&quot;</span> <span class="p">:</span> <span class="s">&quot;moe@stooge.com&quot;</span>
+            <span class="p">}]</span>
+        <span class="p">},{</span>
+            <span class="s">&quot;fNam&quot;</span><span class="p">:</span><span class="s">&quot;curly&quot;</span><span class="p">,</span>
+            <span class="s">&quot;lNam&quot;</span><span class="p">:</span><span class="s">&quot;stooge&quot;</span><span class="p">,</span>
+            <span class="s">&quot;mOn&quot;</span><span class="p">:</span> <span class="n">isodate</span><span class="o">.</span><span class="n">parse_datetime</span><span class="p">(</span><span class="s">&quot;2012-09-27T21:43:33.927Z&quot;</span><span class="p">),</span>
+            <span class="s">&quot;oBy&quot;</span><span class="p">:</span> <span class="n">ObjectId</span><span class="p">(</span><span class="s">&quot;50468de92558713d84b03fd0&quot;</span><span class="p">),</span>
+            <span class="s">&quot;rBy&quot;</span><span class="p">:</span> <span class="n">ObjectId</span><span class="p">(</span><span class="s">&quot;50468de92558713d84b03fd7&quot;</span><span class="p">),</span>
+            <span class="s">&quot;gen&quot;</span><span class="p">:</span><span class="s">&#39;m&#39;</span><span class="p">,</span>
+            <span class="s">&quot;emails&quot;</span> <span class="p">:</span> <span class="p">[{</span>
+                <span class="s">&quot;email&quot;</span> <span class="p">:</span> <span class="s">&quot;curly@stooge.com&quot;</span>
+            <span class="p">}]</span>
+        <span class="p">}]</span>
+
+
+
+        <span class="n">args</span>               <span class="o">=</span> <span class="p">{}</span>
+        <span class="n">args</span><span class="p">[</span><span class="s">&#39;class_name&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">class_name</span>
+        <span class="n">args</span><span class="p">[</span><span class="s">&#39;docs&#39;</span><span class="p">]</span>       <span class="o">=</span> <span class="n">sample_docs</span>
+
+        <span class="k">print</span>
+        <span class="k">print</span> <span class="s">&quot;POST ONE doc:&quot;</span>
+        <span class="k">print</span> <span class="s">&quot;CALL:</span><span class="se">\n</span><span class="s">&quot;</span> <span class="o">+</span> <span class="n">fn</span> <span class="o">+</span> <span class="s">&quot;</span><span class="se">\n</span><span class="s">WITH:&quot;</span>
+        <span class="k">print</span> <span class="s">&#39;args =&#39;</span><span class="p">,</span> <span class="n">args</span>
+        <span class="k">print</span>
+
+        <span class="n">response</span> <span class="o">=</span> <span class="n">generic</span><span class="o">.</span><span class="n">post</span><span class="p">(</span><span class="o">**</span><span class="n">args</span><span class="p">)</span>
+
+        <span class="k">assert</span> <span class="n">response</span><span class="p">[</span><span class="s">&#39;status_code&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="mi">200</span>
+        <span class="n">data</span>     <span class="o">=</span> <span class="n">response</span><span class="p">[</span><span class="s">&#39;response&#39;</span><span class="p">]</span>
+        <span class="n">got_docs</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="s">&#39;docs&#39;</span><span class="p">]</span>
+
+        <span class="k">assert</span> <span class="n">data</span><span class="p">[</span><span class="s">&#39;total_inserted&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="nb">len</span><span class="p">(</span><span class="n">sample_docs</span><span class="p">)</span>
+
+        <span class="n">doc</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="s">&#39;docs&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="s">&#39;doc&#39;</span><span class="p">]</span>
+        <span class="k">assert</span> <span class="n">doc</span><span class="p">[</span><span class="s">&#39;fNam&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="n">sample_docs</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="s">&#39;fNam&#39;</span><span class="p">]</span></div>
+<div class="viewcode-block" id="TestGeneric.test_get"><a class="viewcode-back" href="../../../../gsapi.tests.controllers.html#gsapi.tests.controllers.test_generic.TestGeneric.test_get">[docs]</a>    <span class="k">def</span> <span class="nf">test_get</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">print</span> <span class="s">&quot;</span><span class="se">\n</span><span class="s">TestGeneric.test_get&quot;</span>
+        <span class="k">print</span> <span class="s">&quot;&quot;&quot;LOAD SAMPLE DOCS:</span><span class="se">\n</span><span class="s">&quot;&quot;&quot;</span>
+
+        <span class="n">db</span>       <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">db</span>
+        <span class="n">generic</span>  <span class="o">=</span> <span class="n">controllers</span><span class="o">.</span><span class="n">Generic</span><span class="p">(</span><span class="n">db</span><span class="p">)</span>
+
+        <span class="n">response</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">load_sample</span><span class="p">(</span><span class="s">&#39;contacts&#39;</span><span class="p">)</span>
+        <span class="k">assert</span> <span class="n">response</span><span class="p">[</span><span class="s">&#39;status&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="mi">200</span>
+
+        <span class="n">sample_docs</span> <span class="o">=</span> <span class="n">response</span><span class="p">[</span><span class="s">&#39;response&#39;</span><span class="p">][</span><span class="s">&#39;docs&#39;</span><span class="p">]</span>
+        <span class="c"># grab a random doc from sample docs</span>
+        <span class="n">sample_doc_offset</span>        <span class="o">=</span> <span class="n">randint</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">sample_docs</span><span class="p">)</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+        <span class="n">sample_doc</span>               <span class="o">=</span> <span class="n">sample_docs</span><span class="p">[</span><span class="n">sample_doc_offset</span><span class="p">]</span>
+        <span class="n">sample_doc_id</span>            <span class="o">=</span> <span class="n">sample_doc</span><span class="p">[</span><span class="s">&#39;_id&#39;</span><span class="p">]</span>
+
+        <span class="c"># here is the basic function call being tested</span>
+        <span class="n">fn</span> <span class="o">=</span> <span class="s">&quot;generic  = controllers.Generic(db)</span><span class="se">\n</span><span class="s">&quot;</span>
+        <span class="n">fn</span> <span class="o">+=</span> <span class="s">&quot;generic.get(**args)&quot;</span>
+
+        <span class="c"># I have all these if doit: so that I can code-fold and/or switch off</span>
+        <span class="n">doit</span> <span class="o">=</span> <span class="mi">1</span>
+        <span class="k">if</span> <span class="n">doit</span><span class="p">:</span> <span class="c"># ALL ################################</span>
+            <span class="n">test_expected_count</span> <span class="o">=</span> <span class="mi">4</span> <span class="c"># Note the filter on _c</span>
+
+            <span class="n">args</span> <span class="o">=</span> <span class="p">{</span><span class="s">&#39;class_name&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">class_name</span><span class="p">}</span>
+
+            <span class="k">print</span>
+            <span class="k">print</span> <span class="s">&quot;GET ALL docs:&quot;</span>
+            <span class="k">print</span> <span class="s">&quot;CALL:</span><span class="se">\n</span><span class="s">&quot;</span> <span class="o">+</span> <span class="n">fn</span> <span class="o">+</span> <span class="s">&quot;</span><span class="se">\n</span><span class="s">WITH:&quot;</span>
+            <span class="n">pprint</span><span class="p">(</span><span class="s">&#39;args&#39;</span><span class="p">,</span> <span class="n">args</span><span class="p">)</span>
+            <span class="k">print</span>
+
+            <span class="n">response</span> <span class="o">=</span> <span class="n">generic</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="o">**</span><span class="n">args</span><span class="p">)</span>
+
+            <span class="k">assert</span> <span class="n">response</span><span class="p">[</span><span class="s">&#39;status_code&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="mi">200</span>
+            <span class="n">data</span>     <span class="o">=</span> <span class="n">response</span><span class="p">[</span><span class="s">&#39;response&#39;</span><span class="p">]</span>
+            <span class="n">got_docs</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="s">&#39;docs&#39;</span><span class="p">]</span>
+
+            <span class="k">assert</span> <span class="n">test_expected_count</span> <span class="o">==</span> <span class="nb">len</span><span class="p">(</span><span class="n">got_docs</span><span class="p">)</span>
+            <span class="k">print</span> <span class="s">&quot;Successfully returned </span><span class="si">%d</span><span class="s"> sample docs.&quot;</span> <span class="o">%</span> <span class="nb">len</span><span class="p">(</span><span class="n">got_docs</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">doit</span><span class="p">:</span> <span class="c"># VIRTUAL FIELDS ################################</span>
+            <span class="n">vflds</span>              <span class="o">=</span> <span class="p">[</span><span class="s">&quot;dNam&quot;</span><span class="p">]</span>
+            <span class="n">args</span>               <span class="o">=</span> <span class="p">{}</span>
+            <span class="n">args</span><span class="p">[</span><span class="s">&#39;class_name&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">class_name</span>
+            <span class="n">args</span><span class="p">[</span><span class="s">&#39;vflds&#39;</span><span class="p">]</span>      <span class="o">=</span> <span class="n">vflds</span>
+
+            <span class="k">print</span>
+            <span class="k">print</span> <span class="s">&quot;VIRTUAL FIELDS:&quot;</span>
+            <span class="k">print</span> <span class="s">&quot;CALL:</span><span class="se">\n</span><span class="s">&quot;</span> <span class="o">+</span> <span class="n">fn</span> <span class="o">+</span> <span class="s">&quot;</span><span class="se">\n</span><span class="s">WITH:&quot;</span>
+            <span class="n">pprint</span><span class="p">(</span><span class="s">&#39;args&#39;</span><span class="p">,</span> <span class="n">args</span><span class="p">)</span>
+            <span class="k">print</span>
+
+            <span class="n">response</span> <span class="o">=</span> <span class="n">generic</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="o">**</span><span class="n">args</span><span class="p">)</span>
+
+            <span class="k">assert</span> <span class="n">response</span><span class="p">[</span><span class="s">&#39;status_code&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="mi">200</span>
+
+            <span class="n">data</span>     <span class="o">=</span> <span class="n">response</span><span class="p">[</span><span class="s">&#39;response&#39;</span><span class="p">]</span>
+            <span class="n">got_docs</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="s">&#39;docs&#39;</span><span class="p">]</span>
+
+            <span class="k">print</span> <span class="s">&quot;Verify virtual field was returned with result. &quot;</span>
+            <span class="k">assert</span> <span class="n">vflds</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="ow">in</span> <span class="n">got_docs</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+            <span class="k">print</span> <span class="s">&quot;Success&quot;</span>
+        <span class="k">if</span> <span class="n">doit</span><span class="p">:</span> <span class="c"># ONE BY ID ################################</span>
+            <span class="n">args</span>               <span class="o">=</span> <span class="p">{}</span>
+            <span class="n">args</span><span class="p">[</span><span class="s">&#39;class_name&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">class_name</span>
+            <span class="n">args</span><span class="p">[</span><span class="s">&#39;id&#39;</span><span class="p">]</span>         <span class="o">=</span> <span class="n">sample_doc_id</span><span class="o">.</span><span class="n">__str__</span><span class="p">()</span>
+
+            <span class="k">print</span>
+            <span class="k">print</span> <span class="s">&quot;ONE BY ID:&quot;</span>
+            <span class="k">print</span> <span class="s">&quot;CALL:</span><span class="se">\n</span><span class="s">&quot;</span> <span class="o">+</span> <span class="n">fn</span> <span class="o">+</span> <span class="s">&quot;</span><span class="se">\n</span><span class="s">WITH:&quot;</span>
+            <span class="n">pprint</span><span class="p">(</span><span class="s">&#39;args&#39;</span><span class="p">,</span> <span class="n">args</span><span class="p">)</span>
+            <span class="k">print</span>
+
+            <span class="n">response</span> <span class="o">=</span> <span class="n">generic</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="o">**</span><span class="n">args</span><span class="p">)</span>
+
+            <span class="k">assert</span> <span class="n">response</span><span class="p">[</span><span class="s">&#39;status_code&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="mi">200</span>
+
+            <span class="n">data</span>     <span class="o">=</span> <span class="n">response</span><span class="p">[</span><span class="s">&#39;response&#39;</span><span class="p">]</span>
+            <span class="n">got_doc</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="s">&#39;doc&#39;</span><span class="p">]</span>
+
+            <span class="k">assert</span> <span class="n">sample_doc</span><span class="p">[</span><span class="s">&#39;_id&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="n">got_doc</span><span class="p">[</span><span class="s">&#39;_id&#39;</span><span class="p">]</span>
+            <span class="k">print</span> <span class="s">&#39;Success&#39;</span>
+        <span class="k">if</span> <span class="n">doit</span><span class="p">:</span> <span class="c"># WHERE by fNam ################################</span>
+            <span class="n">test_expected_count</span><span class="o">=</span> <span class="mi">1</span>
+            <span class="n">where_test</span>         <span class="o">=</span> <span class="p">{</span><span class="s">&quot;fNam&quot;</span><span class="p">:</span><span class="s">&quot;sue&quot;</span><span class="p">}</span>
+            <span class="n">args</span>               <span class="o">=</span> <span class="p">{}</span>
+            <span class="n">args</span><span class="p">[</span><span class="s">&#39;class_name&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">class_name</span>
+            <span class="n">args</span><span class="p">[</span><span class="s">&#39;where&#39;</span><span class="p">]</span>      <span class="o">=</span> <span class="n">where_test</span>
+
+            <span class="k">print</span>
+            <span class="k">print</span> <span class="s">&quot;WHERE by fNam:&quot;</span>
+            <span class="k">print</span> <span class="s">&quot;CALL:</span><span class="se">\n</span><span class="s">&quot;</span> <span class="o">+</span> <span class="n">fn</span> <span class="o">+</span> <span class="s">&quot;</span><span class="se">\n</span><span class="s">WITH:&quot;</span>
+            <span class="n">pprint</span><span class="p">(</span><span class="s">&#39;args&#39;</span><span class="p">,</span> <span class="n">args</span><span class="p">)</span>
+            <span class="k">print</span>
+
+            <span class="n">response</span> <span class="o">=</span> <span class="n">generic</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="o">**</span><span class="n">args</span><span class="p">)</span>
+
+            <span class="k">assert</span> <span class="n">response</span><span class="p">[</span><span class="s">&#39;status_code&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="mi">200</span>
+
+            <span class="n">data</span>     <span class="o">=</span> <span class="n">response</span><span class="p">[</span><span class="s">&#39;response&#39;</span><span class="p">]</span>
+            <span class="n">got_docs</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="s">&#39;docs&#39;</span><span class="p">]</span>
+
+            <span class="k">print</span> <span class="s">&quot;Success. Expected </span><span class="si">%d</span><span class="s"> docs and found </span><span class="si">%d</span><span class="s"> docs&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">test_expected_count</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">got_docs</span><span class="p">))</span>
+            <span class="k">assert</span> <span class="nb">len</span><span class="p">(</span><span class="n">got_docs</span><span class="p">)</span> <span class="o">==</span> <span class="n">test_expected_count</span>
+            <span class="k">print</span> <span class="s">&#39;Success&#39;</span>
+        <span class="k">if</span> <span class="n">doit</span><span class="p">:</span> <span class="c"># WHERE by datetime ################################</span>
+            <span class="n">test_field</span>          <span class="o">=</span> <span class="s">&#39;dOn&#39;</span>
+            <span class="n">test_value</span>          <span class="o">=</span> <span class="n">isodate</span><span class="o">.</span><span class="n">parse_datetime</span><span class="p">(</span><span class="s">&quot;2012-09-14T23:00Z&quot;</span><span class="p">)</span>
+            <span class="n">test_expected_count</span> <span class="o">=</span> <span class="mi">1</span>
+            <span class="c"># where_test          = &#39;{&quot;%s&quot;:&quot;%s&quot;}&#39; % (test_field, test_value)</span>
+            <span class="n">where_test</span>          <span class="o">=</span> <span class="p">{</span><span class="n">test_field</span><span class="p">:</span><span class="n">test_value</span><span class="p">}</span>
+            <span class="n">args</span>                <span class="o">=</span> <span class="p">{}</span>
+            <span class="n">args</span><span class="p">[</span><span class="s">&#39;class_name&#39;</span><span class="p">]</span>  <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">class_name</span>
+            <span class="n">args</span><span class="p">[</span><span class="s">&#39;where&#39;</span><span class="p">]</span>       <span class="o">=</span> <span class="n">where_test</span>
+
+            <span class="k">print</span>
+            <span class="k">print</span> <span class="s">&quot;WHERE by datetime:&quot;</span>
+            <span class="k">print</span> <span class="s">&quot;CALL:</span><span class="se">\n</span><span class="s">&quot;</span> <span class="o">+</span> <span class="n">fn</span> <span class="o">+</span> <span class="s">&quot;</span><span class="se">\n</span><span class="s">WITH:&quot;</span>
+            <span class="c"># pprint(&#39;args&#39;, args)</span>
+            <span class="k">print</span> <span class="s">&#39;args&#39;</span><span class="p">,</span> <span class="n">args</span>
+            <span class="k">print</span>
+
+            <span class="n">response</span> <span class="o">=</span> <span class="n">generic</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="o">**</span><span class="n">args</span><span class="p">)</span>
+
+            <span class="k">assert</span> <span class="n">response</span><span class="p">[</span><span class="s">&#39;status_code&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="mi">200</span>
+
+            <span class="n">data</span>     <span class="o">=</span> <span class="n">response</span><span class="p">[</span><span class="s">&#39;response&#39;</span><span class="p">]</span>
+            <span class="n">got_docs</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="s">&#39;docs&#39;</span><span class="p">]</span>
+
+            <span class="k">print</span> <span class="s">&quot;Success. Expected </span><span class="si">%d</span><span class="s"> docs and found </span><span class="si">%d</span><span class="s"> docs&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">test_expected_count</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">got_docs</span><span class="p">))</span>
+            <span class="k">assert</span> <span class="nb">len</span><span class="p">(</span><span class="n">got_docs</span><span class="p">)</span> <span class="o">==</span> <span class="n">test_expected_count</span>
+            <span class="k">print</span> <span class="s">&#39;Success&#39;</span>
+        <span class="k">if</span> <span class="n">doit</span><span class="p">:</span> <span class="c"># WHERE by ObjectId ################################</span>
+            <span class="n">test_field</span>          <span class="o">=</span> <span class="s">&#39;mBy&#39;</span>
+            <span class="n">test_value</span>          <span class="o">=</span> <span class="n">ObjectId</span><span class="p">(</span><span class="s">&quot;50468de92558713d84b03ed7&quot;</span><span class="p">)</span>
+            <span class="n">where_test</span>          <span class="o">=</span> <span class="p">{</span><span class="n">test_field</span><span class="p">:</span><span class="n">test_value</span><span class="p">}</span>
+            <span class="n">args</span>                <span class="o">=</span> <span class="p">{}</span>
+            <span class="n">args</span><span class="p">[</span><span class="s">&#39;class_name&#39;</span><span class="p">]</span>  <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">class_name</span>
+            <span class="c">#args[&#39;where&#39;]       = json.dumps(where_test)</span>
+            <span class="n">args</span><span class="p">[</span><span class="s">&#39;where&#39;</span><span class="p">]</span>       <span class="o">=</span> <span class="n">where_test</span>
+            <span class="n">test_expected_count</span> <span class="o">=</span> <span class="mi">1</span>
+
+            <span class="k">print</span>
+            <span class="k">print</span> <span class="s">&quot;WHERE by ObjectId:&quot;</span>
+            <span class="k">print</span> <span class="s">&quot;CALL:</span><span class="se">\n</span><span class="s">&quot;</span> <span class="o">+</span> <span class="n">fn</span> <span class="o">+</span> <span class="s">&quot;</span><span class="se">\n</span><span class="s">WITH:&quot;</span>
+            <span class="k">print</span> <span class="s">&#39;args&#39;</span><span class="p">,</span> <span class="n">args</span>
+            <span class="k">print</span>
+
+            <span class="n">response</span> <span class="o">=</span> <span class="n">generic</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="o">**</span><span class="n">args</span><span class="p">)</span>
+
+            <span class="k">assert</span> <span class="n">response</span><span class="p">[</span><span class="s">&#39;status_code&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="mi">200</span>
+
+            <span class="n">data</span>     <span class="o">=</span> <span class="n">response</span><span class="p">[</span><span class="s">&#39;response&#39;</span><span class="p">]</span>
+            <span class="n">got_docs</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="s">&#39;docs&#39;</span><span class="p">]</span>
+
+            <span class="k">print</span> <span class="s">&quot;Success. Expected </span><span class="si">%d</span><span class="s"> docs and found </span><span class="si">%d</span><span class="s"> docs&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">test_expected_count</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">got_docs</span><span class="p">))</span>
+            <span class="k">assert</span> <span class="nb">len</span><span class="p">(</span><span class="n">got_docs</span><span class="p">)</span> <span class="o">==</span> <span class="n">test_expected_count</span>
+            <span class="k">print</span> <span class="s">&#39;Success&#39;</span>
+        <span class="k">if</span> <span class="n">doit</span><span class="p">:</span> <span class="c"># SORT ################################</span>
+            <span class="n">test_field</span>          <span class="o">=</span> <span class="s">&#39;fNam&#39;</span>
+            <span class="n">sort_test</span>           <span class="o">=</span> <span class="p">{</span><span class="s">&#39;fld&#39;</span><span class="p">:</span><span class="n">test_field</span><span class="p">,</span> <span class="s">&#39;values&#39;</span><span class="p">:[</span><span class="s">&#39;nam1&#39;</span><span class="p">,</span><span class="s">&#39;nam2&#39;</span><span class="p">]}</span>
+            <span class="c"># sort                = [{test_field:&quot;1&quot;}]</span>
+            <span class="n">sort</span>                <span class="o">=</span> <span class="p">[{</span><span class="n">test_field</span><span class="p">:</span> <span class="s">&quot;1&quot;</span><span class="p">}]</span>
+            <span class="n">args</span>                <span class="o">=</span> <span class="p">{}</span>
+            <span class="n">args</span><span class="p">[</span><span class="s">&#39;class_name&#39;</span><span class="p">]</span>  <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">class_name</span>
+            <span class="n">args</span><span class="p">[</span><span class="s">&#39;sort&#39;</span><span class="p">]</span>        <span class="o">=</span> <span class="n">sort</span>
+
+            <span class="k">print</span>
+            <span class="k">print</span> <span class="s">&quot;SORT:&quot;</span>
+            <span class="k">print</span> <span class="s">&quot;CALL:</span><span class="se">\n</span><span class="s">&quot;</span> <span class="o">+</span> <span class="n">fn</span> <span class="o">+</span> <span class="s">&quot;</span><span class="se">\n</span><span class="s">WITH:&quot;</span>
+            <span class="k">print</span> <span class="s">&#39;args&#39;</span><span class="p">,</span> <span class="n">args</span>
+            <span class="k">print</span>
+
+            <span class="n">response</span> <span class="o">=</span> <span class="n">generic</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="o">**</span><span class="n">args</span><span class="p">)</span>
+
+            <span class="k">assert</span> <span class="n">response</span><span class="p">[</span><span class="s">&#39;status_code&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="mi">200</span>
+
+            <span class="n">data</span>     <span class="o">=</span> <span class="n">response</span><span class="p">[</span><span class="s">&#39;response&#39;</span><span class="p">]</span>
+            <span class="n">got_docs</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="s">&#39;docs&#39;</span><span class="p">]</span>
+
+            <span class="n">sort_values</span> <span class="o">=</span> <span class="n">sort_test</span><span class="p">[</span><span class="s">&#39;values&#39;</span><span class="p">]</span>
+            <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">sort_test</span><span class="p">[</span><span class="s">&#39;values&#39;</span><span class="p">])):</span>
+                <span class="k">assert</span> <span class="n">got_docs</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">sort_test</span><span class="p">[</span><span class="s">&#39;fld&#39;</span><span class="p">]]</span> <span class="o">==</span> <span class="n">sort_values</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+            <span class="k">print</span> <span class="s">&#39;Success&#39;</span>
+        <span class="k">if</span> <span class="n">doit</span><span class="p">:</span> <span class="c"># FIELDS LIST ################################</span>
+            <span class="n">fields</span>              <span class="o">=</span> <span class="p">[</span><span class="s">&quot;fNam&quot;</span><span class="p">,</span> <span class="s">&quot;title&quot;</span><span class="p">]</span>
+            <span class="n">args</span>                <span class="o">=</span> <span class="p">{}</span>
+            <span class="n">args</span><span class="p">[</span><span class="s">&#39;class_name&#39;</span><span class="p">]</span>  <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">class_name</span>
+            <span class="n">args</span><span class="p">[</span><span class="s">&#39;fields&#39;</span><span class="p">]</span>      <span class="o">=</span> <span class="n">fields</span>
+
+            <span class="k">print</span>
+            <span class="k">print</span> <span class="s">&quot;FIELDS LIST:&quot;</span>
+            <span class="k">print</span> <span class="s">&quot;CALL:</span><span class="se">\n</span><span class="s">&quot;</span> <span class="o">+</span> <span class="n">fn</span> <span class="o">+</span> <span class="s">&quot;</span><span class="se">\n</span><span class="s">WITH:&quot;</span>
+            <span class="n">pprint</span><span class="p">(</span><span class="s">&#39;args&#39;</span><span class="p">,</span> <span class="n">args</span><span class="p">)</span>
+            <span class="k">print</span>
+
+            <span class="n">response</span> <span class="o">=</span> <span class="n">generic</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="o">**</span><span class="n">args</span><span class="p">)</span>
+
+            <span class="k">assert</span> <span class="n">response</span><span class="p">[</span><span class="s">&#39;status_code&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="mi">200</span>
+
+            <span class="n">data</span>     <span class="o">=</span> <span class="n">response</span><span class="p">[</span><span class="s">&#39;response&#39;</span><span class="p">]</span>
+            <span class="n">got_docs</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="s">&#39;docs&#39;</span><span class="p">]</span>
+
+            <span class="k">assert</span> <span class="n">fields</span> <span class="o">==</span> <span class="n">got_docs</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">keys</span><span class="p">()[</span><span class="mi">1</span><span class="p">:]</span>
+            <span class="k">print</span> <span class="s">&#39;Success&#39;</span>
+        <span class="k">if</span> <span class="n">doit</span><span class="p">:</span> <span class="c"># SKIP &amp; LIMIT ################################</span>
+            <span class="n">skip</span> <span class="o">=</span> <span class="mi">1</span>
+            <span class="n">limit</span> <span class="o">=</span> <span class="mi">1</span>
+            <span class="n">args</span>                <span class="o">=</span> <span class="p">{}</span>
+            <span class="n">args</span><span class="p">[</span><span class="s">&#39;class_name&#39;</span><span class="p">]</span>  <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">class_name</span>
+            <span class="n">args</span><span class="p">[</span><span class="s">&#39;skip&#39;</span><span class="p">]</span>      <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">skip</span><span class="p">)</span>
+            <span class="n">args</span><span class="p">[</span><span class="s">&#39;limit&#39;</span><span class="p">]</span>      <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">limit</span><span class="p">)</span>
+
+            <span class="k">print</span>
+            <span class="k">print</span> <span class="s">&quot;SKIP &amp; LIMIT:&quot;</span>
+            <span class="k">print</span> <span class="s">&quot;CALL:</span><span class="se">\n</span><span class="s">&quot;</span> <span class="o">+</span> <span class="n">fn</span> <span class="o">+</span> <span class="s">&quot;</span><span class="se">\n</span><span class="s">WITH:&quot;</span>
+            <span class="n">pprint</span><span class="p">(</span><span class="s">&#39;args&#39;</span><span class="p">,</span> <span class="n">args</span><span class="p">)</span>
+            <span class="k">print</span>
+
+            <span class="n">response</span> <span class="o">=</span> <span class="n">generic</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="o">**</span><span class="n">args</span><span class="p">)</span>
+
+            <span class="k">assert</span> <span class="n">response</span><span class="p">[</span><span class="s">&#39;status_code&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="mi">200</span>
+
+            <span class="n">data</span>     <span class="o">=</span> <span class="n">response</span><span class="p">[</span><span class="s">&#39;response&#39;</span><span class="p">]</span>
+            <span class="n">got_docs</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="s">&#39;docs&#39;</span><span class="p">]</span>
+
+            <span class="k">assert</span> <span class="nb">len</span><span class="p">(</span><span class="n">got_docs</span><span class="p">)</span> <span class="o">==</span> <span class="n">limit</span>
+            <span class="k">print</span> <span class="s">&quot;Success. Expected </span><span class="si">%d</span><span class="s"> docs and found </span><span class="si">%d</span><span class="s"> docs&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">limit</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">got_docs</span><span class="p">))</span>
+</div></div>
+<span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s">&quot;__main__&quot;</span><span class="p">:</span>
+    <span class="n">unittest</span><span class="o">.</span><span class="n">main</span><span class="p">()</span>
+</pre></div>
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../../../../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../../../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li><a href="../../../../index.html">gsapi 1.0 documentation</a> &raquo;</li>
+          <li><a href="../../../index.html" >Module code</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2012, Larry Eitel.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.1.3.
+    </div>
+  </body>
+</html>

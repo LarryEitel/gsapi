@@ -51,6 +51,13 @@ def prep_response(dct, status=200):
     resp.mimetype = mime
     return resp
 
+def es(models):
+    response = {}
+    links    = []
+    host     = request.url
+    
+    return prep_response(response, status = 200)
+
 def home(models):
     response = {}
     links    = []

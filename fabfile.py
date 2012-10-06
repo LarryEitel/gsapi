@@ -27,11 +27,8 @@ def deploy(msg="No Msg"):
     #if push_code:
         #commit_code()
     commit(msg)
-    #reload_uwsgi()
     update_remote()
-    #restart()
-    print "Perhaps:"
-    print "fab reload_code"
+    reload_uwsgi()
 
 def hello():
     print("Hello world!")
@@ -64,6 +61,9 @@ def restart_gunicorn():
     with cd(fab['PROJECT_ROOT']):
         sudo('kill `cat gunicorn.pid`')
         sudo('python manage.py run_gunicorn -c gunicorn.conf.py --traceback 0.0.0.0:8001')
+
+def reload_uwsgi():
+    sudo('pkill -9 uwsgi')
 
 def reload_uwsgi():
     with cd(fab['PROJECT_ROOT']):

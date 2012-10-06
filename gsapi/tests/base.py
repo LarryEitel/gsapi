@@ -23,11 +23,15 @@ import gsapi.run as run
 from gsapi.utils import load_data
 from pymongo import Connection
 
-es_conn = {"host":"localhost", "port":9200}
-
 # get elasticsearch connection
 def get_es_conn(*args, **kwargs):
-    return ES(("http", es_conn['host'], es_conn['port']), *args, **kwargs)
+    if 'cfg' in kwargs:
+        cfg = kwargs['cfg']
+        kwargs.pop('cfg')
+    else:
+        cfg = {'host': 'localhost', 'port': 9200}
+
+    return ES(("http", cfg['host'], cfg['port']), *args, **kwargs)
 
 class TestCase(unittest.TestCase):
 
@@ -35,22 +39,30 @@ class TestCase(unittest.TestCase):
         app = run.app
         self.host = app.config['TESTING_HOST']
         app.config['TESTING'] = True
+
+        # es = elasticsearch
+        es_cfg = {
+            'host': app.config['ES_TEST_HOST'],
+            'port': app.config['ES_TEST_PORT'],
+            'name': app.config['ES_TEST_NAME']
+            }
+
         app = app.test_client()
 
+        dbhost = app.application.config['MONGO_HOST']
         dbname = app.application.config['MONGO_TEST_DBNAME']
-        db = Connection()[dbname]
+        db = Connection(dbhost)[dbname]
 
         # delete existing test db
         db.connection.drop_database(dbname)
 
         # recreate
-        db = Connection()[dbname]
+        db = Connection(dbhost)[dbname]
         self.db = db
         self.app = app
 
-        # es = elasticsearch
-        es = get_es_conn(timeout=300.0)#incremented timeout for debugging
-        self.index_name = "test-index"
+        es = get_es_conn(cfg=es_cfg, timeout=300.0)#incremented timeout for debugging
+        self.index_name = es_cfg['name']
         self.document_type = "test-type"
         es.delete_index_if_exists(self.index_name)
         # es.create_index(self.index_name)
