@@ -6,27 +6,30 @@ from pyes.query import FilteredQuery, MatchAllQuery, BoolQuery, TermQuery, Prefi
 
 
 from pyes import decode_json
-from pyes.mappings import Mapper
+#from pyes.mappings import Mapper
 
 import time
 class NestedSearchTestCase(ESTestCase):
     def setUp(self):
-        # super(NestedSearchTestCase, self).setUp()
+        super(NestedSearchTestCase, self).setUp()
 
-        self.conn = get_conn(timeout=300.0)
-        self.index_name = "test-index"
-        self.document_type = "test-type"
+        # self.conn = get_conn(timeout=300.0)
+        # self.index_name = "test-index"
+        # self.document_type = "test-type"
 
         # self.datamap = decode_json(self.get_datafile("map.json"))
         # _ = Mapper(self.datamap)
-        
+
         if 1:
             mapping = {
                 'shares': {
                     'type': 'nested'
                 }
             }
-            #self.conn.create_index(self.index_name)
+            try:
+                self.conn.create_index(self.index_name)
+            except:
+                pass
             self.conn.put_mapping(self.document_type, {'properties': mapping}, self.index_name)
             self.conn.index({"body": "hello",
                              "shares": [{"orgid": "abc.de.1",

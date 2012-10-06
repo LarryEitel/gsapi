@@ -9,17 +9,34 @@ import unittest
 from pprint import pprint
 from pyes.es import ES
 from pyes.helpers import SettingsBuilder
+import gsapi.run as run
 
+# get elasticsearch connection
 def get_conn(*args, **kwargs):
-    return ES(("http", "127.0.0.1", 9200), *args, **kwargs)
+    if 'cfg' in kwargs:
+        cfg = kwargs['cfg']
+        kwargs.pop('cfg')
+    else:
+        cfg = {'host': 'localhost', 'port': 9200}
 
+    return ES(("http", cfg['host'], cfg['port']), *args, **kwargs)
 
 class ESTestCase(unittest.TestCase):
     def setUp(self):
-        self.conn = get_conn(timeout=300.0)#incremented timeout for debugging
-        self.index_name = "test-index"
+
+        app = run.app
+        app.config['TESTING'] = True
+        es_cfg = {
+            'host': app.config['ES_TEST_HOST'],
+            'port': app.config['ES_TEST_PORT'],
+            'name': app.config['ES_TEST_NAME']
+            }
+
+
+        self.conn = get_conn(cfg=es_cfg, timeout=300.0)#incremented timeout for debugging
+        self.index_name = es_cfg['name']
         self.document_type = "test-type"
-        # self.conn.delete_index_if_exists(self.index_name)
+        self.conn.delete_index_if_exists(self.index_name)
 
     def tearDown(self):
         # self.conn.delete_index_if_exists(self.index_name)
