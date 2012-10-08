@@ -17,6 +17,7 @@ import dateutil.parser
 reobj_oid = re.compile(r'\{\s*"\$oid"\s*:\s*"(.*?)"\s*\}')
 reobj_objectid = re.compile(r'ObjectId\("(.*?)"\)', re.IGNORECASE)
 reobj_date = re.compile(r'\{\s*"\$date"\s*:\s*(\d+)\s*\}')
+reobj_date_with_dot = re.compile(r'\{\s*"\$date"\s*:\s*(\d+)\.(\d+)\s*\}')
 reobj_isodate = re.compile(r'ISODate\("(.*?)"\)', re.IGNORECASE)
 
 def preparse_json_doc(jstr):
@@ -55,6 +56,8 @@ def preparse_json_doc(jstr):
     jstr = reobj_oid.sub(r'"$oid:\1"', jstr)
     jstr = reobj_objectid.sub(r'"$oid:\1"', jstr)
     jstr = reobj_date.sub(r'"$date:\1"', jstr)
+    jstr = reobj_date_with_dot.sub(r'"$date:\1\2"', jstr)
+    jstr = re.sub(r'"\s*\$date"\s*:\s*(\d+)\.(\d+)', r'"$date:\1\2"', jstr)
     jstr = reobj_isodate.sub(r'"$isodate:\1"', jstr)
     return jstr
 

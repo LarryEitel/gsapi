@@ -169,5 +169,7 @@ esCnt = {
         'index': 'analyzed',
         'store': 'yes',
         'type': u'string',
-        "term_vector" : "with_positions_offsets"}
+        "term_vector" : "with_positions_offsets"},
+    'oOn': {'store': 'yes',
+        'type': 'date'},
     }

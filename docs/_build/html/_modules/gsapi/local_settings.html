@@ -56,11 +56,20 @@
     <span class="n">DEFAULT_MAIL_SENDER</span> <span class="o">=</span> <span class="p">(</span><span class="s">&quot;mail manager&quot;</span><span class="p">,</span> <span class="s">&quot;mail@manager.com&quot;</span><span class="p">)</span>
     <span class="n">SECRET_KEY</span>          <span class="o">=</span> <span class="s">&#39;a[U</span><span class="se">\\</span><span class="s">^U;N_OGX5WG+9F\:ba[U</span><span class="se">\\</span><span class="s">^yA|Nx|xf6&quot;^&#39;</span>
 
-    <span class="n">TESTING_HOST</span>        <span class="o">=</span> <span class="s">&#39;localhost:5000&#39;</span>
+    <span class="n">TESTING_HOST</span>        <span class="o">=</span> <span class="s">&#39;192.168.1.139:5000&#39;</span>
 
-    <span class="n">MONGO_HOST</span>          <span class="o">=</span> <span class="s">&#39;localhost&#39;</span>
+    <span class="c"># MONGO_HOST          = &#39;localhost&#39;</span>
+    <span class="n">MONGO_HOST</span>          <span class="o">=</span> <span class="s">&#39;192.168.1.139&#39;</span>
     <span class="n">MONGO_DBNAME</span>        <span class="o">=</span> <span class="s">&#39;gsapi-test&#39;</span>
     <span class="n">MONGO_TEST_DBNAME</span>   <span class="o">=</span> <span class="s">&#39;gsapi-test&#39;</span>
+
+    <span class="c"># ES_HOST             = &#39;localhost&#39;</span>
+    <span class="n">ES_HOST</span>             <span class="o">=</span> <span class="s">&#39;192.168.1.139&#39;</span>
+    <span class="n">ES_PORT</span>             <span class="o">=</span> <span class="mi">9200</span>
+    <span class="n">ES_NAME</span>             <span class="o">=</span> <span class="s">&#39;gsapi&#39;</span>
+    <span class="n">ES_TEST_HOST</span>        <span class="o">=</span> <span class="s">&#39;192.168.1.139&#39;</span>
+    <span class="n">ES_TEST_PORT</span>        <span class="o">=</span> <span class="mi">9200</span>
+    <span class="n">ES_TEST_NAME</span>        <span class="o">=</span> <span class="s">&#39;gsapi-test&#39;</span>
 
     <span class="c">#WTForms Settings</span>
     <span class="n">CSRF_ENABLED</span>        <span class="o">=</span> <span class="bp">True</span>
@@ -81,7 +90,7 @@
     <span class="n">FABRIC</span> <span class="o">=</span> <span class="p">{</span>
         <span class="s">&#39;live&#39;</span><span class="p">:</span> <span class="p">{</span>
             <span class="s">&#39;HOSTS&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s">&#39;50.116.35.54:22&#39;</span><span class="p">],</span>
-            <span class="s">&#39;WEB_USER&#39;</span><span class="p">:</span> <span class="s">&#39;root&#39;</span><span class="p">,</span>
+            <span class="s">&#39;WEB_USER&#39;</span><span class="p">:</span> <span class="s">&#39;larry&#39;</span><span class="p">,</span>
             <span class="s">&#39;ADMIN_USER&#39;</span><span class="p">:</span> <span class="s">&#39;root&#39;</span><span class="p">,</span>
             <span class="s">&#39;ADMIN_PW&#39;</span><span class="p">:</span> <span class="s">&#39;Stop&amp;Think&#39;</span><span class="p">,</span>
             <span class="s">&#39;PROJECT_ROOT&#39;</span><span class="p">:</span> <span class="s">&#39;/srv/gs/api/gsapi&#39;</span>

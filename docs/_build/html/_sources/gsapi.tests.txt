@@ -9,6 +9,14 @@ tests Package
     :undoc-members:
     :show-inheritance:
 
+:mod:`esbase` Module
+--------------------
+
+.. automodule:: gsapi.tests.esbase
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
 Subpackages
 -----------
 

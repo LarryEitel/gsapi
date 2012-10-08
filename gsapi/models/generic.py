@@ -1,4 +1,4 @@
-from schematics.models import Model
+from schematics.models import Model as _Model
 from schematics.types import StringType, DateTimeType, EmailType, FloatType
 
 from schematics.types.mongo import ObjectIdType
@@ -18,8 +18,19 @@ class AppId(Mod):
         }
 
 
+class Share(_Model):
+    _c    = StringType(required=True, description='Class')
+    _public_fields = ['_c']
 
-class Log(Model):
+    # The reason for this parent field given the fact that Wid'gets can contain an array of other widgets is that OTHER Widgets may LINK to this widget AND add their Share properties. It is necessary
+    parent   = ObjectIdType(minimized_field_name='Parent Widget ID', description='Primary Parent owner of this widget.')
+
+    usr_id   = ObjectIdType(minimized_field_name='Usr ID', description='Usr id for this Share.')
+
+    permission   = StringType(minimized_field_name='Permission', choices=['aa','ab','b'], description='aa=At and Above, ab=At and below, b=Below.')
+
+
+class Log(_Model):
     if 1: # Fields
         uNam  	= StringType()
         dt  	= DateTimeType()
@@ -33,7 +44,7 @@ class Log(Model):
         '_c': 'Log',
         }
 
-class Email(Model):
+class Email(_Model):
     if 1: # Fields
         email  = EmailType()
     	sort   = FloatType(minimized_field_name='Sort', description='Sorted with primary being first in list.')

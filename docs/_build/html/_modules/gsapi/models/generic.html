@@ -49,7 +49,7 @@
           <div class="body">
             
   <h1>Source code for gsapi.models.generic</h1><div class="highlight"><pre>
-<span class="kn">from</span> <span class="nn">schematics.models</span> <span class="kn">import</span> <span class="n">Model</span>
+<span class="kn">from</span> <span class="nn">schematics.models</span> <span class="kn">import</span> <span class="n">Model</span> <span class="k">as</span> <span class="n">_Model</span>
 <span class="kn">from</span> <span class="nn">schematics.types</span> <span class="kn">import</span> <span class="n">StringType</span><span class="p">,</span> <span class="n">DateTimeType</span><span class="p">,</span> <span class="n">EmailType</span><span class="p">,</span> <span class="n">FloatType</span>
 
 <span class="kn">from</span> <span class="nn">schematics.types.mongo</span> <span class="kn">import</span> <span class="n">ObjectIdType</span>
@@ -68,9 +68,20 @@
         <span class="s">&#39;_c&#39;</span><span class="p">:</span> <span class="s">&#39;AppId&#39;</span><span class="p">,</span>
         <span class="p">}</span>
 
+</div>
+<div class="viewcode-block" id="Share"><a class="viewcode-back" href="../../../gsapi.models.html#gsapi.models.generic.Share">[docs]</a><span class="k">class</span> <span class="nc">Share</span><span class="p">(</span><span class="n">_Model</span><span class="p">):</span>
+    <span class="n">_c</span>    <span class="o">=</span> <span class="n">StringType</span><span class="p">(</span><span class="n">required</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s">&#39;Class&#39;</span><span class="p">)</span>
+    <span class="n">_public_fields</span> <span class="o">=</span> <span class="p">[</span><span class="s">&#39;_c&#39;</span><span class="p">]</span>
+
+    <span class="c"># The reason for this parent field given the fact that Wid&#39;gets can contain an array of other widgets is that OTHER Widgets may LINK to this widget AND add their Share properties. It is necessary</span>
+    <span class="n">parent</span>   <span class="o">=</span> <span class="n">ObjectIdType</span><span class="p">(</span><span class="n">minimized_field_name</span><span class="o">=</span><span class="s">&#39;Parent Widget ID&#39;</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s">&#39;Primary Parent owner of this widget.&#39;</span><span class="p">)</span>
+
+    <span class="n">usr_id</span>   <span class="o">=</span> <span class="n">ObjectIdType</span><span class="p">(</span><span class="n">minimized_field_name</span><span class="o">=</span><span class="s">&#39;Usr ID&#39;</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s">&#39;Usr id for this Share.&#39;</span><span class="p">)</span>
+
+    <span class="n">permission</span>   <span class="o">=</span> <span class="n">StringType</span><span class="p">(</span><span class="n">minimized_field_name</span><span class="o">=</span><span class="s">&#39;Permission&#39;</span><span class="p">,</span> <span class="n">choices</span><span class="o">=</span><span class="p">[</span><span class="s">&#39;aa&#39;</span><span class="p">,</span><span class="s">&#39;ab&#39;</span><span class="p">,</span><span class="s">&#39;b&#39;</span><span class="p">],</span> <span class="n">description</span><span class="o">=</span><span class="s">&#39;aa=At and Above, ab=At and below, b=Below.&#39;</span><span class="p">)</span>
 
 </div>
-<div class="viewcode-block" id="Log"><a class="viewcode-back" href="../../../gsapi.models.html#gsapi.models.generic.Log">[docs]</a><span class="k">class</span> <span class="nc">Log</span><span class="p">(</span><span class="n">Model</span><span class="p">):</span>
+<div class="viewcode-block" id="Log"><a class="viewcode-back" href="../../../gsapi.models.html#gsapi.models.generic.Log">[docs]</a><span class="k">class</span> <span class="nc">Log</span><span class="p">(</span><span class="n">_Model</span><span class="p">):</span>
     <span class="k">if</span> <span class="mi">1</span><span class="p">:</span> <span class="c"># Fields</span>
         <span class="n">uNam</span>  	<span class="o">=</span> <span class="n">StringType</span><span class="p">()</span>
         <span class="n">dt</span>  	<span class="o">=</span> <span class="n">DateTimeType</span><span class="p">()</span>
@@ -84,7 +95,7 @@
         <span class="s">&#39;_c&#39;</span><span class="p">:</span> <span class="s">&#39;Log&#39;</span><span class="p">,</span>
         <span class="p">}</span>
 </div>
-<div class="viewcode-block" id="Email"><a class="viewcode-back" href="../../../gsapi.models.html#gsapi.models.generic.Email">[docs]</a><span class="k">class</span> <span class="nc">Email</span><span class="p">(</span><span class="n">Model</span><span class="p">):</span>
+<div class="viewcode-block" id="Email"><a class="viewcode-back" href="../../../gsapi.models.html#gsapi.models.generic.Email">[docs]</a><span class="k">class</span> <span class="nc">Email</span><span class="p">(</span><span class="n">_Model</span><span class="p">):</span>
     <span class="k">if</span> <span class="mi">1</span><span class="p">:</span> <span class="c"># Fields</span>
         <span class="n">email</span>  <span class="o">=</span> <span class="n">EmailType</span><span class="p">()</span>
     	<span class="n">sort</span>   <span class="o">=</span> <span class="n">FloatType</span><span class="p">(</span><span class="n">minimized_field_name</span><span class="o">=</span><span class="s">&#39;Sort&#39;</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s">&#39;Sorted with primary being first in list.&#39;</span><span class="p">)</span>

@@ -66,9 +66,43 @@
 <em class="property">class </em><tt class="descclassname">gsapi.tests.misc.test_parse_json.</tt><tt class="descname">TestUtils</tt><big>(</big><em>methodName='runTest'</em><big>)</big><a class="reference internal" href="_modules/gsapi/tests/misc/test_parse_json.html#TestUtils"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#gsapi.tests.misc.test_parse_json.TestUtils" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <tt class="xref py py-class docutils literal"><span class="pre">unittest2.case.TestCase</span></tt></p>
 <dl class="method">
+<dt id="gsapi.tests.misc.test_parse_json.TestUtils.test_datetime">
+<tt class="descname">test_datetime</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/gsapi/tests/misc/test_parse_json.html#TestUtils.test_datetime"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#gsapi.tests.misc.test_parse_json.TestUtils.test_datetime" title="Permalink to this definition">¶</a></dt>
+<dd><p>Test inputs and outputs of datetimes.
+Client may submit datetimes in the following formats:</p>
+<blockquote>
+<div># How it appears in Mongo Shell and MongoVue
+2011-12-17T13:10:33.987Z :UTC
+2011-12-17T07:10:33.987-06:00 :Local
+1324127433.987 : Local</div></blockquote>
+<dl class="docutils">
+<dt>ElasticSearch</dt>
+<dd><a class="reference external" href="http://www.elasticsearch.org/guide/reference/mapping/date-format.html">http://www.elasticsearch.org/guide/reference/mapping/date-format.html</a></dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
 <dt id="gsapi.tests.misc.test_parse_json.TestUtils.test_parse_json">
 <tt class="descname">test_parse_json</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/gsapi/tests/misc/test_parse_json.html#TestUtils.test_parse_json"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#gsapi.tests.misc.test_parse_json.TestUtils.test_parse_json" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>MongoVue of a doc
+{
+&#8220;_id&#8221;   : ObjectId(&#8220;50536c4c2558712e205a269a&#8221;),
+&#8220;mBy&#8221;   : ObjectId(&#8220;50468de92558713d84b03fd7&#8221;),
+&#8220;dOn&#8221;   : ISODate(&#8220;2012-09-14T23:00:00Z&#8221;),
+&#8220;dOn&#8221;   : { &#8220;$date&#8221; : 1347644492471 },
+&#8220;dOn&#8221;   : { &#8220;$date&#8221; : 1347644492.471 },
+&#8220;title&#8221; : &#8220;president&#8221;,
+&#8220;oOn&#8221;   : ISODate(&#8220;2012-09-14T11:41:32Z&#8221;),
+&#8220;shares&#8221;: [],
+&#8220;mOn&#8221;   : ISODate(&#8220;2012-09-14T11:41:32Z&#8221;),
+&#8220;fNam&#8221;  : &#8220;nam1&#8221;,
+&#8220;oBy&#8221;   : ObjectId(&#8220;50468de92558713d84b03fd7&#8221;),
+&#8220;cBy&#8221;   : ObjectId(&#8220;50468de92558713d84b03fd7&#8221;),
+&#8220;_c&#8221;    : &#8220;Prs&#8221;,
+&#8220;emails&#8221;: [],
+&#8220;cOn&#8221;   : ISODate(&#8220;2012-09-14T11:41:32Z&#8221;)
+}</p>
+</dd></dl>
 
 </dd></dl>
 
