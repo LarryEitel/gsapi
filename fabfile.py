@@ -31,6 +31,7 @@ def deploy(msg="No Msg"):
     run_tests()
     reload_uwsgi()
 
+
 def commit(msg):
     with cd(os.path.abspath(os.path.dirname(__file__))):
         local('git add .')
