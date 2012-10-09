@@ -28,7 +28,22 @@ def deploy(msg="No Msg"):
         #commit_code()
     commit(msg)
     update_remote()
+    run_tests()
     reload_uwsgi()
+
+def commit(msg):
+    with cd(os.path.abspath(os.path.dirname(__file__))):
+        local('git add .')
+        local('git commit -am"%s"' % msg)
+        local('git push origin master') # push local to repository
+
+def update_remote():
+    with cd(fab['PROJECT_ROOT']):
+        run('git pull origin master') # pull from repository to remote
+
+def run_tests():
+    with cd(fab['PROJECT_ROOT']):
+        run('export PYTHONPATH=/srv/gs/api/gsapi/:/srv/gs/api/gsapi/venv/lib/python2.7/site-packages/ && nosetests tests') 
 
 def hello():
     print("Hello world!")
@@ -79,19 +94,6 @@ def reload_uwsgi():
 def reload_nginx_conf():
     sudo('/etc/init.d/nginx check')
     sudo('/etc/init.d/nginx reload')
-
-#@run_once
-def commit(msg):
-    with cd(os.path.abspath(os.path.dirname(__file__))):
-        local('git add .')
-        local('git commit -am"%s"' % msg)
-        local('git push origin master') # push local to repository
-
-def update_remote():
-    env.user = fab['WEB_USER']
-
-    with cd(fab['PROJECT_ROOT']):
-        run('git pull origin master') # pull from repository to remote
 
 def restart():
     sudo('supervisorctl restart ourfield')
