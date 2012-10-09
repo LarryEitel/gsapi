@@ -18,6 +18,7 @@
 
 *.swp
 local_settings.py
+
 venv/
 
 *.project
