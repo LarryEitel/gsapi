@@ -39,6 +39,7 @@ def commit(msg):
         local('git push origin master') # push local to repository
 
 def update_remote():
+    env.user       = fab['WEB_USER']
     with cd(fab['PROJECT_ROOT']):
         run('git pull origin master') # pull from repository to remote
 
