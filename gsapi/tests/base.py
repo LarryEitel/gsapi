@@ -20,6 +20,7 @@ from pyes.es import ES
 from flask import session
 
 import gsapi.run as run
+from gsapi import models
 from gsapi.utils import load_data
 from pymongo import Connection
 
@@ -67,6 +68,9 @@ class TestCase(unittest.TestCase):
         self.document_type = "test-type"
         es.delete_index_if_exists(self.index_name)
         es.create_index(self.index_name)
+
+        # es.put_mapping('Prs', {'properties':models.esCnt}, [self.index_name])
+
         self.es = es
 
     def tearDown(self):

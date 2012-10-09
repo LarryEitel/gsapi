@@ -155,7 +155,7 @@ def load_data(db, es, json_filepath):
             pass
         docs.append(doc_validated)
 
-        es.index(initialized_model.index, es.__dict__['index_name'], initialized_model._c, doc['_id'].__str__())
+        ret = es.index(initialized_model.index, es.__dict__['index_name'], initialized_model._c, doc['_id'].__str__())
 
         total_added += 1
 
