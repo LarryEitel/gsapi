@@ -63,9 +63,10 @@ class TestCase(unittest.TestCase):
 
         es = get_es_conn(cfg=es_cfg, timeout=300.0)#incremented timeout for debugging
         self.index_name = es_cfg['name']
+        es.__dict__['index_name'] = es_cfg['name']
         self.document_type = "test-type"
         es.delete_index_if_exists(self.index_name)
-        # es.create_index(self.index_name)
+        es.create_index(self.index_name)
         self.es = es
 
     def tearDown(self):
@@ -80,7 +81,7 @@ class TestCase(unittest.TestCase):
 
         json_fName = path + '/data/%s.json' % filename
 
-        return load_data(self.db, json_fName)
+        return load_data(self.db, self.es, json_fName)
 
 if __name__ == "__main__":
     unittest.main()

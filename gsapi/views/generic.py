@@ -27,11 +27,11 @@ render_txt  = lambda message: message
 def get_document_link(model_name, id):
     '''
     Returns the link to the document
-    
+
     Parameters:
-        model_name - 
-        id - 
-        
+        model_name -
+        id -
+
     Returns
         The document link
     '''
@@ -55,7 +55,7 @@ def es(models):
     response = {}
     links    = []
     host     = request.url
-    
+
     return prep_response(response, status = 200)
 
 def home(models):
@@ -70,7 +70,8 @@ def home(models):
 
 def post(class_name):
     from db import db
-    generic  = controllers.Generic(db)
+    from es import es
+    generic  = controllers.Generic(db, es)
 
     #data = loads(request.data)
     data = request.data
@@ -90,7 +91,8 @@ def post(class_name):
 
 def put(class_name):
     from db import db
-    generic  = controllers.Generic(db)
+    from es import es
+    generic  = controllers.Generic(db, es)
 
     data          = json.loads(request.data, object_hook=json_util.object_hook)
 
@@ -139,6 +141,7 @@ def get(class_name, id=None):
 
 
 def remove(collection, id):
+    # TODO test
     col = models[model].meta['collection']
     return db[col].remove({"_id":ObjectId(id)})
 

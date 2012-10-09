@@ -12,17 +12,26 @@ from bson.json_util import dumps
 from extensions import RegexConverter
 from settings import Config
 
+from pyes.es import ES
+from pyes.helpers import SettingsBuilder
+
+# es = ES
 from flask.ext.pymongo import PyMongo
 from auth import requires_auth
+import models
 
 app = Flask(__name__)
 
 app.config.from_object(Config)
 
-mongo = PyMongo()
+mongo     = PyMongo()
 app.mongo = mongo
 mongo.init_app(app)
 
+# ElasticSearch
+es = ES(("http", Config.ES['host'], Config.ES['port']))
+es.__dict__['index_name'] = Config.ES['name']
+app.es = es
 # add regex for routing
 app.url_map.converters['regex'] = RegexConverter
 

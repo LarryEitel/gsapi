@@ -20,7 +20,7 @@ from gsapi import controllers
 def pprint(varname, dat):
     print "%s = %s" % (varname, json.dumps(dat, sort_keys = True, indent = 4))
 
-#print on a separate line a string with a given indentation    
+#print on a separate line a string with a given indentation
 def printIndentedString(string, indent = 4):
     for i in range (0, indent):
         string = " " + string
@@ -42,21 +42,22 @@ def printParams(varname, dat, mainIndent, paramsIndent):
     try:
         printIndentedString("%s = %s" % (varname, json.dumps(dat, sort_keys = True, indent = paramsIndent)), mainIndent)
     except:
-        print("%s = %s" % (varname, dat))  
-    
-    
+        print("%s = %s" % (varname, dat))
+
+
 class TestGeneric(TestCase):
     print "Generic tests"
     print "=============="
     class_name = 'Prs'
 
     def test_put(self):
-        print 
+        print
         print "Put one doc"
         print "^^^^^^^^^^^"
 
         db = self.db
-        generic = controllers.Generic(db)
+        es = self.es
+        generic = controllers.Generic(db, es)
 
         response = self.load_sample('contacts')
         assert response['status'] == 200
@@ -90,7 +91,7 @@ class TestGeneric(TestCase):
         args['usrid'] = ObjectId("50468de92558713d84b03fd0")
 
         response = generic.put(**args)
-        
+
         printCodeBlockHeader()
         printIndentedString("CALL:", 4)
         formatParagraph(fn, 8)
@@ -99,8 +100,8 @@ class TestGeneric(TestCase):
 
         assert response['status_code'] == 200
         data = response['response']
-        
-        
+
+
         got_doc = data['doc']
 
         # verify that the doc correctly shows user that modified the doc
@@ -108,14 +109,15 @@ class TestGeneric(TestCase):
 
         # verify that the doc correctly reflects new fNam
         assert got_doc[test_field] == sample_doc['patch'][test_field]
-        
+
     def test_post_one(self):
-        print 
+        print
         print "Post one doc"
         print "^^^^^^^^^^^^"
 
         db = self.db
-        generic = controllers.Generic(db)
+        es = self.es
+        generic = controllers.Generic(db, es)
 
         # here is the basic function call being tested
         fn = "controllers.generic.get(db, **args)"
@@ -137,8 +139,8 @@ class TestGeneric(TestCase):
         args = {}
         args['class_name'] = self.class_name
         args['docs'] = [sample_doc]
-        
-        
+
+
         response = generic.post(**args)
 
         printCodeBlockHeader()
@@ -157,14 +159,15 @@ class TestGeneric(TestCase):
         id = data['docs'][0]['id']
         printIndentedString("INSERTED OBJECT_ID: " + id, 0)
         assert doc['fNam'] == sample_doc['fNam']
-        
+
     def test_post_list(self):
-        print 
+        print
         print "Post one list"
         print "^^^^^^^^^^^^^"
 
         db = self.db
-        generic = controllers.Generic(db)
+        es = self.es
+        generic = controllers.Generic(db, es)
 
         # here is the basic function call being tested
         fn = "controllers.generic.get(db, **args)"
@@ -208,7 +211,7 @@ class TestGeneric(TestCase):
         args['docs'] = sample_docs
 
         response = generic.post(**args)
-        
+
         printCodeBlockHeader()
         printIndentedString("CALL:", 4)
         formatParagraph(fn, 8)
@@ -223,12 +226,12 @@ class TestGeneric(TestCase):
 
         doc = data['docs'][0]['doc']
         assert doc['fNam'] == sample_docs[0]['fNam']
-        
+
     def test_get(self):
-        print 
+        print
         print "Get sample docs"
         print "^^^^^^^^^^^^^^^"
-        
+
         db = self.db
         generic = controllers.Generic(db)
 
@@ -250,13 +253,13 @@ class TestGeneric(TestCase):
             test_expected_count = 4 # Note the filter on _c
 
             args = {'class_name': self.class_name}
-            
+
             response = generic.get(**args)
 
             print
             print "GET ALL docs:"
             print "------------"
-                                        
+
             printCodeBlockHeader()
             printIndentedString("CALL:", 4)
             formatParagraph(fn, 8)
@@ -274,13 +277,13 @@ class TestGeneric(TestCase):
             args = {}
             args['class_name'] = self.class_name
             args['vflds'] = vflds
-            
+
             response = generic.get(**args)
 
             print
             print "VIRTUAL FIELDS:"
-            print "---------------"  
-                  
+            print "---------------"
+
             printCodeBlockHeader()
             printIndentedString("CALL:", 4)
             formatParagraph(fn, 8)
@@ -303,8 +306,8 @@ class TestGeneric(TestCase):
 
             print
             print "ONE BY ID:"
-            print "----------"   
-            
+            print "----------"
+
             printCodeBlockHeader()
             printIndentedString("CALL:", 4)
             formatParagraph(fn, 8)
@@ -324,13 +327,13 @@ class TestGeneric(TestCase):
             args = {}
             args['class_name'] = self.class_name
             args['where'] = where_test
-            
+
             response = generic.get(**args)
 
             print
             print "WHERE by fNam:"
-            print "--------------" 
-            
+            print "--------------"
+
             printCodeBlockHeader()
             printIndentedString("CALL:", 4)
             formatParagraph(fn, 8)
@@ -354,7 +357,7 @@ class TestGeneric(TestCase):
             args = {}
             args['class_name'] = self.class_name
             args['where'] = where_test
-            
+
             response = generic.get(**args)
 
             print
@@ -384,12 +387,12 @@ class TestGeneric(TestCase):
             #args['where']       = json.dumps(where_test)
             args['where'] = where_test
             test_expected_count = 1
-            
+
             response = generic.get(**args)
 
             print
             print "WHERE by ObjectId:"
-            print "------------------" 
+            print "------------------"
 
             printCodeBlockHeader()
             printIndentedString("CALL:", 4)
@@ -417,7 +420,7 @@ class TestGeneric(TestCase):
 
             print
             print "SORT:"
-            print "-----" 
+            print "-----"
 
             printCodeBlockHeader()
             printIndentedString("CALL:", 4)
@@ -434,19 +437,19 @@ class TestGeneric(TestCase):
             for i in range(len(sort_test['values'])):
                 assert got_docs[i][sort_test['fld']] == sort_values[i]
             print 'Success'
-            
+
         if doit: # FIELDS LIST ################################
             fields = ["fNam", "title"]
             args = {}
             args['class_name'] = self.class_name
             args['fields'] = fields
-                        
+
             response = generic.get(**args)
 
             print
             print "FIELDS LIST:"
-            print "------------" 
-            
+            print "------------"
+
             printCodeBlockHeader()
             printIndentedString("CALL:", 4)
             formatParagraph(fn, 8)
@@ -460,7 +463,7 @@ class TestGeneric(TestCase):
 
             assert fields == got_docs[0].keys()[1:]
             print 'Success'
-            
+
         if doit: # SKIP & LIMIT ################################
             skip = 1
             limit = 1
@@ -472,8 +475,8 @@ class TestGeneric(TestCase):
 
             print
             print "SKIP & LIMIT:"
-            print "--------------" 
-            
+            print "--------------"
+
             printCodeBlockHeader()
             printIndentedString("CALL:", 4)
             formatParagraph(fn, 8)

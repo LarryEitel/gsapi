@@ -90,6 +90,13 @@ class Cmp(Cnt):
         }
 
     @property
+    def index(self):
+        return {
+            "dNam"      : self.dNam,
+            "oOn"       : self.oOn
+                }
+
+    @property
     def dNam(self):
         return self.cNam
 class Prs(Cnt):
@@ -106,6 +113,14 @@ class Prs(Cnt):
         'collection': 'contacts',
         '_c': 'Prs',
         }
+
+    @property
+    def index(self):
+        return {
+            "dNam"      : self.dNam,
+            "oOn"       : self.oOn,
+            "title"     : self.title
+                }
 
     def save(self):
         pass

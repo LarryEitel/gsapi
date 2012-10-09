@@ -34,6 +34,10 @@ class Mod(_Model):
         '_c': 'Mod',
         }
 
+    @property
+    def index(self):
+        return {}
+
     @classmethod
     def logit(self, user_id, method='post'):
 

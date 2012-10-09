@@ -75,7 +75,7 @@ def mongo_json_object_hook(dct):
     return dct
 
 
-def load_data(db, json_filepath):
+def load_data(db, es, json_filepath):
     '''Bulk load from json into corresponding collections.
     Each item is expected to contain '_c' which represents the model class and the collection it belongs to.
     Validation rules are tested for each doc.
@@ -154,6 +154,9 @@ def load_data(db, json_filepath):
         except:
             pass
         docs.append(doc_validated)
+
+        es.index(initialized_model.index, es.__dict__['index_name'], initialized_model._c, doc['_id'].__str__())
+
         total_added += 1
 
     response['total_inserted'] = len(docs)
