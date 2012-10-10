@@ -7,36 +7,39 @@ import datetime
 from gsapi import models
 
 class Generic(object):
+    """Docstring for class Generic"""
+
     def __init__(self, db):
+        #: Doc comment for instance attribute db
         self.db = db
 
     def put(self, **kwargs):
-        db              = self.db
-        '''Put a patch to one doc'''
+        """Docstring for put method:"""
+        db = self.db
         # TODO: accomodate where clause to put changes to more than one doc.
-        class_name      = kwargs['class_name']
-        model           = getattr(models, class_name)
+        class_name = kwargs['class_name']
+        model = getattr(models, class_name)
         collection_name = model.meta['collection']
-        collection      = db[collection_name]
+        collection = db[collection_name]
 
         response = {}
-        docs     = []
-        status   = 200
+        docs = []
+        status = 200
 
-        data     = kwargs['data']
-        usrid    = kwargs['usrid']
+        data = kwargs['data']
+        usrid = kwargs['usrid']
 
         # expecting where
-        where    = data['where']
-        patch    = data['patch']
+        where = data['where']
+        patch = data['patch']
 
         # validata patch
         # init model for this doc
-        patch_errors    = validate(model, patch)
+        patch_errors = validate(model, patch)
         if patch_errors:
-            response['errors']        = patch_errors['errors']
-            response['total_errors']  = patch_errors['count']
-            status                    = 400
+            response['errors'] = patch_errors['errors']
+            response['total_errors'] = patch_errors['count']
+            status = 400
 
             return prep_response(response, status = status)
 
@@ -53,33 +56,35 @@ class Generic(object):
             new = True
         )
 
-        response['collection']    = collection_name
+        response['collection'] = collection_name
         response['total_invalid'] = 0
-        response['id']            = id.__str__()
-        response['doc']           = resp['value']
+        response['id'] = id.__str__()
+        response['doc'] = resp['value']
 
         return {'response': response, 'status_code': status}
+    
     def post(self, **kwargs):
-        db              = self.db
-        class_name      = kwargs['class_name']
-        model           = getattr(models, class_name)
+        """Docstring for post method:"""
+        db = self.db
+        class_name = kwargs['class_name']
+        model = getattr(models, class_name)
         collection_name = model.meta['collection']
-        collection      = db[collection_name]
+        collection = db[collection_name]
 
         response = {}
-        docs     = []
-        status   = 200
+        docs = []
+        status = 200
 
         docs_to_post = kwargs['docs']
 
         post_errors = []
         total_errors = 0
         for doc in docs_to_post:
-            errors     = {}
-            user_id    = "50468de92558713d84b03fd7"
+            errors = {}
+            user_id = "50468de92558713d84b03fd7"
 
             # need to stuff in class_name
-            doc['_c']  = class_name
+            doc['_c'] = class_name
 
             # Validate
             doc_errors = validate(model, doc)
@@ -89,23 +94,23 @@ class Generic(object):
                 continue
 
             # init model for this doc
-            m   = model(**doc)
+            m = model(**doc)
 
             #log date time user involved with this event
             m.logit(user_id, 'post')
 
             # need to stuff into mongo
-            doc_validated    = m.to_python()
+            doc_validated = m.to_python()
             try:
                 doc_validated['_c'] = m.meta['_c']
             except:
                 pass
 
-            doc_info         = {}
+            doc_info = {}
 
-            id               = str(collection.insert(doc_validated, safe=True))
-            doc_info['id']   = id
-            doc_info['doc']  = doc_validated
+            id = str(collection.insert(doc_validated, safe = True))
+            doc_info['id'] = id
+            doc_info['doc'] = doc_validated
             #doc_info['link'] = get_document_link(class_name, id)
 
             docs.append(doc_info)
@@ -114,9 +119,9 @@ class Generic(object):
 
         if post_errors:
             response['total_invalid'] = len(post_errors)
-            response['errors']        = post_errors
-            response['total_errors']  = total_errors
-            status                    = 400
+            response['errors'] = post_errors
+            response['total_errors'] = total_errors
+            status = 400
         else:
             response['total_invalid'] = 0
 
@@ -124,20 +129,22 @@ class Generic(object):
         response['docs'] = docs
 
         return {'response': response, 'status_code': status}
+    
     def get(self, **kwargs):
-        db              = self.db
-        class_name      = kwargs['class_name']
-        model           = getattr(models, class_name)
+        """Docstring for get method:"""
+        db = self.db
+        class_name = kwargs['class_name']
+        model = getattr(models, class_name)
         collection_name = model.meta['collection']
-        collection      = db[collection_name]
+        collection = db[collection_name]
 
         response = {}
-        docs     = []
-        status   = 200
+        docs = []
+        status = 200
 
         # if an id was passed, try to return only that one
         if 'id' in kwargs:
-            id  = kwargs['id']
+            id = kwargs['id']
             doc = collection.find_one({"_id": ObjectId(id)})
             response['doc'] = doc
             return {'response': response, 'status_code': status}
@@ -152,26 +159,26 @@ class Generic(object):
         # this allows us to filter results on the type of contact involved
         # contacts return all
         # persons return contacts that are persons, etc.
-        where['_c']             = class_name
+        where['_c'] = class_name
 
-        fields                  = kwargs['fields'] if 'fields' in kwargs else None
-        sort_raw                = kwargs['sort'] if 'sort' in kwargs else None
+        fields = kwargs['fields'] if 'fields' in kwargs else None
+        sort_raw = kwargs['sort'] if 'sort' in kwargs else None
 
         # mongo wants sorts like: [("fld1", <order>), ("fld2", <order>)]
-        sorts                   = []
+        sorts = []
         if sort_raw:
             flds = sort_raw
             for fld in flds:
-                sorts = [(k, int(v)) for k,v in fld.iteritems()]
+                sorts = [(k, int(v)) for k, v in fld.iteritems()]
 
-        skip       = int(kwargs['skip']) if 'skip' in kwargs else 0
-        limit      = int(kwargs['limit']) if 'limit' in kwargs else 0
+        skip = int(kwargs['skip']) if 'skip' in kwargs else 0
+        limit = int(kwargs['limit']) if 'limit' in kwargs else 0
         skip_limit = skip > -1 and limit
 
         if sorts:
-            cursor = collection.find(spec=where, fields=fields, skip=skip, limit=limit).sort(sorts)
+            cursor = collection.find(spec = where, fields = fields, skip = skip, limit = limit).sort(sorts)
         else:
-            cursor = collection.find(spec=where, fields=fields, skip=skip, limit=limit)
+            cursor = collection.find(spec = where, fields = fields, skip = skip, limit = limit)
         for doc in cursor:
             docs.append(doc)
 
