@@ -29,14 +29,21 @@ echo .. toctree:: >> %mainApiFile%
 echo     :maxdepth: 2 >> %mainApiFile%
 echo. >> %mainApiFile%
 
+REM 
 FOR /f "delims=" %%a in ('DIR /s /b %testsFolder%\test*.py') do ( 
 	IF NOT "%%~na" == "__init__.py" (
-		echo     %%~na >> %mainApiFile%		
-	)
+		for /D %%I in (%%a\..) DO (
+			echo     api_%%~nxI.%%~na >> %mainApiFile%
+		)	
+ 	)
 )
-
+		
 REM run tests and append the rest of .rst files to the mainApiFile
-FOR /f "delims=" %%a in ('DIR /s /b %testsFolder%\test*.py') do (nosetests -v --nocapture %%a >> %docsFolder%\%%~na.rst)
+FOR /f "delims=" %%a in ('DIR /s /b %testsFolder%\test*.py') do (
+	for /D %%I in (%%a\..) DO (
+		nosetests -v --nocapture %%a >> %docsFolder%\api_%%~nxI.%%~na.rst
+ 	)
+)
 
 REM build the docs
 "%PROJECT_ROOT%\%VIRTUALENV%\Scripts\sphinx-build.exe" -b html "%docsFolder%" "%docsFolder%\_build\html"
