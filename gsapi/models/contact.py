@@ -127,6 +127,7 @@ class Prs(Cnt):
 
     @property
     def dNam(self):
+        '''Smith Sr, Mr Bill Wayne'''
         dNam = ''
         fNam = ''
         fNam += self.title + ' ' if self.title else ''

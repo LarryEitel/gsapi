@@ -37,29 +37,25 @@ def get_es_conn(*args, **kwargs):
 class TestCase(unittest.TestCase):
 
     def setUp(self):
-        app = run.app
-        self.host = app.config['TESTING_HOST']
+        app                   = run.app
         app.config['TESTING'] = True
+        self.host             = app.config['TESTING_HOST']
 
         # es = elasticsearch
-        es_cfg = {
-            'host': app.config['ES_TEST_HOST'],
-            'port': app.config['ES_TEST_PORT'],
-            'name': app.config['ES_TEST_NAME']
-            }
+        es_cfg = app.config['ES_TEST']
 
-        app = app.test_client()
-
+        app    = app.test_client()
+        
         dbhost = app.application.config['MONGO_HOST']
         dbname = app.application.config['MONGO_TEST_DBNAME']
-        db = Connection(dbhost)[dbname]
+        db     = Connection(dbhost)[dbname]
 
         # delete existing test db
         db.connection.drop_database(dbname)
 
         # recreate
-        db = Connection(dbhost)[dbname]
-        self.db = db
+        db       = Connection(dbhost)[dbname]
+        self.db  = db
         self.app = app
 
         es = get_es_conn(cfg=es_cfg, timeout=300.0)#incremented timeout for debugging

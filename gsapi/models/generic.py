@@ -16,8 +16,6 @@ class AppId(Mod):
         'collection': 'apps',
         '_c': 'AppId',
         }
-
-
 class Share(_Model):
     _c    = StringType(required=True, description='Class')
     _public_fields = ['_c']

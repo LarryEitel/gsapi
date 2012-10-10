@@ -27,9 +27,9 @@ class TestESPyes(TestCase):
 
         sample_docs = resp['response']['docs']
 
-        index_name = "test-contacts"
         document_type = 'Cnt'
         es = self.es
+        index_name = es.__dict__['index_name']
         es.delete_index_if_exists(index_name)
         es.create_index(index_name)
 

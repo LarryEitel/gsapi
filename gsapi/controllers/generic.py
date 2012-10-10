@@ -79,15 +79,15 @@ class Generic(object):
         model           = getattr(models, class_name)
         collection_name = model.meta['collection']
         collection      = db[collection_name]
-
-        response = {}
-        docs     = []
-        status   = 200
-
-        docs_to_post = kwargs['docs']
-
-        post_errors = []
-        total_errors = 0
+        
+        response        = {}
+        docs            = []
+        status          = 200
+        
+        docs_to_post    = kwargs['docs']
+        
+        post_errors     = []
+        total_errors    = 0
         for doc in docs_to_post:
             errors     = {}
             user_id    = "50468de92558713d84b03fd7"
