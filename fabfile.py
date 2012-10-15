@@ -11,6 +11,7 @@ env.hosts      = fab['HOSTS']
 env.user       = fab['ADMIN_USER']
 env.admin_     = fab['ADMIN_USER']
 env.admin_user = fab['ADMIN_USER']
+env.password   = fab['ADMIN_PW']
 
 # TODOs
 '''
@@ -26,11 +27,25 @@ def deploy(msg="No Msg"):
     #if push_code:
         #commit_code()
     commit(msg)
-    #reload_uwsgi()
     update_remote()
-    #restart()
-    print "Perhaps:"
-    print "fab reload_code"
+    run_tests()
+    reload_uwsgi()
+
+
+def commit(msg):
+    with cd(os.path.abspath(os.path.dirname(__file__))):
+        local('git add .')
+        local('git commit -am"%s"' % msg)
+        local('git push origin master') # push local to repository
+
+def update_remote():
+    env.user       = fab['WEB_USER']
+    with cd(fab['PROJECT_ROOT']):
+        run('git pull origin master') # pull from repository to remote
+
+def run_tests():
+    with cd(fab['PROJECT_ROOT']):
+        run('export PYTHONPATH=/srv/gs/api/gsapi/:/srv/gs/api/gsapi/venv/lib/python2.7/site-packages/ && nosetests tests') 
 
 def hello():
     print("Hello world!")
@@ -64,6 +79,9 @@ def restart_gunicorn():
         sudo('kill `cat gunicorn.pid`')
         sudo('python manage.py run_gunicorn -c gunicorn.conf.py --traceback 0.0.0.0:8001')
 
+def reload_uwsgi():
+    sudo('pkill -9 uwsgi')
+
 # def reload_uwsgi():
 #     child = pexpect.spawn(pexpect_params[0])
 #     child.expect(pexpect_params[1])
@@ -78,19 +96,6 @@ def restart_gunicorn():
 def reload_nginx_conf():
     sudo('/etc/init.d/nginx check')
     sudo('/etc/init.d/nginx reload')
-
-#@run_once
-def commit(msg):
-    with cd(os.path.abspath(os.path.dirname(__file__))):
-        local('git add .')
-        local('git commit -am"%s"' % msg)
-        local('git push origin master') # push local to repository
-
-def update_remote():
-    env.user = fab['WEB_USER']
-
-    with cd(fab['PROJECT_ROOT']):
-        run('git pull origin master') # pull from repository to remote
 
 def restart():
     sudo('supervisorctl restart ourfield')

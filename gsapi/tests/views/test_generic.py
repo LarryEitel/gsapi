@@ -52,7 +52,7 @@ class TestGeneric(TestCase):
             'length' : len(data)
         }
         print "\n#### RAW REQUEST:\n%(verb)s %(url)s %(http)s\n%(headers)s\nHost: %(host)s\nContent-Length: %(length)i\n\n%(data)s\n" % addParams
-        response = self.app.post(addParams['route'], data=addParams['data'])
+        response = self.app.post('/test' + addParams['route'], data=addParams['data'])
 
         data = json.loads(response.data)
         if not response.status_code   == 200:
@@ -117,7 +117,7 @@ class TestGeneric(TestCase):
             'length' : len(data)
         }
         print "\nRAW REQUEST:\n%(verb)s %(url)s %(http)s\n%(headers)s\nHost: %(host)s\nContent-Length: %(length)i\n\n%(data)s\n" % addParams
-        response = self.app.post(addParams['route'], data=addParams['data'])
+        response = self.app.post('/test' + addParams['route'], data=addParams['data'])
 
         data = json.loads(response.data)
         if not response.status_code   == 200:
@@ -150,7 +150,7 @@ class TestGeneric(TestCase):
         test_expected_count = 4 # Note the filter on _cls
         print "RAW REQUEST:\n%s\n" % (route + query)
 
-        response = self.app.get(query)
+        response = self.app.get('/test' + query)
         assert response.status_code == 200
         data     = json.loads(response.data)
         got_docs = data['docs']
@@ -168,7 +168,7 @@ class TestGeneric(TestCase):
         print "\nVerify VIRTUAL FIELDS:"
         print "RAW REQUEST:\n%s\n" % (route + query)
 
-        response = self.app.get(query)
+        response = self.app.get('/test' + query)
         assert response.status_code == 200
 
         data = json.loads(response.data)
@@ -180,7 +180,7 @@ class TestGeneric(TestCase):
         print "\nVerify GET one doc by id:"
         print "RAW REQUEST:\n%s\n" % (route + query)
 
-        response = self.app.get(query)
+        response = self.app.get('/test' + query)
         #time.sleep(.05) # WHY?? Otherwise, returns 404
         # assert response.status_code == 200
         if response.status_code == 200:
@@ -200,7 +200,7 @@ class TestGeneric(TestCase):
         print "\nVerify WHERE:"
         print "RAW REQUEST:\n%s\n" % (route + query)
 
-        response = self.app.get(query)
+        response = self.app.get('/test' + query)
         assert response.status_code == 200
 
         data = json.loads(response.data)
@@ -230,7 +230,7 @@ class TestGeneric(TestCase):
         print "\nVerify WHERE:"
         print "RAW REQUEST:\n%s\n" % (route + query)
 
-        response = self.app.get(query)
+        response = self.app.get('/test' + query)
         assert response.status_code == 200
 
         data = json.loads(response.data)
@@ -253,7 +253,7 @@ class TestGeneric(TestCase):
         print "\nVerify WHERE:"
         print "RAW REQUEST:\n%s\n" % (route + query)
 
-        response = self.app.get(query)
+        response = self.app.get('/test' + query)
         assert response.status_code == 200
 
 
@@ -272,7 +272,7 @@ class TestGeneric(TestCase):
         print "\nVerify SORT:"
         print "RAW REQUEST:\n%s\n" % (route + query)
 
-        response = self.app.get(query)
+        response = self.app.get('/test' + query)
         assert response.status_code == 200
         data = json.loads(response.data)
         docs_found = data['docs']
@@ -289,7 +289,7 @@ class TestGeneric(TestCase):
         print "\nVerify FIELDS LIST %s:" % fields
         print "RAW REQUEST:\n%s\n" % (route + query)
 
-        response = self.app.get(query)
+        response = self.app.get('/test' + query)
         assert response.status_code == 200
         data = json.loads(response.data)
         docs_found = data['docs']
@@ -305,7 +305,7 @@ class TestGeneric(TestCase):
         print "\nVerify SKIP & LIMIT:"
         print "RAW REQUEST:\n%s\n" % (route + query)
 
-        response = self.app.get(query)
+        response = self.app.get('/test' + query)
         assert response.status_code == 200
         data = json.loads(response.data)
         docs_found = data['docs']
@@ -358,7 +358,7 @@ class TestGeneric(TestCase):
         }
         print "\nRAW REQUEST:\n%(verb)s %(url)s %(http)s\n%(headers)s\nHost: %(host)s\nContent-Length: %(length)i\n\n%(data)s\n" % addParams
 
-        response = self.app.put(addParams['route'], data=addParams['data'])
+        response = self.app.put('/test' + addParams['route'], data=addParams['data'])
 
         if not response.status_code == 200:
             print "\nFAILED! Response:\n%s" % response

@@ -14,6 +14,19 @@ class Config(object):
 
 	MONGO_TEST_DBNAME   = 'ex-test'
 
+	ES_HOST             = 'localhost'
+	ES_PORT             = 9200
+	ES_NAME       		= 'index'
+	ES_TEST_HOST        = 'localhost'
+	ES_TEST_PORT        = 9200
+	ES_TEST_NAME  		= 'index-test'
+
+	ES 					= {
+        'host': 'localhost',
+        'port': 9200,
+        'name': 'index'
+        }
+
 	#WTForms Settings
 	CSRF_ENABLED        = True
 	CSRF_SESSION_KEY    = '_csrf_token'

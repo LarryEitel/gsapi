@@ -17,7 +17,8 @@
 *.bak
 
 *.swp
-local_settings
+local_settings.py
+
 venv/
 
 *.project

@@ -22,7 +22,7 @@ class Mod(_Model):
     mLoc    = StringType()
 
     # deleted
-    dele     = BooleanType(minimized_field_name='Deleted', description='Marked for removal.')
+    dele    = BooleanType(minimized_field_name='Deleted', description='Marked for removal.')
     dBy     = ObjectIdType()
     dOn     = DateTimeType()
     dLoc    = StringType()
@@ -33,6 +33,10 @@ class Mod(_Model):
         'collection': 'contacts',
         '_c': 'Mod',
         }
+
+    @property
+    def index(self):
+        return {}
 
     @classmethod
     def logit(self, user_id, method='post'):

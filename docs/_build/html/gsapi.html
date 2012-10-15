@@ -1,0 +1,501 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>gsapi Package &mdash; gsapi 1.0 documentation</title>
+    
+    <link rel="stylesheet" href="_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '',
+        VERSION:     '1.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="top" title="gsapi 1.0 documentation" href="index.html" />
+    <link rel="next" title="controllers Package" href="gsapi.controllers.html" />
+    <link rel="prev" title="Welcome to gsapi’s documentation!" href="index.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="gsapi.controllers.html" title="controllers Package"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="index.html" title="Welcome to gsapi’s documentation!"
+             accesskey="P">previous</a> |</li>
+        <li><a href="index.html">gsapi 1.0 documentation</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="gsapi-package">
+<h1>gsapi Package<a class="headerlink" href="#gsapi-package" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="api-module">
+<h2><tt class="xref py py-mod docutils literal"><span class="pre">api</span></tt> Module<a class="headerlink" href="#api-module" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="module-gsapi.auth">
+<span id="auth-module"></span><h2><tt class="xref py py-mod docutils literal"><span class="pre">auth</span></tt> Module<a class="headerlink" href="#module-gsapi.auth" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="gsapi.auth.authenticate">
+<tt class="descclassname">gsapi.auth.</tt><tt class="descname">authenticate</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/gsapi/auth.html#authenticate"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#gsapi.auth.authenticate" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sends a 401 response that enables basic auth</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="gsapi.auth.check_auth">
+<tt class="descclassname">gsapi.auth.</tt><tt class="descname">check_auth</tt><big>(</big><em>username</em>, <em>password</em><big>)</big><a class="reference internal" href="_modules/gsapi/auth.html#check_auth"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#gsapi.auth.check_auth" title="Permalink to this definition">¶</a></dt>
+<dd><p>This function is called to check if a username /
+password combination is valid.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="gsapi.auth.requires_auth">
+<tt class="descclassname">gsapi.auth.</tt><tt class="descname">requires_auth</tt><big>(</big><em>f</em><big>)</big><a class="reference internal" href="_modules/gsapi/auth.html#requires_auth"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#gsapi.auth.requires_auth" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</div>
+<div class="section" id="db-module">
+<h2><tt class="xref py py-mod docutils literal"><span class="pre">db</span></tt> Module<a class="headerlink" href="#db-module" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="module-gsapi.extensions">
+<span id="extensions-module"></span><h2><tt class="xref py py-mod docutils literal"><span class="pre">extensions</span></tt> Module<a class="headerlink" href="#module-gsapi.extensions" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="gsapi.extensions.RegexConverter">
+<em class="property">class </em><tt class="descclassname">gsapi.extensions.</tt><tt class="descname">RegexConverter</tt><big>(</big><em>url_map</em>, <em>*items</em><big>)</big><a class="reference internal" href="_modules/gsapi/extensions.html#RegexConverter"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#gsapi.extensions.RegexConverter" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <tt class="xref py py-class docutils literal"><span class="pre">werkzeug.routing.BaseConverter</span></tt></p>
+</dd></dl>
+
+<dl class="function">
+<dt id="gsapi.extensions.validate">
+<tt class="descclassname">gsapi.extensions.</tt><tt class="descname">validate</tt><big>(</big><em>model</em>, <em>doc</em><big>)</big><a class="reference internal" href="_modules/gsapi/extensions.html#validate"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#gsapi.extensions.validate" title="Permalink to this definition">¶</a></dt>
+<dd><p>Validate all fields. Return any/all failed validation along with details</p>
+</dd></dl>
+
+</div>
+<div class="section" id="module-gsapi.jsondatetime">
+<span id="jsondatetime-module"></span><h2><tt class="xref py py-mod docutils literal"><span class="pre">jsondatetime</span></tt> Module<a class="headerlink" href="#module-gsapi.jsondatetime" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="gsapi.jsondatetime.iteritems">
+<tt class="descclassname">gsapi.jsondatetime.</tt><tt class="descname">iteritems</tt><big>(</big><em>source</em>, <em>format</em><big>)</big><a class="reference internal" href="_modules/gsapi/jsondatetime.html#iteritems"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#gsapi.jsondatetime.iteritems" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="gsapi.jsondatetime.loads">
+<tt class="descclassname">gsapi.jsondatetime.</tt><tt class="descname">loads</tt><big>(</big><em>s</em>, <em>**kwargs</em><big>)</big><a class="reference internal" href="_modules/gsapi/jsondatetime.html#loads"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#gsapi.jsondatetime.loads" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</div>
+<div class="section" id="module-gsapi.local_settings">
+<span id="local-settings-module"></span><h2><tt class="xref py py-mod docutils literal"><span class="pre">local_settings</span></tt> Module<a class="headerlink" href="#module-gsapi.local_settings" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="gsapi.local_settings.Config">
+<em class="property">class </em><tt class="descclassname">gsapi.local_settings.</tt><tt class="descname">Config</tt><a class="reference internal" href="_modules/gsapi/local_settings.html#Config"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#gsapi.local_settings.Config" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <tt class="xref py py-class docutils literal"><span class="pre">object</span></tt></p>
+<dl class="attribute">
+<dt id="gsapi.local_settings.Config.CSRF_ENABLED">
+<tt class="descname">CSRF_ENABLED</tt><em class="property"> = True</em><a class="headerlink" href="#gsapi.local_settings.Config.CSRF_ENABLED" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="gsapi.local_settings.Config.CSRF_SESSION_KEY">
+<tt class="descname">CSRF_SESSION_KEY</tt><em class="property"> = '_csrf_token'</em><a class="headerlink" href="#gsapi.local_settings.Config.CSRF_SESSION_KEY" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="gsapi.local_settings.Config.DEBUG">
+<tt class="descname">DEBUG</tt><em class="property"> = False</em><a class="headerlink" href="#gsapi.local_settings.Config.DEBUG" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="gsapi.local_settings.Config.DEFAULT_MAIL_SENDER">
+<tt class="descname">DEFAULT_MAIL_SENDER</tt><em class="property"> = None</em><a class="headerlink" href="#gsapi.local_settings.Config.DEFAULT_MAIL_SENDER" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="gsapi.local_settings.Config.DOMAIN">
+<tt class="descname">DOMAIN</tt><em class="property"> = {'Cnt': 1, 'Usr': 1, 'Prs': 1, 'Cmp': 1}</em><a class="headerlink" href="#gsapi.local_settings.Config.DOMAIN" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="gsapi.local_settings.Config.ES_HOST">
+<tt class="descname">ES_HOST</tt><em class="property"> = '192.168.1.139'</em><a class="headerlink" href="#gsapi.local_settings.Config.ES_HOST" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="gsapi.local_settings.Config.ES_NAME">
+<tt class="descname">ES_NAME</tt><em class="property"> = 'gsapi'</em><a class="headerlink" href="#gsapi.local_settings.Config.ES_NAME" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="gsapi.local_settings.Config.ES_PORT">
+<tt class="descname">ES_PORT</tt><em class="property"> = 9200</em><a class="headerlink" href="#gsapi.local_settings.Config.ES_PORT" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="gsapi.local_settings.Config.ES_TEST_HOST">
+<tt class="descname">ES_TEST_HOST</tt><em class="property"> = '192.168.1.139'</em><a class="headerlink" href="#gsapi.local_settings.Config.ES_TEST_HOST" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="gsapi.local_settings.Config.ES_TEST_NAME">
+<tt class="descname">ES_TEST_NAME</tt><em class="property"> = 'gsapi-test'</em><a class="headerlink" href="#gsapi.local_settings.Config.ES_TEST_NAME" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="gsapi.local_settings.Config.ES_TEST_PORT">
+<tt class="descname">ES_TEST_PORT</tt><em class="property"> = 9200</em><a class="headerlink" href="#gsapi.local_settings.Config.ES_TEST_PORT" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="gsapi.local_settings.Config.FABRIC">
+<tt class="descname">FABRIC</tt><em class="property"> = {'live': {'WEB_USER': 'larry', 'PROJECT_ROOT': '/srv/gs/api/gsapi', 'ADMIN_USER': 'root', 'HOSTS': ['50.116.35.54:22'], 'ADMIN_PW': 'Stop&amp;Think'}}</em><a class="headerlink" href="#gsapi.local_settings.Config.FABRIC" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="gsapi.local_settings.Config.MAIL_DEBUG">
+<tt class="descname">MAIL_DEBUG</tt><em class="property"> = False</em><a class="headerlink" href="#gsapi.local_settings.Config.MAIL_DEBUG" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="gsapi.local_settings.Config.MAIL_PASSWORD">
+<tt class="descname">MAIL_PASSWORD</tt><em class="property"> = None</em><a class="headerlink" href="#gsapi.local_settings.Config.MAIL_PASSWORD" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="gsapi.local_settings.Config.MAIL_PORT">
+<tt class="descname">MAIL_PORT</tt><em class="property"> = 25</em><a class="headerlink" href="#gsapi.local_settings.Config.MAIL_PORT" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="gsapi.local_settings.Config.MAIL_SERVER">
+<tt class="descname">MAIL_SERVER</tt><em class="property"> = 'localhost'</em><a class="headerlink" href="#gsapi.local_settings.Config.MAIL_SERVER" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="gsapi.local_settings.Config.MAIL_USERNAME">
+<tt class="descname">MAIL_USERNAME</tt><em class="property"> = None</em><a class="headerlink" href="#gsapi.local_settings.Config.MAIL_USERNAME" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="gsapi.local_settings.Config.MAIL_USE_SSL">
+<tt class="descname">MAIL_USE_SSL</tt><em class="property"> = False</em><a class="headerlink" href="#gsapi.local_settings.Config.MAIL_USE_SSL" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="gsapi.local_settings.Config.MAIL_USE_TLS">
+<tt class="descname">MAIL_USE_TLS</tt><em class="property"> = False</em><a class="headerlink" href="#gsapi.local_settings.Config.MAIL_USE_TLS" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="gsapi.local_settings.Config.MONGO_DBNAME">
+<tt class="descname">MONGO_DBNAME</tt><em class="property"> = 'gsapi-test'</em><a class="headerlink" href="#gsapi.local_settings.Config.MONGO_DBNAME" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="gsapi.local_settings.Config.MONGO_HOST">
+<tt class="descname">MONGO_HOST</tt><em class="property"> = '192.168.1.139'</em><a class="headerlink" href="#gsapi.local_settings.Config.MONGO_HOST" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="gsapi.local_settings.Config.MONGO_TEST_DBNAME">
+<tt class="descname">MONGO_TEST_DBNAME</tt><em class="property"> = 'gsapi-test'</em><a class="headerlink" href="#gsapi.local_settings.Config.MONGO_TEST_DBNAME" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="gsapi.local_settings.Config.SECRET_KEY">
+<tt class="descname">SECRET_KEY</tt><em class="property"> = 'a[U\\^U;N_OGX5WG+9F\\:ba[U\\^yA|Nx|xf6&quot;^'</em><a class="headerlink" href="#gsapi.local_settings.Config.SECRET_KEY" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="gsapi.local_settings.Config.TESTING_HOST">
+<tt class="descname">TESTING_HOST</tt><em class="property"> = '192.168.1.139:5000'</em><a class="headerlink" href="#gsapi.local_settings.Config.TESTING_HOST" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-gsapi.run">
+<span id="run-module"></span><h2><tt class="xref py py-mod docutils literal"><span class="pre">run</span></tt> Module<a class="headerlink" href="#module-gsapi.run" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="gsapi.run.es">
+<tt class="descclassname">gsapi.run.</tt><tt class="descname">es</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/gsapi/run.html#es"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#gsapi.run.es" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="gsapi.run.get">
+<tt class="descclassname">gsapi.run.</tt><tt class="descname">get</tt><big>(</big><em>class_name</em>, <em>id=None</em><big>)</big><a class="reference internal" href="_modules/gsapi/run.html#get"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#gsapi.run.get" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="gsapi.run.home">
+<tt class="descclassname">gsapi.run.</tt><tt class="descname">home</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/gsapi/run.html#home"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#gsapi.run.home" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="gsapi.run.main">
+<tt class="descclassname">gsapi.run.</tt><tt class="descname">main</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/gsapi/run.html#main"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#gsapi.run.main" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="gsapi.run.post">
+<tt class="descclassname">gsapi.run.</tt><tt class="descname">post</tt><big>(</big><em>class_name</em><big>)</big><a class="reference internal" href="_modules/gsapi/run.html#post"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#gsapi.run.post" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="gsapi.run.put">
+<tt class="descclassname">gsapi.run.</tt><tt class="descname">put</tt><big>(</big><em>class_name</em><big>)</big><a class="reference internal" href="_modules/gsapi/run.html#put"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#gsapi.run.put" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</div>
+<div class="section" id="module-gsapi.settings">
+<span id="settings-module"></span><h2><tt class="xref py py-mod docutils literal"><span class="pre">settings</span></tt> Module<a class="headerlink" href="#module-gsapi.settings" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="gsapi.settings.Config">
+<em class="property">class </em><tt class="descclassname">gsapi.settings.</tt><tt class="descname">Config</tt><a class="reference internal" href="_modules/gsapi/settings.html#Config"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#gsapi.settings.Config" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#gsapi.local_settings.Config" title="gsapi.local_settings.Config"><tt class="xref py py-class docutils literal"><span class="pre">gsapi.local_settings.Config</span></tt></a></p>
+</dd></dl>
+
+</div>
+<div class="section" id="module-gsapi.utils">
+<span id="utils-module"></span><h2><tt class="xref py py-mod docutils literal"><span class="pre">utils</span></tt> Module<a class="headerlink" href="#module-gsapi.utils" title="Permalink to this headline">¶</a></h2>
+<dl class="exception">
+<dt id="gsapi.utils.Redirect303">
+<em class="property">exception </em><tt class="descclassname">gsapi.utils.</tt><tt class="descname">Redirect303</tt><big>(</big><em>new_url</em><big>)</big><a class="reference internal" href="_modules/gsapi/utils.html#Redirect303"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#gsapi.utils.Redirect303" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <tt class="xref py py-class docutils literal"><span class="pre">werkzeug.exceptions.HTTPException</span></tt>, <tt class="xref py py-class docutils literal"><span class="pre">werkzeug.routing.RoutingException</span></tt></p>
+<p>Raise if the map requests a redirect. This is for example the case if
+<cite>strict_slashes</cite> are activated and an url that requires a trailing slash.</p>
+<p>The attribute <cite>new_url</cite> contains the absolute destination url.</p>
+<dl class="attribute">
+<dt id="gsapi.utils.Redirect303.code">
+<tt class="descname">code</tt><em class="property"> = 303</em><a class="headerlink" href="#gsapi.utils.Redirect303.code" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="gsapi.utils.Redirect303.get_response">
+<tt class="descname">get_response</tt><big>(</big><em>environ</em><big>)</big><a class="reference internal" href="_modules/gsapi/utils.html#Redirect303.get_response"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#gsapi.utils.Redirect303.get_response" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="function">
+<dt id="gsapi.utils.load_data">
+<tt class="descclassname">gsapi.utils.</tt><tt class="descname">load_data</tt><big>(</big><em>db</em>, <em>json_filepath</em><big>)</big><a class="reference internal" href="_modules/gsapi/utils.html#load_data"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#gsapi.utils.load_data" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bulk load from json into corresponding collections.
+Each item is expected to contain &#8216;_c&#8217; which represents the model class and the collection it belongs to.
+Validation rules are tested for each doc.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="gsapi.utils.mongo_json_object_hook">
+<tt class="descclassname">gsapi.utils.</tt><tt class="descname">mongo_json_object_hook</tt><big>(</big><em>dct</em><big>)</big><a class="reference internal" href="_modules/gsapi/utils.html#mongo_json_object_hook"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#gsapi.utils.mongo_json_object_hook" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="gsapi.utils.preparse_json_doc">
+<tt class="descclassname">gsapi.utils.</tt><tt class="descname">preparse_json_doc</tt><big>(</big><em>jstr</em><big>)</big><a class="reference internal" href="_modules/gsapi/utils.html#preparse_json_doc"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#gsapi.utils.preparse_json_doc" title="Permalink to this definition">¶</a></dt>
+<dd><p>Preparse to better identify ObjectId&#8217;s and DateTimes
+Preparse json file which may have been come from mongoexport or MongoVue dump or hand edited.</p>
+<p>OBJECTIDs</p>
+<p># as exported by mongoexport
+Convert:    { &#8220;$oid&#8221; : &#8220;50536c4c2558712e205a269a&#8221; }
+To:         &#8220;$oid:50536c4c2558712e205a269a&#8221;</p>
+<p># as exported by MongoVue
+Convert:    ObjectId(&#8220;50536c4c2558792f205a299d&#8221;)
+To:         &#8220;$oid:50536c4c2558792f205a299d&#8221;</p>
+<p>DATES</p>
+<p># as exported by mongoexport
+Convert:    { &#8220;$date&#8221; : 1347644492471 }
+To:         &#8220;$date:1347644492471&#8221;</p>
+<p># If someone wants to manually set a datetime in more human readable form. Good for testing.
+Convert:    ISODate(&#8220;2012-09-14T17:41:32.471Z&#8221;)
+To:         &#8220;$isodate:2012-09-14T17:41:32.471Z&#8221;</p>
+<dl class="docutils">
+<dt>One motivation was that the json.loads object_hook could not handle values that dictionaries. For example:</dt>
+<dd><p class="first">&#8220;oBy&#8221; : { &#8220;$oid&#8221; : &#8220;50468de92558713d84b03fd7&#8221; }</p>
+<p>object_hook function would hook dict.key &#8220;$oid&#8221; along with numeric value. This needs to be converted to an ObjectId(&#8220;50468de92558713d84b03fd7&#8221;) as a value of &#8220;oBy&#8221;.
+Ultimately the ultimate result should be:</p>
+<blockquote class="last">
+<div><p>&#8220;oBy&#8221; : ObjectId(&#8220;50468de92558713d84b03fd7&#8221;)</p>
+<p>This is what will be sent to MongoDb!</p>
+</div></blockquote>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="gsapi.utils.slugify">
+<tt class="descclassname">gsapi.utils.</tt><tt class="descname">slugify</tt><big>(</big><em>value</em><big>)</big><a class="reference internal" href="_modules/gsapi/utils.html#slugify"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#gsapi.utils.slugify" title="Permalink to this definition">¶</a></dt>
+<dd><p>Normalizes string, converts to lowercase, removes non-alpha characters,
+and converts spaces to hyphens.</p>
+<p>Copy/Pasted from ametaireau/pelican/utils itself took from django sources.</p>
+</dd></dl>
+
+</div>
+<div class="section" id="subpackages">
+<h2>Subpackages<a class="headerlink" href="#subpackages" title="Permalink to this headline">¶</a></h2>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="gsapi.controllers.html">controllers Package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="gsapi.controllers.html#id1"><tt class="docutils literal"><span class="pre">controllers</span></tt> Package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="gsapi.controllers.html#module-gsapi.controllers.generic"><tt class="docutils literal"><span class="pre">generic</span></tt> Module</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="gsapi.models.html">models Package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="gsapi.models.html#id1"><tt class="docutils literal"><span class="pre">models</span></tt> Package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="gsapi.models.html#module-gsapi.models.contact"><tt class="docutils literal"><span class="pre">contact</span></tt> Module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="gsapi.models.html#module-gsapi.models.generic"><tt class="docutils literal"><span class="pre">generic</span></tt> Module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="gsapi.models.html#module-gsapi.models.model"><tt class="docutils literal"><span class="pre">model</span></tt> Module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="gsapi.models.html#widget-module"><tt class="docutils literal"><span class="pre">widget</span></tt> Module</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="gsapi.tests.html">tests Package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="gsapi.tests.html#module-gsapi.tests.base"><tt class="docutils literal"><span class="pre">base</span></tt> Module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="gsapi.tests.html#module-gsapi.tests.esbase"><tt class="docutils literal"><span class="pre">esbase</span></tt> Module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="gsapi.tests.html#subpackages">Subpackages</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="gsapi.tests.controllers.html">controllers Package</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="gsapi.tests.controllers.html#module-gsapi.tests.controllers.test_generic"><tt class="docutils literal"><span class="pre">test_generic</span></tt> Module</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="gsapi.tests.elastic.html">elastic Package</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="gsapi.tests.elastic.html#module-gsapi.tests.elastic.test_elastic_pyes"><tt class="docutils literal"><span class="pre">test_elastic_pyes</span></tt> Module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="gsapi.tests.elastic.html#module-gsapi.tests.elastic.test_elasticsearch"><tt class="docutils literal"><span class="pre">test_elasticsearch</span></tt> Module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="gsapi.tests.elastic.html#module-gsapi.tests.elastic.test_nested"><tt class="docutils literal"><span class="pre">test_nested</span></tt> Module</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="gsapi.tests.helpers.html">helpers Package</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="gsapi.tests.helpers.html#api-module"><tt class="docutils literal"><span class="pre">api</span></tt> Module</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="gsapi.tests.misc.html">misc Package</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="gsapi.tests.misc.html#module-gsapi.tests.misc.test_parse_json"><tt class="docutils literal"><span class="pre">test_parse_json</span></tt> Module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="gsapi.tests.misc.html#module-gsapi.tests.misc.test_utils"><tt class="docutils literal"><span class="pre">test_utils</span></tt> Module</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="gsapi.tests.usecases.html">usecases Package</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="gsapi.tests.usecases.html#module-gsapi.tests.usecases.test_usecases_appkey"><tt class="docutils literal"><span class="pre">test_usecases_appkey</span></tt> Module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="gsapi.tests.usecases.html#module-gsapi.tests.usecases.test_usecases_initial"><tt class="docutils literal"><span class="pre">test_usecases_initial</span></tt> Module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="gsapi.tests.usecases.html#module-gsapi.tests.usecases.test_usecases_usr"><tt class="docutils literal"><span class="pre">test_usecases_usr</span></tt> Module</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="gsapi.tests.views.html">views Package</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="gsapi.tests.views.html#module-gsapi.tests.views.test_generic"><tt class="docutils literal"><span class="pre">test_generic</span></tt> Module</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="gsapi.views.html">views Package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="gsapi.views.html#module-gsapi.views.contacts"><tt class="docutils literal"><span class="pre">contacts</span></tt> Module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="gsapi.views.html#module-gsapi.views.generic"><tt class="docutils literal"><span class="pre">generic</span></tt> Module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="gsapi.views.html#module-gsapi.views.utils"><tt class="docutils literal"><span class="pre">utils</span></tt> Module</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">gsapi Package</a><ul>
+<li><a class="reference internal" href="#api-module"><tt class="docutils literal"><span class="pre">api</span></tt> Module</a></li>
+<li><a class="reference internal" href="#module-gsapi.auth"><tt class="docutils literal"><span class="pre">auth</span></tt> Module</a></li>
+<li><a class="reference internal" href="#db-module"><tt class="docutils literal"><span class="pre">db</span></tt> Module</a></li>
+<li><a class="reference internal" href="#module-gsapi.extensions"><tt class="docutils literal"><span class="pre">extensions</span></tt> Module</a></li>
+<li><a class="reference internal" href="#module-gsapi.jsondatetime"><tt class="docutils literal"><span class="pre">jsondatetime</span></tt> Module</a></li>
+<li><a class="reference internal" href="#module-gsapi.local_settings"><tt class="docutils literal"><span class="pre">local_settings</span></tt> Module</a></li>
+<li><a class="reference internal" href="#module-gsapi.run"><tt class="docutils literal"><span class="pre">run</span></tt> Module</a></li>
+<li><a class="reference internal" href="#module-gsapi.settings"><tt class="docutils literal"><span class="pre">settings</span></tt> Module</a></li>
+<li><a class="reference internal" href="#module-gsapi.utils"><tt class="docutils literal"><span class="pre">utils</span></tt> Module</a></li>
+<li><a class="reference internal" href="#subpackages">Subpackages</a><ul>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="index.html"
+                        title="previous chapter">Welcome to gsapi&#8217;s documentation!</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="gsapi.controllers.html"
+                        title="next chapter">controllers Package</a></p>
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="_sources/gsapi.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="gsapi.controllers.html" title="controllers Package"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="index.html" title="Welcome to gsapi’s documentation!"
+             >previous</a> |</li>
+        <li><a href="index.html">gsapi 1.0 documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2012, Larry Eitel.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.1.3.
+    </div>
+  </body>
+</html>

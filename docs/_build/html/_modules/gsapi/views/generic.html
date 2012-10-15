@@ -1,0 +1,397 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>gsapi.views.generic &mdash; gsapi 1.0 documentation</title>
+    
+    <link rel="stylesheet" href="../../../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../../',
+        VERSION:     '1.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../../_static/doctools.js"></script>
+    <link rel="top" title="gsapi 1.0 documentation" href="../../../index.html" />
+    <link rel="up" title="Module code" href="../../index.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li><a href="../../../index.html">gsapi 1.0 documentation</a> &raquo;</li>
+          <li><a href="../../index.html" accesskey="U">Module code</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <h1>Source code for gsapi.views.generic</h1><div class="highlight"><pre>
+<span class="c"># -*- coding: utf-8 -*-</span>
+<span class="kn">from</span> <span class="nn">flask</span> <span class="kn">import</span> <span class="n">make_response</span><span class="p">,</span> <span class="n">jsonify</span><span class="p">,</span> <span class="n">abort</span>
+<span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">import</span> <span class="nn">json</span>
+<span class="kn">import</span> <span class="nn">mimerender</span>
+<span class="kn">import</span> <span class="nn">json</span>
+<span class="kn">from</span> <span class="nn">flask</span> <span class="kn">import</span> <span class="n">request</span>
+<span class="kn">from</span> <span class="nn">bson</span> <span class="kn">import</span> <span class="n">ObjectId</span>
+<span class="kn">from</span> <span class="nn">bson.json_util</span> <span class="kn">import</span> <span class="n">dumps</span>
+<span class="kn">from</span> <span class="nn">bson</span> <span class="kn">import</span> <span class="n">json_util</span>
+<span class="kn">import</span> <span class="nn">re</span>
+<span class="kn">import</span> <span class="nn">datetime</span>
+<span class="kn">from</span> <span class="nn">flask</span> <span class="kn">import</span> <span class="n">current_app</span>
+
+<span class="kn">from</span> <span class="nn">gsapi</span> <span class="kn">import</span> <span class="n">models</span><span class="p">,</span> <span class="n">controllers</span>
+<span class="kn">from</span> <span class="nn">gsapi.utils</span> <span class="kn">import</span> <span class="n">mongo_json_object_hook</span>
+<span class="kn">from</span> <span class="nn">gsapi.extensions</span> <span class="kn">import</span> <span class="n">validate</span>
+<span class="kn">from</span> <span class="nn">gsapi.jsondatetime</span> <span class="kn">import</span> <span class="n">loads</span>
+
+<span class="n">mimerender</span>  <span class="o">=</span> <span class="n">mimerender</span><span class="o">.</span><span class="n">FlaskMimeRender</span><span class="p">()</span>
+
+<span class="n">render_xml</span>  <span class="o">=</span> <span class="k">lambda</span> <span class="n">message</span><span class="p">:</span> <span class="s">&#39;&lt;message&gt;</span><span class="si">%s</span><span class="s">&lt;/message&gt;&#39;</span><span class="o">%</span><span class="n">message</span>
+<span class="n">render_json</span> <span class="o">=</span> <span class="k">lambda</span> <span class="o">**</span><span class="n">args</span><span class="p">:</span> <span class="n">dumps</span><span class="p">(</span><span class="n">args</span><span class="p">)</span>
+<span class="n">render_html</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">message</span><span class="p">:</span> <span class="s">&#39;&lt;html&gt;&lt;body&gt;</span><span class="si">%s</span><span class="s">&lt;/body&gt;&lt;/html&gt;&#39;</span><span class="o">%</span><span class="n">message</span>
+<span class="n">render_txt</span>  <span class="o">=</span> <span class="k">lambda</span> <span class="n">message</span><span class="p">:</span> <span class="n">message</span>
+
+<div class="viewcode-block" id="get_document_link"><a class="viewcode-back" href="../../../gsapi.views.html#gsapi.views.generic.get_document_link">[docs]</a><span class="k">def</span> <span class="nf">get_document_link</span><span class="p">(</span><span class="n">model_name</span><span class="p">,</span> <span class="nb">id</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    Returns the link to the document</span>
+<span class="sd">    </span>
+<span class="sd">    Parameters:</span>
+<span class="sd">        model_name - </span>
+<span class="sd">        id - </span>
+<span class="sd">        </span>
+<span class="sd">    Returns</span>
+<span class="sd">        The document link</span>
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="k">return</span> <span class="s">&quot;http://localhost:5000/</span><span class="si">%s</span><span class="s">/</span><span class="si">%s</span><span class="s">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">model_name</span><span class="p">,</span> <span class="nb">id</span><span class="p">)</span>
+
+</div>
+<div class="viewcode-block" id="json_renderer"><a class="viewcode-back" href="../../../gsapi.views.html#gsapi.views.generic.json_renderer">[docs]</a><span class="k">def</span> <span class="nf">json_renderer</span><span class="p">(</span><span class="o">**</span><span class="n">data</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">jsonify</span><span class="p">(</span><span class="n">loads</span><span class="p">(</span><span class="n">dumps</span><span class="p">(</span><span class="n">data</span><span class="p">)))</span>
+</div>
+<div class="viewcode-block" id="prep_response"><a class="viewcode-back" href="../../../gsapi.views.html#gsapi.views.generic.prep_response">[docs]</a><span class="k">def</span> <span class="nf">prep_response</span><span class="p">(</span><span class="n">dct</span><span class="p">,</span> <span class="n">status</span><span class="o">=</span><span class="mi">200</span><span class="p">):</span>
+    <span class="c">#mime, render = get_best_mime()</span>
+    <span class="n">renderer</span> <span class="o">=</span> <span class="n">json_renderer</span>
+    <span class="n">mime</span> <span class="o">=</span> <span class="s">&#39;Content-Type: application/json&#39;</span>
+    <span class="c">#rendered = globals()[render](**dct)</span>
+    <span class="n">rendered</span> <span class="o">=</span> <span class="n">renderer</span><span class="p">(</span><span class="o">**</span><span class="n">dct</span><span class="p">)</span>
+    <span class="n">resp</span> <span class="o">=</span> <span class="n">make_response</span><span class="p">(</span><span class="n">rendered</span><span class="p">,</span> <span class="n">status</span><span class="p">)</span>
+    <span class="n">resp</span><span class="o">.</span><span class="n">mimetype</span> <span class="o">=</span> <span class="n">mime</span>
+    <span class="k">return</span> <span class="n">resp</span>
+</div>
+<div class="viewcode-block" id="es"><a class="viewcode-back" href="../../../gsapi.views.html#gsapi.views.generic.es">[docs]</a><span class="k">def</span> <span class="nf">es</span><span class="p">(</span><span class="n">models</span><span class="p">):</span>
+    <span class="n">response</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="n">links</span>    <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">host</span>     <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="n">url</span>
+    
+    <span class="k">return</span> <span class="n">prep_response</span><span class="p">(</span><span class="n">response</span><span class="p">,</span> <span class="n">status</span> <span class="o">=</span> <span class="mi">200</span><span class="p">)</span>
+</div>
+<div class="viewcode-block" id="home"><a class="viewcode-back" href="../../../gsapi.views.html#gsapi.views.generic.home">[docs]</a><span class="k">def</span> <span class="nf">home</span><span class="p">(</span><span class="n">models</span><span class="p">):</span>
+    <span class="n">response</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="n">links</span>    <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">host</span>     <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="n">url</span>
+    <span class="k">for</span> <span class="n">model</span> <span class="ow">in</span> <span class="n">models</span><span class="p">:</span>
+        <span class="n">links</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s">&quot;&lt;link rel=&#39;child&#39; title=&#39;</span><span class="si">%(name)s</span><span class="s">&#39; href=&#39;</span><span class="si">%(modelURI)s</span><span class="s">&#39; /&gt;&quot;</span> <span class="o">%</span>
+            <span class="p">{</span><span class="s">&#39;name&#39;</span><span class="p">:</span><span class="n">model</span><span class="p">,</span> <span class="s">&#39;modelURI&#39;</span><span class="p">:</span> <span class="n">host</span> <span class="o">+</span> <span class="n">model</span><span class="p">})</span>
+    <span class="n">response</span><span class="p">[</span><span class="s">&#39;links&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">links</span>
+    <span class="k">return</span> <span class="n">prep_response</span><span class="p">(</span><span class="n">response</span><span class="p">,</span> <span class="n">status</span> <span class="o">=</span> <span class="mi">200</span><span class="p">)</span>
+</div>
+<div class="viewcode-block" id="post"><a class="viewcode-back" href="../../../gsapi.views.html#gsapi.views.generic.post">[docs]</a><span class="k">def</span> <span class="nf">post</span><span class="p">(</span><span class="n">class_name</span><span class="p">):</span>
+    <span class="kn">from</span> <span class="nn">db</span> <span class="kn">import</span> <span class="n">db</span>
+    <span class="n">generic</span>  <span class="o">=</span> <span class="n">controllers</span><span class="o">.</span><span class="n">Generic</span><span class="p">(</span><span class="n">db</span><span class="p">)</span>
+
+    <span class="c">#data = loads(request.data)</span>
+    <span class="n">data</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="n">data</span>
+
+    <span class="n">docs_to_post</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">object_hook</span><span class="o">=</span><span class="n">json_util</span><span class="o">.</span><span class="n">object_hook</span><span class="p">)</span>
+
+    <span class="c"># if a dict, then stuff it into a list</span>
+    <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">docs_to_post</span><span class="p">)</span> <span class="o">==</span> <span class="nb">dict</span><span class="p">:</span> <span class="n">docs_to_post</span> <span class="o">=</span> <span class="p">[</span><span class="n">docs_to_post</span><span class="p">]</span>
+
+    <span class="n">args</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">request</span><span class="o">.</span><span class="n">view_args</span><span class="o">.</span><span class="n">items</span><span class="p">()</span> <span class="o">+</span> <span class="n">request</span><span class="o">.</span><span class="n">args</span><span class="o">.</span><span class="n">items</span><span class="p">())</span>
+    <span class="n">args</span><span class="p">[</span><span class="s">&#39;docs&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">docs_to_post</span>
+
+    <span class="n">response</span> <span class="o">=</span> <span class="n">generic</span><span class="o">.</span><span class="n">post</span><span class="p">(</span><span class="o">**</span><span class="n">args</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">prep_response</span><span class="p">(</span><span class="n">response</span><span class="p">[</span><span class="s">&#39;response&#39;</span><span class="p">],</span> <span class="n">status</span> <span class="o">=</span> <span class="n">response</span><span class="p">[</span><span class="s">&#39;status_code&#39;</span><span class="p">])</span>
+
+</div>
+<div class="viewcode-block" id="put"><a class="viewcode-back" href="../../../gsapi.views.html#gsapi.views.generic.put">[docs]</a><span class="k">def</span> <span class="nf">put</span><span class="p">(</span><span class="n">class_name</span><span class="p">):</span>
+    <span class="kn">from</span> <span class="nn">db</span> <span class="kn">import</span> <span class="n">db</span>
+    <span class="n">generic</span>  <span class="o">=</span> <span class="n">controllers</span><span class="o">.</span><span class="n">Generic</span><span class="p">(</span><span class="n">db</span><span class="p">)</span>
+
+    <span class="n">data</span>          <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">request</span><span class="o">.</span><span class="n">data</span><span class="p">,</span> <span class="n">object_hook</span><span class="o">=</span><span class="n">json_util</span><span class="o">.</span><span class="n">object_hook</span><span class="p">)</span>
+
+    <span class="n">args</span>          <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">request</span><span class="o">.</span><span class="n">view_args</span><span class="o">.</span><span class="n">items</span><span class="p">()</span> <span class="o">+</span> <span class="n">request</span><span class="o">.</span><span class="n">args</span><span class="o">.</span><span class="n">items</span><span class="p">())</span>
+    <span class="n">args</span><span class="p">[</span><span class="s">&#39;data&#39;</span><span class="p">]</span>  <span class="o">=</span> <span class="n">data</span>
+    <span class="n">args</span><span class="p">[</span><span class="s">&#39;usrid&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s">&quot;50468de92558713d84b03fd7&quot;</span>
+
+    <span class="n">response</span>      <span class="o">=</span> <span class="n">generic</span><span class="o">.</span><span class="n">put</span><span class="p">(</span><span class="o">**</span><span class="n">args</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">prep_response</span><span class="p">(</span><span class="n">response</span><span class="p">[</span><span class="s">&#39;response&#39;</span><span class="p">],</span> <span class="n">status</span> <span class="o">=</span> <span class="n">response</span><span class="p">[</span><span class="s">&#39;status_code&#39;</span><span class="p">])</span>
+</div>
+<div class="viewcode-block" id="get"><a class="viewcode-back" href="../../../gsapi.views.html#gsapi.views.generic.get">[docs]</a><span class="k">def</span> <span class="nf">get</span><span class="p">(</span><span class="n">class_name</span><span class="p">,</span> <span class="nb">id</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+    <span class="kn">from</span> <span class="nn">db</span> <span class="kn">import</span> <span class="n">db</span>
+    <span class="n">generic</span>  <span class="o">=</span> <span class="n">controllers</span><span class="o">.</span><span class="n">Generic</span><span class="p">(</span><span class="n">db</span><span class="p">)</span>
+
+    <span class="n">parsed_args</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="nb">dict</span><span class="p">(</span><span class="n">request</span><span class="o">.</span><span class="n">args</span><span class="o">.</span><span class="n">items</span><span class="p">())</span><span class="o">.</span><span class="n">iteritems</span><span class="p">():</span>
+        <span class="n">parsed_args</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="n">object_hook</span><span class="o">=</span><span class="n">mongo_json_object_hook</span><span class="p">)</span>
+
+
+    <span class="n">args</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">request</span><span class="o">.</span><span class="n">view_args</span><span class="o">.</span><span class="n">items</span><span class="p">()</span> <span class="o">+</span> <span class="n">parsed_args</span><span class="o">.</span><span class="n">items</span><span class="p">())</span>
+    <span class="c">#args = dict(request.view_args.items() + request.args.items())</span>
+
+
+    <span class="c">#if &#39;where&#39; in args:</span>
+        <span class="c">#args[&#39;where&#39;] = dumps(json.loads(args[&#39;where&#39;], object_hook=mongo_json_object_hook))</span>
+
+    <span class="n">resp</span> <span class="o">=</span> <span class="n">generic</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="o">**</span><span class="n">args</span><span class="p">)</span>
+
+    <span class="n">links</span>    <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">host</span>     <span class="o">=</span> <span class="s">&#39;http://&#39;</span> <span class="o">+</span> <span class="n">request</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s">&#39;HTTP_HOST&#39;</span><span class="p">]</span>
+    <span class="n">links</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s">&quot;&lt;link rel=&#39;parent&#39; title=&#39;</span><span class="si">%(name)s</span><span class="s">&#39; href=&#39;</span><span class="si">%(modelURI)s</span><span class="s">&#39; /&gt;&quot;</span> <span class="o">%</span>
+            <span class="p">{</span><span class="s">&#39;name&#39;</span><span class="p">:</span><span class="n">class_name</span><span class="p">,</span> <span class="s">&#39;modelURI&#39;</span><span class="p">:</span> <span class="n">host</span> <span class="o">+</span> <span class="n">class_name</span><span class="p">})</span>
+    <span class="n">links</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s">&quot;&lt;link rel=&#39;model&#39; title=&#39;</span><span class="si">%(name)s</span><span class="s">&#39; href=&#39;</span><span class="si">%(modelURI)s</span><span class="s">&#39; /&gt;&quot;</span> <span class="o">%</span>
+            <span class="p">{</span><span class="s">&#39;name&#39;</span><span class="p">:</span><span class="n">class_name</span><span class="p">,</span> <span class="s">&#39;modelURI&#39;</span><span class="p">:</span> <span class="n">host</span> <span class="o">+</span> <span class="n">class_name</span><span class="p">})</span>
+
+    <span class="c"># need to add a link to each doc along with etag and updated i</span>
+    <span class="c"># links.append(&quot;&lt;link rel=&#39;model&#39; title=&#39;%(name)s&#39; href=&#39;%(modelURI)s&#39; /&gt;&quot; %</span>
+    <span class="c">#         {&#39;name&#39;:class_name, &#39;modelURI&#39;: host + class_name})</span>
+
+    <span class="n">resp</span><span class="p">[</span><span class="s">&#39;response&#39;</span><span class="p">][</span><span class="s">&#39;links&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">links</span>
+
+    <span class="k">return</span> <span class="n">prep_response</span><span class="p">(</span><span class="n">resp</span><span class="p">[</span><span class="s">&#39;response&#39;</span><span class="p">],</span> <span class="n">status</span> <span class="o">=</span> <span class="n">resp</span><span class="p">[</span><span class="s">&#39;status_code&#39;</span><span class="p">])</span>
+
+
+
+</div>
+<div class="viewcode-block" id="remove"><a class="viewcode-back" href="../../../gsapi.views.html#gsapi.views.generic.remove">[docs]</a><span class="k">def</span> <span class="nf">remove</span><span class="p">(</span><span class="n">collection</span><span class="p">,</span> <span class="nb">id</span><span class="p">):</span>
+    <span class="n">col</span> <span class="o">=</span> <span class="n">models</span><span class="p">[</span><span class="n">model</span><span class="p">]</span><span class="o">.</span><span class="n">meta</span><span class="p">[</span><span class="s">&#39;collection&#39;</span><span class="p">]</span>
+    <span class="k">return</span> <span class="n">db</span><span class="p">[</span><span class="n">col</span><span class="p">]</span><span class="o">.</span><span class="n">remove</span><span class="p">({</span><span class="s">&quot;_id&quot;</span><span class="p">:</span><span class="n">ObjectId</span><span class="p">(</span><span class="nb">id</span><span class="p">)})</span>
+</div>
+<div class="viewcode-block" id="patch_embedded"><a class="viewcode-back" href="../../../gsapi.views.html#gsapi.views.generic.patch_embedded">[docs]</a><span class="k">def</span> <span class="nf">patch_embedded</span><span class="p">(</span><span class="n">collection</span><span class="p">,</span> <span class="nb">id</span><span class="p">,</span> <span class="n">embedded</span><span class="p">):</span>
+    <span class="c"># get collection name for this model</span>
+    <span class="n">col</span>  <span class="o">=</span> <span class="n">models</span><span class="p">[</span><span class="n">collection</span><span class="p">]</span><span class="o">.</span><span class="n">meta</span><span class="p">[</span><span class="s">&#39;collection&#39;</span><span class="p">]</span>
+    <span class="n">_cls</span> <span class="o">=</span> <span class="n">models</span><span class="p">[</span><span class="n">collection</span><span class="p">]</span><span class="o">.</span><span class="n">meta</span><span class="p">[</span><span class="s">&#39;_c&#39;</span><span class="p">]</span>
+
+
+    <span class="n">user_objectId</span> <span class="o">=</span> <span class="n">ObjectId</span><span class="p">(</span><span class="s">&quot;50468de92558713d84b03fd7&quot;</span><span class="p">)</span>
+
+    <span class="n">response</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="n">status</span>   <span class="o">=</span> <span class="mi">200</span>
+    <span class="n">docs</span>     <span class="o">=</span> <span class="p">[]</span>
+
+
+    <span class="c"># grab data and parse</span>
+    <span class="n">js</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">request</span><span class="o">.</span><span class="n">data</span><span class="p">)</span>
+
+    <span class="c"># what is the doc class for these docs to embed</span>
+    <span class="n">field_name</span> <span class="o">=</span> <span class="n">js</span><span class="p">[</span><span class="s">&#39;field_name&#39;</span><span class="p">]</span>
+    <span class="n">_cls</span>       <span class="o">=</span> <span class="n">js</span><span class="p">[</span><span class="s">&#39;_c&#39;</span><span class="p">]</span>
+
+
+    <span class="c"># Retrieve base doc to insert new embedded docs</span>
+    <span class="n">doc_to_patch</span>   <span class="o">=</span> <span class="n">mongo</span><span class="o">.</span><span class="n">db</span><span class="p">[</span><span class="n">col</span><span class="p">]</span><span class="o">.</span><span class="n">find_one</span><span class="p">({</span><span class="s">&quot;_id&quot;</span><span class="p">:</span><span class="n">ObjectId</span><span class="p">(</span><span class="nb">id</span><span class="p">)})</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">doc_to_patch</span><span class="p">:</span>
+        <span class="k">return</span> <span class="s">&#39;error&#39;</span>
+    <span class="n">base_model</span> <span class="o">=</span> <span class="n">models</span><span class="p">[</span><span class="n">col</span><span class="p">](</span><span class="o">**</span><span class="n">doc_to_patch</span><span class="p">)</span>
+    <span class="c">#log date time user involved with this event</span>
+    <span class="n">base_model</span><span class="o">.</span><span class="n">logit</span><span class="p">(</span><span class="n">user_objectId</span><span class="p">,</span> <span class="s">&#39;patch&#39;</span><span class="p">)</span>
+
+    <span class="c"># docs to insert</span>
+    <span class="n">original_values</span>    <span class="o">=</span> <span class="n">js</span><span class="p">[</span><span class="s">&#39;original_values&#39;</span><span class="p">]</span>
+    <span class="n">key_field</span>          <span class="o">=</span> <span class="n">original_values</span><span class="p">[</span><span class="s">&#39;key_field&#39;</span><span class="p">]</span>
+
+    <span class="n">replacement_values</span> <span class="o">=</span> <span class="n">js</span><span class="p">[</span><span class="s">&#39;replacement_values&#39;</span><span class="p">]</span>
+
+    <span class="c"># need to get the position of original embedded doc to update</span>
+    <span class="n">embedded_pos</span> <span class="o">=</span> <span class="p">[</span><span class="n">i</span> <span class="k">for</span> <span class="n">i</span><span class="p">,</span><span class="n">x</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">([</span><span class="n">x</span><span class="p">[</span><span class="n">key_field</span><span class="p">]</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">doc_to_patch</span><span class="p">[</span><span class="n">field_name</span><span class="p">]])</span> <span class="k">if</span> <span class="n">x</span> <span class="o">==</span> <span class="n">original_values</span><span class="p">[</span><span class="s">&#39;value&#39;</span><span class="p">]]</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">embedded_pos</span><span class="p">:</span>
+        <span class="k">return</span> <span class="s">&#39;error: did not find item to replace&#39;</span>
+
+    <span class="n">embedded_pos</span> <span class="o">=</span> <span class="n">embedded_pos</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="n">elem</span> <span class="o">=</span> <span class="n">doc_to_patch</span><span class="p">[</span><span class="n">field_name</span><span class="p">][</span><span class="n">embedded_pos</span><span class="p">]</span>
+    <span class="k">print</span> <span class="s">&#39;found&#39;</span><span class="p">,</span> <span class="n">elem</span>
+    <span class="k">for</span> <span class="n">fld</span><span class="p">,</span> <span class="n">val</span> <span class="ow">in</span> <span class="n">replacement_values</span><span class="o">.</span><span class="n">iteritems</span><span class="p">():</span>
+        <span class="k">print</span> <span class="n">fld</span><span class="p">,</span> <span class="n">val</span>
+        <span class="n">elem</span><span class="p">[</span><span class="n">fld</span><span class="p">]</span> <span class="o">=</span> <span class="n">val</span>
+    <span class="k">print</span> <span class="s">&#39;replacement_values&#39;</span><span class="p">,</span> <span class="n">replacement_values</span>
+    <span class="k">print</span> <span class="s">&#39;updated&#39;</span><span class="p">,</span> <span class="n">elem</span>
+    <span class="c"># replace this element with new one</span>
+    <span class="n">doc_to_patch</span><span class="p">[</span><span class="n">field_name</span><span class="p">][</span><span class="n">embedded_pos</span><span class="p">]</span> <span class="o">=</span> <span class="n">elem</span>
+
+    <span class="n">doc</span> <span class="o">=</span> <span class="n">mongo</span><span class="o">.</span><span class="n">db</span><span class="p">[</span><span class="n">col</span><span class="p">]</span><span class="o">.</span><span class="n">update</span><span class="p">({</span><span class="s">&quot;_id&quot;</span><span class="p">:</span><span class="n">ObjectId</span><span class="p">(</span><span class="nb">id</span><span class="p">)},</span> <span class="p">{</span><span class="s">&quot;$set&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s">&quot;</span><span class="si">%s</span><span class="s">&quot;</span> <span class="o">%</span> <span class="n">field_name</span><span class="p">:</span><span class="n">doc_to_patch</span><span class="p">[</span><span class="n">field_name</span><span class="p">]}})</span>
+
+    <span class="n">post_errors</span>        <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">total_errors</span>       <span class="o">=</span> <span class="mi">0</span>
+
+    <span class="c"># make sure doc_to_path exists</span>
+
+    <span class="c"># Validate</span>
+    <span class="n">doc_errors</span> <span class="o">=</span> <span class="n">validate</span><span class="p">(</span><span class="n">models</span><span class="p">[</span><span class="n">field_name</span><span class="p">],</span> <span class="n">replacement_values</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">doc_errors</span><span class="p">:</span>
+        <span class="n">total_errors</span> <span class="o">+=</span> <span class="n">doc_errors</span><span class="p">[</span><span class="s">&#39;count&#39;</span><span class="p">]</span>
+        <span class="n">post_errors</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">doc_errors</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">doc_model</span>   <span class="o">=</span> <span class="n">models</span><span class="p">[</span><span class="n">field_name</span><span class="p">](</span><span class="o">**</span><span class="n">doc</span><span class="p">)</span>
+
+        <span class="n">doc_info</span>         <span class="o">=</span> <span class="p">{}</span>
+        <span class="n">doc_info</span><span class="p">[</span><span class="s">&#39;doc&#39;</span><span class="p">]</span>  <span class="o">=</span> <span class="n">doc_model</span><span class="o">.</span><span class="n">to_python</span><span class="p">()</span>
+
+        <span class="n">docs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">doc_model</span><span class="p">)</span>
+
+
+    <span class="n">response</span><span class="p">[</span><span class="s">&#39;total_inserted&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">docs</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">post_errors</span><span class="p">:</span>
+        <span class="n">response</span><span class="p">[</span><span class="s">&#39;total_invalid&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">post_errors</span><span class="p">)</span>
+        <span class="n">response</span><span class="p">[</span><span class="s">&#39;errors&#39;</span><span class="p">]</span>        <span class="o">=</span> <span class="n">post_errors</span>
+        <span class="n">response</span><span class="p">[</span><span class="s">&#39;total_errors&#39;</span><span class="p">]</span>  <span class="o">=</span> <span class="n">total_errors</span>
+        <span class="n">status</span>                    <span class="o">=</span> <span class="mi">400</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">response</span><span class="p">[</span><span class="s">&#39;total_invalid&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span>
+
+        <span class="k">for</span> <span class="n">doc</span> <span class="ow">in</span> <span class="n">docs</span><span class="p">:</span>
+            <span class="n">base_model</span><span class="o">.</span><span class="n">emails</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">doc</span><span class="p">)</span>
+
+        <span class="n">js</span>  <span class="o">=</span> <span class="n">base_model</span><span class="o">.</span><span class="n">to_python</span><span class="p">()</span>
+        <span class="n">doc</span> <span class="o">=</span> <span class="n">mongo</span><span class="o">.</span><span class="n">db</span><span class="p">[</span><span class="n">col</span><span class="p">]</span><span class="o">.</span><span class="n">update</span><span class="p">({</span><span class="s">&quot;_id&quot;</span><span class="p">:</span><span class="n">ObjectId</span><span class="p">(</span><span class="nb">id</span><span class="p">)},</span> <span class="p">{</span><span class="s">&quot;$set&quot;</span><span class="p">:</span> <span class="n">js</span><span class="p">})</span>
+
+    <span class="n">response</span><span class="p">[</span><span class="n">collection</span><span class="p">]</span> <span class="o">=</span> <span class="n">docs</span>
+
+    <span class="k">return</span> <span class="n">prep_response</span><span class="p">(</span><span class="n">response</span><span class="p">,</span> <span class="n">status</span> <span class="o">=</span> <span class="n">status</span><span class="p">)</span></div>
+<div class="viewcode-block" id="post_embedded"><a class="viewcode-back" href="../../../gsapi.views.html#gsapi.views.generic.post_embedded">[docs]</a><span class="k">def</span> <span class="nf">post_embedded</span><span class="p">(</span><span class="n">collection</span><span class="p">,</span> <span class="nb">id</span><span class="p">,</span> <span class="n">embedded</span><span class="p">):</span>
+    <span class="c"># get collection name for this model</span>
+    <span class="n">col</span>  <span class="o">=</span> <span class="n">models</span><span class="p">[</span><span class="n">collection</span><span class="p">]</span><span class="o">.</span><span class="n">meta</span><span class="p">[</span><span class="s">&#39;collection&#39;</span><span class="p">]</span>
+    <span class="n">_cls</span> <span class="o">=</span> <span class="n">models</span><span class="p">[</span><span class="n">collection</span><span class="p">]</span><span class="o">.</span><span class="n">meta</span><span class="p">[</span><span class="s">&#39;_c&#39;</span><span class="p">]</span>
+
+    <span class="n">user_objectId</span> <span class="o">=</span> <span class="n">ObjectId</span><span class="p">(</span><span class="s">&quot;50468de92558713d84b03fd7&quot;</span><span class="p">)</span>
+
+    <span class="n">response</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="n">status</span>   <span class="o">=</span> <span class="mi">200</span>
+    <span class="n">docs</span>     <span class="o">=</span> <span class="p">[]</span>
+
+    <span class="c"># Retrieve base doc to insert new embedded docs</span>
+    <span class="n">base_doc</span>   <span class="o">=</span> <span class="n">mongo</span><span class="o">.</span><span class="n">db</span><span class="p">[</span><span class="n">col</span><span class="p">]</span><span class="o">.</span><span class="n">find_one</span><span class="p">({</span><span class="s">&quot;_id&quot;</span><span class="p">:</span><span class="n">ObjectId</span><span class="p">(</span><span class="nb">id</span><span class="p">)})</span>
+    <span class="n">base_model</span> <span class="o">=</span> <span class="n">models</span><span class="p">[</span><span class="n">col</span><span class="p">](</span><span class="o">**</span><span class="n">base_doc</span><span class="p">)</span>
+
+    <span class="c">#log date time user involved with this event</span>
+    <span class="n">base_model</span><span class="o">.</span><span class="n">logit</span><span class="p">(</span><span class="n">user_objectId</span><span class="p">,</span> <span class="s">&#39;patch&#39;</span><span class="p">)</span>
+
+    <span class="c"># grab data and parse</span>
+    <span class="n">js</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">request</span><span class="o">.</span><span class="n">data</span><span class="p">)</span>
+
+    <span class="c"># what is the doc class for these docs to embed</span>
+    <span class="n">field_name</span> <span class="o">=</span> <span class="n">js</span><span class="p">[</span><span class="s">&#39;field_name&#39;</span><span class="p">]</span>
+    <span class="n">_cls</span>       <span class="o">=</span> <span class="n">js</span><span class="p">[</span><span class="s">&#39;_c&#39;</span><span class="p">]</span>
+
+    <span class="c"># docs to insert</span>
+    <span class="n">docs_to_post</span>       <span class="o">=</span> <span class="n">js</span><span class="p">[</span><span class="s">&#39;docs&#39;</span><span class="p">]</span>
+
+    <span class="c"># if a dict, then stuff it into a list</span>
+    <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">docs_to_post</span><span class="p">)</span> <span class="o">==</span> <span class="nb">dict</span><span class="p">:</span> <span class="n">docs_to_post</span> <span class="o">=</span> <span class="p">[</span><span class="n">docs_to_post</span><span class="p">]</span>
+
+    <span class="n">post_errors</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">total_errors</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="k">for</span> <span class="n">doc</span> <span class="ow">in</span> <span class="n">docs_to_post</span><span class="p">:</span>
+        <span class="c"># Validate</span>
+        <span class="n">doc_errors</span> <span class="o">=</span> <span class="n">validate</span><span class="p">(</span><span class="n">models</span><span class="p">[</span><span class="n">field_name</span><span class="p">],</span> <span class="n">doc</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">doc_errors</span><span class="p">:</span>
+            <span class="n">total_errors</span> <span class="o">+=</span> <span class="n">doc_errors</span><span class="p">[</span><span class="s">&#39;count&#39;</span><span class="p">]</span>
+            <span class="n">post_errors</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">doc_errors</span><span class="p">)</span>
+            <span class="k">continue</span>
+
+        <span class="n">doc_model</span>   <span class="o">=</span> <span class="n">models</span><span class="p">[</span><span class="n">field_name</span><span class="p">](</span><span class="o">**</span><span class="n">doc</span><span class="p">)</span>
+
+        <span class="n">doc_info</span>         <span class="o">=</span> <span class="p">{}</span>
+        <span class="n">doc_info</span><span class="p">[</span><span class="s">&#39;doc&#39;</span><span class="p">]</span>  <span class="o">=</span> <span class="n">doc_model</span><span class="o">.</span><span class="n">to_python</span><span class="p">()</span>
+
+        <span class="n">docs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">doc_model</span><span class="p">)</span>
+
+
+    <span class="n">response</span><span class="p">[</span><span class="s">&#39;total_inserted&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">docs</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">post_errors</span><span class="p">:</span>
+        <span class="n">response</span><span class="p">[</span><span class="s">&#39;total_invalid&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">post_errors</span><span class="p">)</span>
+        <span class="n">response</span><span class="p">[</span><span class="s">&#39;errors&#39;</span><span class="p">]</span>        <span class="o">=</span> <span class="n">post_errors</span>
+        <span class="n">response</span><span class="p">[</span><span class="s">&#39;total_errors&#39;</span><span class="p">]</span>  <span class="o">=</span> <span class="n">total_errors</span>
+        <span class="n">status</span>                    <span class="o">=</span> <span class="mi">400</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">response</span><span class="p">[</span><span class="s">&#39;total_invalid&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span>
+
+        <span class="k">for</span> <span class="n">doc</span> <span class="ow">in</span> <span class="n">docs</span><span class="p">:</span>
+            <span class="n">base_model</span><span class="o">.</span><span class="n">emails</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">doc</span><span class="p">)</span>
+
+        <span class="n">js</span>  <span class="o">=</span> <span class="n">base_model</span><span class="o">.</span><span class="n">to_python</span><span class="p">()</span>
+        <span class="n">doc</span> <span class="o">=</span> <span class="n">mongo</span><span class="o">.</span><span class="n">db</span><span class="p">[</span><span class="n">col</span><span class="p">]</span><span class="o">.</span><span class="n">update</span><span class="p">({</span><span class="s">&quot;_id&quot;</span><span class="p">:</span><span class="n">ObjectId</span><span class="p">(</span><span class="nb">id</span><span class="p">)},</span> <span class="p">{</span><span class="s">&quot;$set&quot;</span><span class="p">:</span> <span class="n">js</span><span class="p">})</span>
+
+    <span class="n">response</span><span class="p">[</span><span class="n">collection</span><span class="p">]</span> <span class="o">=</span> <span class="n">docs</span>
+
+    <span class="k">return</span> <span class="n">prep_response</span><span class="p">(</span><span class="n">response</span><span class="p">,</span> <span class="n">status</span> <span class="o">=</span> <span class="n">status</span><span class="p">)</span></div>
+</pre></div>
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../../../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li><a href="../../../index.html">gsapi 1.0 documentation</a> &raquo;</li>
+          <li><a href="../../index.html" >Module code</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2012, Larry Eitel.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.1.3.
+    </div>
+  </body>
+</html>
