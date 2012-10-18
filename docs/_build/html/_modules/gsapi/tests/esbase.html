@@ -1,0 +1,265 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>gsapi.tests.esbase &mdash; gsapi 1.0 documentation</title>
+    
+    <link rel="stylesheet" href="../../../_static/nature.css" type="text/css" />
+    <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../../',
+        VERSION:     '1.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../../_static/doctools.js"></script>
+    <link rel="top" title="gsapi 1.0 documentation" href="../../../index.html" />
+    <link rel="up" title="Module code" href="../../index.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li><a href="../../../index.html">gsapi 1.0 documentation</a> &raquo;</li>
+          <li><a href="../../index.html" accesskey="U">Module code</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <h1>Source code for gsapi.tests.esbase</h1><div class="highlight"><pre>
+<span class="c"># -*- coding: utf-8 -*-</span>
+<span class="kn">from</span> <span class="nn">__future__</span> <span class="kn">import</span> <span class="n">absolute_import</span>
+<span class="kn">import</span> <span class="nn">os</span>
+
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">Unit tests for pyes.  These require an es server with thrift plugin running on the default port (localhost:9500).</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="kn">import</span> <span class="nn">unittest</span>
+<span class="kn">from</span> <span class="nn">pprint</span> <span class="kn">import</span> <span class="n">pprint</span>
+<span class="kn">from</span> <span class="nn">pyes.es</span> <span class="kn">import</span> <span class="n">ES</span>
+<span class="kn">from</span> <span class="nn">pyes.helpers</span> <span class="kn">import</span> <span class="n">SettingsBuilder</span>
+<span class="kn">import</span> <span class="nn">gsapi.run</span> <span class="kn">as</span> <span class="nn">run</span>
+
+<span class="c"># get elasticsearch connection</span>
+<div class="viewcode-block" id="get_conn"><a class="viewcode-back" href="../../../gsapi.tests.html#gsapi.tests.esbase.get_conn">[docs]</a><span class="k">def</span> <span class="nf">get_conn</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+    <span class="k">if</span> <span class="s">&#39;cfg&#39;</span> <span class="ow">in</span> <span class="n">kwargs</span><span class="p">:</span>
+        <span class="n">cfg</span> <span class="o">=</span> <span class="n">kwargs</span><span class="p">[</span><span class="s">&#39;cfg&#39;</span><span class="p">]</span>
+        <span class="n">kwargs</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s">&#39;cfg&#39;</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">cfg</span> <span class="o">=</span> <span class="p">{</span><span class="s">&#39;host&#39;</span><span class="p">:</span> <span class="s">&#39;localhost&#39;</span><span class="p">,</span> <span class="s">&#39;port&#39;</span><span class="p">:</span> <span class="mi">9200</span><span class="p">}</span>
+
+    <span class="k">return</span> <span class="n">ES</span><span class="p">((</span><span class="s">&quot;http&quot;</span><span class="p">,</span> <span class="n">cfg</span><span class="p">[</span><span class="s">&#39;host&#39;</span><span class="p">],</span> <span class="n">cfg</span><span class="p">[</span><span class="s">&#39;port&#39;</span><span class="p">]),</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+</div>
+<div class="viewcode-block" id="ESTestCase"><a class="viewcode-back" href="../../../gsapi.tests.html#gsapi.tests.esbase.ESTestCase">[docs]</a><span class="k">class</span> <span class="nc">ESTestCase</span><span class="p">(</span><span class="n">unittest</span><span class="o">.</span><span class="n">TestCase</span><span class="p">):</span>
+<div class="viewcode-block" id="ESTestCase.setUp"><a class="viewcode-back" href="../../../gsapi.tests.html#gsapi.tests.esbase.ESTestCase.setUp">[docs]</a>    <span class="k">def</span> <span class="nf">setUp</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+
+        <span class="n">app</span> <span class="o">=</span> <span class="n">run</span><span class="o">.</span><span class="n">app</span>
+        <span class="n">app</span><span class="o">.</span><span class="n">config</span><span class="p">[</span><span class="s">&#39;TESTING&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">True</span>
+        <span class="n">es_cfg</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s">&#39;host&#39;</span><span class="p">:</span> <span class="n">app</span><span class="o">.</span><span class="n">config</span><span class="p">[</span><span class="s">&#39;ES_TEST_HOST&#39;</span><span class="p">],</span>
+            <span class="s">&#39;port&#39;</span><span class="p">:</span> <span class="n">app</span><span class="o">.</span><span class="n">config</span><span class="p">[</span><span class="s">&#39;ES_TEST_PORT&#39;</span><span class="p">],</span>
+            <span class="s">&#39;name&#39;</span><span class="p">:</span> <span class="n">app</span><span class="o">.</span><span class="n">config</span><span class="p">[</span><span class="s">&#39;ES_TEST_NAME&#39;</span><span class="p">]</span>
+            <span class="p">}</span>
+
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">conn</span> <span class="o">=</span> <span class="n">get_conn</span><span class="p">(</span><span class="n">cfg</span><span class="o">=</span><span class="n">es_cfg</span><span class="p">,</span> <span class="n">timeout</span><span class="o">=</span><span class="mf">300.0</span><span class="p">)</span><span class="c">#incremented timeout for debugging</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">conn</span><span class="o">.</span><span class="n">__dict__</span><span class="p">[</span><span class="s">&#39;index_name&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">es_cfg</span><span class="p">[</span><span class="s">&#39;name&#39;</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">index_name</span> <span class="o">=</span> <span class="n">es_cfg</span><span class="p">[</span><span class="s">&#39;name&#39;</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">document_type</span> <span class="o">=</span> <span class="s">&quot;test-type&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">conn</span><span class="o">.</span><span class="n">delete_index_if_exists</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">index_name</span><span class="p">)</span>
+</div>
+<div class="viewcode-block" id="ESTestCase.tearDown"><a class="viewcode-back" href="../../../gsapi.tests.html#gsapi.tests.esbase.ESTestCase.tearDown">[docs]</a>    <span class="k">def</span> <span class="nf">tearDown</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="c"># self.conn.delete_index_if_exists(self.index_name)</span>
+        <span class="k">pass</span>
+
+</div>
+<div class="viewcode-block" id="ESTestCase.assertResultContains"><a class="viewcode-back" href="../../../gsapi.tests.html#gsapi.tests.esbase.ESTestCase.assertResultContains">[docs]</a>    <span class="k">def</span> <span class="nf">assertResultContains</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">result</span><span class="p">,</span> <span class="n">expected</span><span class="p">):</span>
+        <span class="k">for</span> <span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span> <span class="ow">in</span> <span class="n">expected</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="n">found</span> <span class="o">=</span> <span class="bp">False</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="n">found</span> <span class="o">=</span> <span class="n">value</span> <span class="o">==</span> <span class="n">result</span><span class="p">[</span><span class="n">key</span><span class="p">]</span>
+            <span class="k">except</span> <span class="ne">KeyError</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">result</span><span class="o">.</span><span class="n">has_key</span><span class="p">(</span><span class="s">&#39;meta&#39;</span><span class="p">):</span>
+                    <span class="n">found</span> <span class="o">=</span> <span class="n">value</span> <span class="o">==</span> <span class="n">result</span><span class="p">[</span><span class="s">&#39;meta&#39;</span><span class="p">][</span><span class="n">key</span><span class="p">]</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">assertEquals</span><span class="p">(</span><span class="bp">True</span><span class="p">,</span> <span class="n">found</span><span class="p">)</span>
+
+            <span class="c">#self.assertEquals(value, result[key])</span>
+</div>
+<div class="viewcode-block" id="ESTestCase.checkRaises"><a class="viewcode-back" href="../../../gsapi.tests.html#gsapi.tests.esbase.ESTestCase.checkRaises">[docs]</a>    <span class="k">def</span> <span class="nf">checkRaises</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">excClass</span><span class="p">,</span> <span class="n">callableObj</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Assert that calling callableObj with *args and **kwargs raises an</span>
+<span class="sd">        exception of type excClass, and return the exception object so that</span>
+<span class="sd">        further tests on it can be performed.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">callableObj</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+        <span class="k">except</span> <span class="n">excClass</span><span class="p">,</span> <span class="n">e</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">e</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="bp">self</span><span class="o">.</span><span class="n">failureException</span><span class="p">,</span>\
+            <span class="s">&quot;Expected exception </span><span class="si">%s</span><span class="s"> not raised&quot;</span> <span class="o">%</span> <span class="n">excClass</span>
+</div>
+<div class="viewcode-block" id="ESTestCase.get_datafile"><a class="viewcode-back" href="../../../gsapi.tests.html#gsapi.tests.esbase.ESTestCase.get_datafile">[docs]</a>    <span class="k">def</span> <span class="nf">get_datafile</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">filename</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Returns a the content of a test file</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="nb">open</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">dirname</span><span class="p">(</span><span class="n">__file__</span><span class="p">),</span> <span class="s">&quot;data&quot;</span><span class="p">,</span> <span class="n">filename</span><span class="p">),</span> <span class="s">&quot;rb&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
+</div>
+<div class="viewcode-block" id="ESTestCase.get_datafile_path"><a class="viewcode-back" href="../../../gsapi.tests.html#gsapi.tests.esbase.ESTestCase.get_datafile_path">[docs]</a>    <span class="k">def</span> <span class="nf">get_datafile_path</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">filename</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Returns a the content of a test file</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">dirname</span><span class="p">(</span><span class="n">__file__</span><span class="p">),</span> <span class="s">&quot;data&quot;</span><span class="p">,</span> <span class="n">filename</span><span class="p">)</span>
+</div>
+<div class="viewcode-block" id="ESTestCase.dump"><a class="viewcode-back" href="../../../gsapi.tests.html#gsapi.tests.esbase.ESTestCase.dump">[docs]</a>    <span class="k">def</span> <span class="nf">dump</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">result</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        dump to stdout the result</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">pprint</span><span class="p">(</span><span class="n">result</span><span class="p">)</span>
+</div>
+<div class="viewcode-block" id="ESTestCase.init_default_index"><a class="viewcode-back" href="../../../gsapi.tests.html#gsapi.tests.esbase.ESTestCase.init_default_index">[docs]</a>    <span class="k">def</span> <span class="nf">init_default_index</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">settings</span> <span class="o">=</span> <span class="n">SettingsBuilder</span><span class="p">()</span>
+        <span class="kn">from</span> <span class="nn">pyes.mappings</span> <span class="kn">import</span> <span class="n">DocumentObjectField</span>
+        <span class="kn">from</span> <span class="nn">pyes.mappings</span> <span class="kn">import</span> <span class="n">IntegerField</span>
+        <span class="kn">from</span> <span class="nn">pyes.mappings</span> <span class="kn">import</span> <span class="n">NestedObject</span>
+        <span class="kn">from</span> <span class="nn">pyes.mappings</span> <span class="kn">import</span> <span class="n">StringField</span><span class="p">,</span> <span class="n">DateField</span>
+
+        <span class="n">docmapping</span> <span class="o">=</span> <span class="n">DocumentObjectField</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">document_type</span><span class="p">)</span>
+        <span class="n">docmapping</span><span class="o">.</span><span class="n">add_property</span><span class="p">(</span>
+            <span class="n">StringField</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s">&quot;parsedtext&quot;</span><span class="p">,</span> <span class="n">store</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">term_vector</span><span class="o">=</span><span class="s">&quot;with_positions_offsets&quot;</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="s">&quot;analyzed&quot;</span><span class="p">))</span>
+        <span class="n">docmapping</span><span class="o">.</span><span class="n">add_property</span><span class="p">(</span>
+            <span class="n">StringField</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s">&quot;name&quot;</span><span class="p">,</span> <span class="n">store</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">term_vector</span><span class="o">=</span><span class="s">&quot;with_positions_offsets&quot;</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="s">&quot;analyzed&quot;</span><span class="p">))</span>
+        <span class="n">docmapping</span><span class="o">.</span><span class="n">add_property</span><span class="p">(</span>
+            <span class="n">StringField</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s">&quot;title&quot;</span><span class="p">,</span> <span class="n">store</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">term_vector</span><span class="o">=</span><span class="s">&quot;with_positions_offsets&quot;</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="s">&quot;analyzed&quot;</span><span class="p">))</span>
+        <span class="n">docmapping</span><span class="o">.</span><span class="n">add_property</span><span class="p">(</span><span class="n">IntegerField</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s">&quot;position&quot;</span><span class="p">,</span> <span class="n">store</span><span class="o">=</span><span class="bp">True</span><span class="p">))</span>
+        <span class="n">docmapping</span><span class="o">.</span><span class="n">add_property</span><span class="p">(</span><span class="n">DateField</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s">&quot;date&quot;</span><span class="p">,</span> <span class="n">store</span><span class="o">=</span><span class="bp">True</span><span class="p">))</span>
+        <span class="n">docmapping</span><span class="o">.</span><span class="n">add_property</span><span class="p">(</span><span class="n">StringField</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s">&quot;uuid&quot;</span><span class="p">,</span> <span class="n">store</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="s">&quot;not_analyzed&quot;</span><span class="p">))</span>
+        <span class="n">nested_object</span> <span class="o">=</span> <span class="n">NestedObject</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s">&quot;nested&quot;</span><span class="p">)</span>
+        <span class="n">nested_object</span><span class="o">.</span><span class="n">add_property</span><span class="p">(</span><span class="n">StringField</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s">&quot;name&quot;</span><span class="p">,</span> <span class="n">store</span><span class="o">=</span><span class="bp">True</span><span class="p">))</span>
+        <span class="n">nested_object</span><span class="o">.</span><span class="n">add_property</span><span class="p">(</span><span class="n">StringField</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s">&quot;value&quot;</span><span class="p">,</span> <span class="n">store</span><span class="o">=</span><span class="bp">True</span><span class="p">))</span>
+        <span class="n">nested_object</span><span class="o">.</span><span class="n">add_property</span><span class="p">(</span><span class="n">IntegerField</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s">&quot;num&quot;</span><span class="p">,</span> <span class="n">store</span><span class="o">=</span><span class="bp">True</span><span class="p">))</span>
+        <span class="n">docmapping</span><span class="o">.</span><span class="n">add_property</span><span class="p">(</span><span class="n">nested_object</span><span class="p">)</span>
+        <span class="n">settings</span><span class="o">.</span><span class="n">add_mapping</span><span class="p">(</span><span class="n">docmapping</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">conn</span><span class="o">.</span><span class="n">ensure_index</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">index_name</span><span class="p">,</span> <span class="n">settings</span><span class="p">)</span>
+
+</div></div>
+<div class="viewcode-block" id="setUp"><a class="viewcode-back" href="../../../gsapi.tests.html#gsapi.tests.esbase.setUp">[docs]</a><span class="k">def</span> <span class="nf">setUp</span><span class="p">():</span>
+    <span class="sd">&quot;&quot;&quot;Package level setup.</span>
+
+<span class="sd">    For tests which don&#39;t modify the index, we don&#39;t want to have the overhead</span>
+<span class="sd">    of setting up a test index, so we just set up test-pindex once, and use it</span>
+<span class="sd">    for all tests.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">mapping</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s">u&#39;parsedtext&#39;</span><span class="p">:</span> <span class="p">{</span>
+            <span class="s">&#39;boost&#39;</span><span class="p">:</span> <span class="mf">1.0</span><span class="p">,</span>
+            <span class="s">&#39;index&#39;</span><span class="p">:</span> <span class="s">&#39;analyzed&#39;</span><span class="p">,</span>
+            <span class="s">&#39;store&#39;</span><span class="p">:</span> <span class="s">&#39;yes&#39;</span><span class="p">,</span>
+            <span class="s">&#39;type&#39;</span><span class="p">:</span> <span class="s">u&#39;string&#39;</span><span class="p">,</span>
+            <span class="s">&quot;term_vector&quot;</span><span class="p">:</span> <span class="s">&quot;with_positions_offsets&quot;</span><span class="p">},</span>
+        <span class="s">u&#39;name&#39;</span><span class="p">:</span> <span class="p">{</span>
+            <span class="s">&#39;boost&#39;</span><span class="p">:</span> <span class="mf">1.0</span><span class="p">,</span>
+            <span class="s">&#39;index&#39;</span><span class="p">:</span> <span class="s">&#39;analyzed&#39;</span><span class="p">,</span>
+            <span class="s">&#39;store&#39;</span><span class="p">:</span> <span class="s">&#39;yes&#39;</span><span class="p">,</span>
+            <span class="s">&#39;type&#39;</span><span class="p">:</span> <span class="s">u&#39;string&#39;</span><span class="p">,</span>
+            <span class="s">&quot;term_vector&quot;</span><span class="p">:</span> <span class="s">&quot;with_positions_offsets&quot;</span><span class="p">},</span>
+        <span class="s">u&#39;title&#39;</span><span class="p">:</span> <span class="p">{</span>
+            <span class="s">&#39;boost&#39;</span><span class="p">:</span> <span class="mf">1.0</span><span class="p">,</span>
+            <span class="s">&#39;index&#39;</span><span class="p">:</span> <span class="s">&#39;analyzed&#39;</span><span class="p">,</span>
+            <span class="s">&#39;store&#39;</span><span class="p">:</span> <span class="s">&#39;yes&#39;</span><span class="p">,</span>
+            <span class="s">&#39;type&#39;</span><span class="p">:</span> <span class="s">u&#39;string&#39;</span><span class="p">,</span>
+            <span class="s">&quot;term_vector&quot;</span><span class="p">:</span> <span class="s">&quot;with_positions_offsets&quot;</span><span class="p">},</span>
+        <span class="s">u&#39;pos&#39;</span><span class="p">:</span> <span class="p">{</span>
+            <span class="s">&#39;store&#39;</span><span class="p">:</span> <span class="s">&#39;yes&#39;</span><span class="p">,</span>
+            <span class="s">&#39;type&#39;</span><span class="p">:</span> <span class="s">u&#39;integer&#39;</span><span class="p">},</span>
+        <span class="s">u&#39;doubles&#39;</span><span class="p">:</span> <span class="p">{</span>
+            <span class="s">&#39;store&#39;</span><span class="p">:</span> <span class="s">&#39;yes&#39;</span><span class="p">,</span>
+            <span class="s">&#39;type&#39;</span><span class="p">:</span> <span class="s">u&#39;double&#39;</span><span class="p">},</span>
+        <span class="s">u&#39;uuid&#39;</span><span class="p">:</span> <span class="p">{</span>
+            <span class="s">&#39;boost&#39;</span><span class="p">:</span> <span class="mf">1.0</span><span class="p">,</span>
+            <span class="s">&#39;index&#39;</span><span class="p">:</span> <span class="s">&#39;not_analyzed&#39;</span><span class="p">,</span>
+            <span class="s">&#39;store&#39;</span><span class="p">:</span> <span class="s">&#39;yes&#39;</span><span class="p">,</span>
+            <span class="s">&#39;type&#39;</span><span class="p">:</span> <span class="s">u&#39;string&#39;</span><span class="p">}}</span>
+
+    <span class="n">conn</span> <span class="o">=</span> <span class="n">get_conn</span><span class="p">()</span>
+    <span class="n">conn</span><span class="o">.</span><span class="n">delete_index_if_exists</span><span class="p">(</span><span class="s">&quot;test-pindex&quot;</span><span class="p">)</span>
+    <span class="n">conn</span><span class="o">.</span><span class="n">create_index</span><span class="p">(</span><span class="s">&quot;test-pindex&quot;</span><span class="p">)</span>
+    <span class="n">conn</span><span class="o">.</span><span class="n">put_mapping</span><span class="p">(</span><span class="s">&quot;test-type&quot;</span><span class="p">,</span> <span class="p">{</span><span class="s">&#39;properties&#39;</span><span class="p">:</span> <span class="n">mapping</span><span class="p">},</span> <span class="p">[</span><span class="s">&quot;test-pindex&quot;</span><span class="p">])</span>
+    <span class="n">conn</span><span class="o">.</span><span class="n">index</span><span class="p">({</span><span class="s">&quot;name&quot;</span><span class="p">:</span> <span class="s">&quot;Joe Tester&quot;</span><span class="p">,</span> <span class="s">&quot;parsedtext&quot;</span><span class="p">:</span> <span class="s">&quot;Joe Testere nice guy&quot;</span><span class="p">,</span> <span class="s">&quot;uuid&quot;</span><span class="p">:</span> <span class="s">&quot;11111&quot;</span><span class="p">,</span> <span class="s">&quot;position&quot;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+                <span class="s">&quot;doubles&quot;</span><span class="p">:</span> <span class="p">[</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">2.0</span><span class="p">,</span> <span class="mf">3.0</span><span class="p">]},</span> <span class="s">&quot;test-pindex&quot;</span><span class="p">,</span> <span class="s">&quot;test-type&quot;</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+    <span class="n">conn</span><span class="o">.</span><span class="n">index</span><span class="p">({</span><span class="s">&quot;name&quot;</span><span class="p">:</span> <span class="s">&quot;Bill Baloney&quot;</span><span class="p">,</span> <span class="s">&quot;parsedtext&quot;</span><span class="p">:</span> <span class="s">&quot;Joe Testere nice guy&quot;</span><span class="p">,</span> <span class="s">&quot;uuid&quot;</span><span class="p">:</span> <span class="s">&quot;22222&quot;</span><span class="p">,</span> <span class="s">&quot;position&quot;</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span>
+                <span class="s">&quot;doubles&quot;</span><span class="p">:</span> <span class="p">[</span><span class="mf">0.1</span><span class="p">,</span> <span class="mf">0.2</span><span class="p">,</span> <span class="mf">0.3</span><span class="p">]},</span> <span class="s">&quot;test-pindex&quot;</span><span class="p">,</span> <span class="s">&quot;test-type&quot;</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+    <span class="n">conn</span><span class="o">.</span><span class="n">refresh</span><span class="p">([</span><span class="s">&quot;test-pindex&quot;</span><span class="p">])</span>
+
+</div>
+<div class="viewcode-block" id="tearDown"><a class="viewcode-back" href="../../../gsapi.tests.html#gsapi.tests.esbase.tearDown">[docs]</a><span class="k">def</span> <span class="nf">tearDown</span><span class="p">():</span>
+    <span class="sd">&quot;&quot;&quot;Remove the package level index.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">conn</span> <span class="o">=</span> <span class="n">get_conn</span><span class="p">()</span>
+    <span class="n">conn</span><span class="o">.</span><span class="n">delete_index_if_exists</span><span class="p">(</span><span class="s">&quot;test-pindex&quot;</span><span class="p">)</span></div>
+</pre></div>
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../../../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li><a href="../../../index.html">gsapi 1.0 documentation</a> &raquo;</li>
+          <li><a href="../../index.html" >Module code</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2012, Larry Eitel.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.1.3.
+    </div>
+  </body>
+</html>

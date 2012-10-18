@@ -1,0 +1,300 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>gsapi.utils &mdash; gsapi 1.0 documentation</title>
+    
+    <link rel="stylesheet" href="../../_static/nature.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../',
+        VERSION:     '1.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <link rel="top" title="gsapi 1.0 documentation" href="../../index.html" />
+    <link rel="up" title="Module code" href="../index.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li><a href="../../index.html">gsapi 1.0 documentation</a> &raquo;</li>
+          <li><a href="../index.html" accesskey="U">Module code</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <h1>Source code for gsapi.utils</h1><div class="highlight"><pre>
+<span class="kn">import</span> <span class="nn">re</span>
+<span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">import</span> <span class="nn">json</span>
+<span class="kn">import</span> <span class="nn">jsondatetime</span> <span class="c"># https://github.com/nicolaiarocci/json-datetime</span>
+<span class="kn">from</span> <span class="nn">bson.json_util</span> <span class="kn">import</span> <span class="n">dumps</span><span class="p">,</span> <span class="n">loads</span>
+<span class="kn">import</span> <span class="nn">bson.json_util</span> <span class="kn">as</span> <span class="nn">bson_json_util</span>
+<span class="kn">from</span> <span class="nn">bson</span> <span class="kn">import</span> <span class="n">ObjectId</span>
+<span class="kn">from</span> <span class="nn">extensions</span> <span class="kn">import</span> <span class="n">validate</span>
+<span class="kn">import</span> <span class="nn">datetime</span>
+<span class="kn">from</span> <span class="nn">flask</span> <span class="kn">import</span> <span class="n">redirect</span>
+<span class="kn">from</span> <span class="nn">werkzeug.routing</span> <span class="kn">import</span> <span class="n">HTTPException</span><span class="p">,</span> <span class="n">RoutingException</span>
+
+<span class="c">#from models import model_classes_by_id</span>
+<span class="kn">import</span> <span class="nn">models</span>
+<span class="kn">import</span> <span class="nn">dateutil.parser</span>
+
+<span class="n">reobj_oid</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="s">r&#39;\{\s*&quot;\$oid&quot;\s*:\s*&quot;(.*?)&quot;\s*\}&#39;</span><span class="p">)</span>
+<span class="n">reobj_objectid</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="s">r&#39;ObjectId\(&quot;(.*?)&quot;\)&#39;</span><span class="p">,</span> <span class="n">re</span><span class="o">.</span><span class="n">IGNORECASE</span><span class="p">)</span>
+<span class="n">reobj_date</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="s">r&#39;\{\s*&quot;\$date&quot;\s*:\s*(\d+)\s*\}&#39;</span><span class="p">)</span>
+<span class="n">reobj_date_with_dot</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="s">r&#39;\{\s*&quot;\$date&quot;\s*:\s*(\d+)\.(\d+)\s*\}&#39;</span><span class="p">)</span>
+<span class="n">reobj_isodate</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="s">r&#39;ISODate\(&quot;(.*?)&quot;\)&#39;</span><span class="p">,</span> <span class="n">re</span><span class="o">.</span><span class="n">IGNORECASE</span><span class="p">)</span>
+
+<div class="viewcode-block" id="preparse_json_doc"><a class="viewcode-back" href="../../gsapi.html#gsapi.utils.preparse_json_doc">[docs]</a><span class="k">def</span> <span class="nf">preparse_json_doc</span><span class="p">(</span><span class="n">jstr</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39; Preparse to better identify ObjectId&#39;s and DateTimes</span>
+<span class="sd">    Preparse json file which may have been come from mongoexport or MongoVue dump or hand edited.</span>
+
+<span class="sd">    OBJECTIDs</span>
+
+<span class="sd">    # as exported by mongoexport</span>
+<span class="sd">    Convert:    { &quot;$oid&quot; : &quot;50536c4c2558712e205a269a&quot; }</span>
+<span class="sd">    To:         &quot;$oid:50536c4c2558712e205a269a&quot;</span>
+
+<span class="sd">    # as exported by MongoVue</span>
+<span class="sd">    Convert:    ObjectId(&quot;50536c4c2558792f205a299d&quot;)</span>
+<span class="sd">    To:         &quot;$oid:50536c4c2558792f205a299d&quot;</span>
+
+<span class="sd">    DATES</span>
+
+<span class="sd">    # as exported by mongoexport</span>
+<span class="sd">    Convert:    { &quot;$date&quot; : 1347644492471 }</span>
+<span class="sd">    To:         &quot;$date:1347644492471&quot;</span>
+
+<span class="sd">    # If someone wants to manually set a datetime in more human readable form. Good for testing.</span>
+<span class="sd">    Convert:    ISODate(&quot;2012-09-14T17:41:32.471Z&quot;)</span>
+<span class="sd">    To:         &quot;$isodate:2012-09-14T17:41:32.471Z&quot;</span>
+
+<span class="sd">    One motivation was that the json.loads object_hook could not handle values that dictionaries. For example:</span>
+<span class="sd">            &quot;oBy&quot; : { &quot;$oid&quot; : &quot;50468de92558713d84b03fd7&quot; }</span>
+
+<span class="sd">            object_hook function would hook dict.key &quot;$oid&quot; along with numeric value. This needs to be converted to an ObjectId(&quot;50468de92558713d84b03fd7&quot;) as a value of &quot;oBy&quot;.</span>
+<span class="sd">            Ultimately the ultimate result should be:</span>
+<span class="sd">                &quot;oBy&quot; : ObjectId(&quot;50468de92558713d84b03fd7&quot;)</span>
+
+<span class="sd">                This is what will be sent to MongoDb!</span>
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="n">jstr</span> <span class="o">=</span> <span class="n">reobj_oid</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span><span class="s">r&#39;&quot;$oid:\1&quot;&#39;</span><span class="p">,</span> <span class="n">jstr</span><span class="p">)</span>
+    <span class="n">jstr</span> <span class="o">=</span> <span class="n">reobj_objectid</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span><span class="s">r&#39;&quot;$oid:\1&quot;&#39;</span><span class="p">,</span> <span class="n">jstr</span><span class="p">)</span>
+    <span class="n">jstr</span> <span class="o">=</span> <span class="n">reobj_date</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span><span class="s">r&#39;&quot;$date:\1&quot;&#39;</span><span class="p">,</span> <span class="n">jstr</span><span class="p">)</span>
+    <span class="n">jstr</span> <span class="o">=</span> <span class="n">reobj_date_with_dot</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span><span class="s">r&#39;&quot;$date:\1\2&quot;&#39;</span><span class="p">,</span> <span class="n">jstr</span><span class="p">)</span>
+    <span class="n">jstr</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span><span class="s">r&#39;&quot;\s*\$date&quot;\s*:\s*(\d+)\.(\d+)&#39;</span><span class="p">,</span> <span class="s">r&#39;&quot;$date:\1\2&quot;&#39;</span><span class="p">,</span> <span class="n">jstr</span><span class="p">)</span>
+    <span class="n">jstr</span> <span class="o">=</span> <span class="n">reobj_isodate</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span><span class="s">r&#39;&quot;$isodate:\1&quot;&#39;</span><span class="p">,</span> <span class="n">jstr</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">jstr</span>
+</div>
+<div class="viewcode-block" id="mongo_json_object_hook"><a class="viewcode-back" href="../../gsapi.html#gsapi.utils.mongo_json_object_hook">[docs]</a><span class="k">def</span> <span class="nf">mongo_json_object_hook</span><span class="p">(</span><span class="n">dct</span><span class="p">):</span>
+    <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">dct</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+        <span class="k">if</span> <span class="n">v</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="mi">4</span><span class="p">]</span> <span class="o">==</span> <span class="s">&#39;$oid&#39;</span><span class="p">:</span>
+            <span class="n">dct</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="o">=</span> <span class="n">ObjectId</span><span class="p">(</span><span class="n">v</span><span class="p">[</span><span class="mi">5</span><span class="p">:])</span>
+        <span class="k">elif</span> <span class="n">v</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="mi">5</span><span class="p">]</span> <span class="o">==</span> <span class="s">&#39;$date&#39;</span><span class="p">:</span>
+            <span class="n">dct</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="o">.</span><span class="n">fromtimestamp</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">v</span><span class="p">[</span><span class="mi">6</span><span class="p">:])</span> <span class="o">/</span> <span class="mi">1000</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">v</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="mi">8</span><span class="p">]</span> <span class="o">==</span> <span class="s">&#39;$isodate&#39;</span><span class="p">:</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="n">dct</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="o">=</span> <span class="n">dateutil</span><span class="o">.</span><span class="n">parser</span><span class="o">.</span><span class="n">parse</span><span class="p">(</span><span class="n">v</span><span class="p">[</span><span class="mi">9</span><span class="p">:])</span>
+            <span class="k">except</span><span class="p">:</span>
+                <span class="k">continue</span>
+    <span class="k">return</span> <span class="n">dct</span>
+
+</div>
+<div class="viewcode-block" id="load_data"><a class="viewcode-back" href="../../gsapi.html#gsapi.utils.load_data">[docs]</a><span class="k">def</span> <span class="nf">load_data</span><span class="p">(</span><span class="n">db</span><span class="p">,</span> <span class="n">es</span><span class="p">,</span> <span class="n">json_filepath</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39;Bulk load from json into corresponding collections.</span>
+<span class="sd">    Each item is expected to contain &#39;_c&#39; which represents the model class and the collection it belongs to.</span>
+<span class="sd">    Validation rules are tested for each doc.</span>
+<span class="sd">    &#39;&#39;&#39;</span>
+
+    <span class="n">docs_to_insert</span> <span class="o">=</span> <span class="p">[]</span>
+
+    <span class="c"># the data will either come from MongoVue or mongoexport</span>
+    <span class="c"># mongoVue delimits each doc record with },{</span>
+    <span class="c"># mongoexport delimits each doc record with linefeed</span>
+    <span class="c"># let&#39;s find out which one it is by reading in file</span>
+    <span class="n">data</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="n">json_filepath</span><span class="p">)</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
+    <span class="k">if</span> <span class="n">re</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="s">r&quot;\},\s*\{&quot;</span><span class="p">,</span> <span class="n">data</span><span class="p">):</span>
+        <span class="c"># each doc is delimited with },{ like from MongoVue copy to clipboard</span>
+        <span class="n">clean_data</span> <span class="o">=</span> <span class="n">preparse_json_doc</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+        <span class="c"># strip beginning {</span>
+        <span class="n">clean_data</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span><span class="s">r&quot;^(\s*\[\s*)*\s*\{\s*&quot;</span><span class="p">,</span> <span class="s">&quot;&quot;</span><span class="p">,</span> <span class="n">clean_data</span><span class="p">)</span>
+
+        <span class="c"># strip ending</span>
+        <span class="n">clean_data</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span><span class="s">r&quot;\s*\}\s*(\s*\])*$&quot;</span><span class="p">,</span> <span class="s">&quot;&quot;</span><span class="p">,</span> <span class="n">clean_data</span><span class="p">)</span>
+
+        <span class="n">docs</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s">r&quot;\},\s*\{&quot;</span><span class="p">,</span> <span class="n">clean_data</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">doc</span> <span class="ow">in</span> <span class="n">docs</span><span class="p">:</span>
+            <span class="n">doc</span> <span class="o">=</span> <span class="n">doc</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s">&#39;</span><span class="se">\n</span><span class="s">&#39;</span><span class="p">,</span> <span class="s">&#39;&#39;</span><span class="p">)</span>
+            <span class="n">doc</span> <span class="o">=</span> <span class="s">&quot;{&quot;</span> <span class="o">+</span> <span class="n">doc</span> <span class="o">+</span> <span class="s">&quot;}&quot;</span>
+            <span class="n">doc</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">doc</span><span class="p">,</span> <span class="n">object_hook</span> <span class="o">=</span> <span class="n">mongo_json_object_hook</span><span class="p">)</span>
+            <span class="n">docs_to_insert</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">doc</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="c"># assume mongoexport with each doc on one line</span>
+        <span class="nb">file</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="n">json_filepath</span><span class="p">)</span>
+        <span class="n">lines</span> <span class="o">=</span> <span class="p">[</span><span class="n">re</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span><span class="s">&#39;</span><span class="se">\n</span><span class="s">&#39;</span><span class="p">,</span> <span class="s">&#39;&#39;</span><span class="p">,</span> <span class="n">line</span><span class="p">)</span> <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="nb">filter</span><span class="p">(</span><span class="k">lambda</span> <span class="n">a</span><span class="p">:(</span><span class="n">a</span> <span class="o">!=</span> <span class="s">&#39;</span><span class="se">\n</span><span class="s">&#39;</span><span class="p">),</span> <span class="nb">file</span><span class="o">.</span><span class="n">readlines</span><span class="p">())]</span>
+        <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">lines</span><span class="p">:</span>
+            <span class="n">clean_line</span> <span class="o">=</span> <span class="n">preparse_json_doc</span><span class="p">(</span><span class="n">line</span><span class="p">)</span>
+            <span class="n">doc</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">clean_line</span><span class="p">,</span> <span class="n">object_hook</span> <span class="o">=</span> <span class="n">mongo_json_object_hook</span><span class="p">)</span>
+            <span class="n">docs_to_insert</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">doc</span><span class="p">)</span>
+        <span class="nb">file</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+
+    <span class="n">response</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="n">status</span> <span class="o">=</span> <span class="mi">200</span>
+    <span class="n">docs</span> <span class="o">=</span> <span class="p">[]</span>
+
+    <span class="n">load_errors</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">total_errors</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="n">total_added</span> <span class="o">=</span> <span class="mi">0</span>
+
+    <span class="k">for</span> <span class="n">doc</span> <span class="ow">in</span> <span class="n">docs_to_insert</span><span class="p">:</span>
+        <span class="n">class_id</span> <span class="o">=</span> <span class="n">doc</span><span class="p">[</span><span class="s">&#39;_c&#39;</span><span class="p">]</span>
+        <span class="n">model</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">models</span><span class="p">,</span> <span class="n">class_id</span><span class="p">)</span>
+        <span class="n">collection_name</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">meta</span><span class="p">[</span><span class="s">&#39;collection&#39;</span><span class="p">]</span>
+        <span class="n">collection</span> <span class="o">=</span> <span class="n">db</span><span class="p">[</span><span class="n">collection_name</span><span class="p">]</span>
+        <span class="n">errors</span> <span class="o">=</span> <span class="p">{}</span>
+
+        <span class="c"># Validate</span>
+        <span class="n">doc_errors</span> <span class="o">=</span> <span class="n">validate</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">doc</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">doc_errors</span><span class="p">:</span>
+            <span class="n">total_errors</span> <span class="o">+=</span> <span class="n">doc_errors</span><span class="p">[</span><span class="s">&#39;count&#39;</span><span class="p">]</span>
+            <span class="n">load_errors</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">doc_errors</span><span class="p">)</span>
+            <span class="k">continue</span>
+
+        <span class="c"># init model for this doc</span>
+        <span class="n">initialized_model</span> <span class="o">=</span> <span class="n">model</span><span class="p">(</span><span class="o">**</span><span class="n">doc</span><span class="p">)</span>
+
+        <span class="c">#log date time user involved with this event</span>
+        <span class="c"># m.logit(user_id, &#39;post&#39;)</span>
+
+        <span class="c"># need to stuff into mongo</span>
+        <span class="n">doc_validated</span> <span class="o">=</span> <span class="n">initialized_model</span><span class="o">.</span><span class="n">to_python</span><span class="p">()</span>
+
+        <span class="n">dumped</span> <span class="o">=</span> <span class="n">bson_json_util</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">doc_validated</span><span class="p">)</span>
+        <span class="n">doc_info</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="n">doc_validated</span><span class="p">[</span><span class="s">&#39;_id&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">doc</span><span class="p">[</span><span class="s">&#39;_id&#39;</span><span class="p">]</span>
+        <span class="n">doc_validated</span><span class="p">[</span><span class="s">&#39;_id&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">collection</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="n">doc_validated</span><span class="p">,</span> <span class="n">safe</span> <span class="o">=</span> <span class="bp">True</span><span class="p">)</span>
+        <span class="c"># try to load generic display name used for indexing, etc</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">doc_validated</span><span class="p">[</span><span class="s">&#39;dNam&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">initialized_model</span><span class="o">.</span><span class="n">dNam</span>
+        <span class="k">except</span><span class="p">:</span>
+            <span class="k">pass</span>
+        <span class="n">docs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">doc_validated</span><span class="p">)</span>
+
+        <span class="n">ret</span> <span class="o">=</span> <span class="n">es</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">initialized_model</span><span class="o">.</span><span class="n">index</span><span class="p">,</span> <span class="n">es</span><span class="o">.</span><span class="n">__dict__</span><span class="p">[</span><span class="s">&#39;index_name&#39;</span><span class="p">],</span> <span class="n">initialized_model</span><span class="o">.</span><span class="n">_c</span><span class="p">,</span> <span class="n">doc</span><span class="p">[</span><span class="s">&#39;_id&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">__str__</span><span class="p">())</span>
+
+        <span class="n">total_added</span> <span class="o">+=</span> <span class="mi">1</span>
+
+    <span class="n">response</span><span class="p">[</span><span class="s">&#39;total_inserted&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">docs</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">load_errors</span><span class="p">:</span>
+        <span class="n">response</span><span class="p">[</span><span class="s">&#39;total_invalid&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">load_errors</span><span class="p">)</span>
+        <span class="n">response</span><span class="p">[</span><span class="s">&#39;errors&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">load_errors</span>
+        <span class="n">response</span><span class="p">[</span><span class="s">&#39;total_errors&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">total_errors</span>
+        <span class="n">status</span> <span class="o">=</span> <span class="mi">400</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">response</span><span class="p">[</span><span class="s">&#39;total_invalid&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span>
+
+
+    <span class="n">response</span><span class="p">[</span><span class="s">&#39;docs&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">docs</span>
+
+    <span class="k">print</span> <span class="s">&quot;{count} docs loaded from: {json_filepath}!</span><span class="se">\n</span><span class="s">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">count</span> <span class="o">=</span> <span class="n">total_added</span><span class="p">,</span> <span class="n">json_filepath</span> <span class="o">=</span> <span class="n">json_filepath</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="p">{</span><span class="s">&#39;response&#39;</span><span class="p">:</span><span class="n">response</span><span class="p">,</span> <span class="s">&#39;status&#39;</span><span class="p">:</span><span class="n">status</span><span class="p">}</span>
+
+
+</div>
+<div class="viewcode-block" id="slugify"><a class="viewcode-back" href="../../gsapi.html#gsapi.utils.slugify">[docs]</a><span class="k">def</span> <span class="nf">slugify</span><span class="p">(</span><span class="n">value</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Normalizes string, converts to lowercase, removes non-alpha characters,</span>
+<span class="sd">    and converts spaces to hyphens.</span>
+
+<span class="sd">    Copy/Pasted from ametaireau/pelican/utils itself took from django sources.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">value</span><span class="p">)</span> <span class="o">==</span> <span class="nb">unicode</span><span class="p">:</span>
+        <span class="kn">import</span> <span class="nn">unicodedata</span>
+        <span class="n">value</span> <span class="o">=</span> <span class="n">unicodedata</span><span class="o">.</span><span class="n">normalize</span><span class="p">(</span><span class="s">&#39;NFKD&#39;</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="s">&#39;ascii&#39;</span><span class="p">,</span> <span class="s">&#39;ignore&#39;</span><span class="p">)</span>
+    <span class="n">value</span> <span class="o">=</span> <span class="nb">unicode</span><span class="p">(</span><span class="n">re</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span><span class="s">&#39;[^\w\s-]&#39;</span><span class="p">,</span> <span class="s">&#39;&#39;</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span><span class="o">.</span><span class="n">lower</span><span class="p">())</span>
+    <span class="k">return</span> <span class="n">re</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span><span class="s">&#39;[-\s]+&#39;</span><span class="p">,</span> <span class="s">&#39;-&#39;</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span>
+
+</div>
+<div class="viewcode-block" id="Redirect303"><a class="viewcode-back" href="../../gsapi.html#gsapi.utils.Redirect303">[docs]</a><span class="k">class</span> <span class="nc">Redirect303</span><span class="p">(</span><span class="n">HTTPException</span><span class="p">,</span> <span class="n">RoutingException</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Raise if the map requests a redirect. This is for example the case if</span>
+<span class="sd">    `strict_slashes` are activated and an url that requires a trailing slash.</span>
+
+<span class="sd">    The attribute `new_url` contains the absolute destination url.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">code</span> <span class="o">=</span> <span class="mi">303</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">new_url</span><span class="p">):</span>
+        <span class="n">RoutingException</span><span class="o">.</span><span class="n">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">new_url</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">new_url</span> <span class="o">=</span> <span class="n">new_url</span>
+
+<div class="viewcode-block" id="Redirect303.get_response"><a class="viewcode-back" href="../../gsapi.html#gsapi.utils.Redirect303.get_response">[docs]</a>    <span class="k">def</span> <span class="nf">get_response</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">environ</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">redirect</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">new_url</span><span class="p">,</span> <span class="mi">303</span><span class="p">)</span>
+</pre></div></div></div>
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li><a href="../../index.html">gsapi 1.0 documentation</a> &raquo;</li>
+          <li><a href="../index.html" >Module code</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2012, Larry Eitel.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.1.3.
+    </div>
+  </body>
+</html>
