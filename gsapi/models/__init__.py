@@ -1,4 +1,5 @@
 # from . import generic, contact
+from embed import *
 from generic import *
 from contact import *
 # this allows the model parameter to map to the corresponding collection Model which is required for a few of these functions

@@ -56,3 +56,16 @@ class Email(_Model):
         'collection': 'contacts.emails',
         '_c': 'Eml',
         }
+
+class Note(_Model):
+    
+    if 1: # Fields
+        note    = StringType()
+
+    if 1: # Methods
+        def __unicode__(self):
+            return self.note
+
+    meta = {
+        '_c': 'note',
+        }
