@@ -1,6 +1,6 @@
 from schematics.models import Model as _Model
 from model import Mod
-from schematics.types import IntType, StringType, FloatType, DateTimeType, EmailType, URLType
+from schematics.types import IntType, LongType, StringType, FloatType, DateTimeType, EmailType, URLType
 from schematics.types.compound import ListType, ModelType
 
 from schematics.types.mongo import ObjectIdType
@@ -41,6 +41,21 @@ class Wdg(Mod):
     meta   = {
         'collection': 'wdgs',
         '_c': 'wdg',
+        }
+
+# add to widgets.py?
+class Event(Wdg):
+    '''https://developers.google.com/places/documentation/actions#event_details'''
+    duration       = LongType(minimized_field_name='Duration', description="Duration in seconds.")
+
+    # start_time
+    begOn       = DateTimeType(minimized_field_name='Duration', description="Duration in seconds.")
+    url         = URLType(minimized_field_name='Url', description="A URL pointing to details about the event.")
+    summary     = StringType(minimized_field_name='Description', description="A textual description of the event. This property contains a string, the contents of which are not sanitized by the server. Your application should be prepared to prevent or deal with attempted exploits, if necessary.")
+
+    meta   = {
+        'collection': 'wdgs',
+        '_c': 'event',
         }
 
 esWdg = {
