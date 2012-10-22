@@ -11,7 +11,7 @@
    "mOn":{
       "$date":1347644492471
    },
-   "title":"president",
+   "prefix":"president",
    "oOn":{
       "$date":1347644492471
    },
@@ -35,7 +35,7 @@
    "mBy":{
       "$oid":"50468de92558713d84b03ed7"
    },
-   "title":"jeje",
+   "prefix":"jeje",
    "oOn":{
       "$date":1347644492471
    },
@@ -61,7 +61,7 @@
    "mBy":{
       "$oid":"50468de92558713d84b03fd7"
    },
-   "title":"jeje",
+   "prefix":"jeje",
    "oOn":{
       "$date":1347644492471
    },
@@ -90,7 +90,7 @@
    "mBy":{
       "$oid":"50468de92558713d84b03fd7"
    },
-   "title":"jeje",
+   "prefix":"jeje",
    "oOn":{
       "$date":1347644492471
    },
@@ -109,14 +109,15 @@
 },
 {
    "_c" : "Cmp",
-   "cNam":"GSNI And More",
+   "cNam":"GSNI",
+   "cNamShort":"ni",
    "_id":{
       "$oid":"50536c4c2558792c205a299d"
    },
    "mBy":{
       "$oid":"50468de92558713d84b03fd7"
    },
-   "title":"jeje",
+   "prefix":"jeje",
    "oOn":{
       "$date":1347644492471
    },
@@ -135,7 +136,8 @@
 },
 {
    "_c" : "Cmp",
-   "cNam":"GSNI And More",
+   "cNam":"GSNI",
+   "cNamShort":"ni",
    "_id":{
       "$oid":"50536c4c2558792c206a299d"
    },

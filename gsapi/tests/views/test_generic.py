@@ -284,7 +284,7 @@ class TestGeneric(TestCase):
 
 
         # FIELDS LIST
-        fields='["fNam", "title"]'
+        fields='["prefix", "_id", "fNam"]'
         query = '/%(collection)s?fields=%(fields)s' % {'collection':self.collection, 'fields':fields}
         print "\nVerify FIELDS LIST %s:" % fields
         print "RAW REQUEST:\n%s\n" % (route + query)
@@ -294,7 +294,7 @@ class TestGeneric(TestCase):
         data = json.loads(response.data)
         docs_found = data['docs']
         # slice of _id field and verify fields requested where the only ones returned
-        assert fields == json.dumps(docs_found[0].keys()[1:])
+        assert fields == json.dumps(docs_found[0].keys())
         print 'Success'
 
 

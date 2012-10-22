@@ -2,7 +2,7 @@
 {
    "_col" : "contacts",
    "_c" : "Prs",
-   "title":"Mr",
+   "prefix":"Mr",
    "fNam":"Larry",
    "fNam2":"Wayne",
    "lNam":"Einstein",
@@ -30,7 +30,7 @@
 {
    "_col" : "contacts",
    "_c" :"Prs",
-   "title":"Dr",
+   "prefix":"Dr",
    "fNam":"Sue",
    "fNam2":"May",
    "lNam":"Einstein",
