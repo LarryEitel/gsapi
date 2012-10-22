@@ -210,6 +210,10 @@ class PlaceRel(Mod):
     nameShort  = StringType(minimized_field_name='Relationship/Role Short', description='')
     weight     = StringType(minimized_field_name='Sort weight value', description='')
     place_id   = ObjectIdType()
+    meta = {
+        '_c': 'placerel',
+        }
+
 
 class Place(Mod):
     '''https://developers.google.com/places/documentation/details

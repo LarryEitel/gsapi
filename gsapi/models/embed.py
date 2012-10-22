@@ -25,17 +25,16 @@ class Share(Mod):
     permission   = StringType(minimized_field_name='Permission', choices=['aa','ab','b'], description='aa=At and Above, ab=At and below, b=Below.')
 
 class Email(_Model):
-    if 1: # Fields
-        address = EmailType(minimized_field_name='Email Address')
-        dNam    = StringType(minimized_field_name='Display Name', description='A display name of the entity (e.g. a person) the email address belongs to.')
-        weight  = FloatType(minimized_field_name='Sort weight', description='Sort list by weight value.')
-        label   = StringType(minimized_field_name='Label', description='A simple string value used to name this email address. It allows UIs to display a label such as "Work", "Personal", "Preferred", etc.')
+    address = EmailType(minimized_field_name='Email Address')
+    dNam    = StringType(minimized_field_name='Display Name', description='A display name of the entity (e.g. a person) the email address belongs to.')
+    weight  = FloatType(minimized_field_name='Sort weight', description='Sort list by weight value.')
+    label   = StringType(minimized_field_name='Label', description='A simple string value used to name this email address. It allows UIs to display a label such as "Work", "Personal", "Preferred", etc.')
 
-        # enum: home, work, other
-        rel     = StringType(minimized_field_name='Type of email', description='A programmatic value that identifies the type of email')
+    # enum: home, work, other
+    rel     = StringType(minimized_field_name='Type of email', description='A programmatic value that identifies the type of email')
 
-        primary = BooleanType(default=False, minimized_field_name='Primary', description='When multiple emails appear in a list, indicates which is primary. At most one may be primary.')
-        note    = StringType()
+    primary = BooleanType(default=False, minimized_field_name='Primary', description='When multiple emails appear in a list, indicates which is primary. At most one may be primary.')
+    note    = StringType()
 
     if 1: # Methods
         def __unicode__(self):
