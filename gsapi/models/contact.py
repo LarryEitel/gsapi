@@ -1,12 +1,12 @@
 from model import Mod
 from schematics.models import Model as _Model
-from schematics.types import IntType, StringType, FloatType, DateTimeType, EmailType
+from schematics.types import IntType, StringType, FloatType, DateTimeType, EmailType, URLType
 from schematics.types.compound import ListType, ModelType
 
 from schematics.types.mongo import ObjectIdType
 from bson import ObjectId
-from generic import Email
-
+from embed import Email, Note, Phone, Im
+from place import PlaceRel
 class RoleType(Mod):
     '''
     type = StringType(enum) # j=job, f=family, fr=friend
@@ -58,8 +58,28 @@ class CntX(Mod):
         }
 class Cnt(Mod):
     shares = ListType(ObjectIdType(ObjectId), minimized_field_name='Share List', description='List of Contacts shared with.')
-    emails = ListType(ModelType(Email), minimized_field_name='Emails', description='Email addresses.')
-    #cntXs = ListType(ModelType(CntAssnRole), minimized_field_name='Contact Association', description='Contact Association')
+    '''
+    Google Contacts API: https://developers.google.com/google-apps/contacts/v3/
+    '''
+    code        = StringType(minimized_field_name='General Code', description='')
+
+    tags        = ListType(StringType(minimized_field_name='Tags', description='General tags.'))
+    # langs       = ListType(ModelType(Lang), minimized_field_name='Languages', description='Languages associated with this contact.')
+    urls        = ListType(URLType(), minimized_field_name='Urls', description='Urls associated with this contact.')
+    # imgs        = ListType(ModelType(Img), minimized_field_name='Images', description='Images associated with this contact.')
+    phones      = ListType(ModelType(Phone), minimized_field_name='Phones', description='Phones associated with this contact.')
+    emails      = ListType(ModelType(Email), minimized_field_name='Emails', description='Emails associated with this contact.')
+    ims         = ListType(ModelType(Im), minimized_field_name='Instant Message Networks', description='')
+
+
+    icon        = StringType(minimized_field_name='Place Icon', description='URL to an image resource that can be used to represent this Contact\'s type.')
+    parents     = ListType(ModelType(CntX), minimized_field_name='Parents', description='')
+    ancestors   = ListType(ModelType(CntX), minimized_field_name='Ancestors', description='')
+    # events      = ListType(ModelType(Event), minimized_field_name='Ancestors', description='')
+    placeRels   = ListType(ModelType(PlaceRel), minimized_field_name='Places', description='')
+    descendants = ListType(ModelType(CntX), minimized_field_name='Descendants', description='')
+    notes       = ListType(ModelType(Note), minimized_field_name='Notes', description='')
+
     meta   = {
         'collection': 'contacts',
         '_c': 'cnt',
@@ -75,9 +95,9 @@ class Cmp(Cnt):
             'ServiceArea',
             'ServiceUnit',
             'Department',
-            'Group' 
+            'Group'
             'Troop'
-            ], 
+            ],
         description='')
 
     # parent   = ObjectIdType(minimized_field_name='Parent Widget ID', description='Parent owner.')
@@ -156,12 +176,12 @@ class Usr(Prs):
     pw     = StringType(minimized_field_name='Password', description='Password Hash')
     # initially, this will contain 'admin' for admin users
     grps   = ListType(StringType(), minimized_field_name='Groups', description='List of Groups this Usr is a member of.')
-    
+
     rstTkn = StringType(minimized_field_name='Reset Token', description='Used for resetting credentials.')
     rstOn  = DateTimeType(minimized_field_name='Reset Token DateTime Expiration', description='Used for resetting credentials.')
-    
+
     lvOn   = DateTimeType(minimized_field_name='Last Viewed', description='DateTime when user last viewed the site.')
-    
+
     meta   = {
         'collection': 'contacts',
         '_c': 'Usr',

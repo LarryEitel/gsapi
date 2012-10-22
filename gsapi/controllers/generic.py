@@ -9,9 +9,10 @@ from gsapi import models
 class Generic(object):
     """Docstring for class Generic"""
 
-    def __init__(self, db):
+    def __init__(self, db, es = None):
         #: Doc comment for instance attribute db
         self.db = db
+        self.es = es
 
     def put(self, **kwargs):
         """Docstring for put method:"""

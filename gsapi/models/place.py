@@ -1,20 +1,22 @@
 from model import Mod
 from schematics.models import Model as _Model
-from schematics.types import IntType, StringType, FloatType, DateTimeType, EmailType
+from schematics.types import IntType, LongType, StringType, FloatType, DateTimeType, EmailType, GeoPointType, URLType, BooleanType, DictType
 from schematics.types.compound import ListType, ModelType
-from schematics.document import EmbeddedDocument
+from embed import Email, Note, Phone, Im, Review
+from schematics.types.mongo import ObjectIdType
+from bson import ObjectId
 
-class country(_Model):
+class Country(_Model):
     '''
         http://www.iso.org/iso/iso-3166-1_decoding_table
         '''
     code      = StringType(minimized_field_name='Code', description='Country code as in ISO 3166-1 alpha-2')
     name      = StringType(minimized_field_name='Name', description='')
     nameLocal = StringType(minimized_field_name='Local Name', description='')
-        
+
 # structuredPostalAddress
 # https://developers.google.com/gdata/docs/2.0/elements#gdStructuredPostalAddress
-# Postal address split into components. It allows to store the address in locale independent format. The fields can be interpreted and used to generate formatted, locale dependent address. The following elements reperesent parts of the address: agent, house name, street, P.O. box, neighborhood, city, subregion, region, postal code, country. The subregion element is not used for postal addresses, it is provided for extended uses of addresses only. In order to store postal address in an unstructured form formatted address field is provided. 
+# Postal address split into components. It allows to store the address in locale independent format. The fields can be interpreted and used to generate formatted, locale dependent address. The following elements reperesent parts of the address: agent, house name, street, P.O. box, neighborhood, city, subregion, region, postal code, country. The subregion element is not used for postal addresses, it is provided for extended uses of addresses only. In order to store postal address in an unstructured form formatted address field is provided.
 
 class XGeoPointType(GeoPointType):
     '''Extend schematics GeoPointType to closer emulate Google geoPt
@@ -64,7 +66,7 @@ class AddressTypes(_Model):
     def buildPostalAddress():
         pass
 
-class addressPart(EmbeddedDocument):
+class AddressPart(_Model):
     # types come from: AddressTypes.addressTypes
     addressTypes = ListType(StringType(minimized_field_name='Place Type', description='https://developers.google.com/places/documentation/supported_types'))
 
@@ -72,9 +74,9 @@ class addressPart(EmbeddedDocument):
     name       = StringType(minimized_field_name='Name')
 
     #short_name
-    nameShort  = StringType(minimized_field_name='NameShort') 
+    nameShort  = StringType(minimized_field_name='NameShort')
 
-class placeType(_Model):
+class PlaceType(_Model):
     '''
         see: https://developers.google.com/places/documentation/supported_types
         accounting
@@ -173,17 +175,17 @@ class placeType(_Model):
         university
         veterinary_care
         zoo
-        '''   
-    pass 
+        '''
+    pass
 
 # make this embedded doc
 # not all places have structured address
-class PostalAddress(EmbeddedDocument):
+class PostalAddress(_Model):
     '''https://developers.google.com/gdata/docs/2.0/elements#gdStructuredPostalAddress'''
 
-    address1    = StringType(minimized_field_name='Address1', description="The agent who actually receives the mail. Used in work addresses. Also for 'in care of' or 'c/o'.") 
-    nameAgent    = StringType(minimized_field_name='Agent', description="The agent who actually receives the mail. Used in work addresses. Also for 'in care of' or 'c/o'.") 
-    
+    address1    = StringType(minimized_field_name='Address1', description="The agent who actually receives the mail. Used in work addresses. Also for 'in care of' or 'c/o'.")
+    nameAgent    = StringType(minimized_field_name='Agent', description="The agent who actually receives the mail. Used in work addresses. Also for 'in care of' or 'c/o'.")
+
     houseName = StringType(minimized_field_name='House Name', description='Used in places where houses or buildings have names (and not necessarily numbers), eg. "The Pillars".')
     street = StringType(minimized_field_name='Street', description='Can be street, avenue, road, etc. This element also includes the house number and room/apartment/flat/floor number.')
 
@@ -201,19 +203,27 @@ class PostalAddress(EmbeddedDocument):
     country = StringType(minimized_field_name='Country', description='The name or code of the country.')
     dNam = StringType(minimized_field_name='Display Postal Address', description='The full, unstructured postal address.')
 
+
+class PlaceRel(Mod):
+    '''Specifies the relationship between the containing entity and the contained Place. '''
+    name       = StringType(required=True, minimized_field_name='Relationship/Role', description='')
+    nameShort  = StringType(minimized_field_name='Relationship/Role Short', description='')
+    weight     = StringType(minimized_field_name='Sort weight value', description='')
+    place_id   = ObjectIdType()
+
 class Place(Mod):
     '''https://developers.google.com/places/documentation/details
         https://developers.google.com/maps/documentation/javascript/places#place_details_responses
         '''
-    addressParts = ListType(AddressPart)
+    addressParts = ListType(ModelType(AddressPart))
 
     # long_name
     name       = StringType(minimized_field_name='Name')
 
     #short_name
-    nameShort  = StringType(minimized_field_name='NameShort') 
-    nameAlt    = StringType(minimized_field_name='Alternate/informal/colloquial name') 
-    
+    nameShort  = StringType(minimized_field_name='NameShort')
+    nameAlt    = StringType(minimized_field_name='Alternate/informal/colloquial name')
+
     tags       = ListType(StringType(minimized_field_name='Tags', description='General tags.'))
     accessTags = ListType(StringType(minimized_field_name='Tags', description='Restricted, intercom, guard, etc'))
     status     = ListType(StringType(minimized_field_name='Status', description='do_not_call, busy, nh, etc'))
@@ -221,26 +231,26 @@ class Place(Mod):
     # create RatingType
     # https://developers.google.com/gdata/docs/2.0/elements#gdRating
     rating     = IntType(minimized_field_name='Rating', description='')
-    reviews    = ListType(Review)
+    reviews    = ListType(ModelType(Review))
 
     # types [ "locality", "political" ]
     placeTypes = ListType(StringType(minimized_field_name='Place Type', description='https://developers.google.com/places/documentation/supported_types'))
-    
+
     mUnit      = BooleanType(default=False, minimized_field_name='Is Multi-Unit premise.')
     mLevel     = BooleanType(default=False, minimized_field_name='Is Multi-Level premise.')
-    
+
     # put in PostalAddress?
     postalAddress = PostalAddress()
 
     color1     = StringType(minimized_field_name='Primary Color', description='')
     color2     = StringType(minimized_field_name='Secondary Color', description='')
     desc       = StringType(minimized_field_name='Description', description='')
-    
-    postcode     = StringType(minimized_field_name='Postal Code', description='Postal code. Usually country-wide, but sometimes specific to the city (e.g. "2" in "Dublin 2, Ireland" addresses).')
-    utcOffset    = LongType(minimized_field_name='Offset from UTC', description='The number of minutes this Place’s current timezone is offset from UTC. For example, for Places in Sydney, Australia during daylight saving time this would be 660 (+11 hours from UTC), and for Places in California outside of daylight saving time this would be -480 (-8 hours from UTC).')
 
-    urls         = ListType(URLType, minimized_field_name='Urls', description='Urls associated with this place.')
-    imgs         = ListType(ModelType(Img), minimized_field_name='Images', description='Images associated with this place.')
+    postcode     = StringType(minimized_field_name='Postal Code', description='Postal code. Usually country-wide, but sometimes specific to the city (e.g. "2" in "Dublin 2, Ireland" addresses).')
+    utcOffset    = LongType(minimized_field_name='Offset from UTC', description='The number of minutes this Place\'s current timezone is offset from UTC. For example, for Places in Sydney, Australia during daylight saving time this would be 660 (+11 hours from UTC), and for Places in California outside of daylight saving time this would be -480 (-8 hours from UTC).')
+
+    # urls         = ListType(ModelType(URLType), minimized_field_name='Urls', description='Urls associated with this place.')
+    #imgs         = ListType(ModelType(Img), minimized_field_name='Images', description='Images associated with this place.')
     phones       = ListType(ModelType(Phone), minimized_field_name='Phones', description='Phones associated with this place.')
     emails       = ListType(ModelType(Email), minimized_field_name='Emails', description='Emails associated with this place.')
 
@@ -248,18 +258,18 @@ class Place(Mod):
 
     postcode     = StringType(minimized_field_name='Postal Code', description='Postal code. Usually country-wide, but sometimes specific to the city (e.g. "2" in "Dublin 2, Ireland" addresses).')
 
-    parent     = ListType(ModelType(Place), minimized_field_name='Parents', description='')
-    ancestors   = ListType(ModelType(Place), minimized_field_name='Ancestors', description='')
-    descendants = ListType(ModelType(Place), minimized_field_name='Descendants', description='')
-    notes       = ListType(ModelType(Note), minimized_field_name='Notes', description='')
+    parent      = ListType(ObjectIdType(ObjectId))
+    ancestors   = ListType(ObjectIdType(ObjectId))
+    descendants = ListType(ObjectIdType(ObjectId))
+    notes       = ListType(ModelType(Note))
 
     aPath        = StringType(minimized_field_name="Verbose Ancestor Path")
     aPathShort   = StringType(minimized_field_name="Ancestor Path Short")
     dNam         = StringType(minimized_field_name="Display Verbose")
     dNamShort    = StringType(minimized_field_name="Display Short")
 
-    poly         = ListType(GeoPointType) # array of points/locs # boundary of place if an area is involved
-    polyOk       = BooleanType() # empty = unconfirmed
+    poly         = ListType(GeoPointType()) # array of points/locs # boundary of place if an area is involved
+    polyOk       = BooleanType()
     bbox         = DictType() # contain topLat, rightLng, bottomLat, leftLng
 
     geoPt        = GeoPointType() # LNG,LAT, if this involves a boundary, loc becomes center pt
