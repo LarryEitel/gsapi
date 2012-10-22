@@ -64,9 +64,6 @@ class AddressTypes(_Model):
     def buildPostalAddress():
         pass
 
-
-
-
 class addressPart(EmbeddedDocument):
     # types come from: AddressTypes.addressTypes
     addressTypes = ListType(StringType(minimized_field_name='Place Type', description='https://developers.google.com/places/documentation/supported_types'))
@@ -76,7 +73,6 @@ class addressPart(EmbeddedDocument):
 
     #short_name
     nameShort  = StringType(minimized_field_name='NameShort') 
-
 
 class placeType(_Model):
     '''
@@ -204,7 +200,6 @@ class PostalAddress(EmbeddedDocument):
 
     country = StringType(minimized_field_name='Country', description='The name or code of the country.')
     dNam = StringType(minimized_field_name='Display Postal Address', description='The full, unstructured postal address.')
-
 
 class Place(Mod):
     '''https://developers.google.com/places/documentation/details
