@@ -54,16 +54,91 @@ class CntXRel(Mod):
     weight     = StringType(minimized_field_name='Sort weight value', description='')
     mask       = StringType(minimized_field_name='Mask', description='ie. 1, 11')
 
-class CntX(Mod):
-    cnt_id = ObjectIdType(ObjectId)
 
-    # role
+company XYX
+    bill supervisor for XYX 
+    sue manager for XYX 
+
+company ABC 
+    sue owner of ABC
+
+sue
+    manager for XYZ
+    owner of ABC
+
+    supervisor OF company 
+    supervisor OF company 
+
+    dNam   = StringType(minimized_field_name="Display")
+    dNamShort   = StringType(minimized_field_name="Display Short")
+
+
+    @property
+    def vNam(self):
+        '''self.name + ', ' + self.mask'''
+        pass
+
+cntXRel = CntXRel(name=supervisor)
+
+cntX = CntX(from_cnt, to_cnt, cntXRel)
+
+class CntX(Mod):
+    def __init__(self, from_cnt, to_cnt, cntXRel):
+        super(CntX, self).__init__()
+        self.from_cnt = from_cnt
+        self.to_cnt = to_cnt
+        self.cntXRel = cntXRel
+
+    from_id = ObjectIdType(ObjectId)
+    to_id   = ObjectIdType(ObjectId)
     rel_id  = ObjectIdType(ObjectId)
-    '''https://developers.google.com/gdata/docs/2.0/elements#gdWho'''
+
     relTitle = StringType(minimized_field_name='Role/relationship/job Title')
     relDesc = StringType(minimized_field_name='Role/relationship description, ie, Job Description.')
     weight  = FloatType(minimized_field_name='Sort weight', description='Sort list by weight value.')
     where  = StringType(minimized_field_name='Where', description='More location details.')
+
+    dNam   = StringType(minimized_field_name="Display")
+    dNamShort   = StringType(minimized_field_name="Display Short")
+
+
+    Sitting on Bill_1_from
+        to_Father of Sue_2_to
+        Employer of Ted 
+
+
+        Employee of ACME
+
+    Sitting on Sue_2_from 
+        from_Daughter of Bill_1_to
+
+
+    @property
+    def vNam(self):
+        '''self.cntXRel.dNam + ' of ' + self.cnt.dNam'''
+        dNam = ''
+        fNam = ''
+        fNam += self.prefix + ' ' if self.prefix else ''
+        fNam += self.fNam + ' ' if self.fNam else ''
+        fNam += self.fNam2 + ' ' if self.fNam2 else ''
+        fNam = fNam[:-1] if fNam else ''
+
+        lNam = ''
+        lNam += self.lNam + ' ' if self.lNam else ''
+        lNam += self.lNam2 + ' ' if self.lNam2 else ''
+        lNam += self.suffix + ' ' if self.suffix else ''
+        lNam = lNam[:-1] if lNam else ''
+
+        if lNam:
+            dNam += lNam
+            if fNam:
+                dNam += ', ' + fNam
+        elif fNam:
+            dNam += fNam
+        return dNam
+
+
+
 
     '''primary key = cnt_id + rel_id '''
 
@@ -75,6 +150,59 @@ class CntX(Mod):
         'collection': 'cntxs',
         '_c': 'cntx',
         }
+
+# class CntX(Mod):
+#     def __init__(self, cnt, cntXRel):
+#         super(CntX, self).__init__()
+#         self.cnt_id = cnt._id
+#         self.rel_id = cntXRel._id
+
+#     relTitle = StringType(minimized_field_name='Role/relationship/job Title')
+#     relDesc = StringType(minimized_field_name='Role/relationship description, ie, Job Description.')
+#     weight  = FloatType(minimized_field_name='Sort weight', description='Sort list by weight value.')
+#     where  = StringType(minimized_field_name='Where', description='More location details.')
+
+#     dNam   = StringType(minimized_field_name="Display")
+#     dNamShort   = StringType(minimized_field_name="Display Short")
+
+#     @property
+#     def vNam(self):
+#         '''self.cntXRel.dNam + ' of ' + self.cnt.dNam'''
+#         dNam = ''
+#         fNam = ''
+#         fNam += self.prefix + ' ' if self.prefix else ''
+#         fNam += self.fNam + ' ' if self.fNam else ''
+#         fNam += self.fNam2 + ' ' if self.fNam2 else ''
+#         fNam = fNam[:-1] if fNam else ''
+
+#         lNam = ''
+#         lNam += self.lNam + ' ' if self.lNam else ''
+#         lNam += self.lNam2 + ' ' if self.lNam2 else ''
+#         lNam += self.suffix + ' ' if self.suffix else ''
+#         lNam = lNam[:-1] if lNam else ''
+
+#         if lNam:
+#             dNam += lNam
+#             if fNam:
+#                 dNam += ', ' + fNam
+#         elif fNam:
+#             dNam += fNam
+#         return dNam
+
+
+
+
+#     '''primary key = cnt_id + rel_id '''
+
+#     meta = {
+#         'collection': 'cntxs',
+#         '_c': 'cntx',
+#         }
+#     meta = {
+#         'collection': 'cntxs',
+#         '_c': 'cntx',
+#         }
+
 class Cnt(Mod):
     shares = ListType(ObjectIdType(ObjectId), minimized_field_name='Share List', description='List of Contacts shared with.')
     '''
@@ -156,6 +284,9 @@ class Prs(Cnt):
     gen     = StringType(minimized_field_name='Gender', choices=['m','f'], description='Gender')
     rBy     = ObjectIdType(minimized_field_name='Referred/Registered By', description='User that referred or registered this user.')
 
+    dNam   = StringType(minimized_field_name="Display")
+    dNamShort   = StringType(minimized_field_name="Display Short")
+
     meta = {
         'collection': 'contacts',
         '_c': 'Prs',
@@ -190,8 +321,9 @@ class Prs(Cnt):
 
         return fNam + (' ' + lNam if lNam else '')
 
+        
     @property
-    def dNam(self):
+    def vNam(self):
         '''Smith Sr, Mr Bill Wayne'''
         dNam = ''
         fNam = ''

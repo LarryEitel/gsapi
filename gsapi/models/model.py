@@ -1,37 +1,41 @@
 from schematics.models import Model as _Model
 from schematics.types import StringType, DateTimeType, BooleanType
 from schematics.types.mongo import ObjectIdType
+from bson import ObjectId
 import datetime
 
 class Mod(_Model):
     _c   = StringType(required=True, description='Class')
     _public_fields = ['_c']
     # owned
-    oBy     = ObjectIdType()
-    oOn     = DateTimeType() # ObjectIdType()
+    oBy     = ObjectIdType(ObjectId)
+    oOn     = DateTimeType()
     oLoc    = StringType()
-    
+    #oPlace    = StringType()
+
     # created
+    cBy     = ObjectIdType(ObjectId)
     cOn     = DateTimeType()
-    cBy     = ObjectIdType()
     cLoc    = StringType()
+    #cPlace    = StringType()
 
     # modified
+    mBy     = ObjectIdType(ObjectId)
     mOn     = DateTimeType()
-    mBy     = ObjectIdType()
     mLoc    = StringType()
+    #mPlace    = StringType()
 
     # deleted
     dele    = BooleanType(minimized_field_name='Deleted', description='Marked for removal.')
-    dBy     = ObjectIdType()
+    dBy     = ObjectIdType(ObjectId)
     dOn     = DateTimeType()
     dLoc    = StringType()
+    #dPlace    = StringType()
     
     note    = StringType()
 
     meta = {
-        'collection': 'contacts',
-        '_c': 'Mod',
+        '_c': 'mod',
         }
 
     @property
