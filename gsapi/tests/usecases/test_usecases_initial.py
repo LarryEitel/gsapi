@@ -26,7 +26,7 @@ class TestUseCaseInitial(TestCase):
         dumps_data = dumps(data)
         print "<pre>requests.post('http://" + self.host + '/' + _c + "', data='" + dumps_data + "')</pre>"
 
-        rs = self.app.post('/'+_c, data=dumps_data)
+        rs = self.app.post('/test/'+_c, data=dumps_data)
 
         err = "\nInsertCnt of %s FAILED!" % _c
 
@@ -52,7 +52,7 @@ class TestUseCaseInitial(TestCase):
         print "\n\nTestUseCaseInitial.test_one\n"
 
         print "### CREATE Admin Usr:"
-        UsrAdminJosh = self.InsertCnt('Usr', {"uNam":"jkutz", "fNam":"Mary", "lNam":"Smith", "gen":"f", "emails": [{"email":"mary@gsni.org"}], "grps": ["admin"], "lvOn": "$isodate:2012-09-14T17:41:32.471Z"})
+        UsrAdminJosh = self.InsertCnt('Usr', {"uNam":"jkutz", "fNam":"Josh", "lNam":"Kutz", "gen":"m", "emails": [{"email":"josh@kutz.org"}], "grps": ["admin"]})
 
         print "### ADD Usr:"
         usrMary = self.InsertCnt('Usr', {"uNam":"marys", "fNam":"Mary", "lNam":"Smith", "gen":"f", "emails": [{"email":"mary@gsni.org"}]})

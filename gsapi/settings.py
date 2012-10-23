@@ -21,6 +21,12 @@ class Config(object):
 	ES_TEST_PORT        = 9200
 	ES_TEST_NAME  		= 'index-test'
 
+	ES 					= {
+        'host': 'localhost',
+        'port': 9200,
+        'name': 'index'
+        }
+
 	#WTForms Settings
 	CSRF_ENABLED        = True
 	CSRF_SESSION_KEY    = '_csrf_token'

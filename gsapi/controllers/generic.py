@@ -7,11 +7,13 @@ import datetime
 from gsapi import models
 
 class Generic(object):
-    def __init__(self, db):
+    def __init__(self, db, es = None):
         self.db = db
+        self.es = es
 
     def put(self, **kwargs):
         db              = self.db
+        es              = self.es
         '''Put a patch to one doc'''
         # TODO: accomodate where clause to put changes to more than one doc.
         class_name      = kwargs['class_name']
@@ -53,27 +55,39 @@ class Generic(object):
             new = True
         )
 
+        # TODO Handle failure
+
+        doc                       = resp['value']
+        id                        = doc['_id'].__str__()
+        # init model for this doc
+        m                         = model(**doc)
+
+        # es.put_mapping(m._c, {'properties':models.esCnt}, [es.__dict__['index_name']])
+        es.index(m.index, es.__dict__['index_name'], m._c, id)
+
+
         response['collection']    = collection_name
         response['total_invalid'] = 0
-        response['id']            = id.__str__()
-        response['doc']           = resp['value']
+        response['id']            = id
+        response['doc']           = doc
 
         return {'response': response, 'status_code': status}
     def post(self, **kwargs):
         db              = self.db
+        es              = self.es
         class_name      = kwargs['class_name']
         model           = getattr(models, class_name)
         collection_name = model.meta['collection']
         collection      = db[collection_name]
-
-        response = {}
-        docs     = []
-        status   = 200
-
-        docs_to_post = kwargs['docs']
-
-        post_errors = []
-        total_errors = 0
+        
+        response        = {}
+        docs            = []
+        status          = 200
+        
+        docs_to_post    = kwargs['docs']
+        
+        post_errors     = []
+        total_errors    = 0
         for doc in docs_to_post:
             errors     = {}
             user_id    = "50468de92558713d84b03fd7"
@@ -104,6 +118,10 @@ class Generic(object):
             doc_info         = {}
 
             id               = str(collection.insert(doc_validated, safe=True))
+
+            # es.put_mapping(m._c, {'properties':models.esCnt}, [es.__dict__['index_name']])
+            es.index(m.index, es.__dict__['index_name'], m._c, id)
+
             doc_info['id']   = id
             doc_info['doc']  = doc_validated
             #doc_info['link'] = get_document_link(class_name, id)

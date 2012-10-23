@@ -34,6 +34,7 @@ class ESTestCase(unittest.TestCase):
 
 
         self.conn = get_conn(cfg=es_cfg, timeout=300.0)#incremented timeout for debugging
+        self.conn.__dict__['index_name'] = es_cfg['name']
         self.index_name = es_cfg['name']
         self.document_type = "test-type"
         self.conn.delete_index_if_exists(self.index_name)

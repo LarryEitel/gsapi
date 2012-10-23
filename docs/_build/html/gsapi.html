@@ -143,8 +143,38 @@ password combination is valid.</p>
 <dd></dd></dl>
 
 <dl class="attribute">
+<dt id="gsapi.local_settings.Config.ES_HOST">
+<tt class="descname">ES_HOST</tt><em class="property"> = '192.168.1.139'</em><a class="headerlink" href="#gsapi.local_settings.Config.ES_HOST" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="gsapi.local_settings.Config.ES_NAME">
+<tt class="descname">ES_NAME</tt><em class="property"> = 'gsapi'</em><a class="headerlink" href="#gsapi.local_settings.Config.ES_NAME" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="gsapi.local_settings.Config.ES_PORT">
+<tt class="descname">ES_PORT</tt><em class="property"> = 9200</em><a class="headerlink" href="#gsapi.local_settings.Config.ES_PORT" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="gsapi.local_settings.Config.ES_TEST_HOST">
+<tt class="descname">ES_TEST_HOST</tt><em class="property"> = '192.168.1.139'</em><a class="headerlink" href="#gsapi.local_settings.Config.ES_TEST_HOST" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="gsapi.local_settings.Config.ES_TEST_NAME">
+<tt class="descname">ES_TEST_NAME</tt><em class="property"> = 'gsapi-test'</em><a class="headerlink" href="#gsapi.local_settings.Config.ES_TEST_NAME" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="gsapi.local_settings.Config.ES_TEST_PORT">
+<tt class="descname">ES_TEST_PORT</tt><em class="property"> = 9200</em><a class="headerlink" href="#gsapi.local_settings.Config.ES_TEST_PORT" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
 <dt id="gsapi.local_settings.Config.FABRIC">
-<tt class="descname">FABRIC</tt><em class="property"> = {'live': {'WEB_USER': 'root', 'PROJECT_ROOT': '/srv/gs/api/gsapi', 'ADMIN_USER': 'root', 'HOSTS': ['50.116.35.54:22'], 'ADMIN_PW': 'Stop&amp;Think'}}</em><a class="headerlink" href="#gsapi.local_settings.Config.FABRIC" title="Permalink to this definition">¶</a></dt>
+<tt class="descname">FABRIC</tt><em class="property"> = {'live': {'WEB_USER': 'larry', 'PROJECT_ROOT': '/srv/gs/api/gsapi', 'ADMIN_USER': 'root', 'HOSTS': ['50.116.35.54:22'], 'ADMIN_PW': 'Stop&amp;Think'}}</em><a class="headerlink" href="#gsapi.local_settings.Config.FABRIC" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="attribute">
@@ -189,7 +219,7 @@ password combination is valid.</p>
 
 <dl class="attribute">
 <dt id="gsapi.local_settings.Config.MONGO_HOST">
-<tt class="descname">MONGO_HOST</tt><em class="property"> = 'localhost'</em><a class="headerlink" href="#gsapi.local_settings.Config.MONGO_HOST" title="Permalink to this definition">¶</a></dt>
+<tt class="descname">MONGO_HOST</tt><em class="property"> = '192.168.1.139'</em><a class="headerlink" href="#gsapi.local_settings.Config.MONGO_HOST" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="attribute">
@@ -204,7 +234,7 @@ password combination is valid.</p>
 
 <dl class="attribute">
 <dt id="gsapi.local_settings.Config.TESTING_HOST">
-<tt class="descname">TESTING_HOST</tt><em class="property"> = 'localhost:5000'</em><a class="headerlink" href="#gsapi.local_settings.Config.TESTING_HOST" title="Permalink to this definition">¶</a></dt>
+<tt class="descname">TESTING_HOST</tt><em class="property"> = '192.168.1.139:5000'</em><a class="headerlink" href="#gsapi.local_settings.Config.TESTING_HOST" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 </dd></dl>
@@ -212,6 +242,11 @@ password combination is valid.</p>
 </div>
 <div class="section" id="module-gsapi.run">
 <span id="run-module"></span><h2><tt class="xref py py-mod docutils literal"><span class="pre">run</span></tt> Module<a class="headerlink" href="#module-gsapi.run" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="gsapi.run.es">
+<tt class="descclassname">gsapi.run.</tt><tt class="descname">es</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/gsapi/run.html#es"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#gsapi.run.es" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
 <dl class="function">
 <dt id="gsapi.run.get">
 <tt class="descclassname">gsapi.run.</tt><tt class="descname">get</tt><big>(</big><em>class_name</em>, <em>id=None</em><big>)</big><a class="reference internal" href="_modules/gsapi/run.html#get"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#gsapi.run.get" title="Permalink to this definition">¶</a></dt>
@@ -341,6 +376,7 @@ and converts spaces to hyphens.</p>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="gsapi.tests.html">tests Package</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="gsapi.tests.html#module-gsapi.tests.base"><tt class="docutils literal"><span class="pre">base</span></tt> Module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="gsapi.tests.html#module-gsapi.tests.esbase"><tt class="docutils literal"><span class="pre">esbase</span></tt> Module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="gsapi.tests.html#subpackages">Subpackages</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="gsapi.tests.controllers.html">controllers Package</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="gsapi.tests.controllers.html#module-gsapi.tests.controllers.test_generic"><tt class="docutils literal"><span class="pre">test_generic</span></tt> Module</a></li>
@@ -349,6 +385,7 @@ and converts spaces to hyphens.</p>
 <li class="toctree-l3"><a class="reference internal" href="gsapi.tests.elastic.html">elastic Package</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="gsapi.tests.elastic.html#module-gsapi.tests.elastic.test_elastic_pyes"><tt class="docutils literal"><span class="pre">test_elastic_pyes</span></tt> Module</a></li>
 <li class="toctree-l4"><a class="reference internal" href="gsapi.tests.elastic.html#module-gsapi.tests.elastic.test_elasticsearch"><tt class="docutils literal"><span class="pre">test_elasticsearch</span></tt> Module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="gsapi.tests.elastic.html#module-gsapi.tests.elastic.test_nested"><tt class="docutils literal"><span class="pre">test_nested</span></tt> Module</a></li>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="gsapi.tests.helpers.html">helpers Package</a><ul>

@@ -2,6 +2,7 @@
 {
    "_col" : "contacts",
    "_c" : "Prs",
+   "title":"Mr",
    "fNam":"Larry",
    "fNam2":"Wayne",
    "lNam":"Einstein",
@@ -12,9 +13,7 @@
    "mBy":{
       "$oid":"50468de92558713d84b03fd7"
    },
-   "oOn":{
-      "$date":1347644492471
-   },
+   "oOn":"$isodate:2012-10-08T13:44:33.851000",
    "mOn":{
       "$date":1347644492400
    },
@@ -31,7 +30,7 @@
 {
    "_col" : "contacts",
    "_c" :"Prs",
-   "title":"Mrs",
+   "title":"Dr",
    "fNam":"Sue",
    "fNam2":"May",
    "lNam":"Einstein",

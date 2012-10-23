@@ -77,7 +77,12 @@
 <span class="c"># add regex for routing</span>
 <span class="n">app</span><span class="o">.</span><span class="n">url_map</span><span class="o">.</span><span class="n">converters</span><span class="p">[</span><span class="s">&#39;regex&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">RegexConverter</span>
 
-<span class="c">##################### PUT</span>
+<span class="c">##################### GET SEARCH</span>
+<span class="nd">@app.route</span><span class="p">(</span> <span class="s">&#39;/es&#39;</span><span class="p">,</span> <span class="n">methods</span><span class="o">=</span><span class="p">[</span><span class="s">&#39;GET&#39;</span><span class="p">])</span>
+<div class="viewcode-block" id="es"><a class="viewcode-back" href="../../gsapi.html#gsapi.run.es">[docs]</a><span class="k">def</span> <span class="nf">es</span><span class="p">():</span>
+    <span class="k">return</span> <span class="n">generic</span><span class="o">.</span><span class="n">es</span><span class="p">()</span>
+
+<span class="c">##################### PUT</span></div>
 <span class="nd">@app.route</span><span class="p">(</span> <span class="s">&#39;/&lt;regex(&quot;[\w]*[Ss]&quot;):class_name&gt;&#39;</span><span class="p">,</span> <span class="n">methods</span><span class="o">=</span><span class="p">[</span><span class="s">&#39;PUT&#39;</span><span class="p">,</span><span class="s">&#39;PATCH&#39;</span><span class="p">])</span>
 <div class="viewcode-block" id="put"><a class="viewcode-back" href="../../gsapi.html#gsapi.run.put">[docs]</a><span class="k">def</span> <span class="nf">put</span><span class="p">(</span><span class="n">class_name</span><span class="p">):</span>
     <span class="k">if</span> <span class="ow">not</span> <span class="n">class_name</span> <span class="ow">in</span> <span class="n">Config</span><span class="o">.</span><span class="n">DOMAIN</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>

@@ -90,6 +90,13 @@ class Cmp(Cnt):
         }
 
     @property
+    def index(self):
+        return {
+            "dNam"      : self.dNam,
+            "oOn"       : self.oOn
+                }
+
+    @property
     def dNam(self):
         return self.cNam
 class Prs(Cnt):
@@ -107,11 +114,20 @@ class Prs(Cnt):
         '_c': 'Prs',
         }
 
+    @property
+    def index(self):
+        return {
+            "dNam"      : self.dNam,
+            "oOn"       : self.oOn,
+            "title"     : self.title
+                }
+
     def save(self):
         pass
 
     @property
     def dNam(self):
+        '''Smith Sr, Mr Bill Wayne'''
         dNam = ''
         fNam = ''
         fNam += self.title + ' ' if self.title else ''
@@ -169,5 +185,7 @@ esCnt = {
         'index': 'analyzed',
         'store': 'yes',
         'type': u'string',
-        "term_vector" : "with_positions_offsets"}
+        "term_vector" : "with_positions_offsets"},
+    'oOn': {'store': 'yes',
+        'type': 'date'},
     }

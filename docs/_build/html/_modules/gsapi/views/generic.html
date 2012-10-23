@@ -102,6 +102,13 @@
     <span class="n">resp</span><span class="o">.</span><span class="n">mimetype</span> <span class="o">=</span> <span class="n">mime</span>
     <span class="k">return</span> <span class="n">resp</span>
 </div>
+<div class="viewcode-block" id="es"><a class="viewcode-back" href="../../../gsapi.views.html#gsapi.views.generic.es">[docs]</a><span class="k">def</span> <span class="nf">es</span><span class="p">(</span><span class="n">models</span><span class="p">):</span>
+    <span class="n">response</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="n">links</span>    <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">host</span>     <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="n">url</span>
+    
+    <span class="k">return</span> <span class="n">prep_response</span><span class="p">(</span><span class="n">response</span><span class="p">,</span> <span class="n">status</span> <span class="o">=</span> <span class="mi">200</span><span class="p">)</span>
+</div>
 <div class="viewcode-block" id="home"><a class="viewcode-back" href="../../../gsapi.views.html#gsapi.views.generic.home">[docs]</a><span class="k">def</span> <span class="nf">home</span><span class="p">(</span><span class="n">models</span><span class="p">):</span>
     <span class="n">response</span> <span class="o">=</span> <span class="p">{}</span>
     <span class="n">links</span>    <span class="o">=</span> <span class="p">[]</span>
