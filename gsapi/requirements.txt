@@ -9,11 +9,9 @@ rawes
 pyes
 #pexpect
 sphinx
-<<<<<<< HEAD
-=======
 sphinx-apidoc
 jinja2
->>>>>>> master
+pyyaml
 
 -e git+git://github.com/mongodb/mongo-python-driver.git#egg=pymongo
 fabric

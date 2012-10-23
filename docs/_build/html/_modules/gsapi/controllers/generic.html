@@ -1,5 +1,4 @@
 
-
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 
@@ -10,7 +9,7 @@
     
     <title>gsapi.controllers.generic &mdash; gsapi 1.0 documentation</title>
     
-    <link rel="stylesheet" href="../../../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../../../_static/nature.css" type="text/css" />
     <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
     
     <script type="text/javascript">
@@ -58,36 +57,39 @@
 <span class="kn">from</span> <span class="nn">gsapi</span> <span class="kn">import</span> <span class="n">models</span>
 
 <div class="viewcode-block" id="Generic"><a class="viewcode-back" href="../../../gsapi.controllers.html#gsapi.controllers.generic.Generic">[docs]</a><span class="k">class</span> <span class="nc">Generic</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Docstring for class Generic&quot;&quot;&quot;</span>
+
     <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">db</span><span class="p">):</span>
+        <span class="c">#: Doc comment for instance attribute db</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">db</span> <span class="o">=</span> <span class="n">db</span>
 
 <div class="viewcode-block" id="Generic.put"><a class="viewcode-back" href="../../../gsapi.controllers.html#gsapi.controllers.generic.Generic.put">[docs]</a>    <span class="k">def</span> <span class="nf">put</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
-        <span class="n">db</span>              <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">db</span>
-        <span class="sd">&#39;&#39;&#39;Put a patch to one doc&#39;&#39;&#39;</span>
+        <span class="sd">&quot;&quot;&quot;Docstring for put method:&quot;&quot;&quot;</span>
+        <span class="n">db</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">db</span>
         <span class="c"># TODO: accomodate where clause to put changes to more than one doc.</span>
-        <span class="n">class_name</span>      <span class="o">=</span> <span class="n">kwargs</span><span class="p">[</span><span class="s">&#39;class_name&#39;</span><span class="p">]</span>
-        <span class="n">model</span>           <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">models</span><span class="p">,</span> <span class="n">class_name</span><span class="p">)</span>
+        <span class="n">class_name</span> <span class="o">=</span> <span class="n">kwargs</span><span class="p">[</span><span class="s">&#39;class_name&#39;</span><span class="p">]</span>
+        <span class="n">model</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">models</span><span class="p">,</span> <span class="n">class_name</span><span class="p">)</span>
         <span class="n">collection_name</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">meta</span><span class="p">[</span><span class="s">&#39;collection&#39;</span><span class="p">]</span>
-        <span class="n">collection</span>      <span class="o">=</span> <span class="n">db</span><span class="p">[</span><span class="n">collection_name</span><span class="p">]</span>
+        <span class="n">collection</span> <span class="o">=</span> <span class="n">db</span><span class="p">[</span><span class="n">collection_name</span><span class="p">]</span>
 
         <span class="n">response</span> <span class="o">=</span> <span class="p">{}</span>
-        <span class="n">docs</span>     <span class="o">=</span> <span class="p">[]</span>
-        <span class="n">status</span>   <span class="o">=</span> <span class="mi">200</span>
+        <span class="n">docs</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">status</span> <span class="o">=</span> <span class="mi">200</span>
 
-        <span class="n">data</span>     <span class="o">=</span> <span class="n">kwargs</span><span class="p">[</span><span class="s">&#39;data&#39;</span><span class="p">]</span>
-        <span class="n">usrid</span>    <span class="o">=</span> <span class="n">kwargs</span><span class="p">[</span><span class="s">&#39;usrid&#39;</span><span class="p">]</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="n">kwargs</span><span class="p">[</span><span class="s">&#39;data&#39;</span><span class="p">]</span>
+        <span class="n">usrid</span> <span class="o">=</span> <span class="n">kwargs</span><span class="p">[</span><span class="s">&#39;usrid&#39;</span><span class="p">]</span>
 
         <span class="c"># expecting where</span>
-        <span class="n">where</span>    <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="s">&#39;where&#39;</span><span class="p">]</span>
-        <span class="n">patch</span>    <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="s">&#39;patch&#39;</span><span class="p">]</span>
+        <span class="n">where</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="s">&#39;where&#39;</span><span class="p">]</span>
+        <span class="n">patch</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="s">&#39;patch&#39;</span><span class="p">]</span>
 
         <span class="c"># validata patch</span>
         <span class="c"># init model for this doc</span>
-        <span class="n">patch_errors</span>    <span class="o">=</span> <span class="n">validate</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">patch</span><span class="p">)</span>
+        <span class="n">patch_errors</span> <span class="o">=</span> <span class="n">validate</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">patch</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">patch_errors</span><span class="p">:</span>
-            <span class="n">response</span><span class="p">[</span><span class="s">&#39;errors&#39;</span><span class="p">]</span>        <span class="o">=</span> <span class="n">patch_errors</span><span class="p">[</span><span class="s">&#39;errors&#39;</span><span class="p">]</span>
-            <span class="n">response</span><span class="p">[</span><span class="s">&#39;total_errors&#39;</span><span class="p">]</span>  <span class="o">=</span> <span class="n">patch_errors</span><span class="p">[</span><span class="s">&#39;count&#39;</span><span class="p">]</span>
-            <span class="n">status</span>                    <span class="o">=</span> <span class="mi">400</span>
+            <span class="n">response</span><span class="p">[</span><span class="s">&#39;errors&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">patch_errors</span><span class="p">[</span><span class="s">&#39;errors&#39;</span><span class="p">]</span>
+            <span class="n">response</span><span class="p">[</span><span class="s">&#39;total_errors&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">patch_errors</span><span class="p">[</span><span class="s">&#39;count&#39;</span><span class="p">]</span>
+            <span class="n">status</span> <span class="o">=</span> <span class="mi">400</span>
 
             <span class="k">return</span> <span class="n">prep_response</span><span class="p">(</span><span class="n">response</span><span class="p">,</span> <span class="n">status</span> <span class="o">=</span> <span class="n">status</span><span class="p">)</span>
 
@@ -104,33 +106,35 @@
             <span class="n">new</span> <span class="o">=</span> <span class="bp">True</span>
         <span class="p">)</span>
 
-        <span class="n">response</span><span class="p">[</span><span class="s">&#39;collection&#39;</span><span class="p">]</span>    <span class="o">=</span> <span class="n">collection_name</span>
+        <span class="n">response</span><span class="p">[</span><span class="s">&#39;collection&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">collection_name</span>
         <span class="n">response</span><span class="p">[</span><span class="s">&#39;total_invalid&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span>
-        <span class="n">response</span><span class="p">[</span><span class="s">&#39;id&#39;</span><span class="p">]</span>            <span class="o">=</span> <span class="nb">id</span><span class="o">.</span><span class="n">__str__</span><span class="p">()</span>
-        <span class="n">response</span><span class="p">[</span><span class="s">&#39;doc&#39;</span><span class="p">]</span>           <span class="o">=</span> <span class="n">resp</span><span class="p">[</span><span class="s">&#39;value&#39;</span><span class="p">]</span>
+        <span class="n">response</span><span class="p">[</span><span class="s">&#39;id&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">id</span><span class="o">.</span><span class="n">__str__</span><span class="p">()</span>
+        <span class="n">response</span><span class="p">[</span><span class="s">&#39;doc&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">resp</span><span class="p">[</span><span class="s">&#39;value&#39;</span><span class="p">]</span>
 
-        <span class="k">return</span> <span class="p">{</span><span class="s">&#39;response&#39;</span><span class="p">:</span> <span class="n">response</span><span class="p">,</span> <span class="s">&#39;status_code&#39;</span><span class="p">:</span> <span class="n">status</span><span class="p">}</span></div>
+        <span class="k">return</span> <span class="p">{</span><span class="s">&#39;response&#39;</span><span class="p">:</span> <span class="n">response</span><span class="p">,</span> <span class="s">&#39;status_code&#39;</span><span class="p">:</span> <span class="n">status</span><span class="p">}</span>
+    </div>
 <div class="viewcode-block" id="Generic.post"><a class="viewcode-back" href="../../../gsapi.controllers.html#gsapi.controllers.generic.Generic.post">[docs]</a>    <span class="k">def</span> <span class="nf">post</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
-        <span class="n">db</span>              <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">db</span>
-        <span class="n">class_name</span>      <span class="o">=</span> <span class="n">kwargs</span><span class="p">[</span><span class="s">&#39;class_name&#39;</span><span class="p">]</span>
-        <span class="n">model</span>           <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">models</span><span class="p">,</span> <span class="n">class_name</span><span class="p">)</span>
+        <span class="sd">&quot;&quot;&quot;Docstring for post method:&quot;&quot;&quot;</span>
+        <span class="n">db</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">db</span>
+        <span class="n">class_name</span> <span class="o">=</span> <span class="n">kwargs</span><span class="p">[</span><span class="s">&#39;class_name&#39;</span><span class="p">]</span>
+        <span class="n">model</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">models</span><span class="p">,</span> <span class="n">class_name</span><span class="p">)</span>
         <span class="n">collection_name</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">meta</span><span class="p">[</span><span class="s">&#39;collection&#39;</span><span class="p">]</span>
-        <span class="n">collection</span>      <span class="o">=</span> <span class="n">db</span><span class="p">[</span><span class="n">collection_name</span><span class="p">]</span>
+        <span class="n">collection</span> <span class="o">=</span> <span class="n">db</span><span class="p">[</span><span class="n">collection_name</span><span class="p">]</span>
 
         <span class="n">response</span> <span class="o">=</span> <span class="p">{}</span>
-        <span class="n">docs</span>     <span class="o">=</span> <span class="p">[]</span>
-        <span class="n">status</span>   <span class="o">=</span> <span class="mi">200</span>
+        <span class="n">docs</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">status</span> <span class="o">=</span> <span class="mi">200</span>
 
         <span class="n">docs_to_post</span> <span class="o">=</span> <span class="n">kwargs</span><span class="p">[</span><span class="s">&#39;docs&#39;</span><span class="p">]</span>
 
         <span class="n">post_errors</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="n">total_errors</span> <span class="o">=</span> <span class="mi">0</span>
         <span class="k">for</span> <span class="n">doc</span> <span class="ow">in</span> <span class="n">docs_to_post</span><span class="p">:</span>
-            <span class="n">errors</span>     <span class="o">=</span> <span class="p">{}</span>
-            <span class="n">user_id</span>    <span class="o">=</span> <span class="s">&quot;50468de92558713d84b03fd7&quot;</span>
+            <span class="n">errors</span> <span class="o">=</span> <span class="p">{}</span>
+            <span class="n">user_id</span> <span class="o">=</span> <span class="s">&quot;50468de92558713d84b03fd7&quot;</span>
 
             <span class="c"># need to stuff in class_name</span>
-            <span class="n">doc</span><span class="p">[</span><span class="s">&#39;_c&#39;</span><span class="p">]</span>  <span class="o">=</span> <span class="n">class_name</span>
+            <span class="n">doc</span><span class="p">[</span><span class="s">&#39;_c&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">class_name</span>
 
             <span class="c"># Validate</span>
             <span class="n">doc_errors</span> <span class="o">=</span> <span class="n">validate</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">doc</span><span class="p">)</span>
@@ -140,23 +144,23 @@
                 <span class="k">continue</span>
 
             <span class="c"># init model for this doc</span>
-            <span class="n">m</span>   <span class="o">=</span> <span class="n">model</span><span class="p">(</span><span class="o">**</span><span class="n">doc</span><span class="p">)</span>
+            <span class="n">m</span> <span class="o">=</span> <span class="n">model</span><span class="p">(</span><span class="o">**</span><span class="n">doc</span><span class="p">)</span>
 
             <span class="c">#log date time user involved with this event</span>
             <span class="n">m</span><span class="o">.</span><span class="n">logit</span><span class="p">(</span><span class="n">user_id</span><span class="p">,</span> <span class="s">&#39;post&#39;</span><span class="p">)</span>
 
             <span class="c"># need to stuff into mongo</span>
-            <span class="n">doc_validated</span>    <span class="o">=</span> <span class="n">m</span><span class="o">.</span><span class="n">to_python</span><span class="p">()</span>
+            <span class="n">doc_validated</span> <span class="o">=</span> <span class="n">m</span><span class="o">.</span><span class="n">to_python</span><span class="p">()</span>
             <span class="k">try</span><span class="p">:</span>
                 <span class="n">doc_validated</span><span class="p">[</span><span class="s">&#39;_c&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">m</span><span class="o">.</span><span class="n">meta</span><span class="p">[</span><span class="s">&#39;_c&#39;</span><span class="p">]</span>
             <span class="k">except</span><span class="p">:</span>
                 <span class="k">pass</span>
 
-            <span class="n">doc_info</span>         <span class="o">=</span> <span class="p">{}</span>
+            <span class="n">doc_info</span> <span class="o">=</span> <span class="p">{}</span>
 
-            <span class="nb">id</span>               <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">collection</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="n">doc_validated</span><span class="p">,</span> <span class="n">safe</span><span class="o">=</span><span class="bp">True</span><span class="p">))</span>
-            <span class="n">doc_info</span><span class="p">[</span><span class="s">&#39;id&#39;</span><span class="p">]</span>   <span class="o">=</span> <span class="nb">id</span>
-            <span class="n">doc_info</span><span class="p">[</span><span class="s">&#39;doc&#39;</span><span class="p">]</span>  <span class="o">=</span> <span class="n">doc_validated</span>
+            <span class="nb">id</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">collection</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="n">doc_validated</span><span class="p">,</span> <span class="n">safe</span> <span class="o">=</span> <span class="bp">True</span><span class="p">))</span>
+            <span class="n">doc_info</span><span class="p">[</span><span class="s">&#39;id&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">id</span>
+            <span class="n">doc_info</span><span class="p">[</span><span class="s">&#39;doc&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">doc_validated</span>
             <span class="c">#doc_info[&#39;link&#39;] = get_document_link(class_name, id)</span>
 
             <span class="n">docs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">doc_info</span><span class="p">)</span>
@@ -165,30 +169,32 @@
 
         <span class="k">if</span> <span class="n">post_errors</span><span class="p">:</span>
             <span class="n">response</span><span class="p">[</span><span class="s">&#39;total_invalid&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">post_errors</span><span class="p">)</span>
-            <span class="n">response</span><span class="p">[</span><span class="s">&#39;errors&#39;</span><span class="p">]</span>        <span class="o">=</span> <span class="n">post_errors</span>
-            <span class="n">response</span><span class="p">[</span><span class="s">&#39;total_errors&#39;</span><span class="p">]</span>  <span class="o">=</span> <span class="n">total_errors</span>
-            <span class="n">status</span>                    <span class="o">=</span> <span class="mi">400</span>
+            <span class="n">response</span><span class="p">[</span><span class="s">&#39;errors&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">post_errors</span>
+            <span class="n">response</span><span class="p">[</span><span class="s">&#39;total_errors&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">total_errors</span>
+            <span class="n">status</span> <span class="o">=</span> <span class="mi">400</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="n">response</span><span class="p">[</span><span class="s">&#39;total_invalid&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span>
 
 
         <span class="n">response</span><span class="p">[</span><span class="s">&#39;docs&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">docs</span>
 
-        <span class="k">return</span> <span class="p">{</span><span class="s">&#39;response&#39;</span><span class="p">:</span> <span class="n">response</span><span class="p">,</span> <span class="s">&#39;status_code&#39;</span><span class="p">:</span> <span class="n">status</span><span class="p">}</span></div>
+        <span class="k">return</span> <span class="p">{</span><span class="s">&#39;response&#39;</span><span class="p">:</span> <span class="n">response</span><span class="p">,</span> <span class="s">&#39;status_code&#39;</span><span class="p">:</span> <span class="n">status</span><span class="p">}</span>
+    </div>
 <div class="viewcode-block" id="Generic.get"><a class="viewcode-back" href="../../../gsapi.controllers.html#gsapi.controllers.generic.Generic.get">[docs]</a>    <span class="k">def</span> <span class="nf">get</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
-        <span class="n">db</span>              <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">db</span>
-        <span class="n">class_name</span>      <span class="o">=</span> <span class="n">kwargs</span><span class="p">[</span><span class="s">&#39;class_name&#39;</span><span class="p">]</span>
-        <span class="n">model</span>           <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">models</span><span class="p">,</span> <span class="n">class_name</span><span class="p">)</span>
+        <span class="sd">&quot;&quot;&quot;Docstring for get method:&quot;&quot;&quot;</span>
+        <span class="n">db</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">db</span>
+        <span class="n">class_name</span> <span class="o">=</span> <span class="n">kwargs</span><span class="p">[</span><span class="s">&#39;class_name&#39;</span><span class="p">]</span>
+        <span class="n">model</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">models</span><span class="p">,</span> <span class="n">class_name</span><span class="p">)</span>
         <span class="n">collection_name</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">meta</span><span class="p">[</span><span class="s">&#39;collection&#39;</span><span class="p">]</span>
-        <span class="n">collection</span>      <span class="o">=</span> <span class="n">db</span><span class="p">[</span><span class="n">collection_name</span><span class="p">]</span>
+        <span class="n">collection</span> <span class="o">=</span> <span class="n">db</span><span class="p">[</span><span class="n">collection_name</span><span class="p">]</span>
 
         <span class="n">response</span> <span class="o">=</span> <span class="p">{}</span>
-        <span class="n">docs</span>     <span class="o">=</span> <span class="p">[]</span>
-        <span class="n">status</span>   <span class="o">=</span> <span class="mi">200</span>
+        <span class="n">docs</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">status</span> <span class="o">=</span> <span class="mi">200</span>
 
         <span class="c"># if an id was passed, try to return only that one</span>
         <span class="k">if</span> <span class="s">&#39;id&#39;</span> <span class="ow">in</span> <span class="n">kwargs</span><span class="p">:</span>
-            <span class="nb">id</span>  <span class="o">=</span> <span class="n">kwargs</span><span class="p">[</span><span class="s">&#39;id&#39;</span><span class="p">]</span>
+            <span class="nb">id</span> <span class="o">=</span> <span class="n">kwargs</span><span class="p">[</span><span class="s">&#39;id&#39;</span><span class="p">]</span>
             <span class="n">doc</span> <span class="o">=</span> <span class="n">collection</span><span class="o">.</span><span class="n">find_one</span><span class="p">({</span><span class="s">&quot;_id&quot;</span><span class="p">:</span> <span class="n">ObjectId</span><span class="p">(</span><span class="nb">id</span><span class="p">)})</span>
             <span class="n">response</span><span class="p">[</span><span class="s">&#39;doc&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">doc</span>
             <span class="k">return</span> <span class="p">{</span><span class="s">&#39;response&#39;</span><span class="p">:</span> <span class="n">response</span><span class="p">,</span> <span class="s">&#39;status_code&#39;</span><span class="p">:</span> <span class="n">status</span><span class="p">}</span>
@@ -203,26 +209,26 @@
         <span class="c"># this allows us to filter results on the type of contact involved</span>
         <span class="c"># contacts return all</span>
         <span class="c"># persons return contacts that are persons, etc.</span>
-        <span class="n">where</span><span class="p">[</span><span class="s">&#39;_c&#39;</span><span class="p">]</span>             <span class="o">=</span> <span class="n">class_name</span>
+        <span class="n">where</span><span class="p">[</span><span class="s">&#39;_c&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">class_name</span>
 
-        <span class="n">fields</span>                  <span class="o">=</span> <span class="n">kwargs</span><span class="p">[</span><span class="s">&#39;fields&#39;</span><span class="p">]</span> <span class="k">if</span> <span class="s">&#39;fields&#39;</span> <span class="ow">in</span> <span class="n">kwargs</span> <span class="k">else</span> <span class="bp">None</span>
-        <span class="n">sort_raw</span>                <span class="o">=</span> <span class="n">kwargs</span><span class="p">[</span><span class="s">&#39;sort&#39;</span><span class="p">]</span> <span class="k">if</span> <span class="s">&#39;sort&#39;</span> <span class="ow">in</span> <span class="n">kwargs</span> <span class="k">else</span> <span class="bp">None</span>
+        <span class="n">fields</span> <span class="o">=</span> <span class="n">kwargs</span><span class="p">[</span><span class="s">&#39;fields&#39;</span><span class="p">]</span> <span class="k">if</span> <span class="s">&#39;fields&#39;</span> <span class="ow">in</span> <span class="n">kwargs</span> <span class="k">else</span> <span class="bp">None</span>
+        <span class="n">sort_raw</span> <span class="o">=</span> <span class="n">kwargs</span><span class="p">[</span><span class="s">&#39;sort&#39;</span><span class="p">]</span> <span class="k">if</span> <span class="s">&#39;sort&#39;</span> <span class="ow">in</span> <span class="n">kwargs</span> <span class="k">else</span> <span class="bp">None</span>
 
         <span class="c"># mongo wants sorts like: [(&quot;fld1&quot;, &lt;order&gt;), (&quot;fld2&quot;, &lt;order&gt;)]</span>
-        <span class="n">sorts</span>                   <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">sorts</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="k">if</span> <span class="n">sort_raw</span><span class="p">:</span>
             <span class="n">flds</span> <span class="o">=</span> <span class="n">sort_raw</span>
             <span class="k">for</span> <span class="n">fld</span> <span class="ow">in</span> <span class="n">flds</span><span class="p">:</span>
-                <span class="n">sorts</span> <span class="o">=</span> <span class="p">[(</span><span class="n">k</span><span class="p">,</span> <span class="nb">int</span><span class="p">(</span><span class="n">v</span><span class="p">))</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span><span class="n">v</span> <span class="ow">in</span> <span class="n">fld</span><span class="o">.</span><span class="n">iteritems</span><span class="p">()]</span>
+                <span class="n">sorts</span> <span class="o">=</span> <span class="p">[(</span><span class="n">k</span><span class="p">,</span> <span class="nb">int</span><span class="p">(</span><span class="n">v</span><span class="p">))</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">fld</span><span class="o">.</span><span class="n">iteritems</span><span class="p">()]</span>
 
-        <span class="n">skip</span>       <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">kwargs</span><span class="p">[</span><span class="s">&#39;skip&#39;</span><span class="p">])</span> <span class="k">if</span> <span class="s">&#39;skip&#39;</span> <span class="ow">in</span> <span class="n">kwargs</span> <span class="k">else</span> <span class="mi">0</span>
-        <span class="n">limit</span>      <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">kwargs</span><span class="p">[</span><span class="s">&#39;limit&#39;</span><span class="p">])</span> <span class="k">if</span> <span class="s">&#39;limit&#39;</span> <span class="ow">in</span> <span class="n">kwargs</span> <span class="k">else</span> <span class="mi">0</span>
+        <span class="n">skip</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">kwargs</span><span class="p">[</span><span class="s">&#39;skip&#39;</span><span class="p">])</span> <span class="k">if</span> <span class="s">&#39;skip&#39;</span> <span class="ow">in</span> <span class="n">kwargs</span> <span class="k">else</span> <span class="mi">0</span>
+        <span class="n">limit</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">kwargs</span><span class="p">[</span><span class="s">&#39;limit&#39;</span><span class="p">])</span> <span class="k">if</span> <span class="s">&#39;limit&#39;</span> <span class="ow">in</span> <span class="n">kwargs</span> <span class="k">else</span> <span class="mi">0</span>
         <span class="n">skip_limit</span> <span class="o">=</span> <span class="n">skip</span> <span class="o">&gt;</span> <span class="o">-</span><span class="mi">1</span> <span class="ow">and</span> <span class="n">limit</span>
 
         <span class="k">if</span> <span class="n">sorts</span><span class="p">:</span>
-            <span class="n">cursor</span> <span class="o">=</span> <span class="n">collection</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="n">spec</span><span class="o">=</span><span class="n">where</span><span class="p">,</span> <span class="n">fields</span><span class="o">=</span><span class="n">fields</span><span class="p">,</span> <span class="n">skip</span><span class="o">=</span><span class="n">skip</span><span class="p">,</span> <span class="n">limit</span><span class="o">=</span><span class="n">limit</span><span class="p">)</span><span class="o">.</span><span class="n">sort</span><span class="p">(</span><span class="n">sorts</span><span class="p">)</span>
+            <span class="n">cursor</span> <span class="o">=</span> <span class="n">collection</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="n">spec</span> <span class="o">=</span> <span class="n">where</span><span class="p">,</span> <span class="n">fields</span> <span class="o">=</span> <span class="n">fields</span><span class="p">,</span> <span class="n">skip</span> <span class="o">=</span> <span class="n">skip</span><span class="p">,</span> <span class="n">limit</span> <span class="o">=</span> <span class="n">limit</span><span class="p">)</span><span class="o">.</span><span class="n">sort</span><span class="p">(</span><span class="n">sorts</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="n">cursor</span> <span class="o">=</span> <span class="n">collection</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="n">spec</span><span class="o">=</span><span class="n">where</span><span class="p">,</span> <span class="n">fields</span><span class="o">=</span><span class="n">fields</span><span class="p">,</span> <span class="n">skip</span><span class="o">=</span><span class="n">skip</span><span class="p">,</span> <span class="n">limit</span><span class="o">=</span><span class="n">limit</span><span class="p">)</span>
+            <span class="n">cursor</span> <span class="o">=</span> <span class="n">collection</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="n">spec</span> <span class="o">=</span> <span class="n">where</span><span class="p">,</span> <span class="n">fields</span> <span class="o">=</span> <span class="n">fields</span><span class="p">,</span> <span class="n">skip</span> <span class="o">=</span> <span class="n">skip</span><span class="p">,</span> <span class="n">limit</span> <span class="o">=</span> <span class="n">limit</span><span class="p">)</span>
         <span class="k">for</span> <span class="n">doc</span> <span class="ow">in</span> <span class="n">cursor</span><span class="p">:</span>
             <span class="n">docs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">doc</span><span class="p">)</span>
 

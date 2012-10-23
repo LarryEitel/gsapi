@@ -17,6 +17,14 @@ usecases Package
     :undoc-members:
     :show-inheritance:
 
+:mod:`test_usecases_load_sample_data` Module
+--------------------------------------------
+
+.. automodule:: gsapi.tests.usecases.test_usecases_load_sample_data
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
 :mod:`test_usecases_usr` Module
 -------------------------------
 

@@ -1,5 +1,4 @@
 
-
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 
@@ -10,7 +9,7 @@
     
     <title>gsapi.models.model &mdash; gsapi 1.0 documentation</title>
     
-    <link rel="stylesheet" href="../../../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../../../_static/nature.css" type="text/css" />
     <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
     
     <script type="text/javascript">
@@ -73,7 +72,7 @@
     <span class="n">mLoc</span>    <span class="o">=</span> <span class="n">StringType</span><span class="p">()</span>
 
     <span class="c"># deleted</span>
-    <span class="n">dele</span>     <span class="o">=</span> <span class="n">BooleanType</span><span class="p">(</span><span class="n">minimized_field_name</span><span class="o">=</span><span class="s">&#39;Deleted&#39;</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s">&#39;Marked for removal.&#39;</span><span class="p">)</span>
+    <span class="n">dele</span>    <span class="o">=</span> <span class="n">BooleanType</span><span class="p">(</span><span class="n">minimized_field_name</span><span class="o">=</span><span class="s">&#39;Deleted&#39;</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s">&#39;Marked for removal.&#39;</span><span class="p">)</span>
     <span class="n">dBy</span>     <span class="o">=</span> <span class="n">ObjectIdType</span><span class="p">()</span>
     <span class="n">dOn</span>     <span class="o">=</span> <span class="n">DateTimeType</span><span class="p">()</span>
     <span class="n">dLoc</span>    <span class="o">=</span> <span class="n">StringType</span><span class="p">()</span>
@@ -85,6 +84,10 @@
         <span class="s">&#39;_c&#39;</span><span class="p">:</span> <span class="s">&#39;Mod&#39;</span><span class="p">,</span>
         <span class="p">}</span>
 
+    <span class="nd">@property</span>
+<div class="viewcode-block" id="Mod.index"><a class="viewcode-back" href="../../../gsapi.models.html#gsapi.models.model.Mod.index">[docs]</a>    <span class="k">def</span> <span class="nf">index</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="p">{}</span>
+</div>
     <span class="nd">@classmethod</span>
 <div class="viewcode-block" id="Mod.logit"><a class="viewcode-back" href="../../../gsapi.models.html#gsapi.models.model.Mod.logit">[docs]</a>    <span class="k">def</span> <span class="nf">logit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">user_id</span><span class="p">,</span> <span class="n">method</span><span class="o">=</span><span class="s">&#39;post&#39;</span><span class="p">):</span>
 

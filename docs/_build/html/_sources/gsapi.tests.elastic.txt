@@ -1,18 +1,18 @@
 elastic Package
 ===============
 
-:mod:`test_elastic_pyes` Module
--------------------------------
+:mod:`tes_t_elasticsearch` Module
+---------------------------------
 
-.. automodule:: gsapi.tests.elastic.test_elastic_pyes
+.. automodule:: gsapi.tests.elastic.tes_t_elasticsearch
     :members:
     :undoc-members:
     :show-inheritance:
 
-:mod:`test_elasticsearch` Module
---------------------------------
+:mod:`test_elastic_pyes` Module
+-------------------------------
 
-.. automodule:: gsapi.tests.elastic.test_elasticsearch
+.. automodule:: gsapi.tests.elastic.test_elastic_pyes
     :members:
     :undoc-members:
     :show-inheritance:

@@ -1,5 +1,4 @@
 
-
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 
@@ -10,7 +9,7 @@
     
     <title>gsapi.tests.base &mdash; gsapi 1.0 documentation</title>
     
-    <link rel="stylesheet" href="../../../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../../../_static/nature.css" type="text/css" />
     <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
     
     <script type="text/javascript">
@@ -71,6 +70,7 @@
 <span class="kn">from</span> <span class="nn">flask</span> <span class="kn">import</span> <span class="n">session</span>
 
 <span class="kn">import</span> <span class="nn">gsapi.run</span> <span class="kn">as</span> <span class="nn">run</span>
+<span class="kn">from</span> <span class="nn">gsapi</span> <span class="kn">import</span> <span class="n">models</span>
 <span class="kn">from</span> <span class="nn">gsapi.utils</span> <span class="kn">import</span> <span class="n">load_data</span>
 <span class="kn">from</span> <span class="nn">pymongo</span> <span class="kn">import</span> <span class="n">Connection</span>
 
@@ -87,36 +87,36 @@
 <div class="viewcode-block" id="TestCase"><a class="viewcode-back" href="../../../gsapi.tests.html#gsapi.tests.base.TestCase">[docs]</a><span class="k">class</span> <span class="nc">TestCase</span><span class="p">(</span><span class="n">unittest</span><span class="o">.</span><span class="n">TestCase</span><span class="p">):</span>
 
 <div class="viewcode-block" id="TestCase.setUp"><a class="viewcode-back" href="../../../gsapi.tests.html#gsapi.tests.base.TestCase.setUp">[docs]</a>    <span class="k">def</span> <span class="nf">setUp</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="n">app</span> <span class="o">=</span> <span class="n">run</span><span class="o">.</span><span class="n">app</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">host</span> <span class="o">=</span> <span class="n">app</span><span class="o">.</span><span class="n">config</span><span class="p">[</span><span class="s">&#39;TESTING_HOST&#39;</span><span class="p">]</span>
+        <span class="n">app</span>                   <span class="o">=</span> <span class="n">run</span><span class="o">.</span><span class="n">app</span>
         <span class="n">app</span><span class="o">.</span><span class="n">config</span><span class="p">[</span><span class="s">&#39;TESTING&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">True</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">host</span>             <span class="o">=</span> <span class="n">app</span><span class="o">.</span><span class="n">config</span><span class="p">[</span><span class="s">&#39;TESTING_HOST&#39;</span><span class="p">]</span>
 
         <span class="c"># es = elasticsearch</span>
-        <span class="n">es_cfg</span> <span class="o">=</span> <span class="p">{</span>
-            <span class="s">&#39;host&#39;</span><span class="p">:</span> <span class="n">app</span><span class="o">.</span><span class="n">config</span><span class="p">[</span><span class="s">&#39;ES_TEST_HOST&#39;</span><span class="p">],</span>
-            <span class="s">&#39;port&#39;</span><span class="p">:</span> <span class="n">app</span><span class="o">.</span><span class="n">config</span><span class="p">[</span><span class="s">&#39;ES_TEST_PORT&#39;</span><span class="p">],</span>
-            <span class="s">&#39;name&#39;</span><span class="p">:</span> <span class="n">app</span><span class="o">.</span><span class="n">config</span><span class="p">[</span><span class="s">&#39;ES_TEST_NAME&#39;</span><span class="p">]</span>
-            <span class="p">}</span>
+        <span class="n">es_cfg</span> <span class="o">=</span> <span class="n">app</span><span class="o">.</span><span class="n">config</span><span class="p">[</span><span class="s">&#39;ES_TEST&#39;</span><span class="p">]</span>
 
-        <span class="n">app</span> <span class="o">=</span> <span class="n">app</span><span class="o">.</span><span class="n">test_client</span><span class="p">()</span>
-
+        <span class="n">app</span>    <span class="o">=</span> <span class="n">app</span><span class="o">.</span><span class="n">test_client</span><span class="p">()</span>
+        
         <span class="n">dbhost</span> <span class="o">=</span> <span class="n">app</span><span class="o">.</span><span class="n">application</span><span class="o">.</span><span class="n">config</span><span class="p">[</span><span class="s">&#39;MONGO_HOST&#39;</span><span class="p">]</span>
         <span class="n">dbname</span> <span class="o">=</span> <span class="n">app</span><span class="o">.</span><span class="n">application</span><span class="o">.</span><span class="n">config</span><span class="p">[</span><span class="s">&#39;MONGO_TEST_DBNAME&#39;</span><span class="p">]</span>
-        <span class="n">db</span> <span class="o">=</span> <span class="n">Connection</span><span class="p">(</span><span class="n">dbhost</span><span class="p">)[</span><span class="n">dbname</span><span class="p">]</span>
+        <span class="n">db</span>     <span class="o">=</span> <span class="n">Connection</span><span class="p">(</span><span class="n">dbhost</span><span class="p">)[</span><span class="n">dbname</span><span class="p">]</span>
 
         <span class="c"># delete existing test db</span>
         <span class="n">db</span><span class="o">.</span><span class="n">connection</span><span class="o">.</span><span class="n">drop_database</span><span class="p">(</span><span class="n">dbname</span><span class="p">)</span>
 
         <span class="c"># recreate</span>
-        <span class="n">db</span> <span class="o">=</span> <span class="n">Connection</span><span class="p">(</span><span class="n">dbhost</span><span class="p">)[</span><span class="n">dbname</span><span class="p">]</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">db</span> <span class="o">=</span> <span class="n">db</span>
+        <span class="n">db</span>       <span class="o">=</span> <span class="n">Connection</span><span class="p">(</span><span class="n">dbhost</span><span class="p">)[</span><span class="n">dbname</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">db</span>  <span class="o">=</span> <span class="n">db</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">app</span> <span class="o">=</span> <span class="n">app</span>
 
         <span class="n">es</span> <span class="o">=</span> <span class="n">get_es_conn</span><span class="p">(</span><span class="n">cfg</span><span class="o">=</span><span class="n">es_cfg</span><span class="p">,</span> <span class="n">timeout</span><span class="o">=</span><span class="mf">300.0</span><span class="p">)</span><span class="c">#incremented timeout for debugging</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">index_name</span> <span class="o">=</span> <span class="n">es_cfg</span><span class="p">[</span><span class="s">&#39;name&#39;</span><span class="p">]</span>
+        <span class="n">es</span><span class="o">.</span><span class="n">__dict__</span><span class="p">[</span><span class="s">&#39;index_name&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">es_cfg</span><span class="p">[</span><span class="s">&#39;name&#39;</span><span class="p">]</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">document_type</span> <span class="o">=</span> <span class="s">&quot;test-type&quot;</span>
         <span class="n">es</span><span class="o">.</span><span class="n">delete_index_if_exists</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">index_name</span><span class="p">)</span>
-        <span class="c"># es.create_index(self.index_name)</span>
+        <span class="n">es</span><span class="o">.</span><span class="n">create_index</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">index_name</span><span class="p">)</span>
+
+        <span class="c"># es.put_mapping(&#39;Prs&#39;, {&#39;properties&#39;:models.esCnt}, [self.index_name])</span>
+
         <span class="bp">self</span><span class="o">.</span><span class="n">es</span> <span class="o">=</span> <span class="n">es</span>
 </div>
 <div class="viewcode-block" id="TestCase.tearDown"><a class="viewcode-back" href="../../../gsapi.tests.html#gsapi.tests.base.TestCase.tearDown">[docs]</a>    <span class="k">def</span> <span class="nf">tearDown</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
@@ -131,7 +131,7 @@
 
         <span class="n">json_fName</span> <span class="o">=</span> <span class="n">path</span> <span class="o">+</span> <span class="s">&#39;/data/</span><span class="si">%s</span><span class="s">.json&#39;</span> <span class="o">%</span> <span class="n">filename</span>
 
-        <span class="k">return</span> <span class="n">load_data</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">db</span><span class="p">,</span> <span class="n">json_fName</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">load_data</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">db</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">es</span><span class="p">,</span> <span class="n">json_fName</span><span class="p">)</span>
 </div></div>
 <span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s">&quot;__main__&quot;</span><span class="p">:</span>
     <span class="n">unittest</span><span class="o">.</span><span class="n">main</span><span class="p">()</span>

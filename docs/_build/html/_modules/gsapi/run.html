@@ -1,5 +1,4 @@
 
-
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 
@@ -10,7 +9,7 @@
     
     <title>gsapi.run &mdash; gsapi 1.0 documentation</title>
     
-    <link rel="stylesheet" href="../../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/nature.css" type="text/css" />
     <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
     
     <script type="text/javascript">
@@ -63,14 +62,34 @@
 <span class="kn">from</span> <span class="nn">extensions</span> <span class="kn">import</span> <span class="n">RegexConverter</span>
 <span class="kn">from</span> <span class="nn">settings</span> <span class="kn">import</span> <span class="n">Config</span>
 
+<span class="kn">from</span> <span class="nn">pyes.es</span> <span class="kn">import</span> <span class="n">ES</span>
+<span class="kn">from</span> <span class="nn">pyes.helpers</span> <span class="kn">import</span> <span class="n">SettingsBuilder</span>
+
+<span class="c"># es = ES</span>
 <span class="kn">from</span> <span class="nn">flask.ext.pymongo</span> <span class="kn">import</span> <span class="n">PyMongo</span>
 <span class="kn">from</span> <span class="nn">auth</span> <span class="kn">import</span> <span class="n">requires_auth</span>
+<span class="kn">import</span> <span class="nn">models</span>
 
 <span class="n">app</span> <span class="o">=</span> <span class="n">Flask</span><span class="p">(</span><span class="n">__name__</span><span class="p">)</span>
 
+<span class="c"># ElasticSearch</span>
+<span class="n">escfg</span> <span class="o">=</span> <span class="n">Config</span><span class="o">.</span><span class="n">ES</span>
+<span class="c"># Wanna make sure test db is used if /test/ in url</span>
+<span class="k">try</span><span class="p">:</span>
+    <span class="k">if</span> <span class="s">&#39;/test/&#39;</span> <span class="ow">in</span> <span class="n">request</span><span class="o">.</span><span class="n">url</span><span class="p">:</span>
+        <span class="n">Config</span><span class="o">.</span><span class="n">TESTING</span> <span class="o">=</span> <span class="bp">True</span>
+        <span class="n">escfg</span> <span class="o">=</span> <span class="n">Config</span><span class="o">.</span><span class="n">ES_TEST</span>
+<span class="k">except</span><span class="p">:</span>
+    <span class="k">pass</span>
+
+<span class="c"># ElasticSearch</span>
+<span class="n">es</span> <span class="o">=</span> <span class="n">ES</span><span class="p">((</span><span class="s">&quot;http&quot;</span><span class="p">,</span> <span class="n">escfg</span><span class="p">[</span><span class="s">&#39;host&#39;</span><span class="p">],</span> <span class="n">escfg</span><span class="p">[</span><span class="s">&#39;port&#39;</span><span class="p">]))</span>
+<span class="n">es</span><span class="o">.</span><span class="n">__dict__</span><span class="p">[</span><span class="s">&#39;index_name&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">escfg</span><span class="p">[</span><span class="s">&#39;name&#39;</span><span class="p">]</span>
+<span class="n">app</span><span class="o">.</span><span class="n">es</span> <span class="o">=</span> <span class="n">es</span>
+
 <span class="n">app</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">from_object</span><span class="p">(</span><span class="n">Config</span><span class="p">)</span>
 
-<span class="n">mongo</span> <span class="o">=</span> <span class="n">PyMongo</span><span class="p">()</span>
+<span class="n">mongo</span>     <span class="o">=</span> <span class="n">PyMongo</span><span class="p">()</span>
 <span class="n">app</span><span class="o">.</span><span class="n">mongo</span> <span class="o">=</span> <span class="n">mongo</span>
 <span class="n">mongo</span><span class="o">.</span><span class="n">init_app</span><span class="p">(</span><span class="n">app</span><span class="p">)</span>
 
@@ -84,6 +103,7 @@
 
 <span class="c">##################### PUT</span></div>
 <span class="nd">@app.route</span><span class="p">(</span> <span class="s">&#39;/&lt;regex(&quot;[\w]*[Ss]&quot;):class_name&gt;&#39;</span><span class="p">,</span> <span class="n">methods</span><span class="o">=</span><span class="p">[</span><span class="s">&#39;PUT&#39;</span><span class="p">,</span><span class="s">&#39;PATCH&#39;</span><span class="p">])</span>
+<span class="nd">@app.route</span><span class="p">(</span> <span class="s">&#39;/test/&lt;regex(&quot;[\w]*[Ss]&quot;):class_name&gt;&#39;</span><span class="p">,</span> <span class="n">methods</span><span class="o">=</span><span class="p">[</span><span class="s">&#39;PUT&#39;</span><span class="p">,</span><span class="s">&#39;PATCH&#39;</span><span class="p">])</span>
 <div class="viewcode-block" id="put"><a class="viewcode-back" href="../../gsapi.html#gsapi.run.put">[docs]</a><span class="k">def</span> <span class="nf">put</span><span class="p">(</span><span class="n">class_name</span><span class="p">):</span>
     <span class="k">if</span> <span class="ow">not</span> <span class="n">class_name</span> <span class="ow">in</span> <span class="n">Config</span><span class="o">.</span><span class="n">DOMAIN</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
         <span class="n">abort</span><span class="p">(</span><span class="mi">404</span><span class="p">)</span>
@@ -93,6 +113,7 @@
 <span class="c">##################### POST</span>
 <span class="c"># This regex was breaking on /Usr!!!!!</span>
 <span class="c"># @app.route( &#39;/&lt;regex(&quot;[\w]*[Ss]&quot;):class_name&gt;&#39;, methods=[&#39;POST&#39;])</span></div>
+<span class="nd">@app.route</span><span class="p">(</span> <span class="s">&#39;/test/&lt;class_name&gt;&#39;</span><span class="p">,</span> <span class="n">methods</span><span class="o">=</span><span class="p">[</span><span class="s">&#39;POST&#39;</span><span class="p">])</span>
 <span class="nd">@app.route</span><span class="p">(</span> <span class="s">&#39;/&lt;class_name&gt;&#39;</span><span class="p">,</span> <span class="n">methods</span><span class="o">=</span><span class="p">[</span><span class="s">&#39;POST&#39;</span><span class="p">])</span>
 <span class="c"># @requires_auth</span>
 <div class="viewcode-block" id="post"><a class="viewcode-back" href="../../gsapi.html#gsapi.run.post">[docs]</a><span class="k">def</span> <span class="nf">post</span><span class="p">(</span><span class="n">class_name</span><span class="p">):</span>
@@ -101,10 +122,15 @@
     <span class="n">response</span> <span class="o">=</span> <span class="n">generic</span><span class="o">.</span><span class="n">post</span><span class="p">(</span><span class="n">class_name</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">response</span>
 
-<span class="c">##################### GET</span></div>
+<span class="c">##################### GET</span>
+</div>
 <span class="nd">@app.route</span><span class="p">(</span> <span class="s">&#39;/&lt;regex(&quot;[\w]*[Ss]&quot;):class_name&gt;/&lt;regex(&quot;[a-f0-9]{24}&quot;):id&gt;&#39;</span><span class="p">,</span> <span class="n">methods</span><span class="o">=</span><span class="p">[</span><span class="s">&#39;GET&#39;</span><span class="p">])</span>
 <span class="nd">@app.route</span><span class="p">(</span> <span class="s">&#39;/&lt;regex(&quot;[\w]*[Ss]&quot;):class_name&gt;?&#39;</span><span class="p">,</span> <span class="n">methods</span><span class="o">=</span><span class="p">[</span><span class="s">&#39;GET&#39;</span><span class="p">])</span>
 <span class="nd">@app.route</span><span class="p">(</span> <span class="s">&#39;/&lt;regex(&quot;[\w]*[Ss]&quot;):class_name&gt;&#39;</span><span class="p">,</span> <span class="n">methods</span><span class="o">=</span><span class="p">[</span><span class="s">&#39;GET&#39;</span><span class="p">])</span>
+<span class="c"># would rather use regex to make /test optional but Flask was not cooperating or maybe it was OperatorError :)</span>
+<span class="nd">@app.route</span><span class="p">(</span> <span class="s">&#39;/test/&lt;regex(&quot;[\w]*[Ss]&quot;):class_name&gt;/&lt;regex(&quot;[a-f0-9]{24}&quot;):id&gt;&#39;</span><span class="p">,</span> <span class="n">methods</span><span class="o">=</span><span class="p">[</span><span class="s">&#39;GET&#39;</span><span class="p">])</span>
+<span class="nd">@app.route</span><span class="p">(</span> <span class="s">&#39;/test/&lt;regex(&quot;[\w]*[Ss]&quot;):class_name&gt;?&#39;</span><span class="p">,</span> <span class="n">methods</span><span class="o">=</span><span class="p">[</span><span class="s">&#39;GET&#39;</span><span class="p">])</span>
+<span class="nd">@app.route</span><span class="p">(</span> <span class="s">&#39;/test/&lt;regex(&quot;[\w]*[Ss]&quot;):class_name&gt;&#39;</span><span class="p">,</span> <span class="n">methods</span><span class="o">=</span><span class="p">[</span><span class="s">&#39;GET&#39;</span><span class="p">])</span>
 <span class="c"># @requires_auth</span>
 <div class="viewcode-block" id="get"><a class="viewcode-back" href="../../gsapi.html#gsapi.run.get">[docs]</a><span class="k">def</span> <span class="nf">get</span><span class="p">(</span><span class="n">class_name</span><span class="p">,</span> <span class="nb">id</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
     <span class="k">if</span> <span class="ow">not</span> <span class="n">class_name</span> <span class="ow">in</span> <span class="n">Config</span><span class="o">.</span><span class="n">DOMAIN</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
@@ -114,6 +140,7 @@
 
 <span class="c">##################### GET</span></div>
 <span class="nd">@app.route</span><span class="p">(</span> <span class="s">&#39;/&#39;</span><span class="p">,</span> <span class="n">methods</span><span class="o">=</span><span class="p">[</span><span class="s">&#39;GET&#39;</span><span class="p">])</span>
+<span class="nd">@app.route</span><span class="p">(</span> <span class="s">&#39;/test/&#39;</span><span class="p">,</span> <span class="n">methods</span><span class="o">=</span><span class="p">[</span><span class="s">&#39;GET&#39;</span><span class="p">])</span>
 <div class="viewcode-block" id="home"><a class="viewcode-back" href="../../gsapi.html#gsapi.run.home">[docs]</a><span class="k">def</span> <span class="nf">home</span><span class="p">():</span>
     <span class="k">return</span> <span class="n">generic</span><span class="o">.</span><span class="n">home</span><span class="p">(</span><span class="n">Config</span><span class="o">.</span><span class="n">DOMAIN</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span>
 </div>

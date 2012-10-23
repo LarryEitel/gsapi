@@ -3,16 +3,21 @@
    You can adapt this file completely to your liking, but it should at least
    contain the root `toctree` directive.
 
-Welcome to gsapi's documentation!
-=================================
+Gsapi
+=====
+.. include:: README.txt
 
-Contents:
+Contents
+========
 
 .. toctree::
    :maxdepth: 4
+   :titlesonly:
 
-   gsapi
-   api
+   installing.rst
+   gettingstarted.rst
+   gsapi.rst
+   api.rst
 
 Indices and tables
 ==================

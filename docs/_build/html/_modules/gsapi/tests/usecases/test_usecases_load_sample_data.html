@@ -1,0 +1,136 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>gsapi.tests.usecases.test_usecases_load_sample_data &mdash; gsapi 1.0 documentation</title>
+    
+    <link rel="stylesheet" href="../../../../_static/nature.css" type="text/css" />
+    <link rel="stylesheet" href="../../../../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../../../',
+        VERSION:     '1.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../../../_static/doctools.js"></script>
+    <link rel="top" title="gsapi 1.0 documentation" href="../../../../index.html" />
+    <link rel="up" title="Module code" href="../../../index.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../../../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li><a href="../../../../index.html">gsapi 1.0 documentation</a> &raquo;</li>
+          <li><a href="../../../index.html" accesskey="U">Module code</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <h1>Source code for gsapi.tests.usecases.test_usecases_load_sample_data</h1><div class="highlight"><pre>
+<span class="c"># -*- coding: utf-8 -*-</span>
+<span class="k">try</span><span class="p">:</span>
+    <span class="kn">import</span> <span class="nn">unittest2</span> <span class="kn">as</span> <span class="nn">unittest</span>
+<span class="k">except</span> <span class="ne">ImportError</span><span class="p">:</span>
+    <span class="kn">import</span> <span class="nn">unittest</span>  <span class="c"># NOQA</span>
+
+<span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">from</span> <span class="nn">gsapi.tests.base</span> <span class="kn">import</span> <span class="n">TestCase</span>
+<span class="kn">import</span> <span class="nn">json</span>
+<span class="kn">import</span> <span class="nn">time</span>
+<span class="kn">import</span> <span class="nn">isodate</span>
+<span class="kn">from</span> <span class="nn">flask</span> <span class="kn">import</span> <span class="n">request</span>
+<span class="kn">from</span> <span class="nn">random</span> <span class="kn">import</span> <span class="n">randint</span>
+<span class="kn">from</span> <span class="nn">bson</span> <span class="kn">import</span> <span class="n">ObjectId</span>
+<span class="kn">from</span> <span class="nn">bson.json_util</span> <span class="kn">import</span> <span class="n">dumps</span>
+<span class="kn">from</span> <span class="nn">bson</span> <span class="kn">import</span> <span class="n">json_util</span>
+<span class="kn">from</span> <span class="nn">pyes</span> <span class="kn">import</span> <span class="n">TermQuery</span>
+<span class="kn">from</span> <span class="nn">gsapi</span> <span class="kn">import</span> <span class="n">models</span>
+<span class="kn">from</span> <span class="nn">gsapi</span> <span class="kn">import</span> <span class="n">controllers</span>
+<span class="kn">import</span> <span class="nn">time</span>
+<div class="viewcode-block" id="TestUseCaseLoadSampleData"><a class="viewcode-back" href="../../../../gsapi.tests.usecases.html#gsapi.tests.usecases.test_usecases_load_sample_data.TestUseCaseLoadSampleData">[docs]</a><span class="k">class</span> <span class="nc">TestUseCaseLoadSampleData</span><span class="p">(</span><span class="n">TestCase</span><span class="p">):</span>
+<div class="viewcode-block" id="TestUseCaseLoadSampleData.test_initial"><a class="viewcode-back" href="../../../../gsapi.tests.usecases.html#gsapi.tests.usecases.test_usecases_load_sample_data.TestUseCaseLoadSampleData.test_initial">[docs]</a>    <span class="k">def</span> <span class="nf">test_initial</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">es</span>              <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">es</span>
+        <span class="n">es_index_name</span>   <span class="o">=</span> <span class="n">es</span><span class="o">.</span><span class="n">__dict__</span><span class="p">[</span><span class="s">&#39;index_name&#39;</span><span class="p">]</span>
+        <span class="n">generic</span> <span class="o">=</span> <span class="n">controllers</span><span class="o">.</span><span class="n">Generic</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">db</span><span class="p">,</span> <span class="n">es</span><span class="p">)</span>
+
+        <span class="n">args</span>    <span class="o">=</span> <span class="p">{</span>
+            <span class="s">&#39;class_name&#39;</span><span class="p">:</span> <span class="s">&#39;Usr&#39;</span><span class="p">,</span>
+            <span class="s">&#39;docs&#39;</span><span class="p">:</span> <span class="p">[{</span>
+                <span class="s">&quot;uNam&quot;</span>  <span class="p">:</span><span class="s">&quot;jkutz&quot;</span><span class="p">,</span> <span class="s">&quot;fNam&quot;</span>  <span class="p">:</span><span class="s">&quot;Josh&quot;</span><span class="p">,</span> <span class="s">&quot;lNam&quot;</span>  <span class="p">:</span><span class="s">&quot;Kutz&quot;</span><span class="p">,</span> <span class="s">&quot;gen&quot;</span>   <span class="p">:</span><span class="s">&#39;m&#39;</span><span class="p">,</span> <span class="s">&quot;emails&quot;</span><span class="p">:</span> <span class="p">[{</span><span class="s">&quot;email&quot;</span> <span class="p">:</span> <span class="s">&quot;josh@kutz.com&quot;</span><span class="p">}]</span>
+            <span class="p">}]</span>
+        <span class="p">}</span>
+        <span class="n">rs</span>           <span class="o">=</span> <span class="n">generic</span><span class="o">.</span><span class="n">post</span><span class="p">(</span><span class="o">**</span><span class="n">args</span><span class="p">)</span>
+        <span class="k">assert</span> <span class="n">rs</span><span class="p">[</span><span class="s">&#39;status_code&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="mi">200</span> <span class="ow">and</span> <span class="n">rs</span><span class="p">[</span><span class="s">&#39;response&#39;</span><span class="p">][</span><span class="s">&#39;total_inserted&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="mi">1</span>
+        <span class="n">doc</span> <span class="o">=</span> <span class="n">rs</span><span class="p">[</span><span class="s">&#39;response&#39;</span><span class="p">][</span><span class="s">&#39;docs&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="s">&#39;doc&#39;</span><span class="p">]</span>
+
+
+        <span class="c">#time.sleep(1)</span>
+        <span class="n">es</span><span class="o">.</span><span class="n">refresh</span><span class="p">(</span><span class="n">es_index_name</span><span class="p">)</span>
+        <span class="n">q</span> <span class="o">=</span> <span class="n">TermQuery</span><span class="p">(</span><span class="s">&quot;dNam&quot;</span><span class="p">,</span> <span class="s">&quot;josh&quot;</span><span class="p">)</span>
+        <span class="n">results</span> <span class="o">=</span> <span class="n">es</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="n">query</span> <span class="o">=</span> <span class="n">q</span><span class="p">)</span>
+
+        <span class="n">x</span><span class="o">=</span><span class="mi">0</span></div></div>
+</pre></div>
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../../../../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../../../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li><a href="../../../../index.html">gsapi 1.0 documentation</a> &raquo;</li>
+          <li><a href="../../../index.html" >Module code</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2012, Larry Eitel.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.1.3.
+    </div>
+  </body>
+</html>

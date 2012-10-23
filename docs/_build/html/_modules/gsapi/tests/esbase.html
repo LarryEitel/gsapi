@@ -1,5 +1,4 @@
 
-
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 
@@ -10,7 +9,7 @@
     
     <title>gsapi.tests.esbase &mdash; gsapi 1.0 documentation</title>
     
-    <link rel="stylesheet" href="../../../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../../../_static/nature.css" type="text/css" />
     <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
     
     <script type="text/javascript">
@@ -85,6 +84,7 @@
 
 
         <span class="bp">self</span><span class="o">.</span><span class="n">conn</span> <span class="o">=</span> <span class="n">get_conn</span><span class="p">(</span><span class="n">cfg</span><span class="o">=</span><span class="n">es_cfg</span><span class="p">,</span> <span class="n">timeout</span><span class="o">=</span><span class="mf">300.0</span><span class="p">)</span><span class="c">#incremented timeout for debugging</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">conn</span><span class="o">.</span><span class="n">__dict__</span><span class="p">[</span><span class="s">&#39;index_name&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">es_cfg</span><span class="p">[</span><span class="s">&#39;name&#39;</span><span class="p">]</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">index_name</span> <span class="o">=</span> <span class="n">es_cfg</span><span class="p">[</span><span class="s">&#39;name&#39;</span><span class="p">]</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">document_type</span> <span class="o">=</span> <span class="s">&quot;test-type&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">conn</span><span class="o">.</span><span class="n">delete_index_if_exists</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">index_name</span><span class="p">)</span>

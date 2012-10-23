@@ -66,7 +66,7 @@ def mongo_json_object_hook(dct):
         if v[0:4] == '$oid':
             dct[k] = ObjectId(v[5:])
         elif v[0:5] == '$date':
-            dct[k] = datetime.datetime.fromtimestamp(int(v[6:])/1000)
+            dct[k] = datetime.datetime.fromtimestamp(int(v[6:]) / 1000)
         elif v[0:8] == '$isodate':
             try:
                 dct[k] = dateutil.parser.parse(v[9:])
@@ -99,55 +99,55 @@ def load_data(db, es, json_filepath):
 
         docs = re.split(r"\},\s*\{", clean_data)
         for doc in docs:
-            doc = doc.replace('\n','')
+            doc = doc.replace('\n', '')
             doc = "{" + doc + "}"
-            doc = json.loads(doc, object_hook=mongo_json_object_hook)
+            doc = json.loads(doc, object_hook = mongo_json_object_hook)
             docs_to_insert.append(doc)
     else:
         # assume mongoexport with each doc on one line
         file = open(json_filepath)
-        lines = [re.sub('\n','',line) for line in filter(lambda a:(a!='\n'), file.readlines())]
+        lines = [re.sub('\n', '', line) for line in filter(lambda a:(a != '\n'), file.readlines())]
         for line in lines:
             clean_line = preparse_json_doc(line)
-            doc = json.loads(clean_line, object_hook=mongo_json_object_hook)
+            doc = json.loads(clean_line, object_hook = mongo_json_object_hook)
             docs_to_insert.append(doc)
         file.close()
 
-    response     = {}
-    status       = 200
-    docs         = []
+    response = {}
+    status = 200
+    docs = []
 
-    load_errors  = []
+    load_errors = []
     total_errors = 0
-    total_added  = 0
+    total_added = 0
 
     for doc in docs_to_insert:
-        class_id        = doc['_c']
-        model           = getattr(models, class_id)
+        class_id = doc['_c']
+        model = getattr(models, class_id)
         collection_name = model.meta['collection']
-        collection      = db[collection_name]
-        errors          = {}
+        collection = db[collection_name]
+        errors = {}
 
         # Validate
-        doc_errors    = validate(model, doc)
+        doc_errors = validate(model, doc)
         if doc_errors:
             total_errors += doc_errors['count']
             load_errors.append(doc_errors)
             continue
 
         # init model for this doc
-        initialized_model    = model(**doc)
+        initialized_model = model(**doc)
 
         #log date time user involved with this event
         # m.logit(user_id, 'post')
 
         # need to stuff into mongo
-        doc_validated        = initialized_model.to_python()
+        doc_validated = initialized_model.to_python()
 
-        dumped               = bson_json_util.dumps(doc_validated)
-        doc_info             = {}
+        dumped = bson_json_util.dumps(doc_validated)
+        doc_info = {}
         doc_validated['_id'] = doc['_id']
-        doc_validated['_id'] = collection.save(doc_validated, safe=True)
+        doc_validated['_id'] = collection.save(doc_validated, safe = True)
         # try to load generic display name used for indexing, etc
         try:
             doc_validated['dNam'] = initialized_model.dNam
@@ -163,16 +163,16 @@ def load_data(db, es, json_filepath):
 
     if load_errors:
         response['total_invalid'] = len(load_errors)
-        response['errors']        = load_errors
-        response['total_errors']  = total_errors
-        status                    = 400
+        response['errors'] = load_errors
+        response['total_errors'] = total_errors
+        status = 400
     else:
         response['total_invalid'] = 0
 
 
     response['docs'] = docs
 
-    print "{count} docs loaded from: {json_filepath}!".format(count=total_added, json_filepath=json_filepath)
+    print "{count} docs loaded from: {json_filepath}!\n".format(count = total_added, json_filepath = json_filepath)
 
     return {'response':response, 'status':status}
 

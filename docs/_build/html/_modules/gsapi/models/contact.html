@@ -1,5 +1,4 @@
 
-
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 
@@ -10,7 +9,7 @@
     
     <title>gsapi.models.contact &mdash; gsapi 1.0 documentation</title>
     
-    <link rel="stylesheet" href="../../../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../../../_static/nature.css" type="text/css" />
     <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
     
     <script type="text/javascript">
@@ -141,6 +140,13 @@
         <span class="p">}</span>
 
     <span class="nd">@property</span>
+<div class="viewcode-block" id="Cmp.index"><a class="viewcode-back" href="../../../gsapi.models.html#gsapi.models.contact.Cmp.index">[docs]</a>    <span class="k">def</span> <span class="nf">index</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="p">{</span>
+            <span class="s">&quot;dNam&quot;</span>      <span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">dNam</span><span class="p">,</span>
+            <span class="s">&quot;oOn&quot;</span>       <span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">oOn</span>
+                <span class="p">}</span>
+</div>
+    <span class="nd">@property</span>
 <div class="viewcode-block" id="Cmp.dNam"><a class="viewcode-back" href="../../../gsapi.models.html#gsapi.models.contact.Cmp.dNam">[docs]</a>    <span class="k">def</span> <span class="nf">dNam</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">cNam</span></div></div>
 <div class="viewcode-block" id="Prs"><a class="viewcode-back" href="../../../gsapi.models.html#gsapi.models.contact.Prs">[docs]</a><span class="k">class</span> <span class="nc">Prs</span><span class="p">(</span><span class="n">Cnt</span><span class="p">):</span>
@@ -158,11 +164,20 @@
         <span class="s">&#39;_c&#39;</span><span class="p">:</span> <span class="s">&#39;Prs&#39;</span><span class="p">,</span>
         <span class="p">}</span>
 
+    <span class="nd">@property</span>
+<div class="viewcode-block" id="Prs.index"><a class="viewcode-back" href="../../../gsapi.models.html#gsapi.models.contact.Prs.index">[docs]</a>    <span class="k">def</span> <span class="nf">index</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="p">{</span>
+            <span class="s">&quot;dNam&quot;</span>      <span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">dNam</span><span class="p">,</span>
+            <span class="s">&quot;oOn&quot;</span>       <span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">oOn</span><span class="p">,</span>
+            <span class="s">&quot;title&quot;</span>     <span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">title</span>
+                <span class="p">}</span>
+</div>
 <div class="viewcode-block" id="Prs.save"><a class="viewcode-back" href="../../../gsapi.models.html#gsapi.models.contact.Prs.save">[docs]</a>    <span class="k">def</span> <span class="nf">save</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">pass</span>
 </div>
     <span class="nd">@property</span>
 <div class="viewcode-block" id="Prs.dNam"><a class="viewcode-back" href="../../../gsapi.models.html#gsapi.models.contact.Prs.dNam">[docs]</a>    <span class="k">def</span> <span class="nf">dNam</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;Smith Sr, Mr Bill Wayne&#39;&#39;&#39;</span>
         <span class="n">dNam</span> <span class="o">=</span> <span class="s">&#39;&#39;</span>
         <span class="n">fNam</span> <span class="o">=</span> <span class="s">&#39;&#39;</span>
         <span class="n">fNam</span> <span class="o">+=</span> <span class="bp">self</span><span class="o">.</span><span class="n">title</span> <span class="o">+</span> <span class="s">&#39; &#39;</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">title</span> <span class="k">else</span> <span class="s">&#39;&#39;</span>
@@ -220,7 +235,9 @@
         <span class="s">&#39;index&#39;</span><span class="p">:</span> <span class="s">&#39;analyzed&#39;</span><span class="p">,</span>
         <span class="s">&#39;store&#39;</span><span class="p">:</span> <span class="s">&#39;yes&#39;</span><span class="p">,</span>
         <span class="s">&#39;type&#39;</span><span class="p">:</span> <span class="s">u&#39;string&#39;</span><span class="p">,</span>
-        <span class="s">&quot;term_vector&quot;</span> <span class="p">:</span> <span class="s">&quot;with_positions_offsets&quot;</span><span class="p">}</span>
+        <span class="s">&quot;term_vector&quot;</span> <span class="p">:</span> <span class="s">&quot;with_positions_offsets&quot;</span><span class="p">},</span>
+    <span class="s">&#39;oOn&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s">&#39;store&#39;</span><span class="p">:</span> <span class="s">&#39;yes&#39;</span><span class="p">,</span>
+        <span class="s">&#39;type&#39;</span><span class="p">:</span> <span class="s">&#39;date&#39;</span><span class="p">},</span>
     <span class="p">}</span>
 </pre></div>
 

@@ -1,14 +1,14 @@
-.. include:: intro.rst 
+.. include:: api_intro.rst 
 .. toctree:: 
     :maxdepth: 2 
  
-    test_generic 		
-    test_elasticsearch 		
-    test_elastic_pyes 		
-    test_nested 		
-    test_parse_json 		
-    test_utils 		
-    test_usecases_appkey 		
-    test_usecases_initial 		
-    test_usecases_usr 		
-    test_generic 		
+    api_controllers.test_generic 
+    api_elastic.test_elastic_pyes 
+    api_elastic.test_nested 
+    api_misc.test_parse_json 
+    api_misc.test_utils 
+    api_usecases.test_usecases_appkey 
+    api_usecases.test_usecases_initial 
+    api_usecases.test_usecases_load_sample_data 
+    api_usecases.test_usecases_usr 
+    api_views.test_generic 

@@ -100,7 +100,7 @@ class ESTestCase(unittest.TestCase):
         docmapping.add_property(
             StringField(name="name", store=True, term_vector="with_positions_offsets", index="analyzed"))
         docmapping.add_property(
-            StringField(name="title", store=True, term_vector="with_positions_offsets", index="analyzed"))
+            StringField(name="prefix", store=True, term_vector="with_positions_offsets", index="analyzed"))
         docmapping.add_property(IntegerField(name="position", store=True))
         docmapping.add_property(DateField(name="date", store=True))
         docmapping.add_property(StringField(name="uuid", store=True, index="not_analyzed"))
@@ -135,7 +135,7 @@ def setUp():
             'store': 'yes',
             'type': u'string',
             "term_vector": "with_positions_offsets"},
-        u'title': {
+        u'prefix': {
             'boost': 1.0,
             'index': 'analyzed',
             'store': 'yes',

@@ -1,5 +1,4 @@
 
-
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 
@@ -10,7 +9,7 @@
     
     <title>gsapi Package &mdash; gsapi 1.0 documentation</title>
     
-    <link rel="stylesheet" href="_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="_static/nature.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     
     <script type="text/javascript">
@@ -27,7 +26,7 @@
     <script type="text/javascript" src="_static/doctools.js"></script>
     <link rel="top" title="gsapi 1.0 documentation" href="index.html" />
     <link rel="next" title="controllers Package" href="gsapi.controllers.html" />
-    <link rel="prev" title="Welcome to gsapi’s documentation!" href="index.html" /> 
+    <link rel="prev" title="Getting started" href="gettingstarted.html" /> 
   </head>
   <body>
     <div class="related">
@@ -43,7 +42,7 @@
           <a href="gsapi.controllers.html" title="controllers Package"
              accesskey="N">next</a> |</li>
         <li class="right" >
-          <a href="index.html" title="Welcome to gsapi’s documentation!"
+          <a href="gettingstarted.html" title="Getting started"
              accesskey="P">previous</a> |</li>
         <li><a href="index.html">gsapi 1.0 documentation</a> &raquo;</li> 
       </ul>
@@ -82,6 +81,9 @@ password combination is valid.</p>
 </div>
 <div class="section" id="db-module">
 <h2><tt class="xref py py-mod docutils literal"><span class="pre">db</span></tt> Module<a class="headerlink" href="#db-module" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="module-gsapi.es">
+<span id="es-module"></span><h2><tt class="xref py py-mod docutils literal"><span class="pre">es</span></tt> Module<a class="headerlink" href="#module-gsapi.es" title="Permalink to this headline">¶</a></h2>
 </div>
 <div class="section" id="module-gsapi.extensions">
 <span id="extensions-module"></span><h2><tt class="xref py py-mod docutils literal"><span class="pre">extensions</span></tt> Module<a class="headerlink" href="#module-gsapi.extensions" title="Permalink to this headline">¶</a></h2>
@@ -143,6 +145,11 @@ password combination is valid.</p>
 <dd></dd></dl>
 
 <dl class="attribute">
+<dt id="gsapi.local_settings.Config.ES">
+<tt class="descname">ES</tt><em class="property"> = {'host': '192.168.1.139', 'port': 9200, 'name': 'gsapi'}</em><a class="headerlink" href="#gsapi.local_settings.Config.ES" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
 <dt id="gsapi.local_settings.Config.ES_HOST">
 <tt class="descname">ES_HOST</tt><em class="property"> = '192.168.1.139'</em><a class="headerlink" href="#gsapi.local_settings.Config.ES_HOST" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
@@ -155,6 +162,11 @@ password combination is valid.</p>
 <dl class="attribute">
 <dt id="gsapi.local_settings.Config.ES_PORT">
 <tt class="descname">ES_PORT</tt><em class="property"> = 9200</em><a class="headerlink" href="#gsapi.local_settings.Config.ES_PORT" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="gsapi.local_settings.Config.ES_TEST">
+<tt class="descname">ES_TEST</tt><em class="property"> = {'host': '192.168.1.139', 'port': 9200, 'name': 'gsapi-test'}</em><a class="headerlink" href="#gsapi.local_settings.Config.ES_TEST" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="attribute">
@@ -175,6 +187,11 @@ password combination is valid.</p>
 <dl class="attribute">
 <dt id="gsapi.local_settings.Config.FABRIC">
 <tt class="descname">FABRIC</tt><em class="property"> = {'live': {'WEB_USER': 'larry', 'PROJECT_ROOT': '/srv/gs/api/gsapi', 'ADMIN_USER': 'root', 'HOSTS': ['50.116.35.54:22'], 'ADMIN_PW': 'Stop&amp;Think'}}</em><a class="headerlink" href="#gsapi.local_settings.Config.FABRIC" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="gsapi.local_settings.Config.HOST">
+<tt class="descname">HOST</tt><em class="property"> = 'localhost'</em><a class="headerlink" href="#gsapi.local_settings.Config.HOST" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="attribute">
@@ -234,7 +251,7 @@ password combination is valid.</p>
 
 <dl class="attribute">
 <dt id="gsapi.local_settings.Config.TESTING_HOST">
-<tt class="descname">TESTING_HOST</tt><em class="property"> = '192.168.1.139:5000'</em><a class="headerlink" href="#gsapi.local_settings.Config.TESTING_HOST" title="Permalink to this definition">¶</a></dt>
+<tt class="descname">TESTING_HOST</tt><em class="property"> = 'localhost:5000/test'</em><a class="headerlink" href="#gsapi.local_settings.Config.TESTING_HOST" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 </dd></dl>
@@ -305,7 +322,7 @@ password combination is valid.</p>
 
 <dl class="function">
 <dt id="gsapi.utils.load_data">
-<tt class="descclassname">gsapi.utils.</tt><tt class="descname">load_data</tt><big>(</big><em>db</em>, <em>json_filepath</em><big>)</big><a class="reference internal" href="_modules/gsapi/utils.html#load_data"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#gsapi.utils.load_data" title="Permalink to this definition">¶</a></dt>
+<tt class="descclassname">gsapi.utils.</tt><tt class="descname">load_data</tt><big>(</big><em>db</em>, <em>es</em>, <em>json_filepath</em><big>)</big><a class="reference internal" href="_modules/gsapi/utils.html#load_data"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#gsapi.utils.load_data" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bulk load from json into corresponding collections.
 Each item is expected to contain &#8216;_c&#8217; which represents the model class and the collection it belongs to.
 Validation rules are tested for each doc.</p>
@@ -379,12 +396,12 @@ and converts spaces to hyphens.</p>
 <li class="toctree-l2"><a class="reference internal" href="gsapi.tests.html#module-gsapi.tests.esbase"><tt class="docutils literal"><span class="pre">esbase</span></tt> Module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="gsapi.tests.html#subpackages">Subpackages</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="gsapi.tests.controllers.html">controllers Package</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="gsapi.tests.controllers.html#module-gsapi.tests.controllers.test_generic"><tt class="docutils literal"><span class="pre">test_generic</span></tt> Module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="gsapi.tests.controllers.html#test-generic-module"><tt class="docutils literal"><span class="pre">test_generic</span></tt> Module</a></li>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="gsapi.tests.elastic.html">elastic Package</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="gsapi.tests.elastic.html#module-gsapi.tests.elastic.tes_t_elasticsearch"><tt class="docutils literal"><span class="pre">tes_t_elasticsearch</span></tt> Module</a></li>
 <li class="toctree-l4"><a class="reference internal" href="gsapi.tests.elastic.html#module-gsapi.tests.elastic.test_elastic_pyes"><tt class="docutils literal"><span class="pre">test_elastic_pyes</span></tt> Module</a></li>
-<li class="toctree-l4"><a class="reference internal" href="gsapi.tests.elastic.html#module-gsapi.tests.elastic.test_elasticsearch"><tt class="docutils literal"><span class="pre">test_elasticsearch</span></tt> Module</a></li>
 <li class="toctree-l4"><a class="reference internal" href="gsapi.tests.elastic.html#module-gsapi.tests.elastic.test_nested"><tt class="docutils literal"><span class="pre">test_nested</span></tt> Module</a></li>
 </ul>
 </li>
@@ -400,6 +417,7 @@ and converts spaces to hyphens.</p>
 <li class="toctree-l3"><a class="reference internal" href="gsapi.tests.usecases.html">usecases Package</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="gsapi.tests.usecases.html#module-gsapi.tests.usecases.test_usecases_appkey"><tt class="docutils literal"><span class="pre">test_usecases_appkey</span></tt> Module</a></li>
 <li class="toctree-l4"><a class="reference internal" href="gsapi.tests.usecases.html#module-gsapi.tests.usecases.test_usecases_initial"><tt class="docutils literal"><span class="pre">test_usecases_initial</span></tt> Module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="gsapi.tests.usecases.html#module-gsapi.tests.usecases.test_usecases_load_sample_data"><tt class="docutils literal"><span class="pre">test_usecases_load_sample_data</span></tt> Module</a></li>
 <li class="toctree-l4"><a class="reference internal" href="gsapi.tests.usecases.html#module-gsapi.tests.usecases.test_usecases_usr"><tt class="docutils literal"><span class="pre">test_usecases_usr</span></tt> Module</a></li>
 </ul>
 </li>
@@ -434,6 +452,7 @@ and converts spaces to hyphens.</p>
 <li><a class="reference internal" href="#api-module"><tt class="docutils literal"><span class="pre">api</span></tt> Module</a></li>
 <li><a class="reference internal" href="#module-gsapi.auth"><tt class="docutils literal"><span class="pre">auth</span></tt> Module</a></li>
 <li><a class="reference internal" href="#db-module"><tt class="docutils literal"><span class="pre">db</span></tt> Module</a></li>
+<li><a class="reference internal" href="#module-gsapi.es"><tt class="docutils literal"><span class="pre">es</span></tt> Module</a></li>
 <li><a class="reference internal" href="#module-gsapi.extensions"><tt class="docutils literal"><span class="pre">extensions</span></tt> Module</a></li>
 <li><a class="reference internal" href="#module-gsapi.jsondatetime"><tt class="docutils literal"><span class="pre">jsondatetime</span></tt> Module</a></li>
 <li><a class="reference internal" href="#module-gsapi.local_settings"><tt class="docutils literal"><span class="pre">local_settings</span></tt> Module</a></li>
@@ -448,8 +467,8 @@ and converts spaces to hyphens.</p>
 </ul>
 
   <h4>Previous topic</h4>
-  <p class="topless"><a href="index.html"
-                        title="previous chapter">Welcome to gsapi&#8217;s documentation!</a></p>
+  <p class="topless"><a href="gettingstarted.html"
+                        title="previous chapter">Getting started</a></p>
   <h4>Next topic</h4>
   <p class="topless"><a href="gsapi.controllers.html"
                         title="next chapter">controllers Package</a></p>
@@ -488,7 +507,7 @@ and converts spaces to hyphens.</p>
           <a href="gsapi.controllers.html" title="controllers Package"
              >next</a> |</li>
         <li class="right" >
-          <a href="index.html" title="Welcome to gsapi’s documentation!"
+          <a href="gettingstarted.html" title="Getting started"
              >previous</a> |</li>
         <li><a href="index.html">gsapi 1.0 documentation</a> &raquo;</li> 
       </ul>

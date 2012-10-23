@@ -39,7 +39,7 @@ class TestESPyes(TestCase):
         for doc in sample_docs:
             es.index({"dNam":doc['dNam'],
                 "oOn": doc['oOn'],
-                "title": doc['title'],
+                "prefix": doc['prefix'],
                 "parsedtext":doc['dNam']},
                 index_name,
                 doc['_c'], doc['_id'].__str__())
@@ -48,10 +48,10 @@ class TestESPyes(TestCase):
         es.default_indices = [index_name]
         # es.refresh(index_name)
         time.sleep(1)
-        q = TermQuery("title", "dr")
+        q = TermQuery("prefix", "dr")
         results = es.search(query = q)
         for r in results:
-            assert r.title == 'Dr'
+            assert r.prefix == 'Dr'
 
         q = TermQuery("oOn", datetime.datetime(2012, 10, 8, 13, 44, 33, 851000))
         results = es.search(query = q)

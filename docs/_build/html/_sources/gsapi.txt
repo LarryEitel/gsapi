@@ -25,6 +25,14 @@ gsapi Package
     :undoc-members:
     :show-inheritance:
 
+:mod:`es` Module
+----------------
+
+.. automodule:: gsapi.es
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
 :mod:`extensions` Module
 ------------------------
 

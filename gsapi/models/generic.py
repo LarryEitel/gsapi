@@ -16,16 +16,16 @@ class AppId(Mod):
         'collection': 'apps',
         '_c': 'AppId',
         }
-class Share(_Model):
-    _c    = StringType(required=True, description='Class')
-    _public_fields = ['_c']
+# class Share(_Model):
+#     _c    = StringType(required=True, description='Class')
+#     _public_fields = ['_c']
 
-    # The reason for this parent field given the fact that Wid'gets can contain an array of other widgets is that OTHER Widgets may LINK to this widget AND add their Share properties. It is necessary
-    parent   = ObjectIdType(minimized_field_name='Parent Widget ID', description='Primary Parent owner of this widget.')
+#     # The reason for this parent field given the fact that Wid'gets can contain an array of other widgets is that OTHER Widgets may LINK to this widget AND add their Share properties. It is necessary
+#     parent   = ObjectIdType(minimized_field_name='Parent Widget ID', description='Primary Parent owner of this widget.')
 
-    usr_id   = ObjectIdType(minimized_field_name='Usr ID', description='Usr id for this Share.')
+#     usr_id   = ObjectIdType(minimized_field_name='Usr ID', description='Usr id for this Share.')
 
-    permission   = StringType(minimized_field_name='Permission', choices=['aa','ab','b'], description='aa=At and Above, ab=At and below, b=Below.')
+#     permission   = StringType(minimized_field_name='Permission', choices=['aa','ab','b'], description='aa=At and Above, ab=At and below, b=Below.')
 
 
 class Log(_Model):
@@ -42,17 +42,30 @@ class Log(_Model):
         '_c': 'Log',
         }
 
-class Email(_Model):
-    if 1: # Fields
-        email  = EmailType()
-    	sort   = FloatType(minimized_field_name='Sort', description='Sorted with primary being first in list.')
-    	note    = StringType()
+# class Email(_Model):
+#     if 1: # Fields
+#         email  = EmailType()
+#     	sort   = FloatType(minimized_field_name='Sort', description='Sorted with primary being first in list.')
+#     	note    = StringType()
 
-    if 1: # Methods
-        def __unicode__(self):
-            return self.email
+#     if 1: # Methods
+#         def __unicode__(self):
+#             return self.email
 
-    meta = {
-        'collection': 'contacts.emails',
-        '_c': 'Eml',
-        }
+#     meta = {
+#         'collection': 'contacts.emails',
+#         '_c': 'Eml',
+#         }
+
+# class Note(_Model):
+    
+#     if 1: # Fields
+#         note    = StringType()
+
+#     if 1: # Methods
+#         def __unicode__(self):
+#             return self.note
+
+#     meta = {
+#         '_c': 'note',
+#         }

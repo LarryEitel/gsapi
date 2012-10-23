@@ -9,6 +9,7 @@ from gsapi.tests.base import TestCase
 import json
 import time
 import isodate
+import yaml
 from flask import request
 from random import randint
 from bson import ObjectId
@@ -16,9 +17,10 @@ from bson.json_util import dumps
 from bson import json_util
 from gsapi import models
 from gsapi import controllers
+import pprint
 
-def pprint(varname, dat):
-    print "%s = %s" % (varname, json.dumps(dat, sort_keys = True, indent = 4))
+#def pprint(varname, dat):
+#    print "%s = %s" % (varname, json.dumps(dat, sort_keys = True, indent = 4))
 
 #print on a separate line a string with a given indentation
 def printIndentedString(string, indent = 4):
@@ -39,11 +41,9 @@ def formatParagraph(string, indent):
 
 #print parameters with a given indentation
 def printParams(varname, dat, mainIndent, paramsIndent):
-    try:
-        printIndentedString("%s = %s" % (varname, json.dumps(dat, sort_keys = True, indent = paramsIndent)), mainIndent)
-    except:
-        print("%s = %s" % (varname, dat))
-
+        pp = pprint.PrettyPrinter(indent = 8)
+        datStr = pp.pformat(dat)
+        printIndentedString("%s = %s" % (varname, datStr), 8)
 
 class TestGeneric(TestCase):
     print "Generic tests"
@@ -56,8 +56,7 @@ class TestGeneric(TestCase):
         print "^^^^^^^^^^^"
 
         db = self.db
-        es = self.es
-        generic = controllers.Generic(db, es)
+        generic = controllers.Generic(db)
 
         response = self.load_sample('contacts')
         assert response['status'] == 200
@@ -116,8 +115,7 @@ class TestGeneric(TestCase):
         print "^^^^^^^^^^^^"
 
         db = self.db
-        es = self.es
-        generic = controllers.Generic(db, es)
+        generic = controllers.Generic(db)
 
         # here is the basic function call being tested
         fn = "controllers.generic.get(db, **args)"
@@ -166,8 +164,7 @@ class TestGeneric(TestCase):
         print "^^^^^^^^^^^^^"
 
         db = self.db
-        es = self.es
-        generic = controllers.Generic(db, es)
+        generic = controllers.Generic(db)
 
         # here is the basic function call being tested
         fn = "controllers.generic.get(db, **args)"
@@ -437,7 +434,7 @@ class TestGeneric(TestCase):
             print 'Success'
 
         if doit: # FIELDS LIST ################################
-            fields = ["fNam", "title"]
+            fields = ['prefix', '_id', 'fNam']
             args = {}
             args['class_name'] = self.class_name
             args['fields'] = fields
@@ -459,7 +456,7 @@ class TestGeneric(TestCase):
             data = response['response']
             got_docs = data['docs']
 
-            assert fields == got_docs[0].keys()[1:]
+            assert fields == got_docs[0].keys()
             print 'Success'
 
         if doit: # SKIP & LIMIT ################################

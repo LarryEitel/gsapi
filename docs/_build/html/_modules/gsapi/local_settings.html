@@ -1,5 +1,4 @@
 
-
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 
@@ -10,7 +9,7 @@
     
     <title>gsapi.local_settings &mdash; gsapi 1.0 documentation</title>
     
-    <link rel="stylesheet" href="../../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/nature.css" type="text/css" />
     <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
     
     <script type="text/javascript">
@@ -56,13 +55,15 @@
     <span class="n">DEFAULT_MAIL_SENDER</span> <span class="o">=</span> <span class="p">(</span><span class="s">&quot;mail manager&quot;</span><span class="p">,</span> <span class="s">&quot;mail@manager.com&quot;</span><span class="p">)</span>
     <span class="n">SECRET_KEY</span>          <span class="o">=</span> <span class="s">&#39;a[U</span><span class="se">\\</span><span class="s">^U;N_OGX5WG+9F\:ba[U</span><span class="se">\\</span><span class="s">^yA|Nx|xf6&quot;^&#39;</span>
 
-    <span class="n">TESTING_HOST</span>        <span class="o">=</span> <span class="s">&#39;192.168.1.139:5000&#39;</span>
+    <span class="n">HOST</span>                <span class="o">=</span> <span class="s">&#39;localhost&#39;</span>
+    <span class="n">TESTING_HOST</span>        <span class="o">=</span> <span class="s">&#39;localhost:5000/test&#39;</span>
 
     <span class="c"># MONGO_HOST          = &#39;localhost&#39;</span>
     <span class="n">MONGO_HOST</span>          <span class="o">=</span> <span class="s">&#39;192.168.1.139&#39;</span>
     <span class="n">MONGO_DBNAME</span>        <span class="o">=</span> <span class="s">&#39;gsapi-test&#39;</span>
     <span class="n">MONGO_TEST_DBNAME</span>   <span class="o">=</span> <span class="s">&#39;gsapi-test&#39;</span>
 
+    <span class="c"># DEPRECATED</span>
     <span class="c"># ES_HOST             = &#39;localhost&#39;</span>
     <span class="n">ES_HOST</span>             <span class="o">=</span> <span class="s">&#39;192.168.1.139&#39;</span>
     <span class="n">ES_PORT</span>             <span class="o">=</span> <span class="mi">9200</span>
@@ -70,6 +71,19 @@
     <span class="n">ES_TEST_HOST</span>        <span class="o">=</span> <span class="s">&#39;192.168.1.139&#39;</span>
     <span class="n">ES_TEST_PORT</span>        <span class="o">=</span> <span class="mi">9200</span>
     <span class="n">ES_TEST_NAME</span>        <span class="o">=</span> <span class="s">&#39;gsapi-test&#39;</span>
+
+    <span class="c"># USE THESE</span>
+    <span class="n">ES</span>                  <span class="o">=</span> <span class="p">{</span>
+        <span class="s">&#39;host&#39;</span><span class="p">:</span> <span class="s">&#39;192.168.1.139&#39;</span><span class="p">,</span>
+        <span class="s">&#39;port&#39;</span><span class="p">:</span> <span class="mi">9200</span><span class="p">,</span>
+        <span class="s">&#39;name&#39;</span><span class="p">:</span> <span class="s">&#39;gsapi&#39;</span>
+        <span class="p">}</span>
+
+    <span class="n">ES_TEST</span>             <span class="o">=</span> <span class="p">{</span>
+        <span class="s">&#39;host&#39;</span><span class="p">:</span> <span class="s">&#39;192.168.1.139&#39;</span><span class="p">,</span>
+        <span class="s">&#39;port&#39;</span><span class="p">:</span> <span class="mi">9200</span><span class="p">,</span>
+        <span class="s">&#39;name&#39;</span><span class="p">:</span> <span class="s">&#39;gsapi-test&#39;</span>
+        <span class="p">}</span>
 
     <span class="c">#WTForms Settings</span>
     <span class="n">CSRF_ENABLED</span>        <span class="o">=</span> <span class="bp">True</span>

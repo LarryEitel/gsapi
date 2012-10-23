@@ -1,0 +1,221 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>gsapi.tests.elastic.test_nested &mdash; gsapi 1.0 documentation</title>
+    
+    <link rel="stylesheet" href="../../../../_static/nature.css" type="text/css" />
+    <link rel="stylesheet" href="../../../../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../../../',
+        VERSION:     '1.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../../../_static/doctools.js"></script>
+    <link rel="top" title="gsapi 1.0 documentation" href="../../../../index.html" />
+    <link rel="up" title="Module code" href="../../../index.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../../../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li><a href="../../../../index.html">gsapi 1.0 documentation</a> &raquo;</li>
+          <li><a href="../../../index.html" accesskey="U">Module code</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <h1>Source code for gsapi.tests.elastic.test_nested</h1><div class="highlight"><pre>
+<span class="c"># -*- coding: utf-8 -*-</span>
+<span class="kn">from</span> <span class="nn">__future__</span> <span class="kn">import</span> <span class="n">absolute_import</span>
+<span class="kn">from</span> <span class="nn">gsapi.tests.esbase</span> <span class="kn">import</span> <span class="n">ESTestCase</span><span class="p">,</span> <span class="n">get_conn</span>
+<span class="kn">from</span> <span class="nn">pyes.filters</span> <span class="kn">import</span> <span class="n">TermFilter</span><span class="p">,</span> <span class="n">NestedFilter</span>
+<span class="kn">from</span> <span class="nn">pyes.query</span> <span class="kn">import</span> <span class="n">FilteredQuery</span><span class="p">,</span> <span class="n">MatchAllQuery</span><span class="p">,</span> <span class="n">BoolQuery</span><span class="p">,</span> <span class="n">TermQuery</span><span class="p">,</span> <span class="n">PrefixQuery</span><span class="p">,</span> <span class="n">WildcardQuery</span>
+
+
+<span class="kn">from</span> <span class="nn">pyes</span> <span class="kn">import</span> <span class="n">decode_json</span>
+<span class="c">#from pyes.mappings import Mapper</span>
+
+<span class="kn">import</span> <span class="nn">time</span>
+<div class="viewcode-block" id="NestedSearchTestCase"><a class="viewcode-back" href="../../../../gsapi.tests.elastic.html#gsapi.tests.elastic.test_nested.NestedSearchTestCase">[docs]</a><span class="k">class</span> <span class="nc">NestedSearchTestCase</span><span class="p">(</span><span class="n">ESTestCase</span><span class="p">):</span>
+<div class="viewcode-block" id="NestedSearchTestCase.setUp"><a class="viewcode-back" href="../../../../gsapi.tests.elastic.html#gsapi.tests.elastic.test_nested.NestedSearchTestCase.setUp">[docs]</a>    <span class="k">def</span> <span class="nf">setUp</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">NestedSearchTestCase</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">setUp</span><span class="p">()</span>
+
+        <span class="c"># self.conn = get_conn(timeout=300.0)</span>
+        <span class="c"># self.index_name = &quot;test-index&quot;</span>
+        <span class="c"># self.document_type = &quot;test-type&quot;</span>
+
+        <span class="c"># self.datamap = decode_json(self.get_datafile(&quot;map.json&quot;))</span>
+        <span class="c"># _ = Mapper(self.datamap)</span>
+
+        <span class="k">if</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="n">mapping</span> <span class="o">=</span> <span class="p">{</span>
+                <span class="s">&#39;shares&#39;</span><span class="p">:</span> <span class="p">{</span>
+                    <span class="s">&#39;type&#39;</span><span class="p">:</span> <span class="s">&#39;nested&#39;</span>
+                <span class="p">}</span>
+            <span class="p">}</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">conn</span><span class="o">.</span><span class="n">create_index</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">index_name</span><span class="p">)</span>
+            <span class="k">except</span><span class="p">:</span>
+                <span class="k">pass</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">conn</span><span class="o">.</span><span class="n">put_mapping</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">document_type</span><span class="p">,</span> <span class="p">{</span><span class="s">&#39;properties&#39;</span><span class="p">:</span> <span class="n">mapping</span><span class="p">},</span> <span class="bp">self</span><span class="o">.</span><span class="n">index_name</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">conn</span><span class="o">.</span><span class="n">index</span><span class="p">({</span><span class="s">&quot;body&quot;</span><span class="p">:</span> <span class="s">&quot;hello&quot;</span><span class="p">,</span>
+                             <span class="s">&quot;shares&quot;</span><span class="p">:</span> <span class="p">[{</span><span class="s">&quot;orgid&quot;</span><span class="p">:</span> <span class="s">&quot;abc.de.1&quot;</span><span class="p">,</span>
+                                          <span class="s">&quot;role&quot;</span><span class="p">:</span> <span class="s">&quot;11&quot;</span><span class="p">},</span>
+                                        <span class="p">{</span><span class="s">&quot;orgid&quot;</span><span class="p">:</span> <span class="s">&quot;abc&quot;</span><span class="p">,</span>
+                                          <span class="s">&quot;role&quot;</span><span class="p">:</span> <span class="s">&quot;1&quot;</span><span class="p">}]},</span>
+                            <span class="bp">self</span><span class="o">.</span><span class="n">index_name</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">document_type</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+
+            <span class="bp">self</span><span class="o">.</span><span class="n">conn</span><span class="o">.</span><span class="n">index</span><span class="p">({</span><span class="s">&quot;body&quot;</span><span class="p">:</span> <span class="s">&quot;world&quot;</span><span class="p">,</span>
+                             <span class="s">&quot;shares&quot;</span><span class="p">:</span> <span class="p">[{</span><span class="s">&quot;orgid&quot;</span><span class="p">:</span> <span class="s">&quot;abc.de&quot;</span><span class="p">,</span>
+                                          <span class="s">&quot;role&quot;</span><span class="p">:</span> <span class="s">&quot;111&quot;</span><span class="p">}]},</span>
+                            <span class="bp">self</span><span class="o">.</span><span class="n">index_name</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">document_type</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+
+            <span class="bp">self</span><span class="o">.</span><span class="n">conn</span><span class="o">.</span><span class="n">index</span><span class="p">({</span><span class="s">&quot;body&quot;</span><span class="p">:</span> <span class="s">&quot;today&quot;</span><span class="p">,</span>
+                             <span class="s">&quot;shares&quot;</span><span class="p">:</span> <span class="p">[{</span><span class="s">&quot;orgid&quot;</span><span class="p">:</span> <span class="s">&quot;abc&quot;</span><span class="p">,</span>
+                                          <span class="s">&quot;role&quot;</span><span class="p">:</span> <span class="s">&quot;111&quot;</span><span class="p">}]},</span>
+                            <span class="bp">self</span><span class="o">.</span><span class="n">index_name</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">document_type</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
+
+            <span class="c"># self.conn.refresh(self.index_name)</span>
+            <span class="c"># a quicker way to see index change without doing refresh</span>
+            <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+</div>
+<div class="viewcode-block" id="NestedSearchTestCase.test_nested_filter"><a class="viewcode-back" href="../../../../gsapi.tests.elastic.html#gsapi.tests.elastic.test_nested.NestedSearchTestCase.test_nested_filter">[docs]</a>    <span class="k">def</span> <span class="nf">test_nested_filter</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+
+
+        <span class="n">q</span> <span class="o">=</span> <span class="n">FilteredQuery</span><span class="p">(</span><span class="n">MatchAllQuery</span><span class="p">(),</span>
+            <span class="n">NestedFilter</span><span class="p">(</span><span class="s">&#39;shares&#39;</span><span class="p">,</span>
+                <span class="n">BoolQuery</span><span class="p">(</span><span class="n">must</span><span class="o">=</span><span class="p">[</span><span class="n">PrefixQuery</span><span class="p">(</span><span class="s">&#39;shares.orgid&#39;</span><span class="p">,</span> <span class="s">&#39;abc&#39;</span><span class="p">),</span>
+                                <span class="n">PrefixQuery</span><span class="p">(</span><span class="s">&#39;shares.role&#39;</span><span class="p">,</span> <span class="s">&#39;11&#39;</span><span class="p">)])))</span>
+        <span class="n">resultset</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">conn</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="n">query</span><span class="o">=</span><span class="n">q</span><span class="p">,</span> <span class="n">indices</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">index_name</span><span class="p">,</span> <span class="n">doc_types</span><span class="o">=</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">document_type</span><span class="p">])</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertEquals</span><span class="p">(</span><span class="n">resultset</span><span class="o">.</span><span class="n">total</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
+        <span class="k">print</span> <span class="s">&#39;, &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="n">r</span><span class="p">[</span><span class="s">&#39;body&#39;</span><span class="p">]</span> <span class="k">for</span> <span class="n">r</span> <span class="ow">in</span> <span class="n">resultset</span><span class="p">])</span>
+
+
+        <span class="n">q</span> <span class="o">=</span> <span class="n">FilteredQuery</span><span class="p">(</span><span class="n">MatchAllQuery</span><span class="p">(),</span>
+            <span class="n">NestedFilter</span><span class="p">(</span><span class="s">&#39;shares&#39;</span><span class="p">,</span>
+                <span class="n">BoolQuery</span><span class="p">(</span><span class="n">must</span><span class="o">=</span><span class="p">[</span><span class="n">PrefixQuery</span><span class="p">(</span><span class="s">&#39;shares.orgid&#39;</span><span class="p">,</span> <span class="s">&#39;abc.de&#39;</span><span class="p">),</span>
+                                <span class="n">PrefixQuery</span><span class="p">(</span><span class="s">&#39;shares.role&#39;</span><span class="p">,</span> <span class="s">&#39;111&#39;</span><span class="p">)])))</span>
+        <span class="n">resultset</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">conn</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="n">query</span><span class="o">=</span><span class="n">q</span><span class="p">,</span> <span class="n">indices</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">index_name</span><span class="p">,</span> <span class="n">doc_types</span><span class="o">=</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">document_type</span><span class="p">])</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertEquals</span><span class="p">(</span><span class="n">resultset</span><span class="o">.</span><span class="n">total</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+        <span class="k">print</span> <span class="s">&#39;, &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="n">r</span><span class="p">[</span><span class="s">&#39;body&#39;</span><span class="p">]</span> <span class="k">for</span> <span class="n">r</span> <span class="ow">in</span> <span class="n">resultset</span><span class="p">])</span>
+
+
+
+        <span class="n">q</span> <span class="o">=</span> <span class="n">FilteredQuery</span><span class="p">(</span><span class="n">MatchAllQuery</span><span class="p">(),</span>
+            <span class="n">NestedFilter</span><span class="p">(</span><span class="s">&#39;shares&#39;</span><span class="p">,</span>
+                <span class="n">BoolQuery</span><span class="p">(</span><span class="n">must</span><span class="o">=</span><span class="p">[</span><span class="n">PrefixQuery</span><span class="p">(</span><span class="s">&#39;shares.orgid&#39;</span><span class="p">,</span> <span class="s">&#39;abc.de.1&#39;</span><span class="p">),</span>
+                                <span class="n">PrefixQuery</span><span class="p">(</span><span class="s">&#39;shares.role&#39;</span><span class="p">,</span> <span class="s">&#39;11&#39;</span><span class="p">)])))</span>
+        <span class="n">resultset</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">conn</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="n">query</span><span class="o">=</span><span class="n">q</span><span class="p">,</span> <span class="n">indices</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">index_name</span><span class="p">,</span> <span class="n">doc_types</span><span class="o">=</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">document_type</span><span class="p">])</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertEquals</span><span class="p">(</span><span class="n">resultset</span><span class="o">.</span><span class="n">total</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+        <span class="k">print</span> <span class="s">&#39;, &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="n">r</span><span class="p">[</span><span class="s">&#39;body&#39;</span><span class="p">]</span> <span class="k">for</span> <span class="n">r</span> <span class="ow">in</span> <span class="n">resultset</span><span class="p">])</span>
+
+
+
+        <span class="n">q</span> <span class="o">=</span> <span class="n">FilteredQuery</span><span class="p">(</span><span class="n">MatchAllQuery</span><span class="p">(),</span>
+            <span class="n">NestedFilter</span><span class="p">(</span><span class="s">&#39;shares&#39;</span><span class="p">,</span>
+                <span class="n">BoolQuery</span><span class="p">(</span><span class="n">must</span><span class="o">=</span><span class="p">[</span><span class="n">PrefixQuery</span><span class="p">(</span><span class="s">&#39;shares.orgid&#39;</span><span class="p">,</span> <span class="s">&#39;abc&#39;</span><span class="p">),</span>
+                                <span class="n">PrefixQuery</span><span class="p">(</span><span class="s">&#39;shares.role&#39;</span><span class="p">,</span> <span class="s">&#39;111&#39;</span><span class="p">)])))</span>
+        <span class="n">resultset</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">conn</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="n">query</span><span class="o">=</span><span class="n">q</span><span class="p">,</span> <span class="n">indices</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">index_name</span><span class="p">,</span> <span class="n">doc_types</span><span class="o">=</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">document_type</span><span class="p">])</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertEquals</span><span class="p">(</span><span class="n">resultset</span><span class="o">.</span><span class="n">total</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+        <span class="k">print</span> <span class="s">&#39;, &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="n">r</span><span class="p">[</span><span class="s">&#39;body&#39;</span><span class="p">]</span> <span class="k">for</span> <span class="n">r</span> <span class="ow">in</span> <span class="n">resultset</span><span class="p">])</span>
+
+
+        <span class="k">print</span>
+
+        <span class="c"># q = FilteredQuery(MatchAllQuery(),</span>
+        <span class="c">#     TermFilter(&#39;_all&#39;, &#39;n_value1_1&#39;))</span>
+        <span class="c"># resultset = self.conn.search(query=q, indices=self.index_name, doc_types=[self.document_type])</span>
+        <span class="c"># self.assertEquals(resultset.total, 2)</span>
+
+        <span class="c"># q = FilteredQuery(MatchAllQuery(),</span>
+        <span class="c">#     TermFilter(&#39;nested1.n_field1&#39;, &#39;n_value1_1&#39;))</span>
+        <span class="c"># resultset = self.conn.search(query=q, indices=self.index_name, doc_types=[self.document_type])</span>
+        <span class="c"># self.assertEquals(resultset.total, 0)</span>
+
+        <span class="c"># q = FilteredQuery(MatchAllQuery(),</span>
+        <span class="c">#     TermFilter(&#39;nested1.n_field1&#39;, &#39;n_value1_1&#39;))</span>
+        <span class="c"># resultset = self.conn.search(query=q, indices=self.index_name, doc_types=[self.document_type])</span>
+        <span class="c"># self.assertEquals(resultset.total, 0)</span>
+
+        <span class="c"># q = FilteredQuery(MatchAllQuery(),</span>
+        <span class="c">#     NestedFilter(&#39;nested1&#39;,</span>
+        <span class="c">#         BoolQuery(must=[TermQuery(&#39;nested1.n_field1&#39;, &#39;n_value1_1&#39;)])))</span>
+        <span class="c"># resultset = self.conn.search(query=q, indices=self.index_name, doc_types=[self.document_type])</span>
+        <span class="c"># self.assertEquals(resultset.total, 2)</span>
+
+        <span class="c"># q = FilteredQuery(MatchAllQuery(),</span>
+        <span class="c">#     NestedFilter(&#39;nested1&#39;,</span>
+        <span class="c">#         BoolQuery(must=[TermQuery(&#39;nested1.n_field1&#39;, &#39;n_value1_1&#39;),</span>
+        <span class="c">#                         TermQuery(&#39;nested1.n_field2&#39;, &#39;n_value2_1&#39;)])))</span>
+        <span class="c"># resultset = self.conn.search(query=q, indices=self.index_name, doc_types=[self.document_type])</span>
+        <span class="c"># self.assertEquals(resultset.total, 1)</span>
+
+</div></div>
+<span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s">&quot;__main__&quot;</span><span class="p">:</span>
+    <span class="n">unittest</span><span class="o">.</span><span class="n">main</span><span class="p">()</span>
+</pre></div>
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../../../../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../../../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li><a href="../../../../index.html">gsapi 1.0 documentation</a> &raquo;</li>
+          <li><a href="../../../index.html" >Module code</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2012, Larry Eitel.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.1.3.
+    </div>
+  </body>
+</html>
