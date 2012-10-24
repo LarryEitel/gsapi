@@ -110,5 +110,29 @@ relationship like friend's sister.
 Will there be relations like ex-eployee and ex-employer? I think there
 should be such relationships.
 
+https://developers.google.com/gdata/docs/2.0/elements#gdGeoPt
+Deprecated. This element is deprecated. For geotagging data, use GeoRSS instead.
 
+Questions:
+
+1. Which model is the containing entity of a place?
+2. What are all possible types of place relationships?
+3. We need followers count in Widgets?
+4. Website field of place?
+5. International phone no of place?
+6. Can have a field category in event models?
+7. Author URL in review class?
+8. Who of message?
+
+Testing strategy:
+
+1. We use Selenium/automated scripts to generate users/companies/
+   Contacts/ContactRelations/Places/Widgets/Shares/Events/Notes/Reviews/
+   Ratings.
+2. We also try to send invalid input.
+3. We try to modify data of db generated this way using valid/invalid
+   requests.
+4. We try to delete data of db with valid/invalid requests.
+5. We search our datanase ensuring both Elastic and Mongo are tested.
+6. We run the a subset of above tests manually.
 '''
