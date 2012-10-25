@@ -25,6 +25,5 @@ venv/
 *.pydevproject
 org.eclipse.core.resources.prefs
 .metadata
-*.html
 docs/
 !docs/_static
