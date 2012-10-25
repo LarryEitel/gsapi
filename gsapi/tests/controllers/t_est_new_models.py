@@ -88,6 +88,20 @@ Possible solution:
 
 Question:
 
+ni
+    kirmse
+        104
+            1031
+                Bill
+
+acme 
+    abc
+        1031
+            Bill
+
+
+Question:
+
 create company A
 create company B
 
