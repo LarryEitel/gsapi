@@ -17,7 +17,7 @@
 *.bak
 
 *.swp
-gsapi/local_settings.py
+local_settings.py
 
 venv/
 
