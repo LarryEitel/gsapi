@@ -7,7 +7,7 @@ from schematics.types.mongo import ObjectIdType
 from bson import ObjectId
 from embed import Email, Note, Phone, Im
 
-class RelToFm(_Model):
+class RelToFr(_Model):
     '''To/Parent/Target/From/Child relationship details which are embedded into a ListType named tos or frm.
         NOTE:
             Accomodate access/visibility controls? If target (rel)ationship is not viewable based on share options, then user should not see this relationship in list. Right?
@@ -21,6 +21,7 @@ class RelToFm(_Model):
 
 class Rel(_Model):
     # In a list of (rel)ationships, ie, Companies (cmp), Persons (prs), Places (pl), Events (ev), etc, docC = the class so that client can retrieve place (rel)ationships for example.
+    # this docC is the doc Class of the immediate parent which exists/occurs last in the array/list of IDs/relToFrs
     docC         = ObjectIdType(ObjectId)
 
     # List of Doc IDs in the relToFms list. This is used to quickly check whether a doc ID is referenced.
@@ -28,10 +29,10 @@ class Rel(_Model):
     IDs   = ListType(ObjectIdType(ObjectId))
 
     # List of (rel)ationship details
-    relToFms = ListType(ModelType(RelToFm))
+    relToFrs = ListType(ModelType(RelToFm))
     
     # in a list of aPath's, sort list on this value to control order
-    weight    = StringType(minimized_field_name='Sort weight value', description='')
+    weight    = FloatType(minimized_field_name='Sort weight value', description='')
 
 
 class DxRel(Mod):
@@ -104,6 +105,7 @@ class Cnt(Mod):
     # frs: froms, ie, children
     frs = ListType(ModelType(Rel))
 
+    shares    = ListType(ModelType(Share), minimized_field_name='Share List', description='List of Share docs that describe who and at what level/role this doc is shared with.')
 
     meta   = {
         'collection': 'contacts',

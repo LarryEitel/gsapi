@@ -48,7 +48,7 @@ class DocXRel(Mod):
     weight   = StringType(minimized_field_name='Sort weight value', description='')
     mask     = StringType(minimized_field_name='Mask', description='ie. 1, 11')
 
-class DocX(_Model):
+class DX(_Model):
     _id      = doc_c + doc_id
     parID    = ObjectIdType(ObjectId) # Parent OID of DocX
     relID    = ObjectIdType(ObjectId) # OID of DocXRel
