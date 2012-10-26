@@ -11,7 +11,10 @@ from place import PlaceRel
 class DocRel():
     # document model class
     # this is actually embedded in docID but in this context, will be convenient 
+
+    # doc class
     docC         = ObjectIdType(ObjectId)
+    # doc
     docID        = ObjectIdType(ObjectId)
     relDNam      = StringType(minimized_field_name="Relation/Role")
     relDNamShort = StringType(minimized_field_name="Relation/Role Short")
@@ -19,8 +22,8 @@ class DocRel():
     docDNamShort      = StringType(minimized_field_name="Doc Display Name Short")
 
 class Rel(_Model):
-    # Parent OID of DocX
-    parID       = ObjectIdType(ObjectId)
+    # Parent OID of DX
+    parDocXID       = ObjectIdType(ObjectId)
 
     # array of all ancestors
     # Note: each element needs to persist Cnt.OID, dNam
