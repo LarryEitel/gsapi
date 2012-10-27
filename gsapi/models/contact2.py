@@ -37,18 +37,18 @@ class Rel(_Model):
 
 class DocXRel(Mod):
     '''Specifies the relationship between document objects. '''
-    fromC    = StringType(minimized_field_name='From/Subject Class', description='')
+    frC    = StringType(minimized_field_name='From/Subject Class', description='')
     toC      = StringType(minimized_field_name='To/Target Class', description='')
-    fromGen  = StringType(minimized_field_name='From/Subject Gender', description='')
-    fromGen  = StringType(minimized_field_name='From/Subject Gender', description='')
+    frGen  = StringType(minimized_field_name='From/Subject Gender', description='')
+    frGen  = StringType(minimized_field_name='From/Subject Gender', description='')
     toGen    = StringType(minimized_field_name='To/Target Gender', description='')
     fam   = StringType(minimized_field_name='Family Parternam/Maternal?', description='p=Parternal/m=Maternal type relationship')
     toName   = StringType(minimized_field_name='To Relationship/Role', description='')
-    fromName = StringType(minimized_field_name='From Relationship/Role', description='')
+    frName = StringType(minimized_field_name='From Relationship/Role', description='')
     weight   = StringType(minimized_field_name='Sort weight value', description='')
     mask     = StringType(minimized_field_name='Mask', description='ie. 1, 11')
 
-class DocX(_Model):
+class DX(_Model):
     _id      = doc_c + doc_id
     parID    = ObjectIdType(ObjectId) # Parent OID of DocX
     relID    = ObjectIdType(ObjectId) # OID of DocXRel
