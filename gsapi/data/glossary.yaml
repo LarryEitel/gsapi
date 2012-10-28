@@ -1,0 +1,141 @@
+# http://yaml-online-parser.appspot.com
+- _c:
+    type: doc attribute/field
+    name: Class id
+    desc: Every mongo doc includes a field named _c which contains a model class id. For example, class Cnt docs will have a _c with the value of 'cnt'.
+- Cmp:
+    type: doc model class
+    name: Company
+    desc: Extends from Cnt.
+- Cnt:
+    type: doc model
+    name: Contact
+    desc: A base mongo class that is inherited by cmp, prs and usr.
+- D:
+    type: Abbreviation
+    name: Document
+    desc: Contained in Model and field names.
+- d_c:
+    type: doc attribute/field
+    name: document class, ie, 'Cnt'
+    desc: A human-friendly version of a document.
+- ddNam:
+    type: doc attribute/field
+    name: Document Display Name
+    desc: In a doc relationship DRelToFr doc, ddNam caches that appropriate related doc display name (dNam) to either the to/parent or fr/child. This frees the need to query for this when displaying relevant details for each doc involved in ancestors or child path.
+- ddNamS:
+    type: doc attribute/field
+    name: Document Display Name Short
+    desc: A Short machine friendly version of ddNam.
+- dNam:
+    type: doc attribute/field
+    name: Display Name/Value
+    desc: A human-friendly version of a document.
+- dNamS:
+    type: doc attribute/field
+    name: Short dNam
+    desc: A Short machine friendly version of dNam.
+- DRel:
+    type: doc model class
+    name: Document Relationship
+    desc: Caches relevant details pertaining to two linked docs (via Dx). An instance of DRel can be added to a doc.tos (parents) or doc.frm (children). This enables client/UI to render parent and children relationships without additional queries while providing details for rendering links to referenced relationship.
+- dRelDesc:
+    type: doc attribute/field
+    name: Document Relationship Title
+    desc: In a relationship between two docs, in addition to defining the relationship, ie, Employer<->Employee, dRelDesc enables the ability to further describe this Employer/Employee relationship with a Description, ie, 'Product Development'. So if doc is Google, frs/Children would list Employee, <optional dRelTitle>, Vic Gondotra, Product Development  
+- dRelTitle:
+    type: doc attribute/field
+    name: Document Relationship Title
+    desc: In a relationship between two docs, in addition to defining the relationship, ie, Employer<->Employee, dRelTitle enables the ability to further describe this Employer/Employee relationship with a Title/Job Title, ie, 'Vice President'. So if doc is Google, frs/Children would list Employee, Vice President, Vic Gondotra, <optional dRelDesc(ription)>
+- DRelToFr:
+    type: doc model class
+    name: Document Relationship
+    desc: DRel class includes an array/list attribute named dRelToFrs. See DRel. Each doc.tos dRel element represents a relationship to its ancestors. For example, Pl(ace) 'San Diego' will have a dRel in tos that represents an ancestor path like USA, California. California and USA would each be described in a DRelToFr doc. This enables the client/UI to render a doc like "San Diego" along with its parent path USA, California or California, USA, where these can be rendered with links to each respective ancestor.
+- Dx:
+    type: doc model class
+    name: Document Link/Doc
+    desc: Docs can be linked together with a Dx doc
+- dxNam:
+    type: doc attribute/field
+    name: Document Relationship Title/Role Display Name
+    desc: In a doc relationship DRelToFr doc, dxNam caches that appropriate relationship title/role to either the to/parent or fr/child. This frees the need to query for this when displaying relevant details for each doc involved in ancestors or child path.
+- dxNamS:
+    type: doc attribute/field
+    name: Document Relationship Title/Role Display Name Short
+    desc: Short/machine-friendly version of dxNam.
+- DxRel:
+    type: doc model class
+    name: Document Link/Doc Relationship
+    desc: Each relationship between two docs linked via a Dx doc can be described with an a reference to a DxRel doc. Each entry in this collection represents a relationship that can be expressed from either to/parent or from/child perspective. For example, if Bill is Father and Sue is daughter, then a DxRel doc would contain toNam 'Daughter Of', frNam 'Father Of'. If viewing doc Bill, frs.dRel.dRelToFrs would contain Father Of Sue. If viewing doc Sue, tos.dRel.dRelToFrs would contain Daughter Of Bill.
+- fam:
+    type: doc array/list attribute/field
+    name: Family
+    desc: In a DxRel doc, fam contains value identifying the relationship title/name as being a family type. See DxRel.
+    opts: 
+        i: Immediate
+        m: Maternal
+        p: Paternal
+        o: Others like In-Law, etc?
+- fr_cs:
+    type: doc array/list attribute/field
+    name: From / child doc classes
+    desc: In a collection of doc relationship title/names (dxRel), fr_cs enables the client/UI the ability to filter list of available doc relationship titles/roles. For example, if user adds a fr(om)/child relationship to 'Father' Bill (_c=Prs), the list of available DxRel title/names would be filtered on the basis that the (to/parent Bill) is a  _c=Prs. So only DxRel docs that have Prs in the fr_cs array/list will be listed. Since fr_cs is an array, DxRel titles/roles can be shared as in the case of Prs and Usr classes.
+- frGen:
+    type: doc array/list attribute/field
+    name: From / child Gender
+    desc: In a collection of doc relationship title/names (dxRel), frGen represents the gender of the fr(om)/child of the relationship, ie, Daughter Of frGen would be 'f'. This enable client/UI to further filter list of available relationship titles by gender, ie, if subject is male, you would not see Mother Of, Sister Of, etc.
+    opts:
+        f: female
+        m: male
+- frNam:
+    type: doc array/list attribute/field
+    name: From / child Title/Name
+    desc: In a collection of doc relationship title/names (dxRel), frNam represents the title/name as the fr(om)/child of the relationship, ie, Daughter Of in contrast to Father Of.
+- frNamS:
+    type: doc array/list attribute/field
+    name: From / child Title/Name Short
+    desc: frNam Short
+- frs:
+    type: doc array/list attribute/field
+    name: Froms / children
+    desc: Froms or in other words children. Docs can have zero or more frs or children. The frs is an array/list of DRel docs. See DRel.
+- Pl:
+    type: doc model class
+    name: Place
+    desc: Place, location details
+- Prs:
+    type: doc model class
+    name: Person
+    desc: Extends from Cnt.
+- rel:
+    type: Not a discrete type
+    name: Relationship
+    desc: Contained in Model and field names.
+- to_cs:
+    type: doc array/list attribute/field
+    name: To / parent doc classes
+    desc: See fr_cs
+- toGen:
+    type: doc array/list attribute/field
+    name: To / parent Gender
+    desc: See frGen
+- toNam:
+    type: doc array/list attribute/field
+    name: To / parent Title/Name
+    desc: In a collection of doc relationship title/names (dxRel), toNam represents the title/name as the to/parent of the relationship, ie, Father Of in contrast to Daughter Of.
+- toNamS:
+    type: doc array/list attribute/field
+    name: To / parent Title/Name Short
+    desc: toNam Short
+- tos:
+    type: doc array/list attribute/field
+    name: Tos / parents / ancestors
+    desc: Tos or in other words parents. Docs can have zero or more tos or parents. The tos is an array/list of DRel docs. See DRel.
+- Usr:
+    type: doc model class
+    name: User
+    desc: Extends from Prs.
+- w:
+    type: doc attribute/field
+    name: Weight
+    desc: In an array/list field, the weight value is used optionally to sort all elements in the array. This is a FloatType. Client UI can then enable user to drag/move items in a list to reorder. This value would be adjusted to persist this sort order.
