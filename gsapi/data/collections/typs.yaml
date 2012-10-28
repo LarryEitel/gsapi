@@ -1,0 +1,142 @@
+# http://yaml-online-parser.appspot.com
+# Attribute Types
+
+# Company (Cmp) Types
+- Cmp.cmp:                             {locals: [us_en: {tNamS: Company,                     desc: }]}
+- Cmp.dept:                            {locals: [us_en: {tNamS: Department,                  desc: }]}
+- Cmp.subsidiary:                      {locals: [us_en: {tNamS: Subsidiary,                  desc: }]}
+- Cmp.area:                            {locals: [us_en: {tNamS: Area,                        desc: }]}
+- Cmp.division:                        {locals: [us_en: {tNamS: Division,                    desc: }]}
+- Cmp.troop:                           {locals: [us_en: {tNamS: Troop,                       desc: }]}
+
+# Place (Pl) Address Types
+- Pl.addr.administrative_area_level_1: {locals: [us_en: {tNamS: Administrative Area Level 1, desc: }]}
+  Pl.addr.administrative_area_level_2: {locals: [us_en: {tNamS: Administrative Area Level 2, desc: }]}
+  Pl.addr.administrative_area_level_3: {locals: [us_en: {tNamS: Administrative Area Level 3, desc: }]}
+  Pl.addr.agent:                       {locals: [us_en: {tNamS: Agent,                       desc: }]}
+  Pl.addr.colloquial_area:             {locals: [us_en: {tNamS: Colloquial Area,             desc: }]}
+  Pl.addr.country:                     {locals: [us_en: {tNamS: Country,                     desc: }]}
+  Pl.addr.floor:                       {locals: [us_en: {tNamS: Floor,                       desc: }]}
+  Pl.addr.geocode:                     {locals: [us_en: {tNamS: Geocode,                     desc: }]}
+  Pl.addr.intersection:                {locals: [us_en: {tNamS: Intersection,                desc: }]}
+  Pl.addr.locality:                    {locals: [us_en: {tNamS: Locality,                    desc: }]}
+  Pl.addr.natural_feature:             {locals: [us_en: {tNamS: Natural Feature,             desc: }]}
+  Pl.addr.neighborhood:                {locals: [us_en: {tNamS: Neighborhood,                desc: }]}
+  Pl.addr.political:                   {locals: [us_en: {tNamS: Political,                   desc: }]}
+  Pl.addr.point_of_interest:           {locals: [us_en: {tNamS: Point Of Interest,           desc: }]}
+  Pl.addr.post_box:                    {locals: [us_en: {tNamS: Post Box,                    desc: }]}
+  Pl.addr.postal_code:                 {locals: [us_en: {tNamS: Postal Code,                 desc: }]}
+  Pl.addr.postal_code_prefix:          {locals: [us_en: {tNamS: Postal Code Prefix,          desc: }]}
+  Pl.addr.postal_town:                 {locals: [us_en: {tNamS: Postal Town,                 desc: }]}
+  Pl.addr.premise:                     {locals: [us_en: {tNamS: Premise,                     desc: }]}
+  Pl.addr.premise_name:                {locals: [us_en: {tNamS: Premise Name,                desc: }]}
+  Pl.addr.room:                        {locals: [us_en: {tNamS: Room,                        desc: }]}
+  Pl.addr.route:                       {locals: [us_en: {tNamS: Route,                       desc: }]}
+  Pl.addr.street_address:              {locals: [us_en: {tNamS: Street Address,              desc: }]}
+  Pl.addr.street_number:               {locals: [us_en: {tNamS: Street Number,               desc: }]}
+  Pl.addr.sublocality:                 {locals: [us_en: {tNamS: Sublocality,                 desc: }]}
+  Pl.addr.sublocality_level_1:         {locals: [us_en: {tNamS: Sublocality Level 1,         desc: }]}
+  Pl.addr.sublocality_level_2:         {locals: [us_en: {tNamS: Sublocality Level 2,         desc: }]}
+  Pl.addr.sublocality_level_3:         {locals: [us_en: {tNamS: Sublocality Level 3,         desc: }]}
+  Pl.addr.sublocality_level_4:         {locals: [us_en: {tNamS: Sublocality Level 4,         desc: }]}
+  Pl.addr.sublocality_level_5:         {locals: [us_en: {tNamS: Sublocality Level 5,         desc: }]}
+  Pl.addr.subpremise:                  {locals: [us_en: {tNamS: Subpremise,                  desc: }]}
+  Pl.addr.transit_station:             {locals: [us_en: {tNamS: Transit Station,             desc: }]}
+
+  # Place (Pl) Types
+  Pl.accounting:                       {locals: [us_en: {tNamS: Accounting,                  desc: }]}
+  Pl.airport:                          {locals: [us_en: {tNamS: Airport,                     desc: }]}
+  Pl.amusement_park:                   {locals: [us_en: {tNamS: Amusement Park,              desc: }]}
+  Pl.aquarium:                         {locals: [us_en: {tNamS: Aquarium,                    desc: }]}
+  Pl.art_gallery:                      {locals: [us_en: {tNamS: Art Gallery,                 desc: }]}
+  Pl.atm:                              {locals: [us_en: {tNamS: Atm,                         desc: }]}
+  Pl.bakery:                           {locals: [us_en: {tNamS: Bakery,                      desc: }]}
+  Pl.bank:                             {locals: [us_en: {tNamS: Bank,                        desc: }]}
+  Pl.bar:                              {locals: [us_en: {tNamS: Bar,                         desc: }]}
+  Pl.beauty_salon:                     {locals: [us_en: {tNamS: Beauty Salon,                desc: }]}
+  Pl.bicycle_store:                    {locals: [us_en: {tNamS: Bicycle Store,               desc: }]}
+  Pl.book_store:                       {locals: [us_en: {tNamS: Book Store,                  desc: }]}
+  Pl.bowling_alley:                    {locals: [us_en: {tNamS: Bowling Alley,               desc: }]}
+  Pl.bus_station:                      {locals: [us_en: {tNamS: Bus Station,                 desc: }]}
+  Pl.cafe:                             {locals: [us_en: {tNamS: Cafe,                        desc: }]}
+  Pl.campground:                       {locals: [us_en: {tNamS: Campground,                  desc: }]}
+  Pl.car_dealer:                       {locals: [us_en: {tNamS: Car Dealer,                  desc: }]}
+  Pl.car_rental:                       {locals: [us_en: {tNamS: Car Rental,                  desc: }]}
+  Pl.car_repair:                       {locals: [us_en: {tNamS: Car Repair,                  desc: }]}
+  Pl.car_wash:                         {locals: [us_en: {tNamS: Car Wash,                    desc: }]}
+  Pl.casino:                           {locals: [us_en: {tNamS: Casino,                      desc: }]}
+  Pl.cemetery:                         {locals: [us_en: {tNamS: Cemetery,                    desc: }]}
+  Pl.church:                           {locals: [us_en: {tNamS: Church,                      desc: }]}
+  Pl.city_hall:                        {locals: [us_en: {tNamS: City Hall,                   desc: }]}
+  Pl.clothing_store:                   {locals: [us_en: {tNamS: Clothing Store,              desc: }]}
+  Pl.convenience_store:                {locals: [us_en: {tNamS: Convenience Store,           desc: }]}
+  Pl.courthouse:                       {locals: [us_en: {tNamS: Courthouse,                  desc: }]}
+  Pl.dentist:                          {locals: [us_en: {tNamS: Dentist,                     desc: }]}
+  Pl.department_store:                 {locals: [us_en: {tNamS: Department Store,            desc: }]}
+  Pl.doctor:                           {locals: [us_en: {tNamS: Doctor,                      desc: }]}
+  Pl.electrician:                      {locals: [us_en: {tNamS: Electrician,                 desc: }]}
+  Pl.electronics_store:                {locals: [us_en: {tNamS: Electronics Store,           desc: }]}
+  Pl.embassy:                          {locals: [us_en: {tNamS: Embassy,                     desc: }]}
+  Pl.establishment:                    {locals: [us_en: {tNamS: Establishment,               desc: }]}
+  Pl.finance:                          {locals: [us_en: {tNamS: Finance,                     desc: }]}
+  Pl.fire_station:                     {locals: [us_en: {tNamS: Fire Station,                desc: }]}
+  Pl.florist:                          {locals: [us_en: {tNamS: Florist,                     desc: }]}
+  Pl.food:                             {locals: [us_en: {tNamS: Food,                        desc: }]}
+  Pl.funeral_home:                     {locals: [us_en: {tNamS: Funeral Home,                desc: }]}
+  Pl.furniture_store:                  {locals: [us_en: {tNamS: Furniture Store,             desc: }]}
+  Pl.gas_station:                      {locals: [us_en: {tNamS: Gas Station,                 desc: }]}
+  Pl.general_contractor:               {locals: [us_en: {tNamS: General Contractor,          desc: }]}
+  Pl.grocery_or_supermarket:           {locals: [us_en: {tNamS: Grocery Or Supermarket,      desc: }]}
+  Pl.gym:                              {locals: [us_en: {tNamS: Gym,                         desc: }]}
+  Pl.hair_care:                        {locals: [us_en: {tNamS: Hair Care,                   desc: }]}
+  Pl.hardware_store:                   {locals: [us_en: {tNamS: Hardware Store,              desc: }]}
+  Pl.health:                           {locals: [us_en: {tNamS: Health,                      desc: }]}
+  Pl.hindu_temple:                     {locals: [us_en: {tNamS: Hindu Temple,                desc: }]}
+  Pl.home_goods_store:                 {locals: [us_en: {tNamS: Home Goods Store,            desc: }]}
+  Pl.hospital:                         {locals: [us_en: {tNamS: Hospital,                    desc: }]}
+  Pl.insurance_agency:                 {locals: [us_en: {tNamS: Insurance Agency,            desc: }]}
+  Pl.jewelry_store:                    {locals: [us_en: {tNamS: Jewelry Store,               desc: }]}
+  Pl.laundry:                          {locals: [us_en: {tNamS: Laundry,                     desc: }]}
+  Pl.lawyer:                           {locals: [us_en: {tNamS: Lawyer,                      desc: }]}
+  Pl.library:                          {locals: [us_en: {tNamS: Library,                     desc: }]}
+  Pl.liquor_store:                     {locals: [us_en: {tNamS: Liquor Store,                desc: }]}
+  Pl.local_government_office:          {locals: [us_en: {tNamS: Local Government Office,     desc: }]}
+  Pl.locksmith:                        {locals: [us_en: {tNamS: Locksmith,                   desc: }]}
+  Pl.lodging:                          {locals: [us_en: {tNamS: Lodging,                     desc: }]}
+  Pl.meal_delivery:                    {locals: [us_en: {tNamS: Meal Delivery,               desc: }]}
+  Pl.meal_takeaway:                    {locals: [us_en: {tNamS: Meal Takeaway,               desc: }]}
+  Pl.mosque:                           {locals: [us_en: {tNamS: Mosque,                      desc: }]}
+  Pl.movie_rental:                     {locals: [us_en: {tNamS: Movie Rental,                desc: }]}
+  Pl.movie_theater:                    {locals: [us_en: {tNamS: Movie Theater,               desc: }]}
+  Pl.moving_company:                   {locals: [us_en: {tNamS: Moving Company,              desc: }]}
+  Pl.museum:                           {locals: [us_en: {tNamS: Museum,                      desc: }]}
+  Pl.night_club:                       {locals: [us_en: {tNamS: Night Club,                  desc: }]}
+  Pl.painter:                          {locals: [us_en: {tNamS: Painter,                     desc: }]}
+  Pl.park:                             {locals: [us_en: {tNamS: Park,                        desc: }]}
+  Pl.parking:                          {locals: [us_en: {tNamS: Parking,                     desc: }]}
+  Pl.pet_store:                        {locals: [us_en: {tNamS: Pet Store,                   desc: }]}
+  Pl.pharmacy:                         {locals: [us_en: {tNamS: Pharmacy,                    desc: }]}
+  Pl.physiotherapist:                  {locals: [us_en: {tNamS: Physiotherapist,             desc: }]}
+  Pl.place_of_worship:                 {locals: [us_en: {tNamS: Place Of Worship,            desc: }]}
+  Pl.plumber:                          {locals: [us_en: {tNamS: Plumber,                     desc: }]}
+  Pl.police:                           {locals: [us_en: {tNamS: Police,                      desc: }]}
+  Pl.post_office:                      {locals: [us_en: {tNamS: Post Office,                 desc: }]}
+  Pl.real_estate_agency:               {locals: [us_en: {tNamS: Real Estate Agency,          desc: }]}
+  Pl.restaurant:                       {locals: [us_en: {tNamS: Restaurant,                  desc: }]}
+  Pl.roofing_contractor:               {locals: [us_en: {tNamS: Roofing Contractor,          desc: }]}
+  Pl.rv_park:                          {locals: [us_en: {tNamS: Rv Park,                     desc: }]}
+  Pl.school:                           {locals: [us_en: {tNamS: School,                      desc: }]}
+  Pl.shoe_store:                       {locals: [us_en: {tNamS: Shoe Store,                  desc: }]}
+  Pl.shopping_mall:                    {locals: [us_en: {tNamS: Shopping Mall,               desc: }]}
+  Pl.spa:                              {locals: [us_en: {tNamS: Spa,                         desc: }]}
+  Pl.stadium:                          {locals: [us_en: {tNamS: Stadium,                     desc: }]}
+  Pl.storage:                          {locals: [us_en: {tNamS: Storage,                     desc: }]}
+  Pl.store:                            {locals: [us_en: {tNamS: Store,                       desc: }]}
+  Pl.subway_station:                   {locals: [us_en: {tNamS: Subway Station,              desc: }]}
+  Pl.synagogue:                        {locals: [us_en: {tNamS: Synagogue,                   desc: }]}
+  Pl.taxi_stand:                       {locals: [us_en: {tNamS: Taxi Stand,                  desc: }]}
+  Pl.train_station:                    {locals: [us_en: {tNamS: Train Station,               desc: }]}
+  Pl.travel_agency:                    {locals: [us_en: {tNamS: Travel Agency,               desc: }]}
+  Pl.university:                       {locals: [us_en: {tNamS: University,                  desc: }]}
+  Pl.veterinary_care:                  {locals: [us_en: {tNamS: Veterinary Care,             desc: }]}
+  Pl.zoo:                              {locals: [us_en: {tNamS: Zoo,                         desc: }]}

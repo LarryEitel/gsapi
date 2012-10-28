@@ -35,3 +35,8 @@
     dNam      : Place
     dNamS     : pl
     dNamPlural: Places
+- Typ:
+    collection: typs
+    dNam      : Type
+    dNamS     : typ
+    dNamPlural: Type

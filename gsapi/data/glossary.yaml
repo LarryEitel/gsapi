@@ -1,4 +1,9 @@
 # http://yaml-online-parser.appspot.com
+
+- attrNam:
+    type: doc attribute/field
+    name: Attribute Name
+    desc: Some models such as Company (Cmp) and Places (Pl) can describe what type of doc it represents. For example, a Cmp can be a Department, Branch, Subsidiary, etc. A Pl can be a Country, State, etc.  See Typ
 - _c:
     type: doc attribute/field
     name: Class id
@@ -99,6 +104,14 @@
     type: doc array/list attribute/field
     name: Froms / children
     desc: Froms or in other words children. Docs can have zero or more frs or children. The frs is an array/list of DRel docs. See DRel.
+- local:
+    type: doc attribute/field
+    name: Local Code
+    desc: codes used to represent user Local, ie, us_en represents USA English
+- mask:
+    type: doc array/list attribute/field
+    name: Mask (relationship)
+    desc: In a relationship with another doc, the mask is string that represents the level of access when sharing docs. See Shr.
 - Pl:
     type: doc model class
     name: Place
@@ -111,6 +124,10 @@
     type: Not a discrete type
     name: Relationship
     desc: Contained in Model and field names.
+- tNam:
+    type: doc attribute/field
+    name: Type Name
+    desc: Some models such as Company (Cmp) and Places (Pl) can describe what type of doc it represents. tNam for example, in a Cmp can be a Department, Branch, Subsidiary, etc. A Pl can be a Country, State, etc.  See Typ
 - to_cs:
     type: doc array/list attribute/field
     name: To / parent doc classes
@@ -131,6 +148,10 @@
     type: doc array/list attribute/field
     name: Tos / parents / ancestors
     desc: Tos or in other words parents. Docs can have zero or more tos or parents. The tos is an array/list of DRel docs. See DRel.
+- Typ:
+    type: doc model
+    name: Type
+    desc: A model class used to maintain a collection of attribute Types. Examples, Cmp, Pl, etc.
 - Usr:
     type: doc model class
     name: User
