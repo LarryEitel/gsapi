@@ -19,10 +19,6 @@ from embed import Email, Note, Phone, Im
     All collections/models/documents (d) based on Mod inherit the following properties and methods:
         - create, modify, owned and deleted logged with: datetime (xOn), user (xBy), place (xPl) 
         - can participate in a hierarchy of documents, ie, can be a parent to or have child docs.
-            - parents of a doc are represented in an array named 'tos' which contains a list of DRel docs which contains details including each ancestor beginning with its immediate parent. User interface can render each ancestor in a linkable path.
-            - children of a doc are represented in an array named 'frs' which contains a list of DRel docs which contains details relating to each child relationship. User interface can render this along with a link to the referenced child.
-            - The relationship between two documents can be viewed from parent (to) to child (fr) or child (fr) to parent (to), ie, Father Bill sees in array of frs a dRel containing Father of Sue.
-                Sue would see in her 'tos' a dRel containing Daughter of Bill.
         - access can be controlled by attaching Shr(are) docs in an array of Sh(are)s.
         - can be followed
         - can be liked

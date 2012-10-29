@@ -4,10 +4,15 @@ from schematics.types import StringType, DateTimeType, EmailType, FloatType
 from schematics.types.mongo import ObjectIdType
 from model import Mod
 
+class TypLocal(_Model):
+    _id   = StringType() # local, ie, us_en
+    tNamS = StringType()
+
 class Typ(Mod):
     '''Type. Model attributes may represent a type, ie, Company (Cmp) may be of a type "Department", Place (Pl) may be of a type "Country".'''
     _id  = StringType() # doc _c + attribute name, ie, Pl.country
     tNam = StringType()
+    locals = ListType(ModelType(TypLocal))
     
     meta = {
         'collection': 'typs',

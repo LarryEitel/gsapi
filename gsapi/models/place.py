@@ -70,7 +70,7 @@ class PostalAddress(_Model):
     dNam = StringType(minimized_field_name='Display Postal Address', description='The full, unstructured postal address.')
 
 
-class PlaceRel(Mod):
+class PlaceRel(Mod, DxMixin):
     '''Specifies the relationship between the containing entity and the contained Place. '''
     name       = StringType(required=True, minimized_field_name='Relationship/Role', description='')
     nameShort  = StringType(minimized_field_name='Relationship/Role Short', description='')
