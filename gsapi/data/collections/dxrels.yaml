@@ -1,0 +1,131 @@
+# http://yaml-online-parser.appspot.com
+# Document Link Relationships
+
+- id: 100
+  fr_c  : [Cmp]
+  frNam : Department of
+  frNamS: deptOf      
+  to_c  : [Cmp]
+  toNam : Company of
+  toNamS: cmpOf
+- id: 101
+  fr_c  : [Cmp]
+  frNam : Area of
+  frNamS: areaOf      
+  to_c  : [Cmp]
+  toNam : Company of
+  toNamS: cmpOf  
+- id: 102
+  fr_c  : [Cmp]
+  frNam : Unit of
+  frNamS: unitOf      
+  to_c  : [Cmp]
+  toNam : Area of
+  toNamS: areaOf     
+- id: 103
+  fr_c  : [Cmp]
+  frNam : TroopOf
+  frNamS: troopOf 
+  to_c  : [Cmp]
+  toNam : Unit of
+  toNamS: unitOf   
+- id: 201
+  fr_c  : [Cmp]
+  frNam : Executive Of
+  frNamS: execOf     
+  to_c  : [Cmp]
+  toNam : Company of
+  toNamS: cmpOf  
+  mask  : 1
+  w     : 1 
+- id: 202
+  fr_c  : [Prs, Usr]
+  frNam : Administrator Of
+  frNamS: adminOf     
+  to_c  : [Cmp]
+  toNam : Company of
+  toNamS: cmpOf
+  mask  : 11
+  w     : 2
+- id: 203
+  fr_c  : [Prs, Usr]
+  frNam : Administrator Of
+  frNamS: adminOf     
+  to_c  : [Cmp]
+  toNam : Department of
+  toNamS: deptOf
+  mask  : 11
+  w     : 2
+- id: 204
+  fr_c  : [Prs, Usr]
+  frNam : Troop Leader Of
+  frNamS: troopLeaderOf     
+  to_c  : [Cmp]
+  toNam : Troop Of
+  toNamS: troopOf
+  mask  : 111
+  w     : 3
+- id: 205
+  fr_c  : [Prs, Usr]
+  frNam : Parent Of
+  frNamS: parentOf     
+  to_c  : [Cmp]
+  toNam : Troop Of
+  toNamS: troopOf
+  mask  : 1111
+  w     : 4
+- id: 206
+  fr_c  : [Prs, Usr]
+  frNam : Ambassador Of
+  frNamS: ambassOf     
+  to_c  : [Cmp]
+  toNam : Troop Of
+  toNamS: troopOf
+  mask  : 11111
+  w     : 5
+- id: 207
+  fr_c  : [Prs, Usr]
+  frNam : Senior Of
+  frNamS: seniorOf     
+  to_c  : [Cmp]
+  toNam : Troop Of
+  toNamS: troopOf
+  mask  : 111111
+  w     : 6
+- id: 208
+  fr_c  : [Prs, Usr]
+  frNam : Cadette Of
+  frNamS: cadetteOf     
+  to_c  : [Cmp]
+  toNam : Troop Of
+  toNamS: troopOf
+  mask  : 1111111
+  w     : 7
+- id: 209
+  fr_c  : [Prs, Usr]
+  frNam : Junior Of
+  frNamS: juniorOf     
+  to_c  : [Cmp]
+  toNam : Troop Of
+  toNamS: troopOf
+  mask  : 11111111
+  w     : 8
+- id: 210
+  fr_c  : [Prs, Usr]
+  frNam : Brownie Of
+  frNamS: brownieOf     
+  to_c  : [Cmp]
+  toNam : Troop Of
+  toNamS: troopOf
+  mask  : 111111111
+  w     : 9
+- id: 211
+  fr_c  : [Prs, Usr]
+  frNam : Daisy Of
+  frNamS: daisyOf     
+  to_c  : [Cmp]
+  toNam : Troop Of
+  toNamS: troopOf
+  mask  : 1111111111
+  w     : 10
+

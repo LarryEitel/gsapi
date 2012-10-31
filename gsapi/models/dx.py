@@ -19,10 +19,6 @@ from embed import Email, Note, Phone, Im
     All collections/models/documents (d) based on Mod inherit the following properties and methods:
         - create, modify, owned and deleted logged with: datetime (xOn), user (xBy), place (xPl) 
         - can participate in a hierarchy of documents, ie, can be a parent to or have child docs.
-            - parents of a doc are represented in an array named 'tos' which contains a list of DRel docs which contains details including each ancestor beginning with its immediate parent. User interface can render each ancestor in a linkable path.
-            - children of a doc are represented in an array named 'frs' which contains a list of DRel docs which contains details relating to each child relationship. User interface can render this along with a link to the referenced child.
-            - The relationship between two documents can be viewed from parent (to) to child (fr) or child (fr) to parent (to), ie, Father Bill sees in array of frs a dRel containing Father of Sue.
-                Sue would see in her 'tos' a dRel containing Daughter of Bill.
         - access can be controlled by attaching Shr(are) docs in an array of Sh(are)s.
         - can be followed
         - can be liked
@@ -44,14 +40,14 @@ class DRelToFr(_Model):
 
     # doc Relation Display Name 
     # ie, Administrator
-    dRelDNam      = StringType(minimized_field_name="Relation/Role")
+    dxNam      = StringType(minimized_field_name="Relation/Role")
 
     # doc Relation Display Name Short
     # ie, admin
-    dRelDNamS = StringType(minimized_field_name="Relation/Role Short")
+    dxNamS = StringType(minimized_field_name="Relation/Role Short")
 
-    dDNam      = StringType(minimized_field_name="Doc Display Name")
-    dDNamS = StringType(minimized_field_name="Doc Display Name Short")
+    ddNam      = StringType(minimized_field_name="Doc Display Name")
+    ddNamS = StringType(minimized_field_name="Doc Display Name Short")
 
 class DRel(_Model):
     '''Doc Relationship 
@@ -79,11 +75,11 @@ class DRel(_Model):
 
 class DxRel(Mod):
     '''Specifies the relationship between document objects. '''
-    fr_c  = StringType(minimized_field_name='From/Subject Class', description='')    
+    fr_c  = ListType(StringType())
     frNam = StringType(minimized_field_name='From Relationship/Role', description='')
     frGen = StringType(minimized_field_name='From/Subject Gender', description='')
     
-    to_c  = StringType(minimized_field_name='To/Target Class', description='')
+    to_c  = ListType(StringType())
     toNam = StringType(minimized_field_name='To Relationship/Role', description='')
     toGen = StringType(minimized_field_name='To/Target Gender', description='')
     
@@ -128,26 +124,3 @@ class Dx(_Model):
         '_c': 'dx',
         }
 
-
-class Cnt(Mod):
-    # these may be put into base model Mod
-
-    '''To/Parent/Target relationship details which are embedded into a ListType named tos.
-        This is one element in an array/List of ToRels all the way to the root/top item in path.
-        First element will be the root/top item/obj in path.
-        NOTE:
-            Accomodate access/visibility controls? If target (rel)ationship is not viewable based on share options, then user should not see this relationship in list. Right?
-        ''' 
-
-    # tos: ie, parents
-    tos = ListType(ModelType(Rel))
-
-    # frs: froms, ie, children
-    frs = ListType(ModelType(Rel))
-
-    shrs    = ListType(ModelType(Shr), minimized_field_name='Share List', description='List of Share docs that describe who and at what level/role this doc is shared with.')
-
-    meta   = {
-        'collection': 'cnts',
-        '_c': 'cnt',
-        }

@@ -18,7 +18,7 @@ from schematics.types.compound import ListType, ModelType
 # https://developers.google.com/gdata/docs/2.0/elements#gdReminder
 
 
-class On(_Model):
+class Rdt(_Model):
     '''
         Date, given in format YYYY-MM-DD (with the year), or --MM-DD (without the year).
         Example:
@@ -37,7 +37,7 @@ class On(_Model):
     when                  = StringType(minimized_field_name="Is", description="b=before, a=after, c=circa/close")
     note                  = StringType()
     dNam                  = StringType(minimized_field_name="Display Verbose", description="Display version (c)2012")
-    dNamShort             = StringType(minimized_field_name="Display Short", description="")
+    dNamS             = StringType(minimized_field_name="Display Short", description="")
     
     val                   = LongType()
     meta                  = {

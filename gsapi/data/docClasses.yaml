@@ -1,0 +1,42 @@
+# http://yaml-online-parser.appspot.com
+# collections keyed on model class _c
+- Cnt:
+    collection: cnts
+    dNam      : Contact
+    dNamS     : cnt
+    dNamPlural: Contacts
+- Cmp:
+    collection: cnts
+    dNam      : Company
+    dNamS     : cmp
+    dNamPlural: Companies
+- Prs:
+    collection: cnts
+    dNam      : Person
+    dNamS     : prs
+    dNamPlural: Persons
+- Usr:
+    collection: cnts
+    dNam      : User
+    dNamS     : usr
+    dNamPlural: Users
+- Dx:
+    collection: dxs
+    dNam      : Document Link
+    dNamS     : dx
+    dNamPlural: Document Links
+- DxRel:
+    collection: dxrels
+    dNam      : Document Link Relationship
+    dNamS     : dxRel
+    dNamPlural: Document Link Relationships
+- Pl:
+    collection: pls
+    dNam      : Place
+    dNamS     : pl
+    dNamPlural: Places
+- Typ:
+    collection: typs
+    dNam      : Type
+    dNamS     : typ
+    dNamPlural: Type
