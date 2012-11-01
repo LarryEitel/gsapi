@@ -1,22 +1,72 @@
 # http://yaml-online-parser.appspot.com
-
+- accessTags:
+    type: doc attribute/field
+    name: Access Tags
+    desc: Restricted, intercom, guard, etc
+- addr1:
+    type: doc attribute/field
+    name: Address 1
+    desc: Address line 1
+- addr2:
+    type: doc attribute/field
+    name: Address 2
+    desc: Address line 2
+- addrParts:
+    type: doc attribute/field
+    name: Address Parts
+    desc: 
 - attrNam:
     type: doc attribute/field
     name: Attribute Name
     desc: Some models such as Company (Cmp) and Places (Pl) can describe what type of doc it represents. For example, a Cmp can be a Department, Branch, Subsidiary, etc. A Pl can be a Country, State, etc.  See Typ
+- bBox:
+    type: doc attribute/field
+    name: Bound Box
+    desc: contain topLat, rightLng, bottomLat, leftLng
 - _c:
     type: doc attribute/field
     name: Class id
     desc: Every mongo doc includes a field named _c which contains a model class id. For example, class Cnt docs will have a _c with the value of 'cnt'.
+- _public_fields:
+    type: doc attribute/field
+    name: Public Fields
+    desc: 
+- cBy:
+    type: doc attribute/field
+    name: Created By
+    desc: Who created the doc
+- city:
+    type: doc attribute/field
+    name: City
+    desc: Can be city, village, town, borough, etc. This is the postal town and not necessarily the place of residence or place of business.
 - Cmp:
     type: doc model class
     name: Company
     desc: Extends from Cnt.
+- color1:
+    type: doc attribute/field
+    name: Color 1
+    desc: Primary Color`
+- color2:
+    type: doc attribute/field
+    name: Color 2
+    desc: Secondary Color
+- cOn:
+    type: doc attribute/field
+    name: Created On datetime
+    desc: Log when the host doc was created
+- country:
+    type: doc attribute/field
+    name: Country
+    desc: 
 - Cnt:
     type: doc model
     name: Contact
     desc: A base mongo class that is inherited by cmp, prs and usr.
-- D:
+- cPl:
+    type: doc Created/field
+    name: Modified at Place
+    desc: Place where doc was created- D:
     type: Abbreviation
     name: Document
     desc: Contained in Model and field names.
@@ -24,6 +74,10 @@
     type: doc attribute/field
     name: document class, ie, 'Cnt'
     desc: A human-friendly version of a document.
+- dBy:
+    type: doc attribute/field
+    name: Deleted By
+    desc: Who deleted the doc
 - ddNam:
     type: doc attribute/field
     name: Document Display Name
@@ -40,6 +94,14 @@
     type: doc attribute/field
     name: Short dNam
     desc: A Short machine friendly version of dNam.
+- dOn:
+    type: doc attribute/field
+    name: Deleted On datetime
+    desc: Log when the host doc was deleted
+- dPl:
+    type: doc attribute/field
+    name: Deleted at Place
+    desc: Place where doc was deleted
 - DRel:
     type: doc model class
     name: Document Relationship
@@ -81,6 +143,10 @@
         m: Maternal
         p: Paternal
         o: Others like In-Law, etc?
+- floor:
+    type: doc attribute/field
+    name: Floor
+    desc: Floor number.
 - fr_cs:
     type: doc array/list attribute/field
     name: From / child doc classes
@@ -104,6 +170,18 @@
     type: doc array/list attribute/field
     name: Froms / children
     desc: Froms or in other words children. Docs can have zero or more frs or children. The frs is an array/list of DRel docs. See DRel.
+- geoOK:
+    type: doc attribute/field
+    name: Geo OK
+    desc: Is GeoPt verified?
+- geoPt:
+    type: doc attribute/field
+    name: Geo Point
+    desc: LNG,LAT, if this involves a boundary, loc becomes center pt
+- houseNam:
+    type: doc attribute/field
+    name: House Name
+    desc: Used in places where houses or buildings have names (and not necessarily numbers), eg. "The Pillars".'
 - local:
     type: doc attribute/field
     name: Local Code
@@ -112,18 +190,110 @@
     type: doc array/list attribute/field
     name: Mask (relationship)
     desc: In a relationship with another doc, the mask is string that represents the level of access when sharing docs. See Shr.
+- mBy:
+    type: doc attribute/field
+    name: Modified By
+    desc: Who modified the doc
+- mOn:
+    type: doc attribute/field
+    name: Modified On datetime
+    desc: Log when the host doc was modified
+- mPl:
+    type: doc attribute/field
+    name: Modified at Place
+    desc: Place where doc owner was modified
+- mLevel:
+    type: doc attribute/field
+    name: Multi-Level
+    desc: Is the place a multi-level/floors
+- mUnit:
+    type: doc attribute/field
+    name: Multi-Unit
+    desc: Is the place a multi-unit, ie, offices, apartments, etc
+- namAgent:
+    type: doc attribute/field
+    name: Agent Name
+    desc: In postalAddr the agent that receives the mail.
+- neighborhood:
+    type: doc attribute/field
+    name: Neighborhood
+    desc: This is used to disambiguate a street address when a city contains more than one street with the same name, or to specify a small place whose mail is routed through a larger postal town. In China it could be a county or a minor city.
+- oBy:
+    type: doc attribute/field
+    name: Owned By
+    desc: Set owner of the doc
+- oOn:
+    type: doc attribute/field
+    name: Owned On datetime
+    desc: Log when the host doc was owned
+- oPl:
+    type: doc attribute/field
+    name: Owner set at Place
+    desc: Place where doc owner was set
 - Pl:
     type: doc model class
     name: Place
     desc: Place, location details
+- poly:
+    type: doc attribute/field
+    name: Poly
+    desc: array of points/locs # boundary of place if an area is involved
+- polyOk:
+    type: doc attribute/field
+    name: Poly OK
+    desc: Is the poly field / data verified
+- postalAddr:
+    type: doc attribute/field
+    name: Postal Address
+    desc: 
+- postalCode:
+    type: doc attribute/field
+    name: Postal Code
+    desc: specific to the city (e.g. "2" in "Dublin 2, Ireland" addresses).
+- postalCodePrefix:
+    type: doc attribute/field
+    name: Postal Code Prefix
+    desc: 
+- postalTown:
+    type: doc attribute/field
+    name: Postal Town
+    desc: 
+- postBox:
+    type: doc attribute/field
+    name: Post Box
+    desc: Covers actual P.O. boxes, drawers, locked bags, etc. This is usually but not always mutually exclusive with street.
 - Prs:
     type: doc model class
     name: Person
     desc: Extends from Cnt.
+- region:
+    type: doc attribute/field
+    name: Region
+    desc: A state, province, county (in Ireland), Land (in Germany), departement (in France), etc. 
 - rel:
     type: Not a discrete type
     name: Relationship
     desc: Contained in Model and field names.
+- Rdt:
+    type: doc model class
+    name: Robust DataTime
+    desc: Model class for managing details for sharing a doc.
+- Shr:
+    type: doc model class
+    name: Share
+    desc: Model class for managing details for sharing a doc.
+- street:
+    type: doc attribute/field
+    name: Street
+    desc: Can be street, avenue, road, etc. This element also includes the house number and room/apartment/flat/floor number.
+- subRegion:
+    type: doc attribute/field
+    name: SubRegion
+    desc: Handles administrative districts such as U.S. or U.K. counties that are not used for mail addressing purposes. Subregion is not intended for delivery addresses.   
+- tags:
+    type: doc array/list attribute/field
+    name: Tags
+    desc: General tags
 - tNam:
     type: doc attribute/field
     name: Type Name
@@ -152,11 +322,35 @@
     type: doc model
     name: Type
     desc: A model class used to maintain a collection of attribute Types. Examples, Cmp, Pl, etc.
+- typ:
+    type: doc attribute/field
+    name: Type
+    desc: An abbreviated term for the word/name type
 - Usr:
     type: doc model class
     name: User
     desc: Extends from Prs.
+- utcOffset:
+    type: doc attribute/field
+    name: UTC Offset
+    desc: The number of minutes this Place\'s current timezone is offset from UTC. For example, for Places in Sydney, Australia during daylight saving time this would be 660 (+11 hours from UTC), and for Places in California outside of daylight saving time this would be -480 (-8 hours from UTC).
 - w:
     type: doc attribute/field
     name: Weight
     desc: In an array/list field, the weight value is used optionally to sort all elements in the array. This is a FloatType. Client UI can then enable user to drag/move items in a list to reorder. This value would be adjusted to persist this sort order.
+- when:
+    type: doc attribute/field
+    name: When
+    desc: b=before, a=after, c=circa/close
+- y:
+    type: doc attribute/field
+    name: Year
+    desc: year ie, 2012
+- ym:
+    type: doc attribute/field
+    name: Year Month
+    desc: year+month, ie, 201207 or -60710
+- ymd:
+    type: doc attribute/field
+    name: Year Month Day
+    desc: year+month+day, ie, 20120730

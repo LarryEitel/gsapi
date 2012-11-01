@@ -10,27 +10,23 @@ class Mod(_Model):
     # owned
     oBy     = ObjectIdType(ObjectId)
     oOn     = DateTimeType()
-    oLoc    = StringType()
-    #oPlace    = StringType()
+    oPl     = StringType()
 
     # created
     cBy     = ObjectIdType(ObjectId)
     cOn     = DateTimeType()
-    cLoc    = StringType()
-    #cPlace    = StringType()
+    cPl     = StringType()
 
     # modified
     mBy     = ObjectIdType(ObjectId)
     mOn     = DateTimeType()
-    mLoc    = StringType()
-    #mPlace    = StringType()
+    mPl     = StringType()
 
     # deleted
     dele    = BooleanType(minimized_field_name='Deleted', description='Marked for removal.')
     dBy     = ObjectIdType(ObjectId)
     dOn     = DateTimeType()
-    dLoc    = StringType()
-    #dPlace    = StringType()
+    dPl     = StringType()
     
     note    = StringType()
 
