@@ -18,7 +18,7 @@
 
 *.swp
 local_settings.py
-
+.idea/*
 venv/
 
 *.project
