@@ -1,0 +1,96 @@
+# http://yaml-online-parser.appspot.com
+# collections keyed on model class _c
+
+# Contact Doc Samples
+
+#Step 1 user Sally is created
+
+cnts:
+    - id   : 7
+      _c   : Prs
+      type : Person
+      dNam : Sally
+      dNamS: Sally
+
+#Step 2 Sally creates company GSNI
+
+cnts:
+    - id   : 1
+      _c   : Cmp
+      type : company
+      dNam : GSNI
+      dNamS: ni
+
+#Step 3 User MaryBell is created
+
+cnts:
+    - id   : 8
+      _c   : Prs
+      type : Person
+      dNam : Mary Bell
+      dNamS: MaryBell
+
+#Step 4 Mary Bell created department pggroup
+
+cnts:
+    - id   : 2
+      _c   : Cmp
+      type : department
+      dNam : Program Group
+      dNamS: pggrp
+
+#Step 5 Mary Bell is associated with pggroup
+#a new Dx and DxRel records are created and both Mary Bell and
+#pggrp are updated. Updated Mary Bell and pggroup are shown below.
+
+cnts:
+    - id   : 8
+      _c   : Prs
+      type : Person
+      dNam : Mary Bell
+      dNamS: MaryBell
+      tos  : 
+        - dRel:
+            - dxId: 1000
+              d_c: Cmp
+              ids: [2]
+              dRelToFrs:
+                - d_c: Cmp
+                  dId      : 1
+                  dRelDNam : Admin of
+                  dRelDNamS: adminOf
+                  dDNam    : Program Group
+                  dDNamS   : pggrp
+
+cnts:
+    - id   : 2
+      _c   : Cmp
+      type : department
+      dNam : Program Group
+      dNamS: pggrp
+      frs  : 
+        - dRel:
+            - dxId: 1000
+              d_c: Cmp
+              ids: [8]
+              dRelToFrs:
+                - d_c: Cmp
+                  dId      : 1
+                  dRelDNam : Department of
+                  dRelDNamS: deptOf
+                  dDNam    : Mary Bell
+                  dDNamS   : MaryBell
+
+dxs:
+	- id    : 1
+	  _c	: Dx
+      to_c	: cmp
+      toId	: 2
+      fr_c	: Person
+      frId	: 8
+      relId : 1
+
+dxRel:
+	- id    : 1
+	_c      : dxRel
+	

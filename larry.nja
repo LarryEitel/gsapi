@@ -1,0 +1,7 @@
+{
+  "venv": "/var/www/gs/api/gsapi/venv/bin/python", 
+  "project-type": "Import from sources", 
+  "name": "larry", 
+  "license": "GNU General Public License v3", 
+  "description": ""
+}
