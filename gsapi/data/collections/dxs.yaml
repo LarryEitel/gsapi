@@ -1,0 +1,8 @@
+# http://yaml-online-parser.appspot.com
+# Document Link Relationships
+- id: 1000
+    fr_c   : Cmp
+    frId   : 2
+    to_c   : Cmp
+    toId   : 1
+    dxRelId: 100

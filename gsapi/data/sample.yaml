@@ -1,0 +1,39 @@
+# http://yaml-online-parser.appspot.com
+# collections keyed on model class _c
+
+# Contact Doc Samples
+cnts:
+    - id   : 1
+      _c   : Cmp
+      type : company
+      dNam : GSNI
+      dNamS: ni
+      frs  : 
+        - dRel:
+            - dxId: 1000
+              d_c: Cmp
+              ids: [2]
+              dRelToFrs:
+                - d_c: Cmp
+                  dId      : 2
+                  dRelDNam : Company of
+                  dRelDNamS: companyOf
+                  dDNam    : Program Group
+                  dDNamS   : pggrp
+    - id   : 2
+      _c   : Cmp
+      type : dept
+      dNam : Program Group
+      dNamS: pggrp
+      tos  : 
+        - dRel:
+            - dxId: 1000
+              d_c: Cmp
+              ids: [1]
+              dRelToFrs:
+                - d_c: Cmp
+                  dId      : 1
+                  dRelDNam : Department of
+                  dRelDNamS: deptOf
+                  dDNam    : GSNI
+                  dDNamS   : ni
