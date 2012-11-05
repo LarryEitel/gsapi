@@ -18,6 +18,7 @@ Contents
    gettingstarted.rst
    gsapi.rst
    api.rst
+   data.rst
 
 Indices and tables
 ==================
