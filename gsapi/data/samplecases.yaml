@@ -7,8 +7,8 @@
 
 cnts:
     - id   : 7
-      _c   : Prs
       type : Person
+      _c   : Prs
       dNam : Sally
       dNamS: Sally
 
@@ -54,13 +54,13 @@ cnts:
             - dxId: 1000
               d_c: Cmp
               ids: [2]
-              dRelToFrs:
+              dRelToFrs: [{
                 - d_c: Cmp
-                  dId      : 1
+                  dId      : 2
                   dRelDNam : Admin of
                   dRelDNamS: adminOf
                   dDNam    : Program Group
-                  dDNamS   : pggrp
+                  dDNamS   : pggrp }]
 
 cnts:
     - id   : 2
@@ -73,24 +73,287 @@ cnts:
             - dxId: 1000
               d_c: Cmp
               ids: [8]
-              dRelToFrs:
+              dRelToFrs: [{
+                - d_c: Cmp
+                  dId      : 8
+                  dRelDNam : Department of
+                  dRelDNamS: deptOf
+                  dDNam    : Mary Bell
+                  dDNamS   : MaryBell }]
+
+dxs:
+	- id    : 1000
+	  _c	: Dx
+      to_c	: Cmp
+      toId	: 2
+      fr_c	: Person
+      frId	: 8
+      relId : 2000
+
+dxrels:
+	- id    : 2000
+	  _c	: dxRel	
+	  fr_c	: [Person]
+	  frNam	: Mary Bell
+	  to_c	: [Cmp]
+	  toNam	: Program Group
+	
+# One new DX and DxRel objects are created.
+# Step 6: User Mary Bell associates company GSNI with department Program Group
+# This operation will also affect GSNI's, pggrp's and Mary Bell's tos and froms.
+
+cnts:
+    - id   : 1
+      _c   : Cmp
+      type : company
+      dNam : GSNI
+      dNamS: ni
+      frs  : 
+        - dRel:
+            - dxId: 1001
+              d_c: Cmp
+              ids: [2]
+              dRelToFrs: [{
+                - d_c: Cmp
+                  dRelDNam : Company of
+                  dId      : 2
+                  dRelDNamS: cmpOf
+                  dDNam    : Program Group
+                  dDNamS   : prgrp }]
+
+dxs:
+	- id	: 1001
+	  _c	: Dx
+	  to_c	: Cmp
+	  toId	: 1
+	  fr_c	: Cmp
+	  frId	: 2
+	  relId	: 2001
+	  
+dxrels:
+	- id	: 2001
+	  _c	: dxRel
+	  fr_c	: [Cmp]
+	  frNam	: Program Group
+	  to_c	: [Cmp]
+	  toNam	: GSNI
+		
+cnts:
+    - id   : 8
+      _c   : Prs
+      type : Person
+      dNam : Mary Bell
+      dNamS: MaryBell
+      tos  : 
+        - dRel: 
+            - dxId: 1000
+              d_c: Cmp
+              ids: [2, 1]
+              dRelToFrs: [{
+                - d_c: Cmp
+                  dId      : 2
+                  dRelDNam : Admin of
+                  dRelDNamS: adminOf
+                  dDNam    : Program Group
+                  dDNamS   : pggrp },
+                  {
+                - d_c: Cmp
+                  dId      : 1
+                  dRelDNam : Company of
+                  dRelDNamS: cmpOf
+                  dDNam    : GSNI
+                  dDNamS   : ni }]
+
+cnts:
+    - id   : 2
+      _c   : Cmp
+      type : department
+      dNam : Program Group
+      dNamS: pggrp
+      frs  : 
+        - dRel:
+            - dxId: 1000
+              d_c: Cmp
+              ids: [8]
+              dRelToFrs: [{
+                - d_c: Cmp
+                  dId      : 8
+                  dRelDNam : Department of
+                  dRelDNamS: deptOf
+                  dDNam    : Mary Bell
+                  dDNamS   : MaryBell }]
+      tos  : 
+        - dRel:
+            - dxId: 1001
+              d_c: Cmp
+              ids: [1]
+              dRelToFrs: [{
                 - d_c: Cmp
                   dId      : 1
                   dRelDNam : Department of
                   dRelDNamS: deptOf
-                  dDNam    : Mary Bell
-                  dDNamS   : MaryBell
+                  dDNam    : GSNI
+                  dDNamS   : ni }]
+
+# Step 7: User Sally creates area Kirmse
+
+cnts:
+    - id   : 3
+      type : company
+      _c   : cmp
+      dNam : Kirmse
+      dNamS: Kirmse
+
+# Step 8: Sally associates Kirmse with GSNI
+# A new Dx and DxRel record between GSNI and Kirmse is crated.
+# tos and froms of both GSNI and Kirmse will be updates.
+
+cnts:
+    - id   : 1
+      _c   : Cmp
+      type : company
+      dNam : GSNI
+      dNamS: ni
+      frs  : [
+        - dRel:
+            - dxId: 1001
+              d_c: Cmp
+              ids: [2]
+              dRelToFrs: [{
+                - d_c: Cmp
+                  dRelDNam : Company of
+                  dId      : 2
+                  dRelDNamS: cmpOf
+                  dDNam    : Program Group
+                  dDNamS   : prgrp }],
+        - dRel:
+            - dxId: 1002
+              d_c: Cmp
+              ids: [3]
+              dRelToFrs: [{
+                - d_c: Cmp
+                  dRelDNam : Company of
+                  dId      : 3
+                  dRelDNamS: cmpOf
+                  dDNam    : Kirmse
+                  dDNamS   : kirmse }] ]
+
+cnts:
+    - id   : 3
+      type : company
+      _c   : cmp
+      dNam : Kirmse
+      dNamS: Kirmse
+      tos  : 
+        - dRel: 
+            - dxId: 1002
+              d_c: Cmp
+              ids: [1]
+              dRelToFrs: [{
+                - d_c: Cmp
+                  dId      : 1
+                  dRelDNam : Area of
+                  dRelDNamS: areaOf
+                  dDNam    : GSNI
+                  dDNamS   : ni }]
 
 dxs:
-	- id    : 1
+	- id	: 1002
 	  _c	: Dx
-      to_c	: cmp
-      toId	: 2
-      fr_c	: Person
-      frId	: 8
-      relId : 1
+	  to_c	: Cmp
+	  toId	: 1
+	  fr_c	: Cmp
+	  frId	: 3
+	  relId	: 2002
 
-dxRel:
-	- id    : 1
-	_c      : dxRel
-	
+dxrels:
+	- id	: 2002
+	  _c	: dxRel
+	  fr_c	: [Cmp]
+	  frNam	: Kirmse
+	  to_c	: [Cmp]
+	  toNam	: GSNI
+
+# Step 8: Sally creates unit 104
+
+cnts:
+    - id   : 4
+      type : company
+      _c   : cmp
+      dNam : 104
+      dNamS: 104
+
+# Step 9: Sally associates 104 with Kirmse. A new DX and DxRel record will be created.
+# Kirmse and Sally's tos and froms will be updated.
+cnts:
+    - id   : 3
+      type : company
+      _c   : cmp
+      dNam : Kirmse
+      dNamS: Kirmse
+      tos  : 
+        - dRel: 
+            - dxId: 1002
+              d_c: Cmp
+              ids: [1, 4]
+              dRelToFrs: [{
+                - d_c: Cmp
+                  dId      : 4
+                  dRelDNam : Area of
+                  dRelDNamS: areaOf
+                  dDNam    : GSNI
+                  dDNamS   : ni }]
+      froms  : 
+        - dRel: 
+            - dxId: 1003
+              d_c: Cmp
+              ids: [4]
+              dRelToFrs: [{
+                - d_c: Cmp
+                  dId      : 4
+                  dRelDNam : Area of
+                  dRelDNamS: areaOf
+                  dDNam    : 104
+                  dDNamS   : 104 }]
+cnts:
+    - id   : 4
+      type : company
+      _c   : cmp
+      dNam : 104
+      dNamS: 104
+      tos  : 
+        - dRel: 
+            - dxId: 1003
+              d_c: Cmp
+              ids: [1, 3]
+              dRelToFrs: [{
+                - d_c: Cmp
+                  dId      : 1
+                  dRelDNam : Area of
+                  dRelDNamS: areaOf
+                  dDNam    : GSNI
+                  dDNamS   : ni },
+              {
+              - d_c: Cmp
+                  dId      : 3
+                  dRelDNam : Unit of
+                  dRelDNamS: unitOf
+                  dDNam    : Kirmse
+                  dDNamS   : Kirmse }]
+      
+dxs:
+	- id	: 1003
+	  _c	: Dx
+	  to_c	: Cmp
+	  toId	: 3
+	  fr_c	: Cmp
+	  frId	: 4
+	  relId	: 2003
+
+dxrels:
+	- id	: 2003
+	  _c	: dxRel
+	  fr_c	: [Cmp]
+	  frNam	: 104
+	  to_c	: [Cmp]
+	  toNam	: Kirmse
