@@ -27,14 +27,14 @@ class Rdt(_Model):
             December 13th, with no year specified: 
                 '--12-13'
     '''
-    typeId                = StringType(minimized_field_name="Type", description="l=log, e=event, t=todo, a=anniverary")
-    beg_end_lap_milestone = StringType(minimized_field_name="Begin/End/Lap/Mileston", description="b=begin, e=end, l=lap, m=milestone")
+    # typId                = StringType(minimized_field_name="Type", description="l=log, e=event, t=todo, a=anniverary")
+    typId = StringType(minimized_field_name="Begin/End/Lap/Mileston", description="b=begin, e=end, l=lap, m=milestone")
     tags                  = ListType(StringType(minimized_field_name='Tags', description='General tags.'))
     y                     = IntType(minimized_field_name="Year", description="year ie, 2012")
     ym                    = IntType(minimized_field_name="YearMonth", description="year+month, ie, 201207 or -60710")
     ymd                   = IntType(minimized_field_name="YearMonthDay", description="year+month+day, ie, 20120730")
     datetime              = DateTimeType()
-    when                  = StringType(minimized_field_name="Is", description="b=before, a=after, c=circa/close")
+    when                  = StringType(minimized_field_name="When", description="b=before, a=after, c=circa/close")
     note                  = StringType()
     dNam                  = StringType(minimized_field_name="Display Verbose", description="Display version (c)2012")
     dNamS             = StringType(minimized_field_name="Display Short", description="")
