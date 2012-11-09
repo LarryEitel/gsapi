@@ -9,7 +9,7 @@ rawes
 pyes
 #pexpect
 sphinx
-sphinx-apidoc
+#sphinx-apidoc
 jinja2
 pyyaml
 
