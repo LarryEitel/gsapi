@@ -1,0 +1,2329 @@
+# http://yaml-online-parser.appspot.com
+# collections keyed on model class _c
+
+# Contact Doc Samples
+
+#Step 1 user Sally is created
+
+cnts:
+    - id   : 7
+      type : Person
+      _c   : Prs
+      dNam : Sally
+      dNamS: Sally
+
+#Step 2 Sally creates company GSNI
+
+cnts:
+    - id   : 1
+      _c   : Cmp
+      type : company
+      dNam : GSNI
+      dNamS: ni
+
+#Step 3 User MaryBell is created
+
+cnts:
+    - id   : 8
+      _c   : Prs
+      type : Person
+      dNam : Mary Bell
+      dNamS: MaryBell
+
+#Step 4 Mary Bell created department pggroup
+
+cnts:
+    - id   : 2
+      _c   : Cmp
+      type : department
+      dNam : Program Group
+      dNamS: pggrp
+
+#Step 5 Mary Bell is associated with pggroup
+#a new Dx and DxRel records are created and both Mary Bell and
+#pggrp are updated. Updated Mary Bell and pggroup are shown below.
+
+cnts:
+    - id   : 8
+      _c   : Prs
+      type : Person
+      dNam : Mary Bell
+      dNamS: MaryBell
+      tos  : 
+        - dRel:
+            - dxId: 1000
+              d_c: Cmp
+              ids: [2]
+              dRelToFrs: [{
+                - d_c: Cmp
+                  dId      : 2
+                  dRelDNam : Admin of
+                  dRelDNamS: adminOf
+                  dDNam    : Program Group
+                  dDNamS   : pggrp }]
+
+cnts:
+    - id   : 2
+      _c   : Cmp
+      type : department
+      dNam : Program Group
+      dNamS: pggrp
+      frs  : 
+        - dRel:
+            - dxId: 1000
+              d_c: Cmp
+              ids: [8]
+              dRelToFrs: [{
+                - d_c: Cmp
+                  dId      : 8
+                  dRelDNam : Department of
+                  dRelDNamS: deptOf
+                  dDNam    : Mary Bell
+                  dDNamS   : MaryBell }]
+
+# Step 6: User Mary Bell associates company GSNI with department Program Group
+# This operation will also affect GSNI's, pggrp's and Mary Bell's tos and frs.
+
+cnts:
+    - id   : 1
+      _c   : Cmp
+      type : company
+      dNam : GSNI
+      dNamS: ni
+      frs  : 
+        - dRel:
+            - dxId: 1001
+              d_c: Cmp
+              ids: [2]
+              dRelToFrs: [{
+                - d_c: Cmp
+                  dRelDNam : Company of
+                  dId      : 2
+                  dRelDNamS: cmpOf
+                  dDNam    : Program Group
+                  dDNamS   : prgrp }]
+		
+cnts:
+    - id   : 8
+      _c   : Prs
+      type : Person
+      dNam : Mary Bell
+      dNamS: MaryBell
+      tos  : 
+        - dRel: 
+            - dxId: 1000
+              d_c: Cmp
+              ids: [2, 1]
+              dRelToFrs: [{
+                - d_c: Cmp
+                  dId      : 2
+                  dRelDNam : Admin of
+                  dRelDNamS: adminOf
+                  dDNam    : Program Group
+                  dDNamS   : pggrp },
+                  {
+                - d_c: Cmp
+                  dId      : 1
+                  dRelDNam : Company of
+                  dRelDNamS: cmpOf
+                  dDNam    : GSNI
+                  dDNamS   : ni }]
+
+cnts:
+    - id   : 2
+      _c   : Cmp
+      type : department
+      dNam : Program Group
+      dNamS: pggrp
+      frs  : 
+        - dRel:
+            - dxId: 1000
+              d_c: Cmp
+              ids: [8]
+              dRelToFrs: [{
+                - d_c: Cmp
+                  dId      : 8
+                  dRelDNam : Department of
+                  dRelDNamS: deptOf
+                  dDNam    : Mary Bell
+                  dDNamS   : MaryBell }]
+      tos  : 
+        - dRel:
+            - dxId: 1001
+              d_c: Cmp
+              ids: [1]
+              dRelToFrs: [{
+                - d_c: Cmp
+                  dId      : 1
+                  dRelDNam : Admin is
+                  dRelDNamS: adminIs
+                  dDNam    : GSNI
+                  dDNamS   : ni }]
+
+# Step 7: User Sally creates street Kirmse
+
+cnts:
+    - id   : 3
+      type : company
+      _c   : cmp
+      dNam : Kirmse
+      dNamS: Kirmse
+
+# Step 8: Sally associates Kirmse with GSNI
+# A new Dx and DxRel record between GSNI and Kirmse is crated.
+# tos and frs of both GSNI and Kirmse will be updates.
+
+cnts:
+    - id   : 1
+      _c   : Cmp
+      type : company
+      dNam : GSNI
+      dNamS: ni
+      frs  : [
+        - dRel:
+            - dxId: 1001
+              d_c: Cmp
+              ids: [2]
+              dRelToFrs: [{
+                - d_c: Cmp
+                  dRelDNam : Company of
+                  dId      : 2
+                  dRelDNamS: cmpOf
+                  dDNam    : Program Group
+                  dDNamS   : prgrp }],
+        - dRel:
+            - dxId: 1002
+              d_c: Cmp
+              ids: [3]
+              dRelToFrs: [{
+                - d_c: Cmp
+                  dRelDNam : Company of
+                  dId      : 3
+                  dRelDNamS: cmpOf
+                  dDNam    : Kirmse
+                  dDNamS   : kirmse }] ]
+
+cnts:
+    - id   : 3
+      type : company
+      _c   : Cmp
+      dNam : Kirmse
+      dNamS: Kirmse
+      tos  : 
+        - dRel: 
+            - dxId: 1002
+              d_c: Cmp
+              ids: [1]
+              dRelToFrs: [{
+                - d_c: Cmp
+                  dId      : 1
+                  dRelDNam : Street of
+                  dRelDNamS: streetOf
+                  dDNam    : GSNI
+                  dDNamS   : ni }]
+
+# Step 8: Sally creates unit 104
+
+cnts:
+    - id   : 4
+      type : company
+      _c   : cmp
+      dNam : 104
+      dNamS: 104
+
+# Step 9: Sally associates 104 with Kirmse. A new DX and DxRel record will be created.
+# Kirmse and 104's tos and frs will be updated.
+cnts:
+    - id   : 3
+      type : company
+      _c   : Cmp
+      dNam : Kirmse
+      dNamS: Kirmse
+      tos  : 
+        - dRel: 
+            - dxId: 1002
+              d_c: Cmp
+              ids: [1, 4]
+              dRelToFrs: [{
+                - d_c: Cmp
+                  dId      : 4
+                  dRelDNam : Street of
+                  dRelDNamS: streetOf
+                  dDNam    : GSNI
+                  dDNamS   : ni }]
+      frs  : 
+        - dRel: 
+            - dxId: 1003
+              d_c: Cmp
+              ids: [4]
+              dRelToFrs: [{
+                - d_c: Cmp
+                  dId      : 4
+                  dRelDNam : Street of
+                  dRelDNamS: streetOf
+                  dDNam    : 104
+                  dDNamS   : 104 }]
+cnts:
+    - id   : 4
+      type : company
+      _c   : Cmp
+      dNam : 104
+      dNamS: 104
+      tos  : 
+        - dRel: 
+            - dxId: 1003
+              d_c: Cmp
+              ids: [1, 3]
+              dRelToFrs: [{
+                - d_c: Cmp
+                  dId      : 1
+                  dRelDNam : Street of
+                  dRelDNamS: streetOf
+                  dDNam    : GSNI
+                  dDNamS   : ni },
+              {
+              - d_c: Cmp
+                  dId      : 3
+                  dRelDNam : Unit of
+                  dRelDNamS: unitOf
+                  dDNam    : Kirmse
+                  dDNamS   : Kirmse }]
+
+# Step 10: Sally associates herself with Kirmse. A new DX and DxRel record will be created.
+# Kirmse and Sally's tos and frs will be updated.
+cnts:
+    - id   : 3
+      type : company
+      _c   : Cmp
+      dNam : Kirmse
+      dNamS: Kirmse
+      tos  : 
+        - dRel: 
+            - dxId: 1002
+              d_c: Cmp
+              ids: [1]
+              dRelToFrs: [{
+                - d_c: Cmp
+                  dId      : 1
+                  dRelDNam : Street of
+                  dRelDNamS: streetOf
+                  dDNam    : GSNI
+                  dDNamS   : ni }]
+      frs  : 
+        - dRel: 
+            - dxId: 1003
+              d_c: Cmp
+              ids: [4]
+              dRelToFrs: [{
+                - d_c: Cmp
+                  dId      : 4
+                  dRelDNam : Street of
+                  dRelDNamS: streetOf
+                  dDNam    : 104
+                  dDNamS   : 104 }]
+            - dxId: 1004
+              d_c: Cmp
+              ids: [7]
+              dRelToFrs: [{
+                - d_c: Cmp
+                  dId      : 7
+                  dRelDNam : Admin is
+                  dRelDNamS: adminIs
+                  dDNam    : Sally
+                  dDNamS   : Sally }]
+              
+cnts:
+    - id   : 7
+      type : Prs
+      _c   : prs
+      dNam : Sally
+      dNamS: Sally
+      tos  : 
+        - dRel: 
+            - dxId: 1004
+              d_c: Cmp
+              ids: [1, 3]
+              dRelToFrs: [{
+                - d_c: Cmp
+                  dId      : 3
+                  dRelDNam : Street of
+                  dRelDNamS: streetOf
+                  dDNam    : GSNI
+                  dDNamS   : ni },
+              {
+                - d_c: Cmp
+                  dId      : 3
+                  dRelDNam : Admin of
+                  dRelDNamS: adminOf
+                  dDNam    : Kirmse
+                  dDNamS   : kirmse }]
+
+# Step 11: Sally associates herself with 104. A new DX and DxRel record will be created.
+# 104 and Sallys's tos and frs will be updated.
+
+cnts:
+    - id   : 4
+      type : company
+      _c   : cmp
+      dNam : 104
+      dNamS: 104
+      tos  : 
+        - dRel: 
+            - dxId: 1003
+              d_c: Cmp
+              ids: [1, 3]
+              dRelToFrs: [{
+                - d_c: Cmp
+                  dId      : 1
+                  dRelDNam : Street of
+                  dRelDNamS: streetOf
+                  dDNam    : GSNI
+                  dDNamS   : ni },
+              {
+              - d_c: Cmp
+                  dId      : 3
+                  dRelDNam : Unit of
+                  dRelDNamS: unitOf
+                  dDNam    : Kirmse
+                  dDNamS   : Kirmse }]
+
+      frs  : 
+        - dRel: 
+            - dxId: 1005
+              d_c: Cmp
+              ids: [7]
+              dRelToFrs: [{
+                - d_c: Cmp
+                  dId      : 7
+                  dRelDNam : Admin is
+                  dRelDNamS: adminIs
+                  dDNam    : Sally
+                  dDNamS   : Sally }]
+cnts:
+    - id   : 7
+      type : Prs
+      _c   : prs
+      dNam : Sally
+      dNamS: Sally
+      tos  : 
+        - dRel: 
+            - dxId: 1004
+              d_c: Cmp
+              ids: [1, 3]
+              dRelToFrs: [{
+                - d_c: Cmp
+                  dId      : 1
+                  dRelDNam : Street of
+                  dRelDNamS: streetOf
+                  dDNam    : GSNI
+                  dDNamS   : ni },
+               {
+                - d_c: Cmp
+                  dId      : 3
+                  dRelDNam : Admin of
+                  dRelDNamS: adminOf
+                  dDNam    : Kirmse
+                  dDNamS   : kirmse }]
+         - dRel:
+            - dxId: 1005
+              d_c: Prs
+              ids: [1, 3, 4]
+                dRelToFrs: [{
+                - d_c: Cmp
+                  dId      : 1
+                  dRelDNam : Street of
+                  dRelDNamS: streetOf
+                  dDNam    : GSNI
+                  dDNamS   : ni },
+               {
+                - d_c: Cmp
+                  dId      : 3
+                  dRelDNam : Admin of
+                  dRelDNamS: adminOf
+                  dDNam    : Kirmse
+                  dDNamS   : kirmse },
+               {
+                - d_c: Cmp
+                  dId      : 4
+                  dRelDNam : Admin of
+                  dRelDNamS: adminOf
+                  dDNam    : 104
+                  dDNamS   : 104 }]
+
+# Step 12: User Suzie is created.
+
+cnts:
+    - id   : 11
+      type : Person
+      _c   : Prs
+      dNam : Suzie
+      dNamS: Suzie
+
+# Step 13: Troop 1031 is created by Suzie
+
+cnts:
+    - id   : 10
+      _c   : Cmp
+      type : company
+      dNam : 1031
+      dNamS: 1031
+      
+# Step 14: Suzie associates 1031 with 104. A new Dx and DxRel records are created.
+# tos and frs of 1031 and 104 are updated.
+
+cnts:
+    - id   : 4
+      type : company
+      _c   : cmp
+      dNam : 104
+      dNamS: 104
+      tos  : 
+        - dRel: 
+            - dxId: 1003
+              d_c: Cmp
+              ids: [1, 3]
+              dRelToFrs: [{
+                - d_c: Cmp
+                  dId      : 1
+                  dRelDNam : Street of
+                  dRelDNamS: streetOf
+                  dDNam    : GSNI
+                  dDNamS   : ni },
+              {
+              - d_c: Cmp
+                  dId      : 3
+                  dRelDNam : Unit of
+                  dRelDNamS: unitOf
+                  dDNam    : Kirmse
+                  dDNamS   : Kirmse }]
+
+      frs  : 
+        - dRel: 
+            - dxId: 1005
+              d_c: Cmp
+              ids: [7]
+              dRelToFrs: [{
+                - d_c: Cmp
+                  dId      : 7
+                  dRelDNam : Admin is
+                  dRelDNamS: adminIs
+                  dDNam    : Sally
+                  dDNamS   : Sally }]
+        - dRel: 
+            - dxId: 1006
+              d_c: Cmp
+              ids: [10]
+              dRelToFrs: [{
+                - d_c: Cmp
+                  dId      : 10
+                  dRelDNam : Unit of
+                  dRelDNamS: unitOf
+                  dDNam    : 1031
+                  dDNamS   : 1031 }]
+
+cnts:
+    - id   : 10
+      type : company
+      _c   : Cmp
+      dNam : 1031
+      dNamS: 1031
+      tos  : 
+        - dRel: 
+            - dxId: 1006
+              d_c: Cmp
+              ids: [1, 3, 4]
+              dRelToFrs: [{
+                - d_c: Cmp
+                  dId      : 1
+                  dRelDNam : Street of
+                  dRelDNamS: streetOf
+                  dDNam    : GSNI
+                  dDNamS   : ni },
+              {
+              - d_c: Cmp
+                  dId      : 3
+                  dRelDNam : Unit of
+                  dRelDNamS: unitOf
+                  dDNam    : Kirmse
+                  dDNamS   : Kirmse },
+              {
+              - d_c: Cmp
+                  dId      : 4
+                  dRelDNam : Troop of
+                  dRelDNamS: troopOf
+                  dDNam    : 104
+                  dDNamS   : 104 }]
+
+# Step 15: Suzie associates herself with 1031. A new Dx and DxRel are crated.
+# tos and frs of Suzie and 1031 are updated.
+
+cnts:
+    - id   : 10
+      type : company
+      _c   : Cmp
+      dNam : 1031
+      dNamS: 1031
+      tos  : 
+        - dRel: 
+            - dxId: 1006
+              d_c: Cmp
+              ids: [1, 3, 4]
+              dRelToFrs: [{
+                - d_c: Cmp
+                  dId      : 1
+                  dRelDNam : Street of
+                  dRelDNamS: streetOf
+                  dDNam    : GSNI
+                  dDNamS   : ni },
+              {
+              - d_c: Cmp
+                  dId      : 3
+                  dRelDNam : Unit of
+                  dRelDNamS: unitOf
+                  dDNam    : Kirmse
+                  dDNamS   : Kirmse },
+              {
+              - d_c: Cmp
+                  dId      : 4
+                  dRelDNam : Troop of
+                  dRelDNamS: troopOf
+                  dDNam    : 104
+                  dDNamS   : 104 }]
+
+      frs  : 
+        - dRel: 
+            - dxId: 1007
+              d_c: Cmp
+              ids: [11]
+              dRelToFrs: [{
+                - d_c: Cmp
+                  dId      : 11
+                  dRelDNam : Admin is
+                  dRelDNamS: adminIs
+                  dDNam    : Suzie
+                  dDNamS   : Suzie }]
+
+cnts:
+    - id   : 11
+      type : Person
+      _c   : Prs
+      dNam : Suzie
+      dNamS: Suzie
+      tos  : 
+        - dRel: 
+            - dxId: 1007
+              d_c: Cmp
+              ids: [1, 3, 4, 10]
+              dRelToFrs: [{
+                - d_c: Cmp
+                  dId      : 1
+                  dRelDNam : Street of
+                  dRelDNamS: streetOf
+                  dDNam    : GSNI
+                  dDNamS   : ni },
+              {
+              - d_c: Cmp
+                  dId      : 3
+                  dRelDNam : Unit of
+                  dRelDNamS: unitOf
+                  dDNam    : Kirmse
+                  dDNamS   : Kirmse },
+              {
+              - d_c: Cmp
+                  dId      : 4
+                  dRelDNam : Troop of
+                  dRelDNamS: troopOf
+                  dDNam    : 104
+                  dDNamS   : 104 },
+              {
+              - d_c: Cmp
+                  dId      : 10
+                  dRelDNam : Admin of
+                  dRelDNamS: adminOf
+                  dDNam    : 1031
+                  dDNamS   : 1031 }]
+
+# Step 16: Company acme is created.
+
+cnts:
+    - id   : 5
+      type : company
+      _c   : Cmp
+      dNam : acme
+      dNamS: acme
+
+# Step 17: User Sally associated acme with Kirmse. A new Dx and DxRel records are created.
+# tos and frs of acme, Kirmse, Sally, 104, 1031 and Suzie will be updated.
+
+cnts:
+    - id   : 5
+      _c   : Cmp
+      type : company
+      dNam : acme
+      dNamS: acme
+      frs  : 
+        - dRel:
+            - dxId: 1008
+              d_c: Cmp
+              ids: [3]
+              dRelToFrs: [{
+                - d_c: Cmp
+                  dRelDNam : Company of
+                  dId      : 3
+                  dRelDNamS: cmpOf
+                  dDNam    : Kirmse
+                  dDNamS   : Kirmse }]
+
+cnts:
+    - id   : 3
+      type : company
+      _c   : Cmp
+      dNam : Kirmse
+      dNamS: Kirmse
+      tos  : [
+        - dRel: 
+            - dxId: 1002
+              d_c: Cmp
+              ids: [1]
+              dRelToFrs: [{
+                - d_c: Cmp
+                  dId      : 1
+                  dRelDNam : Street of
+                  dRelDNamS: streetOf
+                  dDNam    : GSNI
+                  dDNamS   : ni }], 
+        - dRel: 
+            - dxId: 1008
+              d_c: Cmp
+              ids: [5]
+              dRelToFrs: [{
+                - d_c: Cmp
+                  dId      : 5
+                  dRelDNam : Street of
+                  dRelDNamS: streetOf
+                  dDNam    : acme
+                  dDNamS   : acme }]]
+      frs  : 
+        - dRel: 
+            - dxId: 1003
+              d_c: Cmp
+              ids: [4]
+              dRelToFrs: [{
+                - d_c: Cmp
+                  dId      : 4
+                  dRelDNam : Street of
+                  dRelDNamS: streetOf
+                  dDNam    : 104
+                  dDNamS   : 104 }]
+            - dxId: 1004
+              d_c: Cmp
+              ids: [7]
+              dRelToFrs: [{
+                - d_c: Cmp
+                  dId      : 7
+                  dRelDNam : Admin is
+                  dRelDNamS: adminIs
+                  dDNam    : Sally
+                  dDNamS   : Sally }]
+
+cnts:
+    - id   : 4
+      type : company
+      _c   : cmp
+      dNam : 104
+      dNamS: 104
+      tos  : [
+        - dRel: 
+            - dxId: 1003
+              d_c: Cmp
+              ids: [1, 3]
+              dRelToFrs: [{
+                - d_c: Cmp
+                  dId      : 1
+                  dRelDNam : Street of
+                  dRelDNamS: streetOf
+                  dDNam    : GSNI
+                  dDNamS   : ni },
+              {
+              - d_c: Cmp
+                  dId      : 3
+                  dRelDNam : Unit of
+                  dRelDNamS: unitOf
+                  dDNam    : Kirmse
+                  dDNamS   : Kirmse }],
+        - dRel: 
+            - dxId: 1003
+              d_c: Cmp
+              ids: [5, 3]
+              dRelToFrs: [{
+                - d_c: Cmp
+                  dId      : 5
+                  dRelDNam : Street of
+                  dRelDNamS: streetOf
+                  dDNam    : acme
+                  dDNamS   : acme },
+              {
+              - d_c: Cmp
+                  dId      : 3
+                  dRelDNam : Unit of
+                  dRelDNamS: unitOf
+                  dDNam    : Kirmse
+                  dDNamS   : Kirmse }]]
+
+      frs  : 
+        - dRel: 
+            - dxId: 1005
+              d_c: Cmp
+              ids: [7]
+              dRelToFrs: [{
+                - d_c: Cmp
+                  dId      : 7
+                  dRelDNam : Admin is
+                  dRelDNamS: adminIs
+                  dDNam    : Sally
+                  dDNamS   : Sally }]
+        - dRel: 
+            - dxId: 1006
+              d_c: Cmp
+              ids: [10]
+              dRelToFrs: [{
+                - d_c: Cmp
+                  dId      : 10
+                  dRelDNam : Unit of
+                  dRelDNamS: unitOf
+                  dDNam    : 1031
+                  dDNamS   : 1031 }]
+
+cnts:
+    - id   : 7
+      type : Prs
+      _c   : prs
+      dNam : Sally
+      dNamS: Sally
+      tos  : [
+        - dRel: 
+            - dxId: 1004
+              d_c: Cmp
+              ids: [1, 3]
+              dRelToFrs: [{
+                - d_c: Cmp
+                  dId      : 1
+                  dRelDNam : Street of
+                  dRelDNamS: streetOf
+                  dDNam    : GSNI
+                  dDNamS   : ni },
+               {
+                - d_c: Cmp
+                  dId      : 3
+                  dRelDNam : Admin of
+                  dRelDNamS: adminOf
+                  dDNam    : Kirmse
+                  dDNamS   : kirmse }],
+        - dRel: 
+            - dxId: 1004
+              d_c: Cmp
+              ids: [5, 3]
+              dRelToFrs: [{
+                - d_c: Cmp
+                  dId      : 5
+                  dRelDNam : Street of
+                  dRelDNamS: streetOf
+                  dDNam    : acme
+                  dDNamS   : acme },
+               {
+                - d_c: Cmp
+                  dId      : 3
+                  dRelDNam : Admin of
+                  dRelDNamS: adminOf
+                  dDNam    : Kirmse
+                  dDNamS   : kirmse }],
+                  
+         - dRel:[
+            - dxId: 1005
+              d_c: Prs
+              ids: [5, 3, 4]
+                dRelToFrs: [{
+                - d_c: Cmp
+                  dId      : 5
+                  dRelDNam : Street of
+                  dRelDNamS: streetOf
+                  dDNam    : acme
+                  dDNamS   : acme },
+               {
+                - d_c: Cmp
+                  dId      : 3
+                  dRelDNam : Admin of
+                  dRelDNamS: adminOf
+                  dDNam    : Kirmse
+                  dDNamS   : kirmse },
+               {
+                - d_c: Cmp
+                  dId      : 4
+                  dRelDNam : Admin of
+                  dRelDNamS: adminOf
+                  dDNam    : 104
+                  dDNamS   : 104 }]]
+
+cnts:
+    - id   : 4
+      type : company
+      _c   : cmp
+      dNam : 104
+      dNamS: 104
+      tos  : [
+        - dRel: 
+            - dxId: 1003
+              d_c: Cmp
+              ids: [1, 3]
+              dRelToFrs: [{
+                - d_c: Cmp
+                  dId      : 1
+                  dRelDNam : Street of
+                  dRelDNamS: streetOf
+                  dDNam    : GSNI
+                  dDNamS   : ni },
+              {
+              - d_c: Cmp
+                  dId      : 3
+                  dRelDNam : Unit of
+                  dRelDNamS: unitOf
+                  dDNam    : Kirmse
+                  dDNamS   : Kirmse }],
+        - dRel: 
+            - dxId: 1003
+              d_c: Cmp
+              ids: [5, 3]
+              dRelToFrs: [{
+                - d_c: Cmp
+                  dId      : 5
+                  dRelDNam : Street of
+                  dRelDNamS: streetOf
+                  dDNam    : acme
+                  dDNamS   : acme },
+              {
+              - d_c: Cmp
+                  dId      : 3
+                  dRelDNam : Unit of
+                  dRelDNamS: unitOf
+                  dDNam    : Kirmse
+                  dDNamS   : Kirmse }]]
+
+      frs  : 
+        - dRel: 
+            - dxId: 1005
+              d_c: Cmp
+              ids: [7]
+              dRelToFrs: [{
+                - d_c: Cmp
+                  dId      : 7
+                  dRelDNam : Admin is
+                  dRelDNamS: adminIs
+                  dDNam    : Sally
+                  dDNamS   : Sally }]
+        - dRel: 
+            - dxId: 1006
+              d_c: Cmp
+              ids: [10]
+              dRelToFrs: [{
+                - d_c: Cmp
+                  dId      : 10
+                  dRelDNam : Unit of
+                  dRelDNamS: unitOf
+                  dDNam    : 1031
+                  dDNamS   : 1031 }]
+
+cnts:
+    - id   : 10
+      type : company
+      _c   : Cmp
+      dNam : 1031
+      dNamS: 1031
+      tos  : [
+        - dRel: 
+            - dxId: 1006
+              d_c: Cmp
+              ids: [1, 3, 4]
+              dRelToFrs: [{
+                - d_c: Cmp
+                  dId      : 1
+                  dRelDNam : Street of
+                  dRelDNamS: streetOf
+                  dDNam    : GSNI
+                  dDNamS   : ni },
+              {
+              - d_c: Cmp
+                  dId      : 3
+                  dRelDNam : Unit of
+                  dRelDNamS: unitOf
+                  dDNam    : Kirmse
+                  dDNamS   : Kirmse },
+              {
+              - d_c: Cmp
+                  dId      : 4
+                  dRelDNam : Troop of
+                  dRelDNamS: troopOf
+                  dDNam    : 104
+                  dDNamS   : 104 }],
+        - dRel: 
+            - dxId: 1006
+              d_c: Cmp
+              ids: [5, 3, 4]
+              dRelToFrs: [{
+                - d_c: Cmp
+                  dId      : 5
+                  dRelDNam : Street of
+                  dRelDNamS: streetOf
+                  dDNam    : acme
+                  dDNamS   : acme },
+              {
+              - d_c: Cmp
+                  dId      : 3
+                  dRelDNam : Unit of
+                  dRelDNamS: unitOf
+                  dDNam    : Kirmse
+                  dDNamS   : Kirmse },
+              {
+              - d_c: Cmp
+                  dId      : 4
+                  dRelDNam : Troop of
+                  dRelDNamS: troopOf
+                  dDNam    : 104
+                  dDNamS   : 104 }]]
+
+      frs  : 
+        - dRel: 
+            - dxId: 1007
+              d_c: Cmp
+              ids: [11]
+              dRelToFrs: [{
+                - d_c: Cmp
+                  dId      : 11
+                  dRelDNam : Admin is
+                  dRelDNamS: adminIs
+                  dDNam    : Suzie
+                  dDNamS   : Suzie }]
+
+cnts:
+    - id   : 11
+      type : Person
+      _c   : Prs
+      dNam : Suzie
+      dNamS: Suzie
+      tos  : [
+        - dRel: 
+            - dxId: 1007
+              d_c: Cmp
+              ids: [1, 3, 4, 10]
+              dRelToFrs: [{
+                - d_c: Cmp
+                  dId      : 1
+                  dRelDNam : Street of
+                  dRelDNamS: streetOf
+                  dDNam    : GSNI
+                  dDNamS   : ni },
+              {
+              - d_c: Cmp
+                  dId      : 3
+                  dRelDNam : Unit of
+                  dRelDNamS: unitOf
+                  dDNam    : Kirmse
+                  dDNamS   : Kirmse },
+              {
+              - d_c: Cmp
+                  dId      : 4
+                  dRelDNam : Troop of
+                  dRelDNamS: troopOf
+                  dDNam    : 104
+                  dDNamS   : 104 },
+              {
+              - d_c: Cmp
+                  dId      : 10
+                  dRelDNam : Admin of
+                  dRelDNamS: adminOf
+                  dDNam    : 1031
+                  dDNamS   : 1031 }],
+        - dRel: 
+            - dxId: 1007
+              d_c: Cmp
+              ids: [5, 3, 4, 10]
+              dRelToFrs: [{
+	                - d_c: Cmp
+                  dId      : 5
+                  dRelDNam : Street of
+                  dRelDNamS: streetOf
+                  dDNam    : acme
+                  dDNamS   : acme },
+              {
+              - d_c: Cmp
+                  dId      : 3
+                  dRelDNam : Unit of
+                  dRelDNamS: unitOf
+                  dDNam    : Kirmse
+                  dDNamS   : Kirmse },
+              {
+              - d_c: Cmp
+                  dId      : 4
+                  dRelDNam : Troop of
+                  dRelDNamS: troopOf
+                  dDNam    : 104
+                  dDNamS   : 104 },
+              {
+              - d_c: Cmp
+                  dId      : 10
+                  dRelDNam : Admin of
+                  dRelDNamS: adminOf
+                  dDNam    : 1031
+                  dDNamS   : 1031 }]]
+                  
+# We will now consider all data at step 17 as data available at the beginning of following steps.
+
+# Step 18: User Suzie is deleted. Suzie's record will be marked for deletion.
+# Dx and DxRel record related to Suzie will be marked for deletion.
+# All parents' and children's tos and frs will be updates.
+# In this case only 1031 will be updated. So the data of 1031 will look like following.
+# Dx record with Id 1007 and DxRel with 2007 will be marked for deletion.
+
+cnts:
+    - id   : 10
+      type : company
+      _c   : Cmp
+      dNam : 1031
+      dNamS: 1031
+      tos  : [
+        - dRel: 
+            - dxId: 1006
+              d_c: Cmp
+              ids: [1, 3, 4]
+              dRelToFrs: [{
+                - d_c: Cmp
+                  dId      : 1
+                  dRelDNam : Street of
+                  dRelDNamS: streetOf
+                  dDNam    : GSNI
+                  dDNamS   : ni },
+              {
+              - d_c: Cmp
+                  dId      : 3
+                  dRelDNam : Unit of
+                  dRelDNamS: unitOf
+                  dDNam    : Kirmse
+                  dDNamS   : Kirmse },
+              {
+              - d_c: Cmp
+                  dId      : 4
+                  dRelDNam : Troop of
+                  dRelDNamS: troopOf
+                  dDNam    : 104
+                  dDNamS   : 104 }],
+        - dRel: 
+            - dxId: 1006
+              d_c: Cmp
+              ids: [5, 3, 4]
+              dRelToFrs: [{
+                - d_c: Cmp
+                  dId      : 5
+                  dRelDNam : Street of
+                  dRelDNamS: streetOf
+                  dDNam    : acme
+                  dDNamS   : acme },
+              {
+              - d_c: Cmp
+                  dId      : 3
+                  dRelDNam : Unit of
+                  dRelDNamS: unitOf
+                  dDNam    : Kirmse
+                  dDNamS   : Kirmse },
+              {
+              - d_c: Cmp
+                  dId      : 4
+                  dRelDNam : Troop of
+                  dRelDNamS: troopOf
+                  dDNam    : 104
+                  dDNamS   : 104 }]]
+
+# Step 19: Troop 1031 is deleted. Troop 1031 will be marked for deletion.
+# Dx and DxRel records connecting it to Suzie and 104 will be marked for deletion.
+# 104's and Suzie's tos and frs will be updated.
+
+# PS: As per our discussion Suzie should have been deleted upon deletion of 1031
+# however I think that should not be the case. It will be annoying for users and is
+# not normal behaviour of social sites.
+
+cnts:
+    - id   : 4
+      type : company
+      _c   : cmp
+      dNam : 104
+      dNamS: 104
+      tos  : [
+        - dRel: 
+            - dxId: 1003
+              d_c: Cmp
+              ids: [1, 3]
+              dRelToFrs: [{
+                - d_c: Cmp
+                  dId      : 1
+                  dRelDNam : Street of
+                  dRelDNamS: streetOf
+                  dDNam    : GSNI
+                  dDNamS   : ni },
+              {
+              - d_c: Cmp
+                  dId      : 3
+                  dRelDNam : Unit of
+                  dRelDNamS: unitOf
+                  dDNam    : Kirmse
+                  dDNamS   : Kirmse }],
+        - dRel: 
+            - dxId: 1003
+              d_c: Cmp
+              ids: [5, 3]
+              dRelToFrs: [{
+                - d_c: Cmp
+                  dId      : 5
+                  dRelDNam : Street of
+                  dRelDNamS: streetOf
+                  dDNam    : acme
+                  dDNamS   : acme },
+              {
+              - d_c: Cmp
+                  dId      : 3
+                  dRelDNam : Unit of
+                  dRelDNamS: unitOf
+                  dDNam    : Kirmse
+                  dDNamS   : Kirmse }]]
+
+      frs  : 
+        - dRel: 
+            - dxId: 1005
+              d_c: Cmp
+              ids: [7]
+              dRelToFrs: [{
+                - d_c: Cmp
+                  dId      : 7
+                  dRelDNam : Admin is
+                  dRelDNamS: adminIs
+                  dDNam    : Sally
+                  dDNamS   : Sally }]
+
+cnts:
+    - id   : 11
+      type : Person
+      _c   : Prs
+      dNam : Suzie
+      dNamS: Suzie
+
+# Step 20: Now we consider moving a record. Moving is a two step process.
+# It is like deleting and adding. So we will use the same process of deleting and adding.
+
+# User Sally is moved from being an admin of Unit 104 to be an admin of GSNI.
+# Let us first try to delete Sally. Since Sally has two parents 104 and Kirmse
+# we delete Dx and DxRel bewteen 104. We update 104's and Sally's tos and frs.
+# Therefore the data will look like following.
+
+cnts:
+    - id   : 4
+      type : company
+      _c   : cmp
+      dNam : 104
+      dNamS: 104
+      tos  : [
+        - dRel: 
+            - dxId: 1003
+              d_c: Cmp
+              ids: [1, 3]
+              dRelToFrs: [{
+                - d_c: Cmp
+                  dId      : 1
+                  dRelDNam : Street of
+                  dRelDNamS: streetOf
+                  dDNam    : GSNI
+                  dDNamS   : ni },
+              {
+              - d_c: Cmp
+                  dId      : 3
+                  dRelDNam : Unit of
+                  dRelDNamS: unitOf
+                  dDNam    : Kirmse
+                  dDNamS   : Kirmse }],
+        - dRel: 
+            - dxId: 1003
+              d_c: Cmp
+              ids: [5, 3]
+              dRelToFrs: [{
+                - d_c: Cmp
+                  dId      : 5
+                  dRelDNam : Street of
+                  dRelDNamS: streetOf
+                  dDNam    : acme
+                  dDNamS   : acme },
+              {
+              - d_c: Cmp
+                  dId      : 3
+                  dRelDNam : Unit of
+                  dRelDNamS: unitOf
+                  dDNam    : Kirmse
+                  dDNamS   : Kirmse }]]
+
+      frs  : 
+        - dRel: 
+            - dxId: 1006
+              d_c: Cmp
+              ids: [10]
+              dRelToFrs: [{
+                - d_c: Cmp
+                  dId      : 10
+                  dRelDNam : Unit of
+                  dRelDNamS: unitOf
+                  dDNam    : 1031
+                  dDNamS   : 1031 }]
+
+cnts:
+    - id   : 7
+      type : Prs
+      _c   : prs
+      dNam : Sally
+      dNamS: Sally
+      tos  : [
+        - dRel: 
+            - dxId: 1004
+              d_c: Cmp
+              ids: [1, 3]
+              dRelToFrs: [{
+                - d_c: Cmp
+                  dId      : 1
+                  dRelDNam : Street of
+                  dRelDNamS: streetOf
+                  dDNam    : GSNI
+                  dDNamS   : ni },
+               {
+                - d_c: Cmp
+                  dId      : 3
+                  dRelDNam : Admin of
+                  dRelDNamS: adminOf
+                  dDNam    : Kirmse
+                  dDNamS   : kirmse }],
+        - dRel: 
+            - dxId: 1004
+              d_c: Cmp
+              ids: [5, 3]
+              dRelToFrs: [{
+                - d_c: Cmp
+                  dId      : 5
+                  dRelDNam : Street of
+                  dRelDNamS: streetOf
+                  dDNam    : acme
+                  dDNamS   : acme },
+               {
+                - d_c: Cmp
+                  dId      : 3
+                  dRelDNam : Admin of
+                  dRelDNamS: adminOf
+                  dDNam    : Kirmse
+                  dDNamS   : kirmse }]]
+
+# Now let us add Sally as admin of GSNI. A new Dx and DxRel records are created.
+# tos and frs of Sally and GSNI are updated.
+
+cnts:
+    - id   : 1
+      _c   : Cmp
+      type : company
+      dNam : GSNI
+      dNamS: ni
+      frs  : [
+        - dRel:
+            - dxId: 1001
+              d_c: Cmp
+              ids: [2]
+              dRelToFrs: [{
+                - d_c: Cmp
+                  dId      : 2
+                  dRelDNam : Company of
+                  dRelDNamS: cmpOf
+                  dDNam    : Program Group
+                  dDNamS   : prgrp }],
+        - dRel:
+            - dxId: 1002
+              d_c: Cmp
+              ids: [3]
+              dRelToFrs: [{
+                - d_c: Cmp
+                  dId      : 3
+                  dRelDNam : Company of
+                  dRelDNamS: cmpOf
+                  dDNam    : Kirmse
+                  dDNamS   : kirmse }],
+        - dRel:
+            - dxId: 1009
+              d_c: Cmp
+              ids: [7]
+              dRelToFrs: [{
+                - d_c: Cmp
+                  dId      : 7
+                  dRelDNam : Admin is
+                  dRelDNamS: adminIs
+                  dDNam    : Sally
+                  dDNamS   : Sally }]]
+                  
+cnts:
+    - id   : 7
+      type : Prs
+      _c   : prs
+      dNam : Sally
+      dNamS: Sally
+      tos  : [
+        - dRel: 
+            - dxId: 1004
+              d_c: Cmp
+              ids: [1, 3]
+              dRelToFrs: [{
+                - d_c: Cmp
+                  dId      : 1
+                  dRelDNam : Street of
+                  dRelDNamS: streetOf
+                  dDNam    : GSNI
+                  dDNamS   : ni },
+               {
+                - d_c: Cmp
+                  dId      : 3
+                  dRelDNam : Admin of
+                  dRelDNamS: adminOf
+                  dDNam    : Kirmse
+                  dDNamS   : kirmse }],
+        - dRel: 
+            - dxId: 1004
+              d_c: Cmp
+              ids: [5, 3]
+              dRelToFrs: [{
+                - d_c: Cmp
+                  dId      : 5
+                  dRelDNam : Street of
+                  dRelDNamS: streetOf
+                  dDNam    : acme
+                  dDNamS   : acme },
+               {
+                - d_c: Cmp
+                  dId      : 3
+                  dRelDNam : Admin of
+                  dRelDNamS: adminOf
+                  dDNam    : Kirmse
+                  dDNamS   : kirmse }],
+         - dRel: 
+            - dxId: 1009
+              d_c: Cmp
+              ids: [1]
+              dRelToFrs: [{
+                - d_c: Cmp
+                  dId      : 1
+                  dRelDNam : Admin of
+                  dRelDNamS: adminOf
+                  dDNam    : GSNI
+                  dDNamS   : ni }]
+
+# Step 21: Updating record. Consider our data stated at the end of Step 18.
+# Say Kirmse is changed to Kirmse. This will affect GSNI, acme, Kirmse, 104,
+# 1031, Sally and Suzie's records and DxRel between Kirmse and GSNI, acme,
+# 104 and Sally. Note that changing name will only affect DxRel. Changing
+# class will affect Dx reords as well as DxRels.
+
+cnts:
+    - id   : 1
+      _c   : Cmp
+      type : company
+      dNam : GSNI
+      dNamS: ni
+      frs  : [
+        - dRel:
+            - dxId: 1001
+              d_c: Cmp
+              ids: [2]
+              dRelToFrs: [{
+                - d_c: Cmp
+                  dRelDNam : Company of
+                  dId      : 2
+                  dRelDNamS: cmpOf
+                  dDNam    : Program Group
+                  dDNamS   : prgrp }],
+        - dRel:
+            - dxId: 1002
+              d_c: Cmp
+              ids: [3]
+              dRelToFrs: [{
+                - d_c: Cmp
+                  dRelDNam : Company of
+                  dId      : 3
+                  dRelDNamS: cmpOf
+                  dDNam    : Kirmse
+                  dDNamS   : kirmse }] ]
+                  
+cnts:
+    - id   : 5
+      _c   : Cmp
+      type : company
+      dNam : acme
+      dNamS: acme
+      frs  : 
+        - dRel:
+            - dxId: 1008
+              d_c: Cmp
+              ids: [3]
+              dRelToFrs: [{
+                - d_c: Cmp
+                  dRelDNam : Company of
+                  dId      : 3
+                  dRelDNamS: cmpOf
+                  dDNam    : Kirmse
+                  dDNamS   : kirmse }]
+
+cnts:
+    - id   : 3
+      type : company
+      _c   : Cmp
+      dNam : Kirmse
+      dNamS: kirmse
+      tos  : [
+        - dRel: 
+            - dxId: 1002
+              d_c: Cmp
+              ids: [1]
+              dRelToFrs: [{
+                - d_c: Cmp
+                  dId      : 1
+                  dRelDNam : Street of
+                  dRelDNamS: streetOf
+                  dDNam    : GSNI
+                  dDNamS   : ni }], 
+        - dRel: 
+            - dxId: 1008
+              d_c: Cmp
+              ids: [5]
+              dRelToFrs: [{
+                - d_c: Cmp
+                  dId      : 5
+                  dRelDNam : Street of
+                  dRelDNamS: streetOf
+                  dDNam    : acme
+                  dDNamS   : acme }]]
+      frs  : 
+        - dRel: 
+            - dxId: 1003
+              d_c: Cmp
+              ids: [4]
+              dRelToFrs: [{
+                - d_c: Cmp
+                  dId      : 4
+                  dRelDNam : Street of
+                  dRelDNamS: streetOf
+                  dDNam    : 104
+                  dDNamS   : 104 }]
+            - dxId: 1004
+              d_c: Cmp
+              ids: [7]
+              dRelToFrs: [{
+                - d_c: Cmp
+                  dId      : 7
+                  dRelDNam : Admin is
+                  dRelDNamS: adminIs
+                  dDNam    : Sally
+                  dDNamS   : Sally }]
+cnts:
+    - id   : 4
+      type : company
+      _c   : cmp
+      dNam : 104
+      dNamS: 104
+      tos  : [
+        - dRel: 
+            - dxId: 1003
+              d_c: Cmp
+              ids: [1, 3]
+              dRelToFrs: [{
+                - d_c: Cmp
+                  dId      : 1
+                  dRelDNam : Street of
+                  dRelDNamS: streetOf
+                  dDNam    : GSNI
+                  dDNamS   : ni },
+              {
+              - d_c: Cmp
+                  dId      : 3
+                  dRelDNam : Unit of
+                  dRelDNamS: unitOf
+                  dDNam    : Kirmse
+                  dDNamS   : kirmse }],
+        - dRel: 
+            - dxId: 1003
+              d_c: Cmp
+              ids: [5, 3]
+              dRelToFrs: [{
+                - d_c: Cmp
+                  dId      : 5
+                  dRelDNam : Street of
+                  dRelDNamS: streetOf
+                  dDNam    : acme
+                  dDNamS   : acme },
+              {
+              - d_c: Cmp
+                  dId      : 3
+                  dRelDNam : Unit of
+                  dRelDNamS: unitOf
+                  dDNam    : Kirmse
+                  dDNamS   : kirmse }]]
+
+      frs  : 
+        - dRel: 
+            - dxId: 1005
+              d_c: Cmp
+              ids: [7]
+              dRelToFrs: [{
+                - d_c: Cmp
+                  dId      : 7
+                  dRelDNam : Admin is
+                  dRelDNamS: adminIs
+                  dDNam    : Sally
+                  dDNamS   : Sally }]
+        - dRel: 
+            - dxId: 1006
+              d_c: Cmp
+              ids: [10]
+              dRelToFrs: [{
+                - d_c: Cmp
+                  dId      : 10
+                  dRelDNam : Unit of
+                  dRelDNamS: unitOf
+                  dDNam    : 1031
+                  dDNamS   : 1031 }]
+
+cnts:
+    - id   : 7
+      type : Prs
+      _c   : prs
+      dNam : Sally
+      dNamS: Sally
+      tos  : [
+        - dRel: 
+            - dxId: 1004
+              d_c: Cmp
+              ids: [1, 3]
+              dRelToFrs: [{
+                - d_c: Cmp
+                  dId      : 1
+                  dRelDNam : Street of
+                  dRelDNamS: streetOf
+                  dDNam    : GSNI
+                  dDNamS   : ni },
+               {
+                - d_c: Cmp
+                  dId      : 3
+                  dRelDNam : Admin of
+                  dRelDNamS: adminOf
+                  dDNam    : Kirmse
+                  dDNamS   : kirmse }],
+        - dRel: 
+            - dxId: 1004
+              d_c: Cmp
+              ids: [5, 3]
+              dRelToFrs: [{
+                - d_c: Cmp
+                  dId      : 5
+                  dRelDNam : Street of
+                  dRelDNamS: streetOf
+                  dDNam    : acme
+                  dDNamS   : acme },
+               {
+                - d_c: Cmp
+                  dId      : 3
+                  dRelDNam : Admin of
+                  dRelDNamS: adminOf
+                  dDNam    : Kirmse
+                  dDNamS   : kirmse }],
+                  
+         - dRel:[
+            - dxId: 1005
+              d_c: Prs
+              ids: [5, 3, 4]
+                dRelToFrs: [{
+                - d_c: Cmp
+                  dId      : 5
+                  dRelDNam : Street of
+                  dRelDNamS: streetOf
+                  dDNam    : acme
+                  dDNamS   : acme },
+               {
+                - d_c: Cmp
+                  dId      : 3
+                  dRelDNam : Admin of
+                  dRelDNamS: adminOf
+                  dDNam    : Kirmse
+                  dDNamS   : kirmse },
+               {
+                - d_c: Cmp
+                  dId      : 4
+                  dRelDNam : Admin of
+                  dRelDNamS: adminOf
+                  dDNam    : 104
+                  dDNamS   : 104 }]]
+
+cnts:
+    - id   : 4
+      type : company
+      _c   : cmp
+      dNam : 104
+      dNamS: 104
+      tos  : [
+        - dRel: 
+            - dxId: 1003
+              d_c: Cmp
+              ids: [1, 3]
+              dRelToFrs: [{
+                - d_c: Cmp
+                  dId      : 1
+                  dRelDNam : Street of
+                  dRelDNamS: streetOf
+                  dDNam    : GSNI
+                  dDNamS   : ni },
+              {
+              - d_c: Cmp
+                  dId      : 3
+                  dRelDNam : Unit of
+                  dRelDNamS: unitOf
+                  dDNam    : Kirmse
+                  dDNamS   : kirmse }],
+        - dRel: 
+            - dxId: 1003
+              d_c: Cmp
+              ids: [5, 3]
+              dRelToFrs: [{
+                - d_c: Cmp
+                  dId      : 5
+                  dRelDNam : Street of
+                  dRelDNamS: streetOf
+                  dDNam    : acme
+                  dDNamS   : acme },
+              {
+              - d_c: Cmp
+                  dId      : 3
+                  dRelDNam : Unit of
+                  dRelDNamS: unitOf
+                  dDNam    : Kirmse
+                  dDNamS   : kirmse }]]
+
+      frs  : 
+        - dRel: 
+            - dxId: 1005
+              d_c: Cmp
+              ids: [7]
+              dRelToFrs: [{
+                - d_c: Cmp
+                  dId      : 7
+                  dRelDNam : Admin is
+                  dRelDNamS: adminIs
+                  dDNam    : Sally
+                  dDNamS   : Sally }]
+        - dRel: 
+            - dxId: 1006
+              d_c: Cmp
+              ids: [10]
+              dRelToFrs: [{
+                - d_c: Cmp
+                  dId      : 10
+                  dRelDNam : Unit of
+                  dRelDNamS: unitOf
+                  dDNam    : 1031
+                  dDNamS   : 1031 }]
+
+cnts:
+    - id   : 10
+      type : company
+      _c   : Cmp
+      dNam : 1031
+      dNamS: 1031
+      tos  : [
+        - dRel: 
+            - dxId: 1006
+              d_c: Cmp
+              ids: [1, 3, 4]
+              dRelToFrs: [{
+                - d_c: Cmp
+                  dId      : 1
+                  dRelDNam : Street of
+                  dRelDNamS: streetOf
+                  dDNam    : GSNI
+                  dDNamS   : ni },
+              {
+              - d_c: Cmp
+                  dId      : 3
+                  dRelDNam : Unit of
+                  dRelDNamS: unitOf
+                  dDNam    : Kirmse
+                  dDNamS   : kirmse },
+              {
+              - d_c: Cmp
+                  dId      : 4
+                  dRelDNam : Troop of
+                  dRelDNamS: troopOf
+                  dDNam    : 104
+                  dDNamS   : 104 }],
+        - dRel: 
+            - dxId: 1006
+              d_c: Cmp
+              ids: [5, 3, 4]
+              dRelToFrs: [{
+                - d_c: Cmp
+                  dId      : 5
+                  dRelDNam : Street of
+                  dRelDNamS: streetOf
+                  dDNam    : acme
+                  dDNamS   : acme },
+              {
+              - d_c: Cmp
+                  dId      : 3
+                  dRelDNam : Unit of
+                  dRelDNamS: unitOf
+                  dDNam    : Kirmse
+                  dDNamS   : kirmse },
+              {
+              - d_c: Cmp
+                  dId      : 4
+                  dRelDNam : Troop of
+                  dRelDNamS: troopOf
+                  dDNam    : 104
+                  dDNamS   : 104 }]]
+
+      frs  : 
+        - dRel: 
+            - dxId: 1007
+              d_c: Cmp
+              ids: [11]
+              dRelToFrs: [{
+                - d_c: Cmp
+                  dId      : 11
+                  dRelDNam : Admin is
+                  dRelDNamS: adminIs
+                  dDNam    : Suzie
+                  dDNamS   : Suzie }]
+
+cnts:
+    - id   : 11
+      type : Person
+      _c   : Prs
+      dNam : Suzie
+      dNamS: Suzie
+      tos  : [
+        - dRel: 
+            - dxId: 1007
+              d_c: Cmp
+              ids: [1, 3, 4, 10]
+              dRelToFrs: [{
+                - d_c: Cmp
+                  dId      : 1
+                  dRelDNam : Street of
+                  dRelDNamS: streetOf
+                  dDNam    : GSNI
+                  dDNamS   : ni },
+              {
+              - d_c: Cmp
+                  dId      : 3
+                  dRelDNam : Unit of
+                  dRelDNamS: unitOf
+                  dDNam    : Kirmse
+                  dDNamS   : kirmse },
+              {
+              - d_c: Cmp
+                  dId      : 4
+                  dRelDNam : Troop of
+                  dRelDNamS: troopOf
+                  dDNam    : 104
+                  dDNamS   : 104 },
+              {
+              - d_c: Cmp
+                  dId      : 10
+                  dRelDNam : Admin of
+                  dRelDNamS: adminOf
+                  dDNam    : 1031
+                  dDNamS   : 1031 }],
+        - dRel: 
+            - dxId: 1007
+              d_c: Cmp
+              ids: [5, 3, 4, 10]
+              dRelToFrs: [{
+	                - d_c: Cmp
+                  dId      : 5
+                  dRelDNam : Street of
+                  dRelDNamS: streetOf
+                  dDNam    : acme
+                  dDNamS   : acme },
+              {
+              - d_c: Cmp
+                  dId      : 3
+                  dRelDNam : Unit of
+                  dRelDNamS: unitOf
+                  dDNam    : Kirmse
+                  dDNamS   : kirmse },
+              {
+              - d_c: Cmp
+                  dId      : 4
+                  dRelDNam : Troop of
+                  dRelDNamS: troopOf
+                  dDNam    : 104
+                  dDNamS   : 104 },
+              {
+              - d_c: Cmp
+                  dId      : 10
+                  dRelDNam : Admin of
+                  dRelDNamS: adminOf
+                  dDNam    : 1031
+                  dDNamS   : 1031 }]]
+
+# Step 22: Type of Kirmse is changed from area to street. As long as class of entity
+# does not change Dx and DxRel records will not chnage.
+
+cnts:
+    - id   : 1
+      _c   : Cmp
+      type : company
+      dNam : GSNI
+      dNamS: ni
+      frs  : [
+        - dRel:
+            - dxId: 1001
+              d_c: Cmp
+              ids: [2]
+              dRelToFrs: [{
+                - d_c: Cmp
+                  dRelDNam : Company of
+                  dId      : 2
+                  dRelDNamS: cmpOf
+                  dDNam    : Program Group
+                  dDNamS   : prgrp }],
+        - dRel:
+            - dxId: 1002
+              d_c: Cmp
+              ids: [3]
+              dRelToFrs: [{
+                - d_c: Cmp
+                  dRelDNam : Company of
+                  dId      : 3
+                  dRelDNamS: cmpOf
+                  dDNam    : Kirmse
+                  dDNamS   : Kirmse }] ]
+                  
+cnts:
+    - id   : 5
+      _c   : Cmp
+      type : company
+      dNam : acme
+      dNamS: acme
+      frs  : 
+        - dRel:
+            - dxId: 1008
+              d_c: Cmp
+              ids: [3]
+              dRelToFrs: [{
+                - d_c: Cmp
+                  dRelDNam : Company of
+                  dId      : 3
+                  dRelDNamS: cmpOf
+                  dDNam    : Kirmse
+                  dDNamS   : kirmse }]
+
+cnts:
+    - id   : 3
+      type : company
+      _c   : Cmp
+      dNam : Kirmse
+      dNamS: kirmse
+      tos  : [
+        - dRel: 
+            - dxId: 1002
+              d_c: Cmp
+              ids: [1]
+              dRelToFrs: [{
+                - d_c: Cmp
+                  dId      : 1
+                  dRelDNam : Street of
+                  dRelDNamS: streetOf
+                  dDNam    : GSNI
+                  dDNamS   : ni }], 
+        - dRel: 
+            - dxId: 1008
+              d_c: Cmp
+              ids: [5]
+              dRelToFrs: [{
+                - d_c: Cmp
+                  dId      : 5
+                  dRelDNam : Street of
+                  dRelDNamS: streetOf
+                  dDNam    : acme
+                  dDNamS   : acme }]]
+      frs  : 
+        - dRel: 
+            - dxId: 1003
+              d_c: Cmp
+              ids: [4]
+              dRelToFrs: [{
+                - d_c: Cmp
+                  dId      : 4
+                  dRelDNam : Street of
+                  dRelDNamS: streetOf
+                  dDNam    : 104
+                  dDNamS   : 104 }]
+            - dxId: 1004
+              d_c: Cmp
+              ids: [7]
+              dRelToFrs: [{
+                - d_c: Cmp
+                  dId      : 7
+                  dRelDNam : Admin is
+                  dRelDNamS: adminIs
+                  dDNam    : Sally
+                  dDNamS   : Sally }]
+cnts:
+    - id   : 4
+      type : company
+      _c   : cmp
+      dNam : 104
+      dNamS: 104
+      tos  : [
+        - dRel: 
+            - dxId: 1003
+              d_c: Cmp
+              ids: [1, 3]
+              dRelToFrs: [{
+                - d_c: Cmp
+                  dId      : 1
+                  dRelDNam : Street of
+                  dRelDNamS: streetOf
+                  dDNam    : GSNI
+                  dDNamS   : ni },
+              {
+              - d_c: Cmp
+                  dId      : 3
+                  dRelDNam : Unit of
+                  dRelDNamS: unitOf
+                  dDNam    : Kirmse
+                  dDNamS   : kirmse }],
+        - dRel: 
+            - dxId: 1003
+              d_c: Cmp
+              ids: [5, 3]
+              dRelToFrs: [{
+                - d_c: Cmp
+                  dId      : 5
+                  dRelDNam : Street of
+                  dRelDNamS: streetOf
+                  dDNam    : acme
+                  dDNamS   : acme },
+              {
+              - d_c: Cmp
+                  dId      : 3
+                  dRelDNam : Unit of
+                  dRelDNamS: unitOf
+                  dDNam    : Kirmse
+                  dDNamS   : kirmse }]]
+
+      frs  : 
+        - dRel: 
+            - dxId: 1005
+              d_c: Cmp
+              ids: [7]
+              dRelToFrs: [{
+                - d_c: Cmp
+                  dId      : 7
+                  dRelDNam : Admin is
+                  dRelDNamS: adminIs
+                  dDNam    : Sally
+                  dDNamS   : Sally }]
+        - dRel: 
+            - dxId: 1006
+              d_c: Cmp
+              ids: [10]
+              dRelToFrs: [{
+                - d_c: Cmp
+                  dId      : 10
+                  dRelDNam : Unit of
+                  dRelDNamS: unitOf
+                  dDNam    : 1031
+                  dDNamS   : 1031 }]
+
+cnts:
+    - id   : 7
+      type : Prs
+      _c   : prs
+      dNam : Sally
+      dNamS: Sally
+      tos  : [
+        - dRel: 
+            - dxId: 1004
+              d_c: Cmp
+              ids: [1, 3]
+              dRelToFrs: [{
+                - d_c: Cmp
+                  dId      : 1
+                  dRelDNam : Street of
+                  dRelDNamS: streetOf
+                  dDNam    : GSNI
+                  dDNamS   : ni },
+               {
+                - d_c: Cmp
+                  dId      : 3
+                  dRelDNam : Admin of
+                  dRelDNamS: adminOf
+                  dDNam    : Kirmse
+                  dDNamS   : kirmse }],
+        - dRel: 
+            - dxId: 1004
+              d_c: Cmp
+              ids: [5, 3]
+              dRelToFrs: [{
+                - d_c: Cmp
+                  dId      : 5
+                  dRelDNam : Street of
+                  dRelDNamS: streetOf
+                  dDNam    : acme
+                  dDNamS   : acme },
+               {
+                - d_c: Cmp
+                  dId      : 3
+                  dRelDNam : Admin of
+                  dRelDNamS: adminOf
+                  dDNam    : Kirmse
+                  dDNamS   : kirmse }],
+                  
+         - dRel:[
+            - dxId: 1005
+              d_c: Prs
+              ids: [5, 3, 4]
+                dRelToFrs: [{
+                - d_c: Cmp
+                  dId      : 5
+                  dRelDNam : Street of
+                  dRelDNamS: streetOf
+                  dDNam    : acme
+                  dDNamS   : acme },
+               {
+                - d_c: Cmp
+                  dId      : 3
+                  dRelDNam : Admin of
+                  dRelDNamS: adminOf
+                  dDNam    : Kirmse
+                  dDNamS   : kirmse },
+               {
+                - d_c: Cmp
+                  dId      : 4
+                  dRelDNam : Admin of
+                  dRelDNamS: adminOf
+                  dDNam    : 104
+                  dDNamS   : 104 }]]
+
+cnts:
+    - id   : 4
+      type : company
+      _c   : cmp
+      dNam : 104
+      dNamS: 104
+      tos  : [
+        - dRel: 
+            - dxId: 1003
+              d_c: Cmp
+              ids: [1, 3]
+              dRelToFrs: [{
+                - d_c: Cmp
+                  dId      : 1
+                  dRelDNam : Street of
+                  dRelDNamS: streetOf
+                  dDNam    : GSNI
+                  dDNamS   : ni },
+              {
+              - d_c: Cmp
+                  dId      : 3
+                  dRelDNam : Unit of
+                  dRelDNamS: unitOf
+                  dDNam    : Kirmse
+                  dDNamS   : kirmse }],
+        - dRel: 
+            - dxId: 1003
+              d_c: Cmp
+              ids: [5, 3]
+              dRelToFrs: [{
+                - d_c: Cmp
+                  dId      : 5
+                  dRelDNam : Street of
+                  dRelDNamS: streetOf
+                  dDNam    : acme
+                  dDNamS   : acme },
+              {
+              - d_c: Cmp
+                  dId      : 3
+                  dRelDNam : Unit of
+                  dRelDNamS: unitOf
+                  dDNam    : Kirmse
+                  dDNamS   : kirmse }]]
+
+      frs  : 
+        - dRel: 
+            - dxId: 1005
+              d_c: Cmp
+              ids: [7]
+              dRelToFrs: [{
+                - d_c: Cmp
+                  dId      : 7
+                  dRelDNam : Admin is
+                  dRelDNamS: adminIs
+                  dDNam    : Sally
+                  dDNamS   : Sally }]
+        - dRel: 
+            - dxId: 1006
+              d_c: Cmp
+              ids: [10]
+              dRelToFrs: [{
+                - d_c: Cmp
+                  dId      : 10
+                  dRelDNam : Unit of
+                  dRelDNamS: unitOf
+                  dDNam    : 1031
+                  dDNamS   : 1031 }]
+
+cnts:
+    - id   : 10
+      type : company
+      _c   : Cmp
+      dNam : 1031
+      dNamS: 1031
+      tos  : [
+        - dRel: 
+            - dxId: 1006
+              d_c: Cmp
+              ids: [1, 3, 4]
+              dRelToFrs: [{
+                - d_c: Cmp
+                  dId      : 1
+                  dRelDNam : Street of
+                  dRelDNamS: streetOf
+                  dDNam    : GSNI
+                  dDNamS   : ni },
+              {
+              - d_c: Cmp
+                  dId      : 3
+                  dRelDNam : Unit of
+                  dRelDNamS: unitOf
+                  dDNam    : Kirmse
+                  dDNamS   : kirmse },
+              {
+              - d_c: Cmp
+                  dId      : 4
+                  dRelDNam : Troop of
+                  dRelDNamS: troopOf
+                  dDNam    : 104
+                  dDNamS   : 104 }],
+        - dRel: 
+            - dxId: 1006
+              d_c: Cmp
+              ids: [5, 3, 4]
+              dRelToFrs: [{
+                - d_c: Cmp
+                  dId      : 5
+                  dRelDNam : Street of
+                  dRelDNamS: streetOf
+                  dDNam    : acme
+                  dDNamS   : acme },
+              {
+              - d_c: Cmp
+                  dId      : 3
+                  dRelDNam : Unit of
+                  dRelDNamS: unitOf
+                  dDNam    : Kirmse
+                  dDNamS   : kirmse },
+              {
+              - d_c: Cmp
+                  dId      : 4
+                  dRelDNam : Troop of
+                  dRelDNamS: troopOf
+                  dDNam    : 104
+                  dDNamS   : 104 }]]
+
+      frs  : 
+        - dRel: 
+            - dxId: 1007
+              d_c: Cmp
+              ids: [11]
+              dRelToFrs: [{
+                - d_c: Cmp
+                  dId      : 11
+                  dRelDNam : Admin is
+                  dRelDNamS: adminIs
+                  dDNam    : Suzie
+                  dDNamS   : Suzie }]
+
+cnts:
+    - id   : 11
+      type : Person
+      _c   : Prs
+      dNam : Suzie
+      dNamS: Suzie
+      tos  : [
+        - dRel: 
+            - dxId: 1007
+              d_c: Cmp
+              ids: [1, 3, 4, 10]
+              dRelToFrs: [{
+                - d_c: Cmp
+                  dId      : 1
+                  dRelDNam : Street of
+                  dRelDNamS: streetOf
+                  dDNam    : GSNI
+                  dDNamS   : ni },
+              {
+              - d_c: Cmp
+                  dId      : 3
+                  dRelDNam : Unit of
+                  dRelDNamS: unitOf
+                  dDNam    : Kirmse
+                  dDNamS   : kirmse },
+              {
+              - d_c: Cmp
+                  dId      : 4
+                  dRelDNam : Troop of
+                  dRelDNamS: troopOf
+                  dDNam    : 104
+                  dDNamS   : 104 },
+              {
+              - d_c: Cmp
+                  dId      : 10
+                  dRelDNam : Admin of
+                  dRelDNamS: adminOf
+                  dDNam    : 1031
+                  dDNamS   : 1031 }],
+        - dRel: 
+            - dxId: 1007
+              d_c: Cmp
+              ids: [5, 3, 4, 10]
+              dRelToFrs: [{
+	                - d_c: Cmp
+                  dId      : 5
+                  dRelDNam : Street of
+                  dRelDNamS: streetOf
+                  dDNam    : acme
+                  dDNamS   : acme },
+              {
+              - d_c: Cmp
+                  dId      : 3
+                  dRelDNam : Unit of
+                  dRelDNamS: unitOf
+                  dDNam    : Kirmse
+                  dDNamS   : kirmse },
+              {
+              - d_c: Cmp
+                  dId      : 4
+                  dRelDNam : Troop of
+                  dRelDNamS: troopOf
+                  dDNam    : 104
+                  dDNamS   : 104 },
+              {
+              - d_c: Cmp
+                  dId      : 10
+                  dRelDNam : Admin of
+                  dRelDNamS: adminOf
+                  dDNam    : 1031
+                  dDNamS   : 1031 }]]

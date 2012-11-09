@@ -1,4 +1,4 @@
-*.pyc
+*pyc
 *.db
 *.pyo
 
@@ -19,6 +19,8 @@
 *.swp
 local_settings.py
 .idea/*
+.project
+.pydevproject
 venv/
 
 *.project
