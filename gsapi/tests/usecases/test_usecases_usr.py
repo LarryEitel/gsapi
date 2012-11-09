@@ -36,3 +36,6 @@ class TestUseCaseUsr(TestCase):
         print "FORGOT UserId:"
         print "VALIDATION Email:"
         print "CHANGE Primary Email:"
+    
+    def crete_company(self):
+        print "create one company:"
