@@ -1,4 +1,4 @@
-from model import Mod
+from mod import Mod
 from schematics.models import Model as _Model
 from schematics.types import IntType, LongType, StringType, FloatType, DateTimeType, EmailType
 from schematics.types.compound import ListType, ModelType

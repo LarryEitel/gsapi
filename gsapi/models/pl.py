@@ -1,8 +1,8 @@
-from model import Mod
+from mod import Mod
 from schematics.models import Model as _Model
 from schematics.types import IntType, LongType, StringType, FloatType, DateTimeType, EmailType, GeoPointType, URLType, BooleanType, DictType
 from schematics.types.compound import ListType, ModelType
-from embed import Email, Note, Phone, Im, Review
+from embed import Email, Note, Im, Review
 from mixins import DxMixin
 from schematics.types.mongo import ObjectIdType
 from bson import ObjectId
@@ -15,6 +15,11 @@ class Country(_Model):
     code   = StringType(minimized_field_name='Code', description='Country code as in ISO 3166-1 alpha-2')
     nam    = StringType(minimized_field_name='Name', description='')
     namLoc = StringType(minimized_field_name='Local Name', description='')
+
+    meta       = {
+        'collection': 'countrys',
+        '_c': 'Country',
+        }
 
 # structuredPostalAddress
 # https://developers.google.com/gdata/docs/2.0/elements#gdStructuredPostalAddress
@@ -41,7 +46,7 @@ class AddrPart(_Model):
 
 # make this embedded doc
 # not all places have structured address
-class PostalAddr(_Model):
+class PostalAddr(Mod):
     '''https://developers.google.com/gdata/docs/2.0/elements#gdStructuredPostalAddress'''
 
     addr1    = StringType(minimized_field_name='Address1', description="")
@@ -62,49 +67,50 @@ class PostalAddr(_Model):
     postalCode = StringType(minimized_field_name='Postal Code', description='Postal code. Usually country-wide, but sometimes specific to the city (e.g. "2" in "Dublin 2, Ireland" addresses).')
     postalTown = StringType(minimized_field_name='Post Town', description='')
 
-    country = StringType(minimized_field_name='Country', description='The name or code of the country.')
-    dNam = StringType(minimized_field_name='Display Postal Address', description='The full, unstructured postal address.')
+    country = ModelType(Country)
+
+    meta       = {
+        '_c': 'PostalAddr',
+        }
+
 
 class Pl(Mod, DxMixin):
     '''https://developers.google.com/places/documentation/details
         https://developers.google.com/maps/documentation/javascript/places#place_details_responses
         '''
-    addrParts = ListType(ModelType(AddrPart))
-
+    addrParts  = ListType(ModelType(AddrPart))
+    
     accessTags = ListType(StringType(minimized_field_name='Tags', description='Restricted, intercom, guard, etc'))
     status     = ListType(StringType(minimized_field_name='Status', description='do_not_call, busy, nh, etc'))
-
-    # types [ "locality", "political" ]
-    plTyps = ListType(StringType(minimized_field_name='Place Type', description='https://developers.google.com/places/documentation/supported_types'))
-
+    
     mUnit      = BooleanType(default=False, minimized_field_name='Is Multi-Unit premise.')
     mLevel     = BooleanType(default=False, minimized_field_name='Is Multi-Level premise.')
-
+    
     # put in PostalAddress?
     postalAddr = PostalAddr()
-
+    
     color1     = StringType(minimized_field_name='Primary Color', description='')
     color2     = StringType(minimized_field_name='Secondary Color', description='')
-    desc       = StringType(minimized_field_name='Description', description='')
-
-    utcOffset    = LongType(minimized_field_name='Offset from UTC', description='The number of minutes this Place\'s current timezone is offset from UTC. For example, for Places in Sydney, Australia during daylight saving time this would be 660 (+11 hours from UTC), and for Places in California outside of daylight saving time this would be -480 (-8 hours from UTC).')
-
-    # urls         = ListType(ModelType(URLType), minimized_field_name='Urls', description='Urls associated with this place.')
-    #imgs         = ListType(ModelType(Img), minimized_field_name='Images', description='Images associated with this place.')
-
-
-    postCode     = StringType(minimized_field_name='Postal Code', description='Postal code. Usually country-wide, but sometimes specific to the city (e.g. "2" in "Dublin 2, Ireland" addresses).')
-
-    aPath        = StringType(minimized_field_name="Verbose Ancestor Path")
-    aPathS   = StringType(minimized_field_name="Ancestor Path Short")
-
-    poly         = ListType(GeoPointType()) # array of points/locs # boundary of place if an area is involved
-    polyOk       = BooleanType()
-    bBox         = DictType() # contain topLat, rightLng, bottomLat, leftLng
-
-    geoPt        = GeoPointType() # LNG,LAT, if this involves a boundary, loc becomes center pt
-    geoOk        = BooleanType() # empty = unconfirmed
-
-    meta = {
-        '_c': 'pl',
+    
+    utcOffset  = LongType(minimized_field_name='Offset from UTC', description='The number of minutes this Place\'s current timezone is offset from UTC. For example, for Places in Sydney, Australia during daylight saving time this would be 660 (+11 hours from UTC), and for Places in California outside of daylight saving time this would be -480 (-8 hours from UTC).')
+    
+    # urls     = ListType(ModelType(URLType), minimized_field_name='Urls', description='Urls associated with this place.')
+    #imgs      = ListType(ModelType(Img), minimized_field_name='Images', description='Images associated with this place.')
+    
+    
+    postCode   = StringType(minimized_field_name='Postal Code', description='Postal code. Usually country-wide, but sometimes specific to the city (e.g. "2" in "Dublin 2, Ireland" addresses).')
+    
+    aPath      = StringType(minimized_field_name="Verbose Ancestor Path")
+    aPathS     = StringType(minimized_field_name="Ancestor Path Short")
+    
+    poly       = ListType(GeoPointType()) # array of points/locs # boundary of place if an area is involved
+    polyOk     = BooleanType()
+    bBox       = DictType() # contain topLat, rightLng, bottomLat, leftLng
+    
+    geoPt      = GeoPointType() # LNG,LAT, if this involves a boundary, loc becomes center pt
+    geoOk      = BooleanType() # empty = unconfirmed
+    
+    meta       = {
+        'collection': 'pls',
+        '_c': 'Pl',
         }

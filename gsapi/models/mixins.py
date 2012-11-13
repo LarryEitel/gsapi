@@ -1,45 +1,43 @@
-from schematics.models import Model, Mixin
-from schematics.types import (BaseType, StringType, BooleanType, URLType, EmailType, LongType)
+from schematics.models import Mixin
+from schematics.types import StringType, BooleanType, URLType, EmailType
 from schematics.types.compound import ListType, ModelType
-from embed import Email, Note, Phone, Im, Review
+from embed import Email, Note, Tel, Im, Review
+from schematics.types.mongo import ObjectIdType
+from bson import ObjectId
+from dx import DRel
 from rdt import Rdt
+from embed import Shr
 
 # mixins
 # https://github.com/j2labs/schematics/blob/master/demos/mixins.py
 
-
 # create
 # RatingType() # https://developers.google.com/gdata/docs/2.0/elements#gdRating
-
 
 # ResourceType() # https://developers.google.com/gdata/docs/2.0/elements#gdResourceId
 
 class DxMixin(Mixin):
-    typ       = StringType(minimized_field_name='Type of doc.')
-    icon      = StringType(minimized_field_name='Place Icon', description='URL to an image resource that can be used to represent this Place\'s type.')
-    liked     = BooleanType(default=False)
+    # types [ "locality", "political" ]
+    typs      = ListType(StringType(minimized_field_name='Document Types')
+    
+    liked     = ListType(ObjectIdType(ObjectId))
     # create RatingType
     # https   ://developers.google.com/gdata/docs/2.0/elements#gdRating
     rating    = IntType()
-    followers = ListType()
-    favorited = IntType()
+    followers = ListType(ObjectIdType(ObjectId))
+    favorited = ListType(ObjectIdType(ObjectId))
     
     reviews   = ListType(ModelType(Review))
     
-    # long_name
-    nam       = StringType(minimized_field_name='Name')
-    #short_name
-    namS      = StringType(minimized_field_name='NameShort')
-    namAlt    = StringType(minimized_field_name='Alternate/informal/colloquial name')
-    
     tags      = ListType(StringType(minimized_field_name='Tags', description='General tags.'))
     
-    phones    = ListType(ModelType(Phone), minimized_field_name='Phones', description='')
+    tels      = ListType(ModelType(Tel), minimized_field_name='Telephones', description='')
     emails    = ListType(ModelType(Email), minimized_field_name='Emails', description='')
     ims       = ListType(ModelType(Im), minimized_field_name='Instant Message Network', description='')
     
     urls      = ListType(URLType(), minimized_field_name='Urls', description='Urls associated with this doc.')
     rdts      = ListType(ModelType(Rdt))
+    desc      = StringType(minimized_field_name='Description')
     notes     = ListType(ModelType(Note))
     
     shrs      = ListType(ModelType(Shr), minimized_field_name='Share List', description='List of Share docs that describe who and at what level/role this doc is shared with.')

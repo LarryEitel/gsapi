@@ -1,10 +1,10 @@
 from schematics.models import Model as _Model
-from model import Mod
+from mod import Mod
 from schematics.types import IntType, LongType, StringType, FloatType, DateTimeType, EmailType, URLType
 from schematics.types.compound import ListType, ModelType
 
 from bson import ObjectId
-from embed import Email, Note, Phone, Im, Share, Review
+from embed import Email, Note, Im, Shr, Review
 
 from schematics.types.mongo import ObjectIdType
 from mixins import DxMixin
@@ -20,7 +20,7 @@ class Wdg(Mod, DxMixind):
 
     meta   = {
         'collection': 'wdgs',
-        '_c': 'wdg',
+        '_c': 'Wdg',
         }
 
 class Event(Wdg):
@@ -34,7 +34,7 @@ class Event(Wdg):
 
     meta   = {
         'collection': 'wdgs',
-        '_c': 'event',
+        '_c': 'Event',
         }
 
 esWdg = {

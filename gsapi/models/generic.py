@@ -2,16 +2,17 @@ from schematics.models import Model as _Model
 from schematics.types import StringType, DateTimeType, EmailType, FloatType
 
 from schematics.types.mongo import ObjectIdType
-from model import Mod
+from mod import Mod
+from embed import Note
 
 class TypLocal(_Model):
-    _id   = StringType() # local, ie, us_en
-    tNamS = StringType()
+    _id = StringType() # local, ie, us_en
+    nam = StringType()
 
 class Typ(Mod):
     '''Type. Model attributes may represent a type, ie, Company (Cmp) may be of a type "Department", Place (Pl) may be of a type "Country".'''
-    _id  = StringType() # doc _c + attribute name, ie, Pl.country
-    tNam = StringType()
+    _id    = StringType() # doc _c + attribute name, ie, Pl.country
+    nam    = StringType()
     locals = ListType(ModelType(TypLocal))
     
     meta = {
@@ -60,7 +61,7 @@ class Log(_Model):
 # class Email(_Model):
 #     if 1: # Fields
 #         email  = EmailType()
-#     	sort   = FloatType(minimized_field_name='Sort', description='Sorted with primary being first in list.')
+#     	sort   = FloatType(minimized_field_name='Sort', description='Sorted with prim being first in list.')
 #     	note    = StringType()
 
 #     if 1: # Methods

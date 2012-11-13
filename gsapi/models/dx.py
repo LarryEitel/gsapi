@@ -1,12 +1,11 @@
-from model import Mod
+from mod import Mod
 from schematics.models import Model as _Model
 from schematics.types import IntType, StringType, FloatType, DateTimeType, EmailType, URLType
 from schematics.types.compound import ListType, ModelType
 
 from schematics.types.mongo import ObjectIdType
 from bson import ObjectId
-from embed import Email, Note, Phone, Im
-
+from embed import Note
 '''
     QUESTION:
         class.ID is an ObjectID or ID string?
@@ -32,65 +31,68 @@ class DRelToFr(_Model):
         ''' 
     # doc ID
     # 
-    dId        = ObjectIdType(ObjectId)
-
+    dId    = ObjectIdType(ObjectId)
+    
     # doc Class
     # ie, pl for Place
-    d_c         = ObjectIdType(ObjectId)
-
+    d_c    = ObjectIdType(ObjectId)
+    
     # doc Relation Display Name 
     # ie, Administrator
-    dxNam      = StringType(minimized_field_name="Relation/Role")
-
+    dxNam  = StringType(minimized_field_name="Relation/Role")
+    
     # doc Relation Display Name Short
     # ie, admin
     dxNamS = StringType(minimized_field_name="Relation/Role Short")
-
-    ddNam      = StringType(minimized_field_name="Doc Display Name")
+    
+    ddNam  = StringType(minimized_field_name="Doc Display Name")
     ddNamS = StringType(minimized_field_name="Doc Display Name Short")
 
 class DRel(_Model):
     '''Doc Relationship 
     # In a list of (rel)ationships, ie, Companies (cmp), Persons (prs), Places (pl), Events (ev), etc, docC = the class so that client can retrieve place (rel)ationships for example.
        '''
+    # QUESTION: needed? In an embedded list of DRel, and wanna update a specific one, this can be the key for the list
+    dxId      = ObjectIdType(ObjectId)
+
     # Doc Class is the doc Class of the immediate parent/to OR child/fr/from in the array/list of IDs/dRels
-    d_c = ObjectIdType(ObjectId)
-    
+    d_c       = StringType(minimized_field_name='Document class', description="doc class of immediate parent/to OR child/fr")
     
     dRelTitle = StringType(minimized_field_name='Role/relationship/title')
     dRelDesc  = StringType(minimized_field_name='Role/relationship description, ie, Job Description.')
-
+    
     # List of Doc IDs in the relToFms list. This is used to quickly check whether a doc ID is referenced.
     # This should be reviewed for effeciency
-    ids   = ListType(ObjectIdType(ObjectId))
+    ids       = ListType(ObjectIdType(ObjectId))
     
     # List of (rel)ationship details
     dRelToFrs = ListType(ModelType(DRelToFr))
     
     # in a list of aPath's, sort list on this value to control order
-    w     = FloatType(minimized_field_name='Sort weight value', description='')
-
-
-    note      = StringType(minimized_field_name='Note', description='More relation/role details.')
+    w         = FloatType(minimized_field_name='Sort weight value', description='')
+    
+    note      = ModelType(Note)
 
 class DxRel(Mod):
     '''Specifies the relationship between document objects. '''
-    fr_c  = ListType(StringType())
-    frNam = StringType(minimized_field_name='From Relationship/Role', description='')
-    frGen = StringType(minimized_field_name='From/Subject Gender', description='')
+    fr_c   = ListType(StringType())
+    frNam  = StringType(minimized_field_name='From Relationship/Role', description='')
+    frNamS = StringType(minimized_field_name='From Relationship/Role', description='')
+    frGen  = StringType(minimized_field_name='From/Subject Gender', description='')
     
-    to_c  = ListType(StringType())
-    toNam = StringType(minimized_field_name='To Relationship/Role', description='')
-    toGen = StringType(minimized_field_name='To/Target Gender', description='')
+    to_c   = ListType(StringType())
+    toNam  = StringType(minimized_field_name='To Relationship/Role', description='')
+    toNamS = StringType(minimized_field_name='To Relationship/Role', description='')
+    toGen  = StringType(minimized_field_name='To/Target Gender', description='')
     
     # this rel is a family relationship
-    fam   = StringType(minimized_field_name='Family Parternam/Maternal?', description='p=Parternal/m=Maternal type relationship')
+    fam    = StringType(minimized_field_name='Family Parternam/Maternal?', description='p=Parternal/m=Maternal type relationship')
     
-    mask  = StringType(minimized_field_name='Mask', description='ie. 1, 11')
+    mask   = StringType(minimized_field_name='Mask', description='ie. 1, 11')
     
-    w     = FloatType(minimized_field_name='Sort weight value', description='')
+    w      = FloatType(minimized_field_name='Sort weight value', description='')
 
-class Dx(_Model):
+class Dx(Mod):
     '''Used to link two Models/Docs together along with reference to rel(ationship) description.
         '''
     fr_c    = ObjectIdType(ObjectId) # From/Subject Class
@@ -101,26 +103,9 @@ class Dx(_Model):
     
     dxRelId = ObjectIdType(ObjectId) # DxRel ID
     
-    # created
-    cBy     = ObjectIdType(ObjectId)
-    cOn     = DateTimeType()
-    cPl     = StringType(minimized_field_name='Place', description='')
-    
-    # modified
-    mBy     = ObjectIdType(ObjectId)
-    mOn     = DateTimeType()
-    mPl     = StringType(minimized_field_name='Place', description='')
-    
-    # deleted
-    dele    = BooleanType(minimized_field_name='Deleted', description='Marked for removal.')
-    dBy     = ObjectIdType(ObjectId)
-    dOn     = DateTimeType()
-    dPl     = StringType()
-    
     meta      = {
 
-
         'collection': 'dxs',
-        '_c': 'dx',
+        '_c': 'Dx',
         }
 
