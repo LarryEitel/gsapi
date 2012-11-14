@@ -2,12 +2,14 @@ from schematics.models import Model as _Model
 from schematics.types import StringType, DateTimeType, BooleanType
 from schematics.types.mongo import ObjectIdType
 from bson import ObjectId
+from typ import Typ
 import datetime
 
 class Mod(_Model):
     _c             = StringType(required=True, description='Class')
     _public_fields = ['_c']
     
+    typ            = ModelType(Typ)
     locked         = BooleanType(minimized_field_name='Locked', description='Marked as locked.')
     dele           = BooleanType(minimized_field_name='Deleted', description='Marked for removal.')
     
@@ -36,7 +38,7 @@ class Mod(_Model):
     #short display name
     dNamS          = StringType(minimized_field_name='NameShort')
     
-    icon           = StringType(minimized_field_name='Place Icon', description='URL to an image resource that can be used to represent this Place\'s type.')
+    img            = StringType(minimized_field_name='Place Icon', description='URL to an image resource that can be used to represent this object.')
     
     meta           = {
         '_c': 'Mod',

@@ -17,8 +17,7 @@ from embed import Shr
 # ResourceType() # https://developers.google.com/gdata/docs/2.0/elements#gdResourceId
 
 class DxMixin(Mixin):
-    # types [ "locality", "political" ]
-    typs      = ListType(StringType(minimized_field_name='Document Types')
+    count     = LongType()
     
     liked     = ListType(ObjectIdType(ObjectId))
     # create RatingType
@@ -29,7 +28,7 @@ class DxMixin(Mixin):
     
     reviews   = ListType(ModelType(Review))
     
-    tags      = ListType(StringType(minimized_field_name='Tags', description='General tags.'))
+    tags      = ListType(ModelType(Tag))
     
     tels      = ListType(ModelType(Tel), minimized_field_name='Telephones', description='')
     emails    = ListType(ModelType(Email), minimized_field_name='Emails', description='')

@@ -40,7 +40,7 @@ class Cmp(Cnt):
                 }
 
     @property
-    def dNam(self):
+    def vNam(self):
         return self.cNam
 class Prs(Cnt):
     '''https://developers.google.com/gdata/docs/2.0/elements#gdName'''
@@ -63,11 +63,7 @@ class Prs(Cnt):
     gen       = StringType(minimized_field_name='Gender', choices=['m','f'], description='Gender')
     rBy       = ObjectIdType(minimized_field_name='Referred/Registered By', description='User that referred or registered this user.')
     
-    famTags   = ListType(ModelType(FamTag))
-    hobbyTags = ListType(ModelType(HobbyTag))
-    skillTags = ListType(ModelType(SkillTag))
-    bio       = ListType(ModelType(Note))
-    pets      = ListType(ModelType(Note))
+    tags      =    ListType(ModelType(Tag))
     
     meta      = {
         'collection': 'cnts',
@@ -80,9 +76,6 @@ class Prs(Cnt):
             "dNam"      : self.dNam,
             "oOn"       : self.oOn,
                 }
-
-    def save(self):
-        pass
 
     @property
     def fullName(self):
@@ -131,7 +124,6 @@ class Usr(Prs):
     uNam   = StringType(required=True, minimized_field_name='UserName', description='')
     pw     = StringType(minimized_field_name='Password', description='Password Hash')
     # initially, this will contain 'admin' for admin users
-    grps   = ListType(StringType(), minimized_field_name='Groups', description='List of Groups this Usr is a member of.')
 
     rstTkn = StringType(minimized_field_name='Reset Token', description='Used for resetting credentials.')
     rstOn  = DateTimeType(minimized_field_name='Reset Token DateTime Expiration', description='Used for resetting credentials.')
@@ -143,25 +135,25 @@ class Usr(Prs):
         '_c': 'Usr',
         }
 
-esCnt = {
-    'parsedtext': {
-        'boost': 1.0,
-        'index': 'analyzed',
-        'store': 'yes',
-        'type': u'string',
-        "term_vector" : "with_positions_offsets"},
-    'dNam': {
-        'boost': 1.0,
-        'index': 'analyzed',
-        'store': 'yes',
-        'type': u'string',
-        "term_vector" : "with_positions_offsets"},
-    'title': {
-        'boost': 1.0,
-        'index': 'analyzed',
-        'store': 'yes',
-        'type': u'string',
-        "term_vector" : "with_positions_offsets"},
-    'oOn': {'store': 'yes',
-        'type': 'date'},
-    }
+# esCnt = {
+#     'parsedtext': {
+#         'boost': 1.0,
+#         'index': 'analyzed',
+#         'store': 'yes',
+#         'type': u'string',
+#         "term_vector" : "with_positions_offsets"},
+#     'dNam': {
+#         'boost': 1.0,
+#         'index': 'analyzed',
+#         'store': 'yes',
+#         'type': u'string',
+#         "term_vector" : "with_positions_offsets"},
+#     'title': {
+#         'boost': 1.0,
+#         'index': 'analyzed',
+#         'store': 'yes',
+#         'type': u'string',
+#         "term_vector" : "with_positions_offsets"},
+#     'oOn': {'store': 'yes',
+#         'type': 'date'},
+#     }

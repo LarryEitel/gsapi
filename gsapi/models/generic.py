@@ -5,21 +5,6 @@ from schematics.types.mongo import ObjectIdType
 from mod import Mod
 from embed import Note
 
-class TypLocal(_Model):
-    _id = StringType() # local, ie, us_en
-    nam = StringType()
-
-class Typ(Mod):
-    '''Type. Model attributes may represent a type, ie, Company (Cmp) may be of a type "Department", Place (Pl) may be of a type "Country".'''
-    _id    = StringType() # doc _c + attribute name, ie, Pl.country
-    nam    = StringType()
-    locals = ListType(ModelType(TypLocal))
-    
-    meta = {
-        'collection': 'typs',
-        '_c': 'Typ',
-        }
-
 class AppId(Mod):
 	appName  = StringType()
 	appKey   = StringType()
