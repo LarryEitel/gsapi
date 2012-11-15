@@ -8,7 +8,7 @@
 cnts:
     - id   : 7
       type : Person
-      dirty: 0
+      locked: 0
       _c   : Prs
       dNam : Sally
       dNamS: Sally
@@ -18,7 +18,7 @@ cnts:
 cnts:
     - id   : 1
       _c   : Cmp
-      dirty: 0
+      locked: 0
       type : company
       dNam : GSNI
       dNamS: ni
@@ -28,7 +28,7 @@ cnts:
 cnts:
     - id   : 8
       _c   : Prs
-      dirty: 0
+      locked: 0
       type : Person
       dNam : Mary Bell
       dNamS: MaryBell
@@ -38,7 +38,7 @@ cnts:
 cnts:
     - id   : 2
       _c   : Cmp
-      dirty: 0
+      locked: 0
       type : department
       dNam : Program Group
       dNamS: pggrp
@@ -50,7 +50,7 @@ cnts:
 cnts:
     - id   : 8
       _c   : Prs
-      dirty: 0
+      locked: 0
       type : Person
       dNam : Mary Bell
       dNamS: MaryBell
@@ -70,7 +70,7 @@ cnts:
 cnts:
     - id   : 2
       _c   : Cmp
-      dirty: 0
+      locked: 0
       type : department
       dNam : Program Group
       dNamS: pggrp
@@ -89,7 +89,7 @@ cnts:
 
 dxs:
 	- id    : 1000
-    dirty  : 0
+    locked  : 0
 	  _c	: Dx
       to_c	: Cmp
       toId	: 2
@@ -99,7 +99,7 @@ dxs:
 
 dxrels:
 	- id    : 2000
-    dirty  : 0
+    locked  : 0
 	  _c	: dxRel
 	  fr_c	: [Person]
 	  frNam	: Mary Bell
@@ -113,7 +113,7 @@ dxrels:
 cnts:
     - id   : 1
       _c   : Cmp
-      dirty: 0
+      locked: 0
       type : company
       dNam : GSNI
       dNamS: ni
@@ -132,7 +132,7 @@ cnts:
 
 dxs:
 	- id	: 1001
-    dirty  : 0
+    locked  : 0
 	  _c	: Dx
 	  to_c	: Cmp
 	  toId	: 1
@@ -142,7 +142,7 @@ dxs:
 	  
 dxrels:
 	- id	: 2001
-    dirty  : 0
+    locked  : 0
 	  _c	: dxRel
 	  fr_c	: [Cmp]
 	  frNam	: Program Group
@@ -152,7 +152,7 @@ dxrels:
 cnts:
     - id   : 8
       _c   : Prs
-      dirty: 0
+      locked: 0
       type : Person
       dNam : Mary Bell
       dNamS: MaryBell
@@ -179,7 +179,7 @@ cnts:
 cnts:
     - id   : 2
       _c   : Cmp
-      dirty: 0
+      locked: 0
       type : department
       dNam : Program Group
       dNamS: pggrp
@@ -224,7 +224,7 @@ cnts:
 cnts:
     - id   : 1
       _c   : Cmp
-      dirty: 0
+      locked: 0
       type : company
       dNam : GSNI
       dNamS: ni
@@ -273,7 +273,7 @@ cnts:
 
 dxs:
 	- id	: 1002
-    dirty  : 0
+    locked  : 0
 	  _c	: Dx
 	  to_c	: Cmp
 	  toId	: 1
@@ -283,7 +283,7 @@ dxs:
 
 dxrels:
 	- id	: 2002
-    dirty  : 0
+    locked  : 0
 	  _c	: dxRel
 	  fr_c	: [Cmp]
 	  frNam	: Kirmse
@@ -296,7 +296,7 @@ cnts:
     - id   : 4
       type : company
       _c   : cmp
-      dirty: 0
+      locked: 0
       dNam : 104
       dNamS: 104
 
@@ -306,7 +306,7 @@ cnts:
     - id   : 3
       type : company
       _c   : Cmp
-      dirty: 0
+      locked: 0
       dNam : Kirmse
       dNamS: Kirmse
       tos  : 
@@ -337,7 +337,7 @@ cnts:
     - id   : 4
       type : company
       _c   : Cmp
-      dirty: 0
+      locked: 0
       dNam : 104
       dNamS: 104
       tos  : 
@@ -362,7 +362,7 @@ cnts:
       
 dxs:
 	- id	: 1003
-    dirty  : 0
+    locked  : 0
 	  _c	: Dx
 	  to_c	: Cmp
 	  toId	: 3
@@ -372,7 +372,7 @@ dxs:
 
 dxrels:
 	- id	: 2003
-    dirty  : 0
+    locked  : 0
 	  _c	: dxRel
 	  fr_c	: [Cmp]
 	  frNam	: 104
@@ -385,7 +385,7 @@ cnts:
     - id   : 3
       type : company
       _c   : Cmp
-      dirty: 0
+      locked: 0
       dNam : Kirmse
       dNamS: Kirmse
       tos  : 
@@ -427,7 +427,7 @@ cnts:
     - id   : 7
       type : Prs
       _c   : prs
-      dirty: 0
+      locked: 0
       dNam : Sally
       dNamS: Sally
       tos  : 
@@ -452,7 +452,7 @@ cnts:
       
 dxs:
 	- id	: 1004
-    dirty  : 0
+    locked  : 0
 	  _c	: Dx
 	  to_c	: Cmp
 	  toId	: 3
@@ -462,7 +462,7 @@ dxs:
 
 dxrels:
 	- id	: 2004
-    dirty  : 0
+    locked  : 0
 	  _c	: dxRel
 	  fr_c	: [Prs]
 	  frNam	: Sally
@@ -476,7 +476,7 @@ cnts:
     - id   : 4
       type : company
       _c   : cmp
-      dirty: 0
+      locked: 0
       dNam : 104
       dNamS: 104
       tos  : 
@@ -515,7 +515,7 @@ cnts:
     - id   : 7
       type : Prs
       _c   : prs
-      dirty: 0
+      locked: 0
       dNam : Sally
       dNamS: Sally
       tos  : 
@@ -565,7 +565,7 @@ cnts:
       
 dxs:
 	- id	: 1005
-    dirty  : 0
+    locked  : 0
 	  _c	: Dx
 	  to_c	: Cmp
 	  toId	: 4
@@ -575,7 +575,7 @@ dxs:
 
 dxrels:
 	- id	: 2005
-    dirty  : 0
+    locked  : 0
 	  _c	: dxRel
 	  fr_c	: [Prs]
 	  frNam	: Sally
@@ -588,7 +588,7 @@ cnts:
     - id   : 11
       type : Person
       _c   : Prs
-      dirty: 0
+      locked: 0
       dNam : Suzie
       dNamS: Suzie
 
@@ -597,7 +597,7 @@ cnts:
 cnts:
     - id   : 10
       _c   : Cmp
-      dirty: 0
+      locked: 0
       type : company
       dNam : 1031
       dNamS: 1031
@@ -609,7 +609,7 @@ cnts:
     - id   : 4
       type : company
       _c   : cmp
-      dirty: 0
+      locked: 0
       dNam : 104
       dNamS: 104
       tos  : 
@@ -660,7 +660,7 @@ cnts:
     - id   : 10
       type : company
       _c   : Cmp
-      dirty: 0
+      locked: 0
       dNam : 1031
       dNamS: 1031
       tos  : 
@@ -692,7 +692,7 @@ cnts:
 
 dxs:
 	- id	: 1006
-    dirty  : 0
+    locked  : 0
 	  _c	: Dx
 	  to_c	: Cmp
 	  toId	: 4
@@ -702,7 +702,7 @@ dxs:
 
 dxrels:
 	- id	: 2006
-    dirty  : 0
+    locked  : 0
 	  _c	: dxRel
 	  fr_c	: [Cmp]
 	  frNam	: 1031
@@ -716,7 +716,7 @@ cnts:
     - id   : 10
       type : company
       _c   : Cmp
-      dirty: 0
+      locked: 0
       dNam : 1031
       dNamS: 1031
       tos  : 
@@ -763,7 +763,7 @@ cnts:
     - id   : 11
       type : Person
       _c   : Prs
-      dirty: 0
+      locked: 0
       dNam : Suzie
       dNamS: Suzie
       tos  : 
@@ -802,7 +802,7 @@ cnts:
 
 dxs:
 	- id	: 1007
-    dirty  : 0
+    locked  : 0
 	  _c	: Dx
 	  to_c	: Cmp
 	  toId	: 10
@@ -812,7 +812,7 @@ dxs:
 
 dxrels:
 	- id	: 2007
-    dirty  : 0
+    locked  : 0
 	  _c	: dxRel
 	  fr_c	: [Prs]
 	  frNam	: Suzie
@@ -834,7 +834,7 @@ cnts:
 cnts:
     - id   : 5
       _c   : Cmp
-      dirty: 0
+      locked: 0
       type : company
       dNam : acme
       dNamS: acme
@@ -855,7 +855,7 @@ cnts:
     - id   : 3
       type : company
       _c   : Cmp
-      dirty: 0
+      locked: 0
       dNam : Kirmse
       dNamS: Kirmse
       tos  : [
@@ -906,7 +906,7 @@ cnts:
 
 dxs:
 	- id	: 1008
-    dirty  : 0
+    locked  : 0
 	  _c	: Dx
 	  to_c	: Cmp
 	  toId	: 5
@@ -916,7 +916,7 @@ dxs:
 
 dxrels:
 	- id	: 2008
-    dirty  : 0
+    locked  : 0
 	  _c	: dxRel
 	  fr_c	: [Cmp]
 	  frNam	: Kirmse
@@ -927,7 +927,7 @@ cnts:
     - id   : 4
       type : company
       _c   : cmp
-      dirty: 0
+      locked: 0
       dNam : 104
       dNamS: 104
       tos  : [
@@ -996,7 +996,7 @@ cnts:
     - id   : 7
       type : Prs
       _c   : prs
-      dirty: 0
+      locked: 0
       dNam : Sally
       dNamS: Sally
       tos  : [
@@ -1067,7 +1067,7 @@ cnts:
     - id   : 4
       type : company
       _c   : cmp
-      dirty: 0
+      locked: 0
       dNam : 104
       dNamS: 104
       tos  : [
@@ -1136,7 +1136,7 @@ cnts:
     - id   : 10
       type : company
       _c   : Cmp
-      dirty: 0
+      locked: 0
       dNam : 1031
       dNamS: 1031
       tos  : [
@@ -1208,7 +1208,7 @@ cnts:
     - id   : 11
       type : Person
       _c   : Prs
-      dirty: 0
+      locked: 0
       dNam : Suzie
       dNamS: Suzie
       tos  : [
@@ -1289,7 +1289,7 @@ cnts:
     - id   : 10
       type : company
       _c   : Cmp
-      dirty: 0
+      locked: 0
       dNam : 1031
       dNamS: 1031
       tos  : [
@@ -1356,7 +1356,7 @@ cnts:
     - id   : 4
       type : company
       _c   : cmp
-      dirty: 0
+      locked: 0
       dNam : 104
       dNamS: 104
       tos  : [
@@ -1414,7 +1414,7 @@ cnts:
     - id   : 11
       type : Person
       _c   : Prs
-      dirty: 0
+      locked: 0
       dNam : Suzie
       dNamS: Suzie
 
@@ -1430,7 +1430,7 @@ cnts:
     - id   : 4
       type : company
       _c   : cmp
-      dirty: 0
+      locked: 0
       dNam : 104
       dNamS: 104
       tos  : [
@@ -1488,7 +1488,7 @@ cnts:
     - id   : 7
       type : Prs
       _c   : prs
-      dirty: 0
+      locked: 0
       dNam : Sally
       dNamS: Sally
       tos  : [
@@ -1535,7 +1535,7 @@ cnts:
 cnts:
     - id   : 1
       _c   : Cmp
-      dirty: 0
+      locked: 0
       type : company
       dNam : GSNI
       dNamS: ni
@@ -1578,7 +1578,7 @@ cnts:
     - id   : 7
       type : Prs
       _c   : prs
-      dirty: 0
+      locked: 0
       dNam : Sally
       dNamS: Sally
       tos  : [
@@ -1632,7 +1632,7 @@ cnts:
 
 dxs:
 	- id    : 1009
-    dirty  : 0
+    locked  : 0
 	  _c	: Dx
       to_c	: Cmp
       toId	: 1
@@ -1642,7 +1642,7 @@ dxs:
 
 dxrels:
 	- id    : 2009
-    dirty  : 0
+    locked  : 0
 	  _c	: dxRel	
 	  fr_c	: [Person]
 	  frNam	: Sally
@@ -1658,7 +1658,7 @@ dxrels:
 cnts:
     - id   : 1
       _c   : Cmp
-      dirty: 0
+      locked: 0
       type : company
       dNam : GSNI
       dNamS: ni
@@ -1689,7 +1689,7 @@ cnts:
 cnts:
     - id   : 5
       _c   : Cmp
-      dirty: 0
+      locked: 0
       type : company
       dNam : acme
       dNamS: acme
@@ -1710,7 +1710,7 @@ cnts:
     - id   : 3
       type : company
       _c   : Cmp
-      dirty: 0
+      locked: 0
       dNam : Bason
       dNamS: bason
       tos  : [
@@ -1762,7 +1762,7 @@ cnts:
     - id   : 4
       type : company
       _c   : cmp
-      dirty: 0
+      locked: 0
       dNam : 104
       dNamS: 104
       tos  : [
@@ -1831,7 +1831,7 @@ cnts:
     - id   : 7
       type : Prs
       _c   : prs
-      dirty: 0
+      locked: 0
       dNam : Sally
       dNamS: Sally
       tos  : [
@@ -1902,7 +1902,7 @@ cnts:
     - id   : 4
       type : company
       _c   : cmp
-      dirty: 0
+      locked: 0
       dNam : 104
       dNamS: 104
       tos  : [
@@ -1970,7 +1970,7 @@ cnts:
 cnts:
     - id   : 10
       type : company
-      dirty: 0
+      locked: 0
       _c   : Cmp
       dNam : 1031
       dNamS: 1031
@@ -2043,7 +2043,7 @@ cnts:
     - id   : 11
       type : Person
       _c   : Prs
-      dirty: 0
+      locked: 0
       dNam : Suzie
       dNamS: Suzie
       tos  : [
@@ -2114,7 +2114,7 @@ cnts:
 
 dxrels:
 	- id	: 2002
-    dirty  : 0
+    locked  : 0
 	  _c	: dxRel
 	  fr_c	: [Cmp]
 	  frNam	: Bason
@@ -2123,7 +2123,7 @@ dxrels:
 
 dxrels:
 	- id	: 2003
-    dirty  : 0
+    locked  : 0
 	  _c	: dxRel
 	  fr_c	: [Cmp]
 	  frNam	: 104
@@ -2132,7 +2132,7 @@ dxrels:
 
 dxrels:
 	- id	: 2004
-    dirty  : 0
+    locked  : 0
 	  _c	: dxRel
 	  fr_c	: [Prs]
 	  frNam	: Sally
@@ -2141,7 +2141,7 @@ dxrels:
 
 dxrels:
 	- id	: 2008
-    dirty  : 0
+    locked  : 0
 	  _c	: dxRel
 	  fr_c	: [Cmp]
 	  frNam	: Bason
@@ -2154,7 +2154,7 @@ dxrels:
 cnts:
     - id   : 1
       _c   : Cmp
-      dirty: 0
+      locked: 0
       type : company
       dNam : GSNI
       dNamS: ni
@@ -2185,7 +2185,7 @@ cnts:
 cnts:
     - id   : 5
       _c   : Cmp
-      dirty: 0
+      locked: 0
       type : company
       dNam : acme
       dNamS: acme
@@ -2206,7 +2206,7 @@ cnts:
     - id   : 3
       type : company
       _c   : Cmp
-      dirty: 0
+      locked: 0
       dNam : Kirmse
       dNamS: kirmse
       tos  : [
@@ -2258,7 +2258,7 @@ cnts:
     - id   : 4
       type : company
       _c   : cmp
-      dirty: 0
+      locked: 0
       dNam : 104
       dNamS: 104
       tos  : [
@@ -2327,7 +2327,7 @@ cnts:
     - id   : 7
       type : Prs
       _c   : prs
-      dirty: 0
+      locked: 0
       dNam : Sally
       dNamS: Sally
       tos  : [
@@ -2398,7 +2398,7 @@ cnts:
     - id   : 4
       type : company
       _c   : cmp
-      dirty: 0
+      locked: 0
       dNam : 104
       dNamS: 104
       tos  : [
@@ -2467,7 +2467,7 @@ cnts:
     - id   : 10
       type : company
       _c   : Cmp
-      dirty: 0
+      locked: 0
       dNam : 1031
       dNamS: 1031
       tos  : [
@@ -2539,7 +2539,7 @@ cnts:
     - id   : 11
       type : Person
       _c   : Prs
-      dirty: 0
+      locked: 0
       dNam : Suzie
       dNamS: Suzie
       tos  : [

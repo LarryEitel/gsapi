@@ -2,7 +2,7 @@
 
 dxs:
 	- id    : 1000
-	  dirty : 0
+	  locked : 0
 	  _c	: Dx
       to_c	: Cmp
       toId	: 2
@@ -12,7 +12,7 @@ dxs:
 
 dxrels:
 	- id    : 2000
-	  dirty : 0
+	  locked : 0
 	  _c	: dxRel	
 	  fr_c	: [Person]
 	  frNam	: Mary Bell
@@ -23,7 +23,7 @@ dxrels:
 
 dxs:
 	- id	: 1001
-	  dirty : 0
+	  locked : 0
 	  _c	: Dx
 	  to_c	: Cmp
 	  toId	: 1
@@ -33,7 +33,7 @@ dxs:
 	  
 dxrels:
 	- id	: 2001
-	  dirty : 0
+	  locked : 0
 	  _c	: dxRel
 	  fr_c	: [Cmp]
 	  frNam	: Program Group
@@ -44,7 +44,7 @@ dxrels:
 
 dxs:
 	- id	: 1002
-	  dirty : 0
+	  locked : 0
 	  _c	: Dx
 	  to_c	: Cmp
 	  toId	: 1
@@ -54,7 +54,7 @@ dxs:
 
 dxrels:
 	- id	: 2002
-	  dirty : 0
+	  locked : 0
 	  _c	: dxRel
 	  fr_c	: [Cmp]
 	  frNam	: Kirmse
@@ -65,7 +65,7 @@ dxrels:
 
 dxs:
 	- id	: 1003
-	  dirty : 0
+	  locked : 0
 	  _c	: Dx
 	  to_c	: Cmp
 	  toId	: 3
@@ -75,7 +75,7 @@ dxs:
 
 dxrels:
 	- id	: 2003
-	  dirty : 0
+	  locked : 0
 	  _c	: dxRel
 	  fr_c	: [Cmp]
 	  frNam	: 104
@@ -86,7 +86,7 @@ dxrels:
 
 dxs:
 	- id	: 1004
-	  dirty : 0
+	  locked : 0
 	  _c	: Dx
 	  to_c	: Cmp
 	  toId	: 3
@@ -96,7 +96,7 @@ dxs:
 
 dxrels:
 	- id	: 2004
-	  dirty : 0
+	  locked : 0
 	  _c	: dxRel
 	  fr_c	: [Prs]
 	  frNam	: Sally
@@ -107,7 +107,7 @@ dxrels:
 
 dxs:
 	- id	: 1005
-	  dirty : 0
+	  locked : 0
 	  _c	: Dx
 	  to_c	: Cmp
 	  toId	: 4
@@ -117,7 +117,7 @@ dxs:
 
 dxrels:
 	- id	: 2005
-	  dirty : 0
+	  locked : 0
 	  _c	: dxRel
 	  fr_c	: [Prs]
 	  frNam	: Sally
@@ -136,7 +136,7 @@ dxs:
 
 dxrels:
 	- id	: 2006
-	  dirty : 0
+	  locked : 0
 	  _c	: dxRel
 	  fr_c	: [Cmp]
 	  frNam	: 1031
@@ -147,7 +147,7 @@ dxrels:
 
 dxs:
 	- id	: 1007
-	  dirty : 0
+	  locked : 0
 	  _c	: Dx
 	  to_c	: Cmp
 	  toId	: 10
@@ -157,7 +157,7 @@ dxs:
 
 dxrels:
 	- id	: 2007
-	  dirty : 0
+	  locked : 0
 	  _c	: dxRel
 	  fr_c	: [Prs]
 	  frNam	: Suzie
@@ -187,7 +187,7 @@ dxrels:
 
 dxs:
 	- id    : 1009
-	  dirty : 0
+	  locked : 0
 	  _c	: Dx
       to_c	: Cmp
       toId	: 1
@@ -197,7 +197,7 @@ dxs:
 
 dxrels:
 	- id    : 2009
-	  dirty : 0
+	  locked : 0
 	  _c	: dxRel	
 	  fr_c	: [Person]
 	  frNam	: Sally
@@ -208,7 +208,7 @@ dxrels:
 
 dxrels:
 	- id	: 2002
-	  dirty : 0
+	  locked : 0
 	  _c	: dxRel
 	  fr_c	: [Cmp]
 	  frNam	: Bason
@@ -217,7 +217,7 @@ dxrels:
 
 dxrels:
 	- id	: 2003
-	  dirty : 0
+	  locked : 0
 	  _c	: dxRel
 	  fr_c	: [Cmp]
 	  frNam	: 104
@@ -226,7 +226,7 @@ dxrels:
 
 dxrels:
 	- id	: 2004
-	  dirty : 0
+	  locked : 0
 	  _c	: dxRel
 	  fr_c	: [Prs]
 	  frNam	: Sally
@@ -235,7 +235,7 @@ dxrels:
 
 dxrels:
 	- id	: 2008
-	  dirty : 0
+	  locked : 0
 	  _c	: dxRel
 	  fr_c	: [Cmp]
 	  frNam	: Bason

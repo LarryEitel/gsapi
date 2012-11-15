@@ -48,3 +48,9 @@ class TestUseCaseDx(TestCase):
         print 'test if object is dirty if so do not allow writing'
         check_dirty(oid)
         write_obj(oid, data)
+    def test_read_one():
+        print 'Read Kirmse'
+        pass
+    def test_write_one():
+        print 'Write to kirmse change its name'
+        pass

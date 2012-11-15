@@ -1,0 +1,511 @@
+"AD";"Andorra";"Europe/Andorra"
+"AE";"United Arab Emirates";"Asia/Dubai"
+"AF";"Afghanistan";"Asia/Kabul"
+"AG";"Antigua & Barbuda";"America/Antigua"
+"AI";"Anguilla";"America/Anguilla"
+"AL";"Albania";"Europe/Tirane"
+"AM";"Armenia";"Asia/Yerevan"
+"AN";"Netherlands Antilles";"America/Curacao"
+"AO";"Angola";"Africa/Luanda"
+"AQ";"Antarctica";"Antarctica/McMurdo"
+"AQ";"Antarctica";"Antarctica/South_Pole"
+"AQ";"Antarctica";"Antarctica/Rothera"
+"AQ";"Antarctica";"Antarctica/Palmer"
+"AQ";"Antarctica";"Antarctica/Mawson"
+"AQ";"Antarctica";"Antarctica/Davis"
+"AQ";"Antarctica";"Antarctica/Casey"
+"AQ";"Antarctica";"Antarctica/Vostok"
+"AQ";"Antarctica";"Antarctica/DumontDUrville"
+"AQ";"Antarctica";"Antarctica/Syowa"
+"AR";"Argentina";"America/Argentina/Buenos_Aires"
+"AR";"Argentina";"America/Argentina/Cordoba"
+"AR";"Argentina";"America/Argentina/Jujuy"
+"AR";"Argentina";"America/Argentina/Tucuman"
+"AR";"Argentina";"America/Argentina/Catamarca"
+"AR";"Argentina";"America/Argentina/La_Rioja"
+"AR";"Argentina";"America/Argentina/San_Juan"
+"AR";"Argentina";"America/Argentina/Mendoza"
+"AR";"Argentina";"America/Argentina/Rio_Gallegos"
+"AR";"Argentina";"America/Argentina/Ushuaia"
+"AS";"Samoa (American)";"Pacific/Pago_Pago"
+"AT";"Austria";"Europe/Vienna"
+"AU";"Australia";"Australia/Lord_Howe"
+"AU";"Australia";"Australia/Hobart"
+"AU";"Australia";"Australia/Currie"
+"AU";"Australia";"Australia/Melbourne"
+"AU";"Australia";"Australia/Sydney"
+"AU";"Australia";"Australia/Broken_Hill"
+"AU";"Australia";"Australia/Brisbane"
+"AU";"Australia";"Australia/Lindeman"
+"AU";"Australia";"Australia/Adelaide"
+"AU";"Australia";"Australia/Darwin"
+"AU";"Australia";"Australia/Perth"
+"AU";"Australia";"Australia/Eucla"
+"AW";"Aruba";"America/Aruba"
+"AX";"Aaland Islands";"Europe/Mariehamn"
+"AZ";"Azerbaijan";"Asia/Baku"
+"BA";"Bosnia & Herzegovina";"Europe/Sarajevo"
+"BB";"Barbados";"America/Barbados"
+"BD";"Bangladesh";"Asia/Dhaka"
+"BE";"Belgium";"Europe/Brussels"
+"BF";"Burkina Faso";"Africa/Ouagadougou"
+"BG";"Bulgaria";"Europe/Sofia"
+"BH";"Bahrain";"Asia/Bahrain"
+"BI";"Burundi";"Africa/Bujumbura"
+"BJ";"Benin";"Africa/Porto-Novo"
+"BM";"Bermuda";"Atlantic/Bermuda"
+"BN";"Brunei";"Asia/Brunei"
+"BO";"Bolivia";"America/La_Paz"
+"BR";"Brazil";"America/Noronha"
+"BR";"Brazil";"America/Belem"
+"BR";"Brazil";"America/Fortaleza"
+"BR";"Brazil";"America/Recife"
+"BR";"Brazil";"America/Araguaina"
+"BR";"Brazil";"America/Maceio"
+"BR";"Brazil";"America/Bahia"
+"BR";"Brazil";"America/Sao_Paulo"
+"BR";"Brazil";"America/Campo_Grande"
+"BR";"Brazil";"America/Cuiaba"
+"BR";"Brazil";"America/Porto_Velho"
+"BR";"Brazil";"America/Boa_Vista"
+"BR";"Brazil";"America/Manaus"
+"BR";"Brazil";"America/Eirunepe"
+"BR";"Brazil";"America/Rio_Branco"
+"BS";"Bahamas";"America/Nassau"
+"BT";"Bhutan";"Asia/Thimphu"
+"BW";"Botswana";"Africa/Gaborone"
+"BY";"Belarus";"Europe/Minsk"
+"BZ";"Belize";"America/Belize"
+"CA";"Canada";"America/St_Johns"
+"CA";"Canada";"America/Halifax"
+"CA";"Canada";"America/Glace_Bay"
+"CA";"Canada";"America/Moncton"
+"CA";"Canada";"America/Goose_Bay"
+"CA";"Canada";"America/Blanc-Sablon"
+"CA";"Canada";"America/Montreal"
+"CA";"Canada";"America/Toronto"
+"CA";"Canada";"America/Nipigon"
+"CA";"Canada";"America/Thunder_Bay"
+"CA";"Canada";"America/Iqaluit"
+"CA";"Canada";"America/Pangnirtung"
+"CA";"Canada";"America/Resolute"
+"CA";"Canada";"America/Atikokan"
+"CA";"Canada";"America/Rankin_Inlet"
+"CA";"Canada";"America/Winnipeg"
+"CA";"Canada";"America/Rainy_River"
+"CA";"Canada";"America/Regina"
+"CA";"Canada";"America/Swift_Current"
+"CA";"Canada";"America/Edmonton"
+"CA";"Canada";"America/Cambridge_Bay"
+"CA";"Canada";"America/Yellowknife"
+"CA";"Canada";"America/Inuvik"
+"CA";"Canada";"America/Dawson_Creek"
+"CA";"Canada";"America/Vancouver"
+"CA";"Canada";"America/Whitehorse"
+"CA";"Canada";"America/Dawson"
+"CC";"Cocos (Keeling) Islands";"Indian/Cocos"
+"CD";"Congo (Dem. Rep.)";"Africa/Kinshasa"
+"CD";"Congo (Dem. Rep.)";"Africa/Lubumbashi"
+"CF";"Central African Rep.";"Africa/Bangui"
+"CG";"Congo (Rep.)";"Africa/Brazzaville"
+"CH";"Switzerland";"Europe/Zurich"
+"CI";"Cote d'Ivoire";"Africa/Abidjan"
+"CK";"Cook Islands";"Pacific/Rarotonga"
+"CL";"Chile";"America/Santiago"
+"CL";"Chile";"Pacific/Easter"
+"CM";"Cameroon";"Africa/Douala"
+"CN";"China";"Asia/Shanghai"
+"CN";"China";"Asia/Harbin"
+"CN";"China";"Asia/Chongqing"
+"CN";"China";"Asia/Urumqi"
+"CN";"China";"Asia/Kashgar"
+"CO";"Colombia";"America/Bogota"
+"CR";"Costa Rica";"America/Costa_Rica"
+"CU";"Cuba";"America/Havana"
+"CV";"Cape Verde";"Atlantic/Cape_Verde"
+"CX";"Christmas Island";"Indian/Christmas"
+"CY";"Cyprus";"Asia/Nicosia"
+"CZ";"Czech Republic";"Europe/Prague"
+"DE";"Germany";"Europe/Berlin"
+"DJ";"Djibouti";"Africa/Djibouti"
+"DK";"Denmark";"Europe/Copenhagen"
+"DM";"Dominica";"America/Dominica"
+"DO";"Dominican Republic";"America/Santo_Domingo"
+"DZ";"Algeria";"Africa/Algiers"
+"EC";"Ecuador";"America/Guayaquil"
+"EC";"Ecuador";"Pacific/Galapagos"
+"EE";"Estonia";"Europe/Tallinn"
+"EG";"Egypt";"Africa/Cairo"
+"EH";"Western Sahara";"Africa/El_Aaiun"
+"ER";"Eritrea";"Africa/Asmara"
+"ES";"Spain";"Europe/Madrid"
+"ES";"Spain";"Africa/Ceuta"
+"ES";"Spain";"Atlantic/Canary"
+"ET";"Ethiopia";"Africa/Addis_Ababa"
+"FI";"Finland";"Europe/Helsinki"
+"FJ";"Fiji";"Pacific/Fiji"
+"FK";"Falkland Islands";"Atlantic/Stanley"
+"FM";"Micronesia";"Pacific/Truk"
+"FM";"Micronesia";"Pacific/Ponape"
+"FM";"Micronesia";"Pacific/Kosrae"
+"FO";"Faroe Islands";"Atlantic/Faroe"
+"FR";"France";"Europe/Paris"
+"GA";"Gabon";"Africa/Libreville"
+"GB";"Britain (UK)";"Europe/London"
+"GD";"Grenada";"America/Grenada"
+"GE";"Georgia";"Asia/Tbilisi"
+"GF";"French Guiana";"America/Cayenne"
+"GG";"Guernsey";"Europe/Guernsey"
+"GH";"Ghana";"Africa/Accra"
+"GI";"Gibraltar";"Europe/Gibraltar"
+"GL";"Greenland";"America/Godthab"
+"GL";"Greenland";"America/Danmarkshavn"
+"GL";"Greenland";"America/Scoresbysund"
+"GL";"Greenland";"America/Thule"
+"GP";"Guadeloupe";"America/Guadeloupe"
+"GR";"Greece";"Europe/Athens"
+"GU";"Guam";"Pacific/Guam"
+"GY";"Guyana";"America/Guyana"
+"HN";"Honduras";"America/Tegucigalpa"
+"HU";"Hungary";"Europe/Budapest"
+"IE";"Ireland";"Europe/Dublin"
+"IM";"Isle of Man";"Europe/Isle_of_Man"
+"IO";"British Indian Ocean Territory";"Indian/Chagos"
+"IR";"Iran";"Asia/Tehran"
+"IT";"Italy";"Europe/Rome"
+"JM";"Jamaica";"America/Jamaica"
+"JP";"Japan";"Asia/Tokyo"
+"KG";"Kyrgyzstan";"Asia/Bishkek"
+"KM";"Comoros";"Indian/Comoro"
+"KP";"Korea (North)";"Asia/Pyongyang"
+"KW";"Kuwait";"Asia/Kuwait"
+"LA";"Laos";"Asia/Vientiane"
+"LC";"St Lucia";"America/St_Lucia"
+"LK";"Sri Lanka";"Asia/Colombo"
+"LS";"Lesotho";"Africa/Maseru"
+"LU";"Luxembourg";"Europe/Luxembourg"
+"MA";"Morocco";"Africa/Casablanca"
+"MD";"Moldova";"Europe/Chisinau"
+"MG";"Madagascar";"Indian/Antananarivo"
+"MK";"Macedonia";"Europe/Skopje"
+"MN";"Mongolia";"Asia/Ulaanbaatar"
+"MN";"Mongolia";"Asia/Hovd"
+"MN";"Mongolia";"Asia/Choibalsan"
+"MP";"Northern Mariana Islands";"Pacific/Saipan"
+"MR";"Mauritania";"Africa/Nouakchott"
+"MT";"Malta";"Europe/Malta"
+"MW";"Malawi";"Africa/Blantyre"
+"MX";"Mexico";"America/Mexico_City"
+"MX";"Mexico";"America/Cancun"
+"MX";"Mexico";"America/Merida"
+"MX";"Mexico";"America/Monterrey"
+"MX";"Mexico";"America/Mazatlan"
+"MX";"Mexico";"America/Chihuahua"
+"MX";"Mexico";"America/Hermosillo"
+"MX";"Mexico";"America/Tijuana"
+"NA";"Namibia";"Africa/Windhoek"
+"NE";"Niger";"Africa/Niamey"
+"NG";"Nigeria";"Africa/Lagos"
+"NO";"Norway";"Europe/Oslo"
+"NR";"Nauru";"Pacific/Nauru"
+"NZ";"New Zealand";"Pacific/Auckland"
+"NZ";"New Zealand";"Pacific/Chatham"
+"PA";"Panama";"America/Panama"
+"PG";"Papua New Guinea";"Pacific/Port_Moresby"
+"PH";"Philippines";"Asia/Manila"
+"PL";"Poland";"Europe/Warsaw"
+"PM";"St Pierre & Miquelon";"America/Miquelon"
+"PR";"Puerto Rico";"America/Puerto_Rico"
+"PS";"Palestine";"Asia/Gaza"
+"PT";"Portugal";"Europe/Lisbon"
+"PT";"Portugal";"Atlantic/Madeira"
+"PT";"Portugal";"Atlantic/Azores"
+"PW";"Palau";"Pacific/Palau"
+"PY";"Paraguay";"America/Asuncion"
+"RE";"Reunion";"Indian/Reunion"
+"RO";"Romania";"Europe/Bucharest"
+"RW";"Rwanda";"Africa/Kigali"
+"SB";"Solomon Islands";"Pacific/Guadalcanal"
+"SD";"Sudan";"Africa/Khartoum"
+"SG";"Singapore";"Asia/Singapore"
+"SJ";"Svalbard & Jan Mayen";"Arctic/Longyearbyen"
+"SJ";"Svalbard & Jan Mayen";"Atlantic/Jan_Mayen"
+"SM";"San Marino";"Europe/San_Marino"
+"SO";"Somalia";"Africa/Mogadishu"
+"SV";"El Salvador";"America/El_Salvador"
+"TC";"Turks & Caicos Is";"America/Grand_Turk"
+"TF";"French Southern & Antarctic Lands";"Indian/Kerguelen"
+"TH";"Thailand";"Asia/Bangkok"
+"TL";"East Timor";"Asia/Dili"
+"TM";"Turkmenistan";"Asia/Ashgabat"
+"TO";"Tonga";"Pacific/Tongatapu"
+"TT";"Trinidad & Tobago";"America/Port_of_Spain"
+"TW";"Taiwan";"Asia/Taipei"
+"UG";"Uganda";"Africa/Kampala"
+"UM";"US minor outlying islands";"Pacific/Johnston"
+"UM";"US minor outlying islands";"Pacific/Midway"
+"UM";"US minor outlying islands";"Pacific/Wake"
+"UZ";"Uzbekistan";"Asia/Samarkand"
+"UZ";"Uzbekistan";"Asia/Tashkent"
+"VC";"St Vincent";"America/St_Vincent"
+"VG";"Virgin Islands (UK)";"America/Tortola"
+"VN";"Vietnam";"Asia/Saigon"
+"WS";"Samoa (western)";"Pacific/Apia"
+"YT";"Mayotte";"Indian/Mayotte"
+"ZW";"Zimbabwe";"Africa/Harare"
+
+
+A	Alpha Time Zone	Military	UTC + 1 hour
+ADT	Atlantic Daylight Time	Atlantic	UTC - 3 hours
+ADT	Atlantic Daylight Time	North America	UTC - 3 hours
+AFT	Afghanistan Time	Asia	UTC + 4:30 hours
+AKDT	Alaska Daylight Time	North America	UTC - 8 hours
+AKST	Alaska Standard Time	North America	UTC - 9 hours
+ALMT	Alma-Ata Time	Asia	UTC + 6 hours
+AMST	Armenia Summer Time	Asia	UTC + 5 hours
+AMST	Amazon Summer Time	South America	UTC - 3 hours
+AMT	Armenia Time	Asia	UTC + 4 hours
+AMT	Amazon Time	South America	UTC - 4 hours
+ANAST	Anadyr Summer Time	Asia	UTC + 12 hours
+ANAT	Anadyr Time	Asia	UTC + 12 hours
+AQTT	Aqtobe Time	Asia	UTC + 5 hours
+ART	Argentina Time	South America	UTC - 3 hours
+AST	Arabia Standard Time	Asia	UTC + 3 hours
+AST	Atlantic Standard Time	Atlantic	UTC - 4 hours
+AST	Atlantic Standard Time	Caribbean	UTC - 4 hours
+AST	Atlantic Standard Time	North America	UTC - 4 hours
+AZOST	Azores Summer Time	Atlantic	UTC
+AZOT	Azores Time	Atlantic	UTC - 1 hour
+AZST	Azerbaijan Summer Time	Asia	UTC + 5 hours
+AZT	Azerbaijan Time	Asia	UTC + 4 hours
+B	Bravo Time Zone	Military	UTC + 2 hours
+BNT	Brunei Darussalam Time	Asia	UTC + 8 hours
+BOT	Bolivia Time	South America	UTC - 4 hours
+BRST	Brasilia Summer Time	South America	UTC - 2 hours
+BRT	Brasília time	South America	UTC - 3 hours
+BST	Bangladesh Standard Time	Asia	UTC + 6 hours
+BST	British Summer Time	Europe	UTC + 1 hour
+BTT	Bhutan Time	Asia	UTC + 6 hours
+C	Charlie Time Zone	Military	UTC + 3 hours
+CAST	Casey Time	Antarctica	UTC + 8 hours
+CAT	Central Africa Time	Africa	UTC + 2 hours
+CCT	Cocos Islands Time	Indian Ocean	UTC + 6:30 hours
+CDT	Central Daylight Time	Australia	UTC + 10:30 hours
+CDT	Cuba Daylight Time	Caribbean	UTC - 4 hours
+CDT	Central Daylight Time	North America	UTC - 5 hours
+CEST	Central European Summer Time	Europe	UTC + 2 hours
+CET	Central European Time	Africa	UTC + 1 hour
+CET	Central European Time	Europe	UTC + 1 hour
+CHADT	Chatham Island Daylight Time	Pacific	UTC + 13:45 hours
+CHAST	Chatham Island Standard Time	Pacific	UTC + 12:45 hours
+CKT	Cook Island Time	Pacific	UTC - 10 hours
+CLST	Chile Summer Time	South America	UTC - 3 hours
+CLT	Chile Standard Time	South America	UTC - 4 hours
+COT	Colombia Time	South America	UTC - 5 hours
+CST	China Standard Time	Asia	UTC + 8 hours
+CST	Central Standard Time	Australia	UTC + 9:30 hours
+CST	Central Standard Time	Central America	UTC - 6 hours
+CST	Cuba Standard Time	Caribbean	UTC - 5 hours
+CST	Central Standard Time	North America	UTC - 6 hours
+CVT	Cape Verde Time	Africa	UTC - 1 hour
+CXT	Christmas Island Time	Australia	UTC + 7 hours
+ChST	Chamorro Standard Time	Pacific	UTC + 10 hours
+D	Delta Time Zone	Military	UTC + 4 hours
+DAVT	Davis Time	Antarctica	UTC + 7 hours
+E	Echo Time Zone	Military	UTC + 5 hours
+EASST	Easter Island Summer Time	Pacific	UTC - 5 hours
+EAST	Easter Island Standard Time	Pacific	UTC - 6 hours
+EAT	Eastern Africa Time	Africa	UTC + 3 hours
+EAT	East Africa Time	Indian Ocean	UTC + 3 hours
+ECT	Ecuador Time	South America	UTC - 5 hours
+EDT	Eastern Daylight Time	Australia	UTC + 11 hours
+EDT	Eastern Daylight Time	Caribbean	UTC - 4 hours
+EDT	Eastern Daylight Time	North America	UTC - 4 hours
+EDT	Eastern Daylight Time	Pacific	UTC + 11 hours
+EEST	Eastern European Summer Time	Africa	UTC + 3 hours
+EEST	Eastern European Summer Time	Asia	UTC + 3 hours
+EEST	Eastern European Summer Time	Europe	UTC + 3 hours
+EET	Eastern European Time	Africa	UTC + 2 hours
+EET	Eastern European Time	Asia	UTC + 2 hours
+EET	Eastern European Time	Europe	UTC + 2 hours
+EGST	Eastern Greenland Summer Time	North America	UTC
+EGT	East Greenland Time	North America	UTC - 1 hour
+EST	Eastern Standard Time	Australia	UTC + 10 hours
+EST	Eastern Standard Time	Central America	UTC - 5 hours
+EST	Eastern Standard Time	Caribbean	UTC - 5 hours
+EST	Eastern Standard Time	North America	UTC - 5 hours
+ET	Tiempo del Este	Central America	UTC - 5 hours
+ET	Tiempo del Este	Caribbean	UTC - 5 hours
+ET	Tiempo Del Este	North America	UTC - 5 hours
+F	Foxtrot Time Zone	Military	UTC + 6 hours
+FJST	Fiji Summer Time	Pacific	UTC + 13 hours
+FJT	Fiji Time	Pacific	UTC + 12 hours
+FKST	Falkland Islands Summer Time	South America	UTC - 3 hours
+FKT	Falkland Island Time	South America	UTC - 4 hours
+FNT	Fernando de Noronha Time	South America	UTC - 2 hours
+G	Golf Time Zone	Military	UTC + 7 hours
+GALT	Galapagos Time	Pacific	UTC - 6 hours
+GAMT	Gambier Time	Pacific	UTC - 9 hours
+GET	Georgia Standard Time	Asia	UTC + 4 hours
+GFT	French Guiana Time	South America	UTC - 3 hours
+GILT	Gilbert Island Time	Pacific	UTC + 12 hours
+GMT	Greenwich Mean Time	Africa	UTC
+GMT	Greenwich Mean Time	Europe	UTC
+GST	Gulf Standard Time	Asia	UTC + 4 hours
+GYT	Guyana Time	South America	UTC - 4 hours
+H	Hotel Time Zone	Military	UTC + 8 hours
+HAA	Heure Avancée de l'Atlantique	Atlantic	UTC - 3 hours
+HAA	Heure Avancée de l'Atlantique	North America	UTC - 3 hours
+HAC	Heure Avancée du Centre	North America	UTC - 5 hours
+HADT	Hawaii-Aleutian Daylight Time	North America	UTC - 9 hours
+HAE	Heure Avancée de l'Est	Caribbean	UTC - 4 hours
+HAE	Heure Avancée de l'Est	North America	UTC - 4 hours
+HAP	Heure Avancée du Pacifique	North America	UTC - 7 hours
+HAR	Heure Avancée des Rocheuses	North America	UTC - 6 hours
+HAST	Hawaii-Aleutian Standard Time	North America	UTC - 10 hours
+HAT	Heure Avancée de Terre-Neuve	North America	UTC - 2:30 hours
+HAY	Heure Avancée du Yukon	North America	UTC - 8 hours
+HKT	Hong Kong Time	Asia	UTC + 8 hours
+HLV	Hora Legal de Venezuela	South America	UTC - 4:30 hours
+HNA	Heure Normale de l'Atlantique	Atlantic	UTC - 4 hours
+HNA	Heure Normale de l'Atlantique	Caribbean	UTC - 4 hours
+HNA	Heure Normale de l'Atlantique	North America	UTC - 4 hours
+HNC	Heure Normale du Centre	Central America	UTC - 6 hours
+HNC	Heure Normale du Centre	North America	UTC - 6 hours
+HNE	Heure Normale de l'Est	Central America	UTC - 5 hours
+HNE	Heure Normale de l'Est	Caribbean	UTC - 5 hours
+HNE	Heure Normale de l'Est	North America	UTC - 5 hours
+HNP	Heure Normale du Pacifique	North America	UTC - 8 hours
+HNR	Heure Normale des Rocheuses	North America	UTC - 7 hours
+HNT	Heure Normale de Terre-Neuve	North America	UTC - 3:30 hours
+HNY	Heure Normale du Yukon	North America	UTC - 9 hours
+HOVT	Hovd Time	Asia	UTC + 7 hours
+I	India Time Zone	Military	UTC + 9 hours
+ICT	Indochina Time	Asia	UTC + 7 hours
+IDT	Israel Daylight Time	Asia	UTC + 3 hours
+IOT	Indian Chagos Time	Indian Ocean	UTC + 6 hours
+IRDT	Iran Daylight Time	Asia	UTC + 4:30 hours
+IRKST	Irkutsk Summer Time	Asia	UTC + 9 hours
+IRKT	Irkutsk Time	Asia	UTC + 9 hours
+IRST	Iran Standard Time	Asia	UTC + 3:30 hours
+IST	Israel Standard Time	Asia	UTC + 2 hours
+IST	India Standard Time	Asia	UTC + 5:30 hours
+IST	Irish Standard Time	Europe	UTC + 1 hour
+JST	Japan Standard Time	Asia	UTC + 9 hours
+K	Kilo Time Zone	Military	UTC + 10 hours
+KGT	Kyrgyzstan Time	Asia	UTC + 6 hours
+KRAST	Krasnoyarsk Summer Time	Asia	UTC + 8 hours
+KRAT	Krasnoyarsk Time	Asia	UTC + 8 hours
+KST	Korea Standard Time	Asia	UTC + 9 hours
+KUYT	Kuybyshev Time	Europe	UTC + 4 hours
+L	Lima Time Zone	Military	UTC + 11 hours
+LHDT	Lord Howe Daylight Time	Australia	UTC + 11 hours
+LHST	Lord Howe Standard Time	Australia	UTC + 10:30 hours
+LINT	Line Islands Time	Pacific	UTC + 14 hours
+M	Mike Time Zone	Military	UTC + 12 hours
+MAGST	Magadan Summer Time	Asia	UTC + 12 hours
+MAGT	Magadan Time	Asia	UTC + 12 hours
+MART	Marquesas Time	Pacific	UTC - 9:30 hours
+MAWT	Mawson Time	Antarctica	UTC + 5 hours
+MDT	Mountain Daylight Time	North America	UTC - 6 hours
+MESZ	Mitteleuropäische Sommerzeit	Europe	UTC + 2 hours
+MEZ	Mitteleuropäische Zeit	Africa	UTC + 1 hour
+MHT	Marshall Islands Time	Pacific	UTC + 12 hours
+MMT	Myanmar Time	Asia	UTC + 6:30 hours
+MSD	Moscow Daylight Time	Europe	UTC + 4 hours
+MSK	Moscow Standard Time	Europe	UTC + 4 hours
+MST	Mountain Standard Time	North America	UTC - 7 hours
+MUT	Mauritius Time	Africa	UTC + 4 hours
+MVT	Maldives Time	Asia	UTC + 5 hours
+MYT	Malaysia Time	Asia	UTC + 8 hours
+N	November Time Zone	Military	UTC - 1 hour
+NCT	New Caledonia Time	Pacific	UTC + 11 hours
+NDT	Newfoundland Daylight Time	North America	UTC - 2:30 hours
+NFT	Norfolk Time	Australia	UTC + 11:30 hours
+NOVST	Novosibirsk Summer Time	Asia	UTC + 7 hours
+NOVT	Novosibirsk Time	Asia	UTC + 6 hours
+NPT	Nepal Time	Asia	UTC + 5:45 hours
+NST	Newfoundland Standard Time	North America	UTC - 3:30 hours
+NUT	Niue Time	Pacific	UTC - 11 hours
+NZDT	New Zealand Daylight Time	Antarctica	UTC + 13 hours
+NZDT	New Zealand Daylight Time	Pacific	UTC + 13 hours
+NZST	New Zealand Standard Time	Antarctica	UTC + 12 hours
+NZST	New Zealand Standard Time	Pacific	UTC + 12 hours
+O	Oscar Time Zone	Military	UTC - 2 hours
+OMSST	Omsk Summer Time	Asia	UTC + 7 hours
+OMST	Omsk Standard Time	Asia	UTC + 7 hours
+P	Papa Time Zone	Military	UTC - 3 hours
+PDT	Pacific Daylight Time	North America	UTC - 7 hours
+PET	Peru Time	South America	UTC - 5 hours
+PETST	Kamchatka Summer Time	Asia	UTC + 12 hours
+PETT	Kamchatka Time	Asia	UTC + 12 hours
+PGT	Papua New Guinea Time	Pacific	UTC + 10 hours
+PHOT	Phoenix Island Time	Pacific	UTC + 13 hours
+PHT	Philippine Time	Asia	UTC + 8 hours
+PKT	Pakistan Standard Time	Asia	UTC + 5 hours
+PMDT	Pierre & Miquelon Daylight Time	North America	UTC - 2 hours
+PMST	Pierre & Miquelon Standard Time	North America	UTC - 3 hours
+PONT	Pohnpei Standard Time	Pacific	UTC + 11 hours
+PST	Pacific Standard Time	North America	UTC - 8 hours
+PST	Pitcairn Standard Time	Pacific	UTC - 8 hours
+PT	Tiempo del Pacífico	North America	UTC - 8 hours
+PWT	Palau Time	Pacific	UTC + 9 hours
+PYST	Paraguay Summer Time	South America	UTC - 3 hours
+PYT	Paraguay Time	South America	UTC - 4 hours
+Q	Quebec Time Zone	Military	UTC - 4 hours
+R	Romeo Time Zone	Military	UTC - 5 hours
+RET	Reunion Time	Africa	UTC + 4 hours
+S	Sierra Time Zone	Military	UTC - 6 hours
+SAMT	Samara Time	Europe	UTC + 4 hours
+SAST	South Africa Standard Time	Africa	UTC + 2 hours
+SBT	Solomon IslandsTime	Pacific	UTC + 11 hours
+SCT	Seychelles Time	Africa	UTC + 4 hours
+SGT	Singapore Time	Asia	UTC + 8 hours
+SRT	Suriname Time	South America	UTC - 3 hours
+SST	Samoa Standard Time	Pacific	UTC - 11 hours
+T	Tango Time Zone	Military	UTC - 7 hours
+TAHT	Tahiti Time	Pacific	UTC - 10 hours
+TFT	French Southern and Antarctic Time	Indian Ocean	UTC + 5 hours
+TJT	Tajikistan Time	Asia	UTC + 5 hours
+TKT	Tokelau Time	Pacific	UTC + 13 hours
+TLT	East Timor Time	Asia	UTC + 9 hours
+TMT	Turkmenistan Time	Asia	UTC + 5 hours
+TVT	Tuvalu Time	Pacific	UTC + 12 hours
+U	Uniform Time Zone	Military	UTC - 8 hours
+ULAT	Ulaanbaatar Time	Asia	UTC + 8 hours
+UYST	Uruguay Summer Time	South America	UTC - 2 hours
+UYT	Uruguay Time	South America	UTC - 3 hours
+UZT	Uzbekistan Time	Asia	UTC + 5 hours
+V	Victor Time Zone	Military	UTC - 9 hours
+VET	Venezuelan Standard Time	South America	UTC - 4:30 hours
+VLAST	Vladivostok Summer Time	Asia	UTC + 11 hours
+VLAT	Vladivostok Time	Asia	UTC + 11 hours
+VUT	Vanuatu Time	Pacific	UTC + 11 hours
+W	Whiskey Time Zone	Military	UTC - 10 hours
+WAST	West Africa Summer Time	Africa	UTC + 2 hours
+WAT	West Africa Time	Africa	UTC + 1 hour
+WDT	Western Daylight Time	Australia	UTC + 9 hours
+WEST	Western European Summer Time	Africa	UTC + 1 hour
+WEST	Western European Summer Time	Europe	UTC + 1 hour
+WESZ	Westeuropäische Sommerzeit	Africa	UTC + 1 hour
+WET	Western European Time	Africa	UTC
+WET	Western European Time	Europe	UTC
+WEZ	Westeuropäische Zeit	Europe	UTC
+WFT	Wallis and Futuna Time	Pacific	UTC + 12 hours
+WGST	Western Greenland Summer Time	North America	UTC - 2 hours
+WGT	West Greenland Time	North America	UTC - 3 hours
+WIB	Western Indonesian Time	Asia	UTC + 7 hours
+WIT	Eastern Indonesian Time	Asia	UTC + 9 hours
+WITA	Central Indonesian Time	Asia	UTC + 8 hours
+WST	Western Sahara Summer Time	Africa	UTC + 1 hour
+WST	Western Standard Time	Australia	UTC + 8 hours
+WST	West Samoa Time	Pacific	UTC + 13 hours
+WT	Western Sahara Standard Time	Africa	UTC
+X	X-ray Time Zone	Military	UTC - 11 hours
+Y	Yankee Time Zone	Military	UTC - 12 hours
+YAKST	Yakutsk Summer Time	Asia	UTC + 10 hours
+YAKT	Yakutsk Time	Asia	UTC + 10 hours
+YAPT	Yap Time	Pacific	UTC + 10 hours
+YEKST	Yekaterinburg Summer Time	Asia	UTC + 6 hours
+YEKT	 Yekaterinburg Time	Asia	UTC + 6 hours
+Z	Zulu Time Zone	Military	UTC

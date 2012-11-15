@@ -18,6 +18,7 @@
 
 *.swp
 local_settings.py
+.DS_Store
 .project
 .pydevproject
 venv/
