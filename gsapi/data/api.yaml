@@ -1,0 +1,30 @@
+# http://yaml-online-parser.appspot.com
+
+- request_token:
+	name	: request_token
+	url		: https://gsapi.orgtec.com/api/request_token
+	input	: oauth_key, oauth_secret
+	output	: oauth_token, oauth_token_secret, oauth_verifier
+
+- access_token:
+	name	: access_token
+	url		: https://gsapi.orgtec.com/api/access_token
+	input	: oauth_verifier
+	output	: access_token, access_token_secret
+
+- login:
+	name	: login
+	url		: https://gsapi.orgtec.com/api/login
+	input	: login, password
+	output	: status_code
+
+- change_passwrod:
+	name	: change_passwrod
+	url		: https://gsapi.orgtec.com/api/change_passwrod
+	input	: old_password, new_password
+	output	: status_code
+
+- register:
+	name	: register
+	url		: https://gsapi.orgtec.com/api/register
+	input	: 
