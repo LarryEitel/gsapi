@@ -90,12 +90,24 @@
 	url		: https://gsapi.orgtec.com/api/associate_user_user
 	input	: to_oid, from_oid, to_type, from_type, rel
 	output	: status_code
-	desc	: This API call will associate two objects. The required input is to_oid, from_oid to_type, from_type,
+	desc	: This api call will associate two objects. The required input is to_oid, from_oid to_type, from_type,
 			  and relation between those objects. oids can be found by calling the search api call. Relation has to be
-			  taken from a pull down manu. Output is the status code of application.
+			  taken from a pull down manu. Output is the status code of operation.
+
+- delete:
+	name	: delete
+	url		: https://gsapi.orgtec.com/api/delete
+	input	: oid
+	output	: status_code
+	desc	: This api call will delete the object and related immediate children if they do not have any
+			  other association. Input will be oid to be deleted. Output will be status code of operation.
 
 - move:
 	name 	: move
 	url		: https://gsapi.orgtec.com/api/move
 	input 	: oid, new_oid, rel
-	output  : 
+	ouput	: status_code
+	desc	: This api call will move one object. This is essentially a delete and associate operation. Input is
+			  the oid to be moved, new_oid with which oid has to be associated and rel. Output will be status code
+			  of operation.
+ 
