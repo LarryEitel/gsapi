@@ -247,7 +247,7 @@ class TestGeneric(TestCase):
         # I have all these if doit: so that I can code-fold and/or switch off
         doit = 1
         if doit: # ALL ################################
-            test_expected_count = 4 # Note the filter on _c
+            test_expected_count = 5 # Note the filter on _c
 
             args = {'class_name': self.class_name}
 
@@ -406,8 +406,6 @@ class TestGeneric(TestCase):
             assert len(got_docs) == test_expected_count
 
         if doit: # SORT ################################
-            test_field = 'fNam'
-            sort_test = {'fld':test_field, 'values':['nam1', 'nam2']}
             # sort                = [{test_field:"1"}]
             sort = [{test_field: "1"}]
             args = {}

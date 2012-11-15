@@ -86,7 +86,6 @@ Possible solution:
     Sam is husband of Lisa.
     Sam is brother-in-law of Lisa.
 
-
 Question:
 
 ni
