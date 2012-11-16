@@ -74,7 +74,7 @@ class DRel(_Model):
     note      = ModelType(Note)
 
 class DxRel(Mod):
-    '''Specifies the relationship between document objects. '''
+    '''Collection of relationship description/titles between document objects. '''
     fr_c   = ListType(StringType())
     frNam  = StringType(minimized_field_name='From Relationship/Role', description='')
     frNamS = StringType(minimized_field_name='From Relationship/Role', description='')
@@ -104,7 +104,6 @@ class Dx(Mod):
     dxRelId = ObjectIdType(ObjectId) # DxRel ID
     
     meta      = {
-
         'collection': 'dxs',
         '_c': 'Dx',
         }

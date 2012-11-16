@@ -1,0 +1,243 @@
+# Step 5: Mary Bell is associated with Prgram group
+
+dxs:
+	- id    : 1000
+	  locked : 0
+	  _c	: Dx
+      to_c	: Cmp
+      toId	: 2
+      fr_c	: Person
+      frId	: 8
+      relId : 2000
+
+dxrels:
+	- id    : 2000
+	  locked : 0
+	  _c	: dxRel	
+	  fr_c	: [Person]
+	  frNam	: Mary Bell
+	  to_c	: [Cmp]
+	  toNam	: Program Group
+
+# Step 6: Program group is associated with GSNI
+
+dxs:
+	- id	: 1001
+	  locked : 0
+	  _c	: Dx
+	  to_c	: Cmp
+	  toId	: 1
+	  fr_c	: Cmp
+	  frId	: 2
+	  relId	: 2001
+	  
+dxrels:
+	- id	: 2001
+	  locked : 0
+	  _c	: dxRel
+	  fr_c	: [Cmp]
+	  frNam	: Program Group
+	  to_c	: [Cmp]
+	  toNam	: GSNI
+
+# Step 7: Kirmse is associated with GSNI
+
+dxs:
+	- id	: 1002
+	  locked : 0
+	  _c	: Dx
+	  to_c	: Cmp
+	  toId	: 1
+	  fr_c	: Cmp
+	  frId	: 3
+	  relId	: 2002
+
+dxrels:
+	- id	: 2002
+	  locked : 0
+	  _c	: dxRel
+	  fr_c	: [Cmp]
+	  frNam	: Kirmse
+	  to_c	: [Cmp]
+	  toNam	: GSNI
+
+# Step 9: Kirmse is associated with Unit 104.
+
+dxs:
+	- id	: 1003
+	  locked : 0
+	  _c	: Dx
+	  to_c	: Cmp
+	  toId	: 3
+	  fr_c	: Cmp
+	  frId	: 4
+	  relId	: 2003
+
+dxrels:
+	- id	: 2003
+	  locked : 0
+	  _c	: dxRel
+	  fr_c	: [Cmp]
+	  frNam	: 104
+	  to_c	: [Cmp]
+	  toNam	: Kirmse
+
+# Step 10: Sally is associated with Kirmse.
+
+dxs:
+	- id	: 1004
+	  locked : 0
+	  _c	: Dx
+	  to_c	: Cmp
+	  toId	: 3
+	  fr_c	: Prs
+	  frId	: 7
+	  relId	: 2004
+
+dxrels:
+	- id	: 2004
+	  locked : 0
+	  _c	: dxRel
+	  fr_c	: [Prs]
+	  frNam	: Sally
+	  to_c	: [Cmp]
+	  toNam	: Kirmse
+
+# Step 11: Sally is associated with Unit 104
+
+dxs:
+	- id	: 1005
+	  locked : 0
+	  _c	: Dx
+	  to_c	: Cmp
+	  toId	: 4
+	  fr_c	: Prs
+	  frId	: 7
+	  relId	: 2005
+
+dxrels:
+	- id	: 2005
+	  locked : 0
+	  _c	: dxRel
+	  fr_c	: [Prs]
+	  frNam	: Sally
+	  toNam	: 104
+	  to_c	: [Cmp]
+
+# Step 14: 1031 is associated with 104
+dxs:
+	- id	: 1006
+	  _c	: Dx
+	  to_c	: Cmp
+	  toId	: 4
+	  fr_c	: Cmp
+	  frId	: 10
+	  relId	: 2006
+
+dxrels:
+	- id	: 2006
+	  locked : 0
+	  _c	: dxRel
+	  fr_c	: [Cmp]
+	  frNam	: 1031
+	  toNam	: 104
+	  to_c	: [Cmp]
+
+# Step 15: Suzie is associated with 1031
+
+dxs:
+	- id	: 1007
+	  locked : 0
+	  _c	: Dx
+	  to_c	: Cmp
+	  toId	: 10
+	  fr_c	: Prs
+	  frId	: 11
+	  relId	: 2007
+
+dxrels:
+	- id	: 2007
+	  locked : 0
+	  _c	: dxRel
+	  fr_c	: [Prs]
+	  frNam	: Suzie
+	  toNam	: 1031
+	  to_c	: [Cmp]
+
+# Step 17: acme is associated with Kirmse 
+
+dxs:
+	- id	: 1008
+	  _c	: Dx
+	  to_c	: Cmp
+	  toId	: 5
+	  fr_c	: Cmp
+	  frId	: 3
+	  relId	: 2008
+
+dxrels:
+	- id	: 2008
+	  _c	: dxRel
+	  fr_c	: [Cmp]
+	  frNam	: Kirmse
+	  to_c	: [Cmp]
+	  toNam	: acme
+
+# Step 20: Sally is moved.
+
+dxs:
+	- id    : 1009
+	  locked : 0
+	  _c	: Dx
+      to_c	: Cmp
+      toId	: 1
+      fr_c	: Person
+      frId	: 7
+      relId : 2009
+
+dxrels:
+	- id    : 2009
+	  locked : 0
+	  _c	: dxRel	
+	  fr_c	: [Person]
+	  frNam	: Sally
+	  to_c	: [Cmp]
+	  toNam	: Sally
+
+# Step 21: Kirmse is renamed to Bason
+
+dxrels:
+	- id	: 2002
+	  locked : 0
+	  _c	: dxRel
+	  fr_c	: [Cmp]
+	  frNam	: Bason
+	  to_c	: [Cmp]
+	  toNam	: GSNI
+
+dxrels:
+	- id	: 2003
+	  locked : 0
+	  _c	: dxRel
+	  fr_c	: [Cmp]
+	  frNam	: 104
+	  to_c	: [Cmp]
+	  toNam	: Bason
+
+dxrels:
+	- id	: 2004
+	  locked : 0
+	  _c	: dxRel
+	  fr_c	: [Prs]
+	  frNam	: Sally
+	  to_c	: [Cmp]
+	  toNam	: Bason
+
+dxrels:
+	- id	: 2008
+	  locked : 0
+	  _c	: dxRel
+	  fr_c	: [Cmp]
+	  frNam	: Bason
+	  to_c	: [Cmp]
+	  toNam	: acme

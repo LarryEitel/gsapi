@@ -1,0 +1,113 @@
+# http://yaml-online-parser.appspot.com
+
+- request_token:
+	name	: request_token
+	url		: https://gsapi.orgtec.com/api/request_token
+	input	: oauth_key, oauth_secret
+	output	: oauth_token, oauth_token_secret, oauth_verifier
+	desc	: It will be used for getting oauth_token, oauth_token_secret and oauth_verifier.
+			  Input will be oauth_key and oauth_secret which has to be obtained manually.
+			  This is first stage of authentication and authorization.
+
+- access_token:
+	name	: access_token
+	url		: https://gsapi.orgtec.com/api/access_token
+	input	: oauth_verifier
+	output	: access_token, access_token_secret
+	desc	: The oauth_verifier supplied in request stage has to be sent to get access_token and
+			  access_token_secret. This is second stage of authentication and authorization.
+
+- login:
+	name	: login
+	url		: https://gsapi.orgtec.com/api/login
+	input	: uNam, pw
+	output	: status_code
+	desc	: This will allow a user to login in to system. Input are uName and pw. Ouput will be
+			  status code of operation.
+
+- change_passwrod:
+	name	: change_passwrod
+	url		: https://gsapi.orgtec.com/api/change_passwrod
+	input	: old_password, new_password
+	output	: status_code
+	desc	: This api call will be used to change the password of a user. Input willl be old_password
+			  and new_password. Output will be status code of operation.
+
+- register:
+	name	: register
+	url		: https://gsapi.orgtec.com/api/register
+	input	: prefix, fNam, fNam2, lNam, lNam2, suffix, gen, rBy, tags, uNam, pw
+	output	: status_code
+	desc	: This api call will be used for registering a user. All mandatory parameters must be
+			  supplied and optional parameters may be supplied as well. Output will be status code
+			  of the operation.
+
+- register_company:
+	name	: register_company
+	url		: https://gsapi.orgtec.com/api/register_company
+	input	: prefix, fNam, fNam2, lNam, lNam2, suffix, gen, rBy, tags, cNam, symbol
+	output	: status_code
+	desc	: This api call will be used for registering a company. All mandatory parameters must be
+			  supplied and optional parameters may be supplied as well. Output will be status code
+			  of the operation.
+
+- update:
+	name	: update
+	url		: https://gsapi.orgtec.com/api/update
+	input	: [prefix | fNam | fNam2 | lNam | lNam2 | suffix | gen | rBy | tags | uNam]
+	output	: status_code
+	desc	: This api call will be used to update the data of the user. Data to be updated is
+			: the input. Output will be status code of the updated data.
+
+- update_company:
+	name	: update_company
+	url		: https://gsapi.orgtec.com/api/update_company
+	input	: [prefix | fNam | fNam2 | lNam | lNam2 | suffix | gen | rBy | tags | uNam]
+	output	: statu_code
+	desc	: This api call will be used to update the data of the company. Data to be updated is
+			: the input. Output will be status code of the updated data.
+
+- search:
+	name	: search_user
+	url		: https://gsapi.ortec.com/api/search_user
+	input	: [type | fNam |  fNam2 | lNam | lNam2 | suffix | gen | rBy | tags | uNam]
+	output	: profile links along with short display data
+	desc	: This api call will search the user or company in the system. Input can be one or more of the required
+			  parameters. Output will be profile links and their associated version of data for small
+			  display.
+- profile 	:
+#	This call will actually may involve a search user first.
+	name	: profile
+	url		: https://gsapi.orgtec.com/api/associate_user_user
+	input	: oid
+	output	: profile data
+	desc	: This api call will send the profile data for requested oid. The oid can be searched by search call.
+			  Output is profile data.
+
+- associate:
+#	This call will actually a search user first.
+	name	: associate_user_user
+	url		: https://gsapi.orgtec.com/api/associate_user_user
+	input	: to_oid, from_oid, to_type, from_type, rel
+	output	: status_code
+	desc	: This api call will associate two objects. The required input is to_oid, from_oid to_type, from_type,
+			  and relation between those objects. oids can be found by calling the search api call. Relation has to be
+			  taken from a pull down manu. Output is the status code of operation.
+
+- delete:
+	name	: delete
+	url		: https://gsapi.orgtec.com/api/delete
+	input	: oid
+	output	: status_code
+	desc	: This api call will delete the object and related immediate children if they do not have any
+			  other association. Input will be oid to be deleted. Output will be status code of operation.
+
+- move:
+	name 	: move
+	url		: https://gsapi.orgtec.com/api/move
+	input 	: oid, new_oid, rel
+	ouput	: status_code
+	desc	: This api call will move one object. This is essentially a delete and associate operation. Input is
+			  the oid to be moved, new_oid with which oid has to be associated and rel. Output will be status code
+			  of operation.
+ 

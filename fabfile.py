@@ -3,7 +3,7 @@ import time
 import os, sys
 #import pexpect
 from fabric.api import local, cd, run, env, sudo, require
-from gsapi.settings import Config
+from gsapi.local_settings import Config
 
 fab            = Config.FABRIC['live']
 
@@ -82,7 +82,9 @@ def restart_gunicorn():
 def reload_uwsgi():
     sudo('pkill -9 uwsgi')
 
-# def reload_uwsgi():
+def reload_uwsgi():
+    with cd(fab['PROJECT_ROOT']):
+        run('pkill -9 uwsgi')
 #     child = pexpect.spawn(pexpect_params[0])
 #     child.expect(pexpect_params[1])
 #     child.sendline(pexpect_params[2])
