@@ -137,10 +137,10 @@ Setup Windows
 
 
 	Hack batch file
-		subl \masters\elastic\elasticsearch-0.19.9\bin\elasticsearch.bat
+		subl \bin\elasticsearch\bin\elasticsearch.bat
 			change: "%JAVA_HOME%\bin\java"
 			to: "%JAVA_HOME%\java"
-		subl \masters\elastic\elasticsearch-0.19.9\bin\plugin.bat
+		subl \bin\elasticsearch\bin\plugin.bat
 	Install plugins
 		elasticsearch-head
 			http://mobz.github.com/elasticsearch-head/
@@ -149,21 +149,20 @@ Setup Windows
 			Goto: http://localhost:9200/_plugin/head/
 
 Windows
+	Optional
+		Add to autostart_console.bat
+			@SET ELASTICBIN="C:\bin\elasticsearch\bin"
+			@doskey ge=cd %ELASTICBIN%
+			@doskey es=%ELASTICBIN%\elasticsearch.bat
+		\masters\elastic\elasticsearch-0.19.9\bin\elasticsearch.bat
 
-	Add to autostart_console.bat
-		@SET ELASTICBIN="C:\bin\elasticsearch\bin"
-		@doskey ge=cd %ELASTICBIN%
-		@doskey es=%ELASTICBIN%\elasticsearch.bat
-	\masters\elastic\elasticsearch-0.19.9\bin\elasticsearch.bat
-
-	ConEmu
-		Add task to start elastic
-			http://superuser.com/questions/454380/git-bash-here-in-conemu
-
+		ConEmu
+			Add task to start elastic
+				http://superuser.com/questions/454380/git-bash-here-in-conemu
 
 Windows Service
 	http://stackoverflow.com/questions/8760696/running-elastic-search-as-a-windows-service
 	https://github.com/jdzurik/ESWindowsInstaller
-	cd cd C:\bin\elasticsearch
+	cd C:\bin\elasticsearch
 	https://github.com/jdzurik/ESWindowsInstaller.git
 
