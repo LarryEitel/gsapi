@@ -17,12 +17,15 @@ class ModIndex(_Model):
 
 class Mod(_Model):
     _c             = StringType(required=True, description='Class')
-    _public_fields = ['_c']
+    _public_fields = ['_c', '_key']
     
+    # optional. A model that exents from Mod may choose to impliment an incremented key value similar to a RDBMS incremented primary key.
+    # It is the responsibility of the extended model to manage uniqueness if this field/attribute is used.
+    _key           = LongType()
+
     # unique slug value generated on save and optionally used for SEO friendly urls.
     slug           = StringType(minimized_field_name='Unique Slug')
 
-    typ            = ModelType(Typ)
     locked         = BooleanType(minimized_field_name='Locked', description='Marked as locked.')
     dele           = BooleanType(minimized_field_name='Deleted', description='Marked for removal.')
     
