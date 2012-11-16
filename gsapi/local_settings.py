@@ -8,14 +8,14 @@ class Config(object):
     HOST                = 'localhost'
     TESTING_HOST        = 'localhost:5000/test'
 
-    # MONGO_HOST          = 'localhost'
-    MONGO_HOST          = '192.168.1.139'
+    MONGO_HOST          = 'localhost'
+    # MONGO_HOST          = '192.168.1.139'
     MONGO_DBNAME        = 'gsapi-test'
     MONGO_TEST_DBNAME   = 'gsapi-test'
 
     # DEPRECATED
-    # ES_HOST             = 'localhost'
-    ES_HOST             = '192.168.1.139'
+    ES_HOST             = 'localhost'
+    # ES_HOST             = '192.168.1.139'
     ES_PORT             = 9200
     ES_NAME             = 'gsapi'
     ES_TEST_HOST        = '192.168.1.139'

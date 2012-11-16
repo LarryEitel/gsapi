@@ -19,11 +19,12 @@ class Msg(Mod):
 class Shr(Mod):
     '''Share'''
     # The reason for this parent field given the fact that Wid'gets can contain an array of other widgets is that OTHER Widgets may LINK to this widget AND add their Share properties. It is necessary
-    parent     = ObjectIdType(minimized_field_name='Parent Widget ID', description='Primary Parent owner of this widget.')
+    parId     = ObjectIdType(minimized_field_name='Parent Doc ID', description='Primary Parent owner of this doc.')
     
+    # needed? Mod has oBy which is owner id
     usrId      = ObjectIdType(minimized_field_name='Usr ID', description='Usr id for this Share.')
     
-    permission = StringType(minimized_field_name='Permission', choices=['aa','ab','b'], description='aa=At and Above, ab=At and below, b=Below.')
+    permission = StringType(minimized_field_name='Permission', choices=['a','ab','b'], description='a=At and Above, ab=At and below, b=Below.')
 
     meta = {
         '_c': 'Shr',

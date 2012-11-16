@@ -63,8 +63,6 @@ class Prs(Cnt):
     gen       = StringType(minimized_field_name='Gender', choices=['m','f'], description='Gender')
     rBy       = ObjectIdType(minimized_field_name='Referred/Registered By', description='User that referred or registered this user.')
     
-    tags      =    ListType(ModelType(Tag))
-    
     meta      = {
         'collection': 'cnts',
         '_c'        : 'Prs',
@@ -121,6 +119,7 @@ class Prs(Cnt):
         return dNam
 
 class Usr(Prs):
+    grp   = StringType(minimized_field_name='Group', description='a=Admin, m=Moderator')
     uNam   = StringType(required=True, minimized_field_name='UserName', description='')
     pw     = StringType(minimized_field_name='Password', description='Password Hash')
     # initially, this will contain 'admin' for admin users
