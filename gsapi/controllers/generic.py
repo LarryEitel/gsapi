@@ -57,9 +57,12 @@ class Generic(object):
             new = True
         )
 
+        # only return if error condition exists
         response['collection'] = collection_name
         response['total_invalid'] = 0
         response['id'] = id.__str__()
+
+        # remove this, not needed
         response['doc'] = resp['value']
 
         return {'response': response, 'status_code': status}

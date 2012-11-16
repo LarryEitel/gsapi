@@ -33,19 +33,10 @@ class Shr(Mod):
 class Email(Mod):
     address = EmailType(minimized_field_name='Email Address')
 
-    dNam    = StringType(minimized_field_name='Display Name', description='A display name of the entity (e.g. a person) the email address belongs to.')
-    
     w  = FloatType(minimized_field_name='Sort weight', description='Sort list by weight value.')
-    
-    lbl     = StringType(minimized_field_name='Label', description='A simple string value used to name this email address. It allows UIs to display a label such as "Work", "Personal", "Preferred", etc.')
-    
-    # enum  : home, work, other
-    typs    = ListType(StringType(minimized_field_name='Email Types')
     
     prim    = BooleanType(default=False, minimized_field_name='Primary', description='When multiple emails appear in a list, indicates which is prim. At most one may be prim.')
     
-    notes   = ListType(ModelType(Note))
-
     if 1: # Methods
         def __unicode__(self):
             return self.address
