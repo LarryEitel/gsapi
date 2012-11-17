@@ -13,6 +13,9 @@ Create/Post new document.
             Validate 
                 App OAuth exists and valid?
                 If passed _id, complain. Should use PUT instead.
+                QUESTION: How to handle doc ListType fields that are embedded docs?
+                    For example, client returns doc with list of embedded email docs. These need to be validated.
+                    TODO: Pseudo code this process. Handle invalid embedded docs.
             Generate a new _id
                 PROBLEM: Getting a new _id by creating a stub doc will be problematic in view of the fact that in some models there may be fields that have required values.
                     Solution? Maintain a set of _id's in a mongo.collection. Create a blank doc and grab the new OID. Use it to persist a new doc.
@@ -24,6 +27,10 @@ Create/Post new document.
                     Python variables that are set to the value of an ObjectID are suggested to be named variableNameOID.
             Generate a unique numeric _key if implemented.
                 Whenever _key or field_key/attribute_key is referenced, it refers to a unique numeric value similar to a RDBMS incremented primary key.
+                See code examples:
+                    http://www.lovemikeg.com/2010/08/11/auto-increment-with-mongodb/
+                        CODE: http://shiflett.org/blog/2010/jul/auto-increment-with-mongodb
+                    http://stackoverflow.com/questions/11990254/how-to-create-a-worldwide-unique-guid-uuid-system-for-mongo-with-python
                 TODO: Create function to generate a unique numeric _key for a collection.
                     FUNCTION: controller.generic.nextKey
                         data:
@@ -42,6 +49,12 @@ Create/Post new document.
                     dNam: John Adams = slug: john_adams
                         if john_adams exists, slug = john_adams1
                         if john_adams1 exists, slug = john_adams2
+
+                See sample slugify code examples:
+                    http://flask.pocoo.org/snippets/5/
+                    https://gist.github.com/1428479
+                    http://pypi.python.org/pypi/django-autoslug
+
                 FUNCTION: controllers.generic.slugify
                     data:
                         _c  : Prs # model class # ie (Person)
