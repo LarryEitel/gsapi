@@ -111,3 +111,7 @@
 			  the oid to be moved, new_oid with which oid has to be associated and rel. Output will be status code
 			  of operation.
  
+ - change_relation:
+ 	name	: chnage_relation
+ 	url		: https://gsapi.orgtec.com/api/change_relation
+ 	input	:
