@@ -45,4 +45,7 @@ class DxMixin(Mixin):
     tos       = ListType(ModelType(DRel))
     
     # frs     : froms, ie, children
+    frCount   = IntType()
     frs       = ListType(ModelType(DRel))
+    # question how to handle cases where number of frs/children exceed max doc size
+    frFs      = ModelType(GridFs)

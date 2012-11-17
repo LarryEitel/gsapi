@@ -1,15 +1,39 @@
 from schematics.models import Model as _Model
 from schematics.types import StringType, DateTimeType, BooleanType
 from schematics.types.mongo import ObjectIdType
+from schematics.types.compound import ModelType
 from bson import ObjectId
+from embed import Note
 from typ import Typ
 import datetime
 
+class ModIndex(_Model):
+    def __init__()
+        "parsedtext": self.gatherKeywords(),
+        "dNam"      : self.dNam,
+        "dNamS"      : self.dNamS,
+        "oOn"       : self.oOn
+
+
 class Mod(_Model):
     _c             = StringType(required=True, description='Class')
-    _public_fields = ['_c']
+    _public_fields = ['_c', '_key']
     
-    typ            = ModelType(Typ)
+    # optional. A model that exents from Mod may choose to impliment an incremented key value similar to a RDBMS incremented primary key.
+    # It is the responsibility of the extended model to manage uniqueness if this field/attribute is used.
+    # QUESTION: How about naming this field as: id vs _id (the internal ObjectID primary key)
+    _key           = LongType()
+
+    # unique slug value generated on save and optionally used for SEO friendly urls.
+    slug           = StringType(minimized_field_name='Unique Slug')
+
+    # display
+    dNam           = StringType(minimized_field_name='Name')
+
+    #short display name
+    # this will default to slug value but can be optionally overwritten
+    dNamS          = StringType(minimized_field_name='NameShort')
+
     locked         = BooleanType(minimized_field_name='Locked', description='Marked as locked.')
     dele           = BooleanType(minimized_field_name='Deleted', description='Marked for removal.')
     
@@ -33,11 +57,9 @@ class Mod(_Model):
     dOn            = DateTimeType()
     dPl            = StringType()
     
-    # display
-    dNam           = StringType(minimized_field_name='Name')
-    #short display name
-    dNamS          = StringType(minimized_field_name='NameShort')
     
+    note           = ModelType(Note)
+
     img            = StringType(minimized_field_name='Place Icon', description='URL to an image resource that can be used to represent this object.')
     
     meta           = {

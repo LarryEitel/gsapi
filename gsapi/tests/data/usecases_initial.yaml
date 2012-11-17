@@ -1,0 +1,73 @@
+# http://yaml-online-parser.appspot.com
+# collections keyed on model class _c
+
+controllers:
+    - App:
+        - CreateAdmin:
+            # Create Usr Doc for stub admin
+            - in:
+                uNam: admin
+                fNam: sys
+                lNam: admin
+                pw  : admin
+            - out:
+                # add user and set grp = 'a' for admin
+                grp: a
+    - Cnt:
+        - CreateCmpNi:
+            - in:
+                cNam: GSNI
+                cNamS: ni
+                typ: 
+                  dNam    : Company
+                  dNamS   : cmp
+        - CreateCmpKirmse:
+            - in:
+                cNam: Kirmse
+                cNamS: kirmse
+                typ: 
+                  dNam    : Area
+                  dNamS   : area
+    - Dx:
+        - RelateKirmseToNi:
+            # to/frId's are using dNamS for sake of illustration. ObjectId would be used normally.
+            - in:
+                toId: ni
+                fmId: kirmse
+                dxRelId: 101
+                    # - id: 101
+                    #   fr_c  : [Cmp]
+                    #   frNam : Area of
+                    #   frNamS: areaOf      
+                    #   to_c  : [Cmp]
+                    #   toNam : Company of
+                    #   toNamS: cmpOf
+            - out:
+                dNam:
+                dNamS:
+            # Alter the following docs
+
+            - cnts.kirmse:
+                # add to tos
+                tos: 
+                    - dRel:
+                        - dxId: '??'
+                          d_c: Cmp
+                          ids: [ni]
+                          dRelToFrs:
+                            - d_c: Cmp
+                              dId      : ni
+                              dRelDNam : Area of
+                              dRelDNamS: areaOf
+                              dDNam    : Program Group
+                              dDNamS   : pggrp          
+
+
+views:
+
+PostUsr_JoshAdmin:
+    - in:
+        uNam: jkutz
+        fNam: Josh
+        lNam: Kutz
+        gen: m

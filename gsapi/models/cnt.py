@@ -16,14 +16,25 @@ class Cnt(Mod, DxMixin):
     code        = StringType(minimized_field_name='General Code', description='')
 
     # langs       = ListType(ModelType(Lang), minimized_field_name='Languages', description='Languages associated with this contact.')
+
+    @property
+    def index(self):
+        return {
+            "parsedtext": self.gatherKeywords(),
+            "dNam"      : self.dNam,
+            "dNamS"      : self.dNamS,
+            "oOn"       : self.oOn
+                }
+
     meta   = {
         'collection': 'cnts',
         '_c': 'Cnt',
         }
 class Cmp(Cnt):
     '''https://developers.google.com/gdata/docs/2.0/elements#gdOrganization'''
-    cNam = StringType(required=True, minimized_field_name='Company Name/Branch/Div/Department/Group/Troop', description='')
-    cNamS = StringType(required=True, minimized_field_name='Short Company Name', description='Abbreviation or Acronym')
+    # use dNam for company name from base Mod class
+    # cNam = StringType(required=True, minimized_field_name='Company Name/Branch/Div/Department/Group/Troop', description='')
+    # cNamS = StringType(required=True, minimized_field_name='Short Company Name', description='Abbreviation or Acronym')
 
     symbol = StringType(minimized_field_name='Company Symbol', description='')
 
@@ -35,8 +46,7 @@ class Cmp(Cnt):
     @property
     def index(self):
         return {
-            "dNam"      : self.dNam,
-            "oOn"       : self.oOn
+            "symbol"    : self.symbol,
                 }
 
     @property
@@ -62,8 +72,6 @@ class Prs(Cnt):
     suffix    = StringType(minimized_field_name='Suffix', description='Examples: MD, PHD, Jr, Sr, etc')
     gen       = StringType(minimized_field_name='Gender', choices=['m','f'], description='Gender')
     rBy       = ObjectIdType(minimized_field_name='Referred/Registered By', description='User that referred or registered this user.')
-    
-    tags      =    ListType(ModelType(Tag))
     
     meta      = {
         'collection': 'cnts',
@@ -121,6 +129,7 @@ class Prs(Cnt):
         return dNam
 
 class Usr(Prs):
+    root   = StringType(minimized_field_name='System Root User', description='a=Admin, m=Moderator')
     uNam   = StringType(required=True, minimized_field_name='UserName', description='')
     pw     = StringType(minimized_field_name='Password', description='Password Hash')
     # initially, this will contain 'admin' for admin users
@@ -143,12 +152,6 @@ class Usr(Prs):
 #         'type': u'string',
 #         "term_vector" : "with_positions_offsets"},
 #     'dNam': {
-#         'boost': 1.0,
-#         'index': 'analyzed',
-#         'store': 'yes',
-#         'type': u'string',
-#         "term_vector" : "with_positions_offsets"},
-#     'title': {
 #         'boost': 1.0,
 #         'index': 'analyzed',
 #         'store': 'yes',

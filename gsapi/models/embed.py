@@ -19,11 +19,12 @@ class Msg(Mod):
 class Shr(Mod):
     '''Share'''
     # The reason for this parent field given the fact that Wid'gets can contain an array of other widgets is that OTHER Widgets may LINK to this widget AND add their Share properties. It is necessary
-    parent     = ObjectIdType(minimized_field_name='Parent Widget ID', description='Primary Parent owner of this widget.')
+    parId     = ObjectIdType(minimized_field_name='Parent Doc ID', description='Primary Parent owner of this doc.')
     
+    # needed? Mod has oBy which is owner id
     usrId      = ObjectIdType(minimized_field_name='Usr ID', description='Usr id for this Share.')
     
-    permission = StringType(minimized_field_name='Permission', choices=['aa','ab','b'], description='aa=At and Above, ab=At and below, b=Below.')
+    permission = StringType(minimized_field_name='Permission', choices=['a','ab','b'], description='a=At and Above, ab=At and below, b=Below.')
 
     meta = {
         '_c': 'Shr',
@@ -32,19 +33,10 @@ class Shr(Mod):
 class Email(Mod):
     address = EmailType(minimized_field_name='Email Address')
 
-    dNam    = StringType(minimized_field_name='Display Name', description='A display name of the entity (e.g. a person) the email address belongs to.')
-    
     w  = FloatType(minimized_field_name='Sort weight', description='Sort list by weight value.')
-    
-    lbl     = StringType(minimized_field_name='Label', description='A simple string value used to name this email address. It allows UIs to display a label such as "Work", "Personal", "Preferred", etc.')
-    
-    # enum  : home, work, other
-    typs    = ListType(StringType(minimized_field_name='Email Types')
     
     prim    = BooleanType(default=False, minimized_field_name='Primary', description='When multiple emails appear in a list, indicates which is prim. At most one may be prim.')
     
-    notes   = ListType(ModelType(Note))
-
     if 1: # Methods
         def __unicode__(self):
             return self.address

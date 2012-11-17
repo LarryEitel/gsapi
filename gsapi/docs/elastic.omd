@@ -1,22 +1,168 @@
 Elastic Notes
 
+ES Class methods
+	__class__
+	__del__
+	__delattr__
+	__dict__
+	__doc__
+	__format__
+	__getattribute__
+	__hash__
+	__init__
+	__module__
+	__new__
+	__reduce__
+	__reduce_ex__
+	__repr__
+	__setattr__
+	__sizeof__
+	__str__
+	__subclasshook__
+	__weakref__
+	_bulk_size
+	_check_servers
+	_default_indices
+	_discovery
+	_dump_curl_request
+	_get_bulk_size
+	_get_raise_on_bulk_item_failure
+	_init_connection
+	_mappings
+	_query_call
+	_raise_on_bulk_item_failure
+	_send_request
+	_set_bulk_size
+	_set_raise_on_bulk_item_failure
+	_validate_indices
+	_validate_types
+	add_alias
+	aliases
+	analyze
+	basic_auth
+	bulk_size
+	bulker
+	bulker_class
+	change_aliases
+	close_index
+	cluster
+	cluster_health
+	cluster_name
+	cluster_nodes
+	cluster_state
+	cluster_stats
+	collect_info
+	connection
+	count
+	create_bulker
+	create_index
+	create_index_if_missing
+	create_percolator
+	create_river
+	debug_dump
+	decoder
+	default_indices
+	default_
+	types
+	delete
+	delete_alias
+	delete_by_query
+	delete_index
+	delete_index_if_exists
+	delete_mapping
+	delete_percolator
+	delete_river
+	document_object_field
+	dump_curl
+	encoder
+	ensure_index
+	exists
+	exists_index
+	factory_object
+	flush
+	flush_bulk
+	force_bulk
+	gateway_snapshot
+	get
+	get_alias
+	get_closed_indices
+	get_file
+	get_indices
+	get_mapping
+	get_settings
+	index
+	index_raw_bulk
+	index_stats
+	indices
+	info
+	mappings
+	max_retries
+	mget
+	model
+	morelikethis
+	open_index
+	optimize
+	percolate
+	put_file
+	put_mapping
+	raise_on_bulk_item_failure
+	refresh
+	reindex
+	search
+	search_raw
+	search_scroll
+	servers
+	set_alias
+	status
+	timeout
+	update
+	update_settings
+
+
 Setup Windows
-	echo %JAVA_HOME%
-	set JAVA_HOME=<complete path to java.exe>
-	set JAVA_HOME=C:\Program Files\Java\jdk1.7.0\bin
+	Java jdk
+		Install if not done so yet.
+		http://jdk8.java.net/download.html
+		http://www.java.net/download/jdk8/archive/b64/binaries/jdk-8-ea-bin-b64-windows-x64-08_nov_2012.exe
+		Installed to C:\Java\jre8\
+		# complete path to java.exe
+		@set JAVA_HOME=C:\Java\jre8\bin
+
+	ElasticSearch
+		Download and install
+			http://www.elasticsearch.org/guide/reference/setup/
+			http://www.elasticsearch.org/download/
+			http://www.elasticsearch.org/guide/reference/setup/installation.html
+		I symlinked unzip'd dir to c:\bin\elasticsearch
+
+
 	Hack batch file
-		subl \masters\elastic\elasticsearch-0.19.9\bin\elasticsearch.bat
+		subl \bin\elasticsearch\bin\elasticsearch.bat
 			change: "%JAVA_HOME%\bin\java"
 			to: "%JAVA_HOME%\java"
-		subl \masters\elastic\elasticsearch-0.19.9\bin\plugin.bat
+		subl \bin\elasticsearch\bin\plugin.bat
 	Install plugins
 		elasticsearch-head
 			http://mobz.github.com/elasticsearch-head/
-			\masters\elastic\elasticsearch-0.19.9\bin\plugin -install mobz/elasticsearch-head
+			cd C:\bin\elasticsearch\bin
+			plugin -install mobz/elasticsearch-head
 			Goto: http://localhost:9200/_plugin/head/
-Windows
 
-	Add to autostart_console.bat
-		@doskey ge=cd C:\masters\elastic\elasticsearch-0.19.9
-		@doskey elastic=\masters\elastic\elasticsearch-0.19.9\bin\elasticsearch.bat
-	\masters\elastic\elasticsearch-0.19.9\bin\elasticsearch.bat
+Windows
+	Optional
+		Add to autostart_console.bat
+			@SET ELASTICBIN="C:\bin\elasticsearch\bin"
+			@doskey ge=cd %ELASTICBIN%
+			@doskey es=%ELASTICBIN%\elasticsearch.bat
+		\masters\elastic\elasticsearch-0.19.9\bin\elasticsearch.bat
+
+		ConEmu
+			Add task to start elastic
+				http://superuser.com/questions/454380/git-bash-here-in-conemu
+
+Windows Service
+	http://stackoverflow.com/questions/8760696/running-elastic-search-as-a-windows-service
+	https://github.com/jdzurik/ESWindowsInstaller
+	cd C:\bin\elasticsearch
+	https://github.com/jdzurik/ESWindowsInstaller.git
+

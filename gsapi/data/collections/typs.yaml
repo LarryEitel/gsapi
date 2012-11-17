@@ -153,13 +153,18 @@
 - Rdt.when.after:                      {locs: [us_en: {nam: After,                       desc: }]}
 - Rdt.when.before:                     {locs: [us_en: {nam: Before,                      desc: }]}
 
+# Email Types Go here:
+  Email.home:                          {locs: [us_en: {nam: Home,                        desc: }]}
+
+
+
 # Tel Types
 - Tel.assistant:                       {locs: [us_en: {nam: assistant,                   desc: }]}
   Tel.callback:                        {locs: [us_en: {nam: callback,                    desc: }]}
   Tel.car:                             {locs: [us_en: {nam: car,                         desc: }]}
   Tel.company_main:                    {locs: [us_en: {nam: company_main,                desc: }]}
-  Tel.fax:                             {locs: [us_en: {nam: fax,                         desc: }]}
-  Tel.home:                            {locs: [us_en: {nam: home,                        desc: }]}
+  Tel.fax:                             {locs: [us_en: {nam: Fax,                         desc: }]}
+  Tel.home:                            {locs: [us_en: {nam: Home,                        desc: }]}
   Tel.home_fax:                        {locs: [us_en: {nam: home_fax,                    desc: }]}
   Tel.isdn:                            {locs: [us_en: {nam: isdn,                        desc: }]}
   Tel.main:                            {locs: [us_en: {nam: main,                        desc: }]}
