@@ -70,6 +70,20 @@ Sally associates 104 with Kirmse
         Now Associate will populate tos and froms of both the objects.
         Now update tos of children of Kirmse. However, Kirmse do not have any children.
 
+Now let us say the entire lucid chard diagram is created this way.
+
+Delete troop 1031
+    controllers.Cnt.DeleteCmp(1031)
+        UI must select the oid of the object to be deleted.
+        Delete all children recursively and their Dx and DxRel objects.
+        
+        controllers.Dx.DeleteDx(oid = 1031)
+            controllers.Dx.DeleteChild(1031)
+            Update froms.
+        
+        controllers.Dx.DeleteChild(oid)
+            If it has no child delete its Dx and DxRel and then the object.
+            
 
 
 
