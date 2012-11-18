@@ -79,7 +79,7 @@ Delete troop 1031
         
         controllers.Dx.DeleteDx(oid = 1031)
             controllers.Dx.DeleteChild(1031)
-            Update froms.
+            Update tos.
         
         controllers.Dx.DeleteChild(oid)
             If it has no child delete its Dx and DxRel and then the object.
