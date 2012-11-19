@@ -6,7 +6,32 @@ Create user Mary Bell
 Create company Program Group
     controllers.Cnt.CreateCmp(pgrp)
     
+
+Create Dx Relation
+    Client:
+        Processes:
+            HTTP POST: /Dx
+                data:   
+                    toOID:
+                    frOID:
+                    dxRelOID:
+    API:
+        Processes:
+            Validate 
+
+            FUNCTION: controllers.dx.create
+                data:
+
+views.dx.Create
+views.dx.Create
+controllers.dx.Create
+controllers.dx.Delete
+controllers.dx.Update
+
+
 Mary Bell associates herself with Program Group
+    # Id = 23
+    controllers.dx.Relate(toOID = pggrp, frOID = "13445")
     controllers.Cnt.Associate(to_oid = pggrp, from_oid = MaryBell)
         UI must select the two oids and a set of pre-existing relations will be populated in a drop down list.
         One of the values from this drop down must be picked.
