@@ -20,29 +20,29 @@ Create/Post new document.
                 PROBLEM: Getting a new _id by creating a stub doc will be problematic in view of the fact that in some models there may be fields that have required values.
                     Solution? Maintain a set of _id's in a mongo.collection. Create a blank doc and grab the new OID. Use it to persist a new doc.
                 FUNCTION: controllers.app.next_id
-                NOTE: Use of _id.
-                    _id is the name of the primary key field used by mongo. It represents the mongo document ObjectID. 
-                    If a field references an _id in another model, use field_id/attribute_id since it refers to an ObjectID value in another collection. 
-                    If a field contains the String value of an ObjectID, use fieldID/attributeID.
+                NOTE: Use of _id. variableOID variable_id, variableId
+                    _id is the name of the primary key field used by mongo. It represents the mongo document ObjectID.
+                    If a field references an _id in another model, use field_id/attribute_id since it refers to an ObjectID value in another collection.
+                    If a field contains the String value of an ObjectID, use fieldOID/attributeOID.
                     Python variables that are set to the value of an ObjectID are suggested to be named variableNameOID.
-            Generate a unique numeric _key if implemented.
-                Whenever _key or field_key/attribute_key is referenced, it refers to a unique numeric value similar to a RDBMS incremented primary key.
+            Generate a unique numeric Id if implemented.
+                Whenever Id or fieldId/attributeId is referenced, it refers to a unique numeric value similar to a RDBMS incremented primary key.
                 See code examples:
                     http://www.lovemikeg.com/2010/08/11/auto-increment-with-mongodb/
                         CODE: http://shiflett.org/blog/2010/jul/auto-increment-with-mongodb
                     http://stackoverflow.com/questions/11990254/how-to-create-a-worldwide-unique-guid-uuid-system-for-mongo-with-python
-                TODO: Create function to generate a unique numeric _key for a collection.
-                    FUNCTION: controller.generic.nextKey
+                TODO: Create function to generate a unique numeric Id for a collection.
+                    FUNCTION: controller.generic.nextId
                         data:
                             _c    : <model class> # ie, Cmp (Company)
                             _limit: 1 # ie, last Max value
                         Processes:
-                            Find next MAX _key value for provided _c(lass).
-                                next_key = MAX_key_value + 1
+                            Find next MAX Id value for provided _c(lass).
+                                nextId = MAX_Id_value + 1
                                 Loop until successful
-                                    Try to create a new key doc with _key = next_key
+                                    Try to create a new key doc with Id = nextId
                                         If fails, another process (race condition) bet us to it. Increment and try again.
-                                            next_key += 1
+                                            nextId += 1
             Generate a unique slug.
                 Create a slug using dNam. Must be unique for in model (_c) class. If proposed slug exists, increment from the trailing numeric portion occuring in proposed slug.
                 Examples:
@@ -103,6 +103,7 @@ Create/Post new document.
                 mongo using new _id, slug and _key (if used) along with data.
                 TODO: Logging event in Mod Class and Logger
             Add to Index.
+            TESTS
         Response:
             status: 200
             _id   : <newId>
