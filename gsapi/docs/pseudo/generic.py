@@ -32,7 +32,7 @@ Create/Post new document.
                         CODE: http://shiflett.org/blog/2010/jul/auto-increment-with-mongodb
                     http://stackoverflow.com/questions/11990254/how-to-create-a-worldwide-unique-guid-uuid-system-for-mongo-with-python
                 TODO: Create function to generate a unique numeric Id for a collection.
-                    FUNCTION: controller.generic.nextId
+                    FUNCTION: controller.generic.nextId 
                         data:
                             _c    : <model class> # ie, Cmp (Company)
                             _limit: 1 # ie, last Max value
