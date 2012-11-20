@@ -11,11 +11,15 @@ Create/Post new document.
     API:
         Processes:
             Validate 
-                App OAuth exists and valid?
-                If passed _id, complain. Should use PUT instead.
+                App OAuth exists and valid? #should be llike this. Does access token exist and valid?
+                If passed _id, complain. Should use PUT instead. #Instead of complaining present OAuth validation
                 QUESTION: How to handle doc ListType fields that are embedded docs?
-                    For example, client returns doc with list of embedded email docs. These need to be validated.
+                    For example, client returns doc with list of embedded email docs. These need to be validated. # we can iterate over entire list in validation code
                     TODO: Pseudo code this process. Handle invalid embedded docs.
+                    # Pseudo code for processing list of embedded email docs
+                    # extract list emails embedded doc
+                    # FUNCTION: controllers.app.extract_email
+                    # iterate over emails list and validate
             Generate a new _id
                 PROBLEM: Getting a new _id by creating a stub doc will be problematic in view of the fact that in some models there may be fields that have required values.
                     Solution? Maintain a set of _id's in a mongo.collection. Create a blank doc and grab the new OID. Use it to persist a new doc.
@@ -28,9 +32,9 @@ Create/Post new document.
             Generate a unique numeric Id if implemented.
                 Whenever Id or fieldId/attributeId is referenced, it refers to a unique numeric value similar to a RDBMS incremented primary key.
                 See code examples:
-                    http://www.lovemikeg.com/2010/08/11/auto-increment-with-mongodb/
+                    http://www.lovemikeg.com/2010/08/11/auto-increment-with-mongodb/#seems cool
                         CODE: http://shiflett.org/blog/2010/jul/auto-increment-with-mongodb
-                    http://stackoverflow.com/questions/11990254/how-to-create-a-worldwide-unique-guid-uuid-system-for-mongo-with-python
+                    http://stackoverflow.com/questions/11990254/how-to-create-a-worldwide-unique-guid-uuid-system-for-mongo-with-python#Thsi is not what your client wants
                 TODO: Create function to generate a unique numeric Id for a collection.
                     FUNCTION: controller.generic.nextId 
                         data:
@@ -51,9 +55,9 @@ Create/Post new document.
                         if john_adams1 exists, slug = john_adams2
 
                 See sample slugify code examples:
-                    http://flask.pocoo.org/snippets/5/
-                    https://gist.github.com/1428479
-                    http://pypi.python.org/pypi/django-autoslug
+                    http://flask.pocoo.org/snippets/5/#this is good too
+                    https://gist.github.com/1428479#looks decent
+                    http://pypi.python.org/pypi/django-autoslug#useless for us
 
                 FUNCTION: controllers.generic.slugify
                     data:
@@ -80,7 +84,7 @@ Create/Post new document.
                                                 _id:  
                                             Failed:
                                                 status: False
-                                    if response == False:
+                                    if response == False:#should be True
                                         failed, someone beat us to it (race condition)
                                         # increment slug suffix value.
                                         incr = str(val(incr) + 1)
