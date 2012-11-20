@@ -11,9 +11,8 @@ class ModIndex(_Model):
     def __init__()
         "parsedtext": self.gatherKeywords(),
         "dNam"      : self.dNam,
-        "dNamS"      : self.dNamS,
+        "dNamS"     : self.dNamS,
         "oOn"       : self.oOn
-
 
 class Mod(_Model):
     _c             = StringType(required=True, description='Class')

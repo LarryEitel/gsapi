@@ -6,48 +6,135 @@ Create user Mary Bell
 Create company Program Group
     controllers.Cnt.CreateCmp(pgrp)
     
+Create Relationship between two docs
+    NOTES:
+        Is it required to capture dxRefOID? Only parent/child
+    Example subject doc: 
+        doc._c   : Prs
+        doc.dNamS: john_adams
+        doc.gen  : m
+    User can relate/link/associate most docs with most other docs. To do so, user must:
+        Choose to relate to a parent or child.
+            Radio button:
+                targetAs = 
+                    to/parent
+                    fr/child
+            # based on selection will determine which doc is parent and which is child
+            Example: targetAs: parent
+        Choose a target doc to be related.
+            Incremental search form to select a target doc to relate to.
+            FUNCTION: views.generic.get
+            Example selected:
+                targetDoc:
+                    OID   :
+                    _c    : Cmp
+                    _dNamS: acme
+        UI Example
+            Form:
+                dNamS: john_adams
+                Parent Relations/Associations: 
+                    Son of Timothy (DELETE/Edit)
+                    Employed by acme/Subsidiary of ABC/Branch of HIPO
+                    Button: Add New
+                Child Relations/Associations:
+                    Father of Mary
+                    Button: Add New
+            Form Actions:
+                Clicked on Button Add New (parent/child)
+                    Hide: Button: Add New
+                    JS unhide form:
+                        targetAs: to/fm
+                        Select target Parent: ______. (Incremental)
+                            QUESTION: Option to Add new doc to be created and then selected?
+                            Show list.
+                                Pick from list.
+                                On select, show Submit Button.
+                                returns:
+                                    OID   :
+                                    _c    : Cmp
+                                    _dNamS: acme
+                            Hide this form.
+                        Show item with dxRels from which to select:
+                            Describe john_adams as: dropdown[v] acme  [Submit after selection]
+                                QUESTION:
+                                    What if desired relationship title is not provided? Can one be added dynamically.
+
+                                DropDown: 
+                                    TODO: FUNCTION: views.dx.get
+                                        data:
+                                            targetAs: to
+                                            gen     : m 
+                                            sub_c   : Prs 
+                                        Process:
+                                            query mongo like:
+                                                find:
+                                                    filter:
+                                                        Prs in fr_c 
+                                                        gen in frGens
+                                                    fields:
+                                                        OID 
+                                                        to_c 
+                                                        toNam 
+                                                        toNamS
+                                                    sort:
+                                                        w
+                                    return:
+                                        dxRelOID:
+                                        to_c    : Cmp 
+                                        toNam   : Employed by
+                                        toNamS  : employed_by
+
+                                Show:
+                                    Revise line
+                                        from:
+                                            Describe john_adams as: dropdown acme
+                                        to:
+                                            Employed by acme [Optional Title: _____] [Optional Note: ____] Submit Button appears if optional fields are changed.
+
+                                Show:
+                                    Revise line
+                                        from:
+                                            Employed by acme [Optional Title: Manager] [Optional Note: IT Dept] Submit Button appears if optional fields are changed.
+                                        to:
+                                            Employed by acme. Title: Manager. Note: IT Dept
+
+
+                                Submit:
+                                    HTTP: POST: /Dx
+                                        data:
+                                            toOID    : acme (placeholder)
+                                            frOID    : john_adams (placeholder)
+                                            dRelTitle: Manager
+                                            dRelNote : IT Dept
+                                            dxRelOID : employed_by (placeholder)
 
 Create Dx Relation
     Client:
         Processes:
-            HTTP POST: /Dx/Create
-                data:   
-                    toOID  :
-                    to_c   :
-                    toNam  :
-                    toNams :
-                    frOID  :
-                    fr_c   :
-                    frNam  :
-                    frNamS :
-                    
+            Present a form to gather details related to the relation to be made between two docs.
+            Subject (currently focused doc) of the form, ie, a Prs (person) is given option to create a relation/link to a parent/to or child/fr.
+                The new dx doc will associate the currently focussed subject doc with dx.fr_c, dx.fr_id, At this point UI knows the fr_c (subject/currently focused doc/item), frOID, frNam, frNamS.
+                UI needs to provide a lookup form to gather the following details:
+                    Prompt user to describe the relationship. TODO: UI either access static list of DxRel (relationship titles)? Another AJAX call required?
+                    Since the UI knows the typ (type) of document, it can list relevent rel(ationship) titles. If UI is adding a new parent/to relationship, list would include titles such as Son of, Employed by, etc.
+                        NOTE: it might be appropriate for UI to prompt for the type/class of parent to create, ie, Person, Company, etc. This would/could enable further filtering of available/appropriate titles from the list.
+                Client ultimately needs to provide the target parent/to or child/fr: OID, _c, and dxRelOID.
+            HTTP POST: /Dx
 
     API:
         Processes:
             Validate OAuth acces_token validity. If valid check login session. If valid proceed.
             If login is not valid redirect to login page. If OAuth is not valid send the response status code indicating OAuth access token needds to be renewed. 
-
-            FUNCTION: views.dx.create
-                data:
-                    toOID  :
-                    to_c   :
-                    toNam  :
-                    toNams :
-                    frOID  :
-                    fr_c   :
-                    frNam  :
-                    frNamS :
-                Call controller function for creating Dx and DxRel and also pass data.
-                
-            FUNCTION: controllers.dx.Create
-                data:
-                    toOID:
-                    frOID:
-                    
-                    Check OIDs for presence in database. Pull docs. If Docs do not exist respond with a status code. With a possible message of session hijacking.
+            Client calls view function
+                FUNCTION: views.dx.create
+            Call controller function for creating Dx and DxRel and also pass data.
+                FUNCTION: controllers.dx.Create
+                    Check OIDs for presence in database. 
+                    Pull docs. 
+                    If Docs do not exist respond with a status code. With a possible message of session hijacking.
                     Create Dx and DxRel objects and generate OID and other ids.
-                    Updating tos and froms of objects.
-                        While updating any of these objects if document is found to be locked retry after half seonds.
+                    Updating tos and frs of objects.
+                        While updating any of these objects if document is found to be locked retry after half seconds.
                         If maximum no. of retries are over send status code to retry in some time.
                     If everything is good send status code to caller.
                     

@@ -1,9 +1,45 @@
 # http://yaml-online-parser.appspot.com
-# collections keyed on model class _c
 
-# Contact Doc Samples
-
-#Step 1 user Sally is created
+# Create Dx Relation
+    # Client CALLs
+        # HTTP POST: /Dx
+            data:
+                toOID   :
+                to_c    :
+                toNam   :
+                toNams  :
+                frOID   :
+                fr_c    :
+                frNam   :
+                frNamS  :
+                dxRelOID:
+    # API
+        # FUNCTION: views.dx.create
+            data:
+                toOID   :
+                to_c    :
+                toNam   :
+                toNams  :
+                frOID   :
+                fr_c    :
+                frNam   :
+                frNamS  :
+                dxRelOID:
+            # FUNCTION: controllers.dx.Create
+                data:
+                    toOID   :
+                    to_c    :
+                    toNam   :
+                    toNams  :
+                    frOID   :
+                    fr_c    :
+                    frNam   :
+                    frNamS  :
+                    dxRelOID:
+                # Results
+                # Returns
+            # Results
+            # Returns
 
 cnts:
     - id   : 7
