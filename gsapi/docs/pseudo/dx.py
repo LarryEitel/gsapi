@@ -32,9 +32,29 @@ Create Relationship between two docs
         UI Example
             Form:
                 dNamS: john_adams
-                Parent Relations/Associations: 
-                    Son of Timothy (DELETE/Edit)
+                Places:
+                    Home at 123 Maple, San Diego, California, 92117
+                    Office at 123 Maple, San Diego, California, 92117
+                    Service Group at 123 Maple, San Diego, California, 92117
+                Contacts:
+                    Son of Timothy
+                    Father of Mary
                     Employed by acme/Subsidiary of ABC/Branch of HIPO
+                    Service Overseer of Hilltop Congregation
+                Events:
+                    Born on date
+                    Married on date
+                Notes: Add New Appears on mouse over
+                    date subject asdfasdfasdf..... 
+                    date subject asdfasdfasdf..... 
+                    date subject asdfasdfasdf..... 
+                    date subject asdfasdfasdf..... 
+
+                Add New (List Model Class types that have no items yet)
+                    Comment 
+                    Project
+
+                Parent Relations/Associations: 
                     Button: Add New
                 Child Relations/Associations:
                     Father of Mary
