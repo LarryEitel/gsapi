@@ -18,7 +18,7 @@ Make it run!
 To make it run, you just have to do something like::
 
     cd into a python projects directory 
-    git clone ......
+    git clone git@github.com:LarryEitel/gsapi.git
     cd gsapi
     virtualenv venv
 

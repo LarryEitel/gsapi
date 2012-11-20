@@ -22,7 +22,7 @@ class Cnt(Mod, DxMixin):
         return {
             "parsedtext": self.gatherKeywords(),
             "dNam"      : self.dNam,
-            "dNamS"      : self.dNamS,
+            "dNamS"     : self.dNamS,
             "oOn"       : self.oOn
                 }
 

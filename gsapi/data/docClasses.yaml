@@ -20,6 +20,11 @@
     dNam      : Document Link Relationship
     dNamS     : dxRel
     dNamPlural: Document Link Relationships
+- Id:
+    collection: ids
+    dNam      : Id
+    dNamS     : id
+    dNamPlural: Ids
 - Pl:
     collection: pls
     dNam      : Place
@@ -30,6 +35,11 @@
     dNam      : Person
     dNamS     : prs
     dNamPlural: Persons
+- Slug:
+    collection: slugs
+    dNam      : Slug
+    dNamS     : slug
+    dNamPlural: Slugs
 - Typ:
     collection: typs
     dNam      : Type
