@@ -31,6 +31,10 @@ class Mod(_Model):
     # display
     dNam           = StringType(minimized_field_name='Name')
 
+    # HTML version of display
+    # inspired by value of pre-rendering Pth's in tos/frs
+    dNamHTML           = StringType(minimized_field_name='Name')
+
     #short display name
     # this will default to slug value but can be optionally overwritten
     dNamS          = StringType(minimized_field_name='NameShort')
