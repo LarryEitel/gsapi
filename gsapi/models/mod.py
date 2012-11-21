@@ -22,6 +22,8 @@ class Mod(_Model):
     # It is the responsibility of the extended model to manage uniqueness if this field/attribute is used.
 
     id             = LongType()
+    cloned_id      = ObjectIdType(ObjectId)
+    '''if this doc has been cloned, set to _id of source doc.'''
 
     # unique slug value generated on save and optionally used for SEO friendly urls.
     slug           = StringType(minimized_field_name='Unique Slug')
@@ -34,6 +36,9 @@ class Mod(_Model):
     dNamS          = StringType(minimized_field_name='NameShort')
 
     locked         = BooleanType(minimized_field_name='Locked', description='Marked as locked.')
+    lockedDuration = IntType(minimized_field_name='Lock Duration Time in Minutes', description='')
+    '''User will be prompted to continue, save, cancel edit of this doc'''
+
     dele           = BooleanType(minimized_field_name='Deleted', description='Marked for removal.')
     
     # owned

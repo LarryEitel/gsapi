@@ -32,8 +32,8 @@ class Shr(Mod):
 
 class Email(Mod):
     address = EmailType(minimized_field_name='Email Address')
-
-    w  = FloatType(minimized_field_name='Sort weight', description='Sort list by weight value.')
+    
+    w       = FloatType(minimized_field_name='Sort weight', description='Sort list by weight value.')
     
     prim    = BooleanType(default=False, minimized_field_name='Primary', description='When multiple emails appear in a list, indicates which is prim. At most one may be prim.')
     

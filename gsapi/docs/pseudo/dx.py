@@ -32,23 +32,59 @@ Create Relationship between two docs
         UI Example
             Form:
                 dNamS: john_adams
-                Places:
+                    Phones 
+                        123-123-1234
+                        [Add]
+                    Emails
+                        [Add]
+                Add New
+                    Company 
+                    Person 
+                    User 
+                    Project 
+                    Comment 
+                    Project
+
+
+
+
+
+
+                - Places:
                     Home at 123 Maple, San Diego, California, 92117
                     Office at 123 Maple, San Diego, California, 92117
-                    Service Group at 123 Maple, San Diego, California, 92117
+                    Service Group at 123 Maple, San Diego, California, 92117 [Add]
+                        Comment
+                        Comment
+                            Comment
+                            icon date subject asdfasfasfas.....
+                    Add Place
                 Contacts:
-                    Son of Timothy
-                    Father of Mary
+                    ^ Son of Timothy
+                    v Father of Mary
                     Employed by acme/Subsidiary of ABC/Branch of HIPO
-                    Service Overseer of Hilltop Congregation
-                Events:
-                    Born on date
-                    Married on date
                 Notes: Add New Appears on mouse over
                     date subject asdfasdfasdf..... 
                     date subject asdfasdfasdf..... 
                     date subject asdfasdfasdf..... 
                     date subject asdfasdfasdf..... 
+                - * Projects:
+                    - * Sow What [Add] [Clone] [Delete] [Edit] [^] [v] [newParent]
+                            Experience: Meeting
+                                Comment ADD
+                        Sow What [Add] [Clone] [Delete] [Edit]
+                    Add Project
+                Events:
+                    Born on date
+                    Married on date
+
+
+
+                            Comment
+                            Comment
+                                Comment
+                                    Comment
+                    Married on date
 
                 Add New (List Model Class types that have no items yet)
                     Comment 
@@ -128,6 +164,391 @@ Create Relationship between two docs
                                             dRelNote : IT Dept
                                             dxRelOID : employed_by (placeholder)
 
+Doc Create/Update
+    Client:
+        Processes:
+            Initialize Form
+                FUNCTION: GET: /<model>/<OID/new>
+                    Response:
+                        data:
+                            action: <update/new>
+                            tmpOID: <tmpOID>
+                            tmpDoc: <doc>
+            Add to a ListType Attribute
+                FUNCTION: POST: /<_c>/<tmpOID>/<attribute>
+                    queryData:
+                        _c           : <_c>
+                        tmpOID       : <tmpOID>
+                        attributeName: <attribute>
+                    data:
+                        action: post
+                        attributeVal: <attributeVal> # could be a to/fr/emails/tels/etc
+                        targetOID   : <targetOID>
+                        relTypeOID  : <relTypeOID>
+                        retTypeTitle: <retTypeTitle>
+                        retTypeNote : <retTypeNote>
+            Update Attribute
+                FUNCTION: PUT: /<_c>/<tmpOID>/<attribute>[/<id>]
+                    # if id is provided, this refers to an element in ListType attribute
+                    queryData:
+                        _c           : <_c>
+                        tmpOID       : <tmpOID>
+                        attributeName: <attribute>
+                        [id]         : <id>
+                    data:
+                        action      : put
+                        [srcOID]    : <srcOID>
+                        attributeVal: <attributeVal>
+                        # if no id and attributeVal is a single Item, only one item is involved, otherwise, the complete list of items
+                        targetOID   : <targetOID>
+                        relTypeOID  : <relTypeOID>
+                        retTypeTitle: <retTypeTitle>
+                        retTypeNote : <retTypeNote>
+            Clone Attribute
+                # in the case of to/fr relation, cloning allows for easily adding more relationships with different roles/titles, etc.
+                FUNCTION: PUT: /<_c>/<tmpOID>/<attribute>[/<id>]
+                    queryData:
+                        _c           : <_c>
+                        tmpOID       : <tmpOID>
+                        attributeName: <attribute>
+                        id           : <id>
+                    data:
+                        action      : clone
+                        targetOID   : <targetOID>
+                        relTypeOID  : <relTypeOID>
+                        retTypeTitle: <retTypeTitle>
+                        retTypeNote : <retTypeNote>
+            Delete Form Element
+                FUNCTION: DELETE: /<_c>/<tmpOID>/<attribute>/<id>
+                    queryData:
+                        _c           : <_c>
+                        tmpOID       : <tmpOID>
+                        attributeName: <attribute>
+                        [id]         : <id>
+                    data:
+                        action      : delete        
+            Cancel Form
+                Abandon Edit
+                    FUNCTION: PUT: /<model>/<OID>/tmp 
+                        data:
+                            action: cancel
+            Submit Form
+                FUNCTION: PUT: /<model>/<OID>/tmp
+                    data:
+                        action: submit
+                        NOTE: srcDoc will have locked set to tmp_id.
+    API:
+        Processes:
+            Initialize Form
+                Create a snapshot of doc 
+                    FUNCTION: views.generic.tmp
+                        Processes:
+                            FUNCTION: controllers.generic.tmp 
+                                data:
+                                    OID: 
+                                Processes:
+                                    If no OID
+                                        create an unvalidated empty doc
+                                        create an unvalidated empty doc
+                                        set tmpDoc.locked to 1
+                                    set tmpDoc.locked to 1
+                                    return doc with tmpDoc_id
+                                response:
+                                    data:
+                                        tmpOID:
+                                        tmpDoc:
+            Post Form Element
+                FUNCTION: views.generic.post 
+                    queryData:
+                        _c           :
+                        tmpOID       :
+                        attributeName:
+                        id           :
+                    data:
+                        action      : post
+                        attributeVal: <attributeVal> # could be a to/fr
+                        targetOID   : <targetOID>    # optional
+                        relTypeOID  : <relTypeOID>   # optional
+                        retTypeTitle: <retTypeTitle> # optional
+                        retTypeNote : <retTypeNote>  # optional
+                    Processes:
+                        Find the doc 
+                        # If no id, and attributeData is an array, assume dealing with complete set.
+                        Validate
+                        Update doc.attribute
+                            # may involve relating to another doc IF targetOID and other data is provided.
+                        Response            
+            Put Form Element
+                FUNCTION: views.generic.put 
+                    queryData:
+                        _c           :
+                        tmpOID       :
+                        attributeName:
+                        id           :
+                    data:
+                        attributeVal  : <attributeVal> # could be a to/fr
+                        [srcOID]      : <srcOID>
+                        [targetOID]   : <targetOID>
+                        [relTypeOID]  : <relTypeOID>
+                        [retTypeTitle]: <retTypeTitle>
+                        [retTypeNote] : <retTypeNote>
+                    Processes:
+                        Find the doc 
+                        # If no id, and attributeData is an array, assume dealing with complete set.
+                        Validate
+                        Update doc.attribute
+                            if the attribute is tos/frs
+                                create to toBeUpdtd{}
+                                srcAttributeName    = tos
+                                # this means target.attribute would be frs
+                                targetOID           = Get the element based on id
+                                targetAttributeName = frs
+                                # generate a dRel docs to be embedded
+                                    srcDRel    = dRel
+                                    targetDRel = targetDRel
+                                # set toBeUpdtd
+                                toBeUpdtd['tos'][id]['targetCollection'] = 'cnts'
+                                toBeUpdtd['tos'][id]['targetOID']
+                                toBeUpdtd['tos'][id]['targetAttributeName'] = 'frs'
+                                toBeUpdtd['tos'][id]['targetDRel'] = targetDRel
+
+                            # may involve relating to another doc IF targetOID and other data is provided.
+                        Response
+            Delete Form Element
+                # Existing form/doc attribute can be deleted/removed 
+                # Existing form/doc ListType/array can an element deleted/removed 
+                FUNCTION: views.generic.delete 
+                    queryData:
+                        _c           :
+                        tmpOID       :
+                        attributeName:
+                        id           :
+                    data:
+                        attributeVal: <attributeVal> # could be a to/fr
+                    Processes:
+                        Find the doc 
+                        # If no id, and attributeData is an array, assume dealing with complete set.
+                        Validate
+                        Delete doc.attribute
+                            if attribute is a to/fr 
+                                # need to delete element from related doc tos/frs
+                        Response                        
+            Cancel Form
+                FUNCTION: views.generic.put
+                    queryData:
+                        tmpOID: <tmpOID>
+                    data:
+                        action: cancel
+                    Processes:
+                        Delete tmpDoc
+            Submit Form
+                FUNCTION: views.generic.put
+                    queryData:
+                        tmpOID: <tmpOID>
+                    data:
+                        action: submit
+                    Processes:
+                        Validate
+                        Handle toBeUpdtd Actions
+                            Updating related docs
+                        Unlock tmpDoc.locked
+        Response:
+            status: 200
+            _id   : <OID>
+            If error:
+                Response with details.
+
+Validate Element
+    Client:
+        Processes:
+            Validate Element
+                HTTP: GET: /<model>/<attribute>/validate
+                    data:
+                        Element data
+    API:
+        Processes:
+            Validate Embedded Doc
+                FUNCTION: views.generic.validate
+        Response:
+            status: 200
+            If error:
+                Response with details.
+Validate Embedded Element
+    Client:
+        Processes:
+            Validate Embedded Element
+                HTTP: GET: /validate/Phone
+                    data:
+                        Element data
+    API:
+        Processes:
+            Validate Embedded Doc
+                FUNCTION: views.generic.validate
+        Response:
+            status: 200
+            If error:
+                Response with details.
+Validate Embedded List 
+    Client:
+        Processes:
+            Validate Embedded List
+                HTTP: GET: /validate/Phones
+                    data:
+                        [Element data]
+    API:
+        Processes:
+            Validate Embedded Doc
+                FUNCTION: views.generic.validate
+        Response:
+            status: 200
+            If error:
+                Response with details.
+Doc Edit
+    Client:
+        Processes:
+            Initialize Form
+                FUNCTION: GET: /<model>/<OID>/tmp
+                    Response:
+                        data:
+                            tmpOID: <OID>
+                            tmpDoc: <doc>
+
+            Update Form Elements
+                FUNCTION: PUT: /<_c>/<OID>/<attribute>/<id>
+                    queryData:
+                        _c           : <_c>
+                        OID          : <OID>
+                        attributeName: <attribute>
+                        id          : <id>
+                    data:
+                        attributeVal: <attributeVal>
+            Cancel Form
+                Abandon Edit
+                    FUNCTION: PUT: /<model>/<OID>/tmp 
+                        data:
+                            action: cancel
+            Submit Form
+                FUNCTION: PUT: /<model>/<OID>/tmp
+                    data:
+                        action: submit
+                        NOTE: srcDoc will have locked set to tmp_id.
+    API:
+        Processes:
+            Initialize Form
+                Create a snapshot of doc 
+                    FUNCTION: views.generic.tmp
+                        Processes:
+                            FUNCTION: controllers.generic.tmp 
+                                data:
+                                    OID: 
+                                Processes:
+                                    find OID 
+                                    clone a copy of doc
+                                    set srcDoc.locked to tmpDoc_id
+                                    set tmpDoc.locked to 1
+                                    return doc with tmpDoc_id
+                                response:
+                                    data:
+                                        srcOID:
+                                        tmpOID:
+                                        tmpDoc:
+            Put Form Elements
+                FUNCTION: views.generic.put 
+                    queryData:
+                        _c           :
+                        OID          :
+                        attributeName:
+                        id           :
+                    data:
+                        attributeData: <data>
+                    Processes:
+                        Find the doc 
+                        # If no id, and attributeData is an array, assume dealing with complete set.
+                        Validate
+                        Update doc.attribute
+                        Response
+            Cancel Form
+                FUNCTION: views.generic.put
+                    queryData:
+                        OID: <srcOID>
+                        tmp:
+                    data:
+                        action: cancel
+                        NOTE: srcDoc will have locked set to tmp_id.
+                    Processes:
+                        Delete tmpDoc 
+                        Unlock srcDoc.locked
+            Submit Form
+                FUNCTION: views.generic.put
+                    queryData:
+                        OID: <srcOID>
+                    data:
+                        action: submit
+                        NOTE: srcDoc will have locked set to tmp_id.
+                    Processes:
+                        Loop through all fields and where srcDoc.Attribute is different than tmpDoc.Attribute, update attribute.
+                        Delete tmpDoc 
+                        Unlock srcDoc.locked
+        Response:
+            status: 200
+            _id   : <newId>
+            If error:
+                Response with details.
+Doc Clone
+    Client:
+        Processes:
+            Present Option: Shallow | Deep
+    API:
+        Processes:
+            Shallow
+            Deep
+        Response:
+            status: 200
+            _id   : <newId>
+            If error:
+                Response with details.
+Doc Delete
+    Shallow
+    Deep
+Doc Move (Up/Down)
+    UpDown
+    NewTo
+Doc Relate
+Doc Relate Edit
+Doc Relate Delete
+Doc Relate Clone
+Doc Relate Move
+
+Create Relation
+    Client:
+        Processes:
+            Present a form to gather details related to the relation to be made between two docs.
+            Subject (currently focused doc) of the form, ie, a Prs (person) is given option to create a relation/link to a parent/to or child/fr.
+                The new dx doc will associate the currently focussed subject doc with dx.fr_c, dx.fr_id, At this point UI knows the fr_c (subject/currently focused doc/item), frOID, frNam, frNamS.
+                UI needs to provide a lookup form to gather the following details:
+                    Prompt user to describe the relationship. TODO: UI either access static list of DxRel (relationship titles)? Another AJAX call required?
+                    Since the UI knows the typ (type) of document, it can list relevent rel(ationship) titles. If UI is adding a new parent/to relationship, list would include titles such as Son of, Employed by, etc.
+                        NOTE: it might be appropriate for UI to prompt for the type/class of parent to create, ie, Person, Company, etc. This would/could enable further filtering of available/appropriate titles from the list.
+                Client ultimately needs to provide the target parent/to or child/fr: OID, _c, and dxRelOID.
+            HTTP POST: /Dx
+
+    API:
+        Processes:
+            Validate OAuth acces_token validity. If valid check login session. If valid proceed.
+            If login is not valid redirect to login page. If OAuth is not valid send the response status code indicating OAuth access token needds to be renewed. 
+            Client calls view function
+                FUNCTION: views.dx.create
+            Call controller function for creating Dx and DxRel and also pass data.
+                FUNCTION: controllers.dx.Create
+                    Check OIDs for presence in database. 
+                    Pull docs. 
+                    If Docs do not exist respond with a status code. With a possible message of session hijacking.
+                    Create Dx and DxRel objects and generate OID and other ids.
+                    Updating tos and frs of objects.
+                        While updating any of these objects if document is found to be locked retry after half seconds.
+                        If maximum no. of retries are over send status code to retry in some time.
+                    If everything is good send status code to caller.
+  
 Create Dx Relation
     Client:
         Processes:
