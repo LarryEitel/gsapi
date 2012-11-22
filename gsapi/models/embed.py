@@ -5,6 +5,37 @@ from schematics.types.compound import ListType, ModelType
 from schematics.types.mongo import ObjectIdType
 from mod import Mod
 
+
+class LnkTyp(Mod):
+    fam         = BooleanType(minimized_field_name='Is Family Link/Relationship?')
+    fr_c        = StringType(minimized_field_name='Fr/Child Document class "_c".')
+    frGen       = StringType(minimized_field_name='Fr/Child Gender')
+    frNam       = StringType(minimized_field_name='Fr/Child Name/Title')
+    frNamS      = StringType(minimized_field_name='Fr/Child Name/Title Short')
+    to_c        = StringType(minimized_field_name='To/Parent Document class "_c".')
+    toGen       = StringType(minimized_field_name='To/Parent Gender')
+    toNam       = StringType(minimized_field_name='To/Parent Name/Title')
+    toNamS      = StringType(minimized_field_name='To/Parent Name/Title Short')
+    mask        = StringType(minimized_field_name='Sharing Mask')
+    '''1, 11, 111, etc used in sh(aring) docs'''
+
+class Lnk(Mod):
+    d_c         = StringType(minimized_field_name='Document class "_c".')
+    dId         = LongType(minimized_field_name='Document Id.')
+    lnkTypDNam  = LongType(minimized_field_name='Link Type Display Name')
+    lnkTypDNamS = LongType(minimized_field_name='Link Type Display Name Short')
+    dDNam       = LongType(minimized_field_name='Document Display Name')
+    sDNamS      = LongType(minimized_field_name='Document Display Name Short')
+
+class Pth(Mod):
+    d_c      = StringType(minimized_field_name='Target document class "_c".')
+    dId      = LongType(minimized_field_name='Target document Id.')
+    lnkTypId = LongType(minimized_field_name='Link Type Id.')
+    lnkTitle = StringType(minimized_field_name='Link Title.')
+    lnkNote  = StringType(minimized_field_name='Link Note.')
+    lnks     = ListType(Lnk)
+    ids      = ListType(LongType)
+
 # https://developers.google.com/gdata/docs/2.0/elements#gdMessageKind
 class Msg(Mod):
     '''Represents a message, such as an email, a discussion group posting, or a comment.'''

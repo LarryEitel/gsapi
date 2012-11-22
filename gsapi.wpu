@@ -43,8 +43,8 @@ debug.run-args = {loc('fabfile.py'): 'hello'}
 debug.show-args-dialog = {loc('gsapi/run.py'): False,
                           loc('scripts/yaml.py'): False,
                           loc('scripts/yaml_json.py'): False}
-debug.var-col-widths = [0.59736180904522618,
-                        0.40263819095477388]
+debug.var-col-widths = [0.59725158562367864,
+                        0.40274841437632136]
 guimgr.overall-gui-state = {'windowing-policy': 'combined-window',
                             'windows': [{'name': 'cyTlbCAUmxSyeyLIVHJME2EKxq'\
         'uBTuPh',
@@ -391,15 +391,15 @@ guimgr.overall-gui-state = {'windowing-policy': 'combined-window',
         'sel-line-start': 0,
         'selection_end': 0,
         'selection_start': 0}},
-        'has-focus': True},
+        'has-focus': False},
                                'open_files': [u'gsapi/controllers/generic.py',
-        u'gsapi/models/generic.py',
-        u'gsapi/tests/controllers/test_generic.py',
-        u'scripts/t',
-        u'gsapi/tests/views/test_generic.py',
         u'gsapi/models/__init__.py',
+        u'gsapi/models/generic.py',
         u'gsapi/tests/base.py',
+        u'gsapi/tests/controllers/test_generic.py',
         u'gsapi/tests/controllers/test_generic_id.py',
+        u'gsapi/tests/views/test_generic.py',
+        u'scripts/t',
         u'gsapi/run.py']},
         'saved_notebook_display': None,
         'split_percents': {0: 0.38002059732234811},
@@ -1565,11 +1565,11 @@ guimgr.overall-gui-state = {'windowing-policy': 'combined-window',
                           575,
                           421)}]}
 guimgr.recent-documents = [loc('gsapi/run.py'),
+                           loc('scripts/t'),
                            loc('gsapi/tests/controllers/test_generic_id.py'),
                            loc('gsapi/tests/base.py'),
                            loc('gsapi/models/__init__.py'),
-                           loc('gsapi/tests/views/test_generic.py'),
-                           loc('scripts/t')]
+                           loc('gsapi/tests/views/test_generic.py')]
 guimgr.visual-state = {loc('../../../../../../Python27/Lib/json/__init__.py'): {''\
         'attrib-starts': [('dumps',
                            184)],

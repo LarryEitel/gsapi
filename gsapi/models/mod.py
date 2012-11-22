@@ -8,7 +8,7 @@ from typ import Typ
 import datetime
 
 class ModIndex(_Model):
-    def __init__()
+    def __init__():
         "parsedtext": self.gatherKeywords(),
         "dNam"      : self.dNam,
         "dNamS"     : self.dNamS,
@@ -39,9 +39,11 @@ class Mod(_Model):
     # this will default to slug value but can be optionally overwritten
     dNamS          = StringType(minimized_field_name='NameShort')
 
-    locked         = BooleanType(minimized_field_name='Locked', description='Marked as locked.')
+    locked         = StringType(minimized_field_name='Locked', description='May be set with OID of tmp snapshot of doc being edited.')
     lockedDuration = IntType(minimized_field_name='Lock Duration Time in Minutes', description='')
     '''User will be prompted to continue, save, cancel edit of this doc'''
+
+    publish        = BooleanType(minimized_field_name='Publish', description='')
 
     dele           = BooleanType(minimized_field_name='Deleted', description='Marked for removal.')
     
