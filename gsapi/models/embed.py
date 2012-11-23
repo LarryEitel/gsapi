@@ -20,6 +20,7 @@ class LnkTyp(Mod):
     '''1, 11, 111, etc used in sh(aring) docs'''
 
 class Lnk(Mod):
+    eId         = IntType(minimized_field_name='Element Id')
     d_c         = StringType(minimized_field_name='Document class "_c".')
     dId         = LongType(minimized_field_name='Document Id.')
     lnkTypDNam  = LongType(minimized_field_name='Link Type Display Name')
@@ -28,6 +29,7 @@ class Lnk(Mod):
     sDNamS      = LongType(minimized_field_name='Document Display Name Short')
 
 class Pth(Mod):
+    eId         = IntType(minimized_field_name='Element Id')
     d_c      = StringType(minimized_field_name='Target document class "_c".')
     dId      = LongType(minimized_field_name='Target document Id.')
     lnkTypId = LongType(minimized_field_name='Link Type Id.')
@@ -62,6 +64,7 @@ class Shr(Mod):
         }
 
 class Email(Mod):
+    eId         = IntType(minimized_field_name='Element Id')
     address = EmailType(minimized_field_name='Email Address')
     
     w       = FloatType(minimized_field_name='Sort weight', description='Sort list by weight value.')
@@ -79,6 +82,7 @@ class Email(Mod):
 class Tel(Mod):
     '''https://developers.google.com/gdata/docs/2.0/elements#gdPhoneNumber'''
     if 1: # Fields
+        eId         = IntType(minimized_field_name='Element Id')
         address = EmailType(minimized_field_name='Email Address')
         
         w       = FloatType(minimized_field_name='Sort weight', description='Sort list by weight value.')
@@ -106,6 +110,7 @@ class Tel(Mod):
 class Im(Mod):
     '''https://developers.google.com/gdata/docs/2.0/elements#gdIm'''
     if 1: # Fields
+        eId         = IntType(minimized_field_name='Element Id')
         address  = StringType(minimized_field_name='IM Address')
         dNam     = StringType(minimized_field_name='Display Name', description='A display name of the entity (e.g. a person) the email address belongs to.')
         lbl      = StringType(minimized_field_name='Label', description='A simple string value used to name this IM address. It allows UIs to display a label such as "Work", "Personal", "Preferred", etc.')
@@ -131,6 +136,7 @@ class Im(Mod):
         }
 
 class Note(Mod):
+    eId      = IntType(minimized_field_name='Element Id')
     title    = StringType()
     note     = StringType()
     noteHTML = StringType()
@@ -143,6 +149,7 @@ class Note(Mod):
         }
 
 class Rating(Mod):
+    eId       = IntType(minimized_field_name='Element Id')
     avg       = FloatType(description='Average rating.')
     max       = IntType(description='The rating scale\'s maximum value.')
     min       = IntType(description='The rating scale\'s minimum value.')
@@ -160,6 +167,7 @@ class PlAspectRating(_Model):
 
 class Review(Mod):
     '''https://developers.google.com/maps/documentation/javascript/places#place_details_responses'''
+    eId     = IntType(minimized_field_name='Element Id')
     aspects = ListType(ModelType(PlaceAspectRating))
     cBy     = ObjectIdType(minimized_field_name='Author')
     body    = StringType(description='the user\'s review.')

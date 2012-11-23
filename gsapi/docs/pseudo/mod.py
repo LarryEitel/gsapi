@@ -5,7 +5,7 @@ NOTES:
     When editing a doc, the cloned copy must be inserted in a collection name with the extension _tmp to avoid unique value index problems.
     When creating a new doc, an empty (non-validated) doc must be inserted in a collection name with the extension _tmp to avoid unique value index problems.
 TODOs:
-    Accommodate ListType.elemId = unique Id based on _c.docId.nextId 
+    Accommodate ListType.id = unique Id based on _c.docId.nextId 
         collection ids:
             locked   :
             _c       :
@@ -31,6 +31,7 @@ QUESTIONS:
                         act     : Action, add, clone, update, delete [a,c,u,d]
                         aNam    : Attribute Name 
                         aVal    : Attribute Val
+                        id      : Element Id/elemId
     What/if any validation rules can be delivered to client to relieve client to having to ping API for each/every form element?
 
 New Doc Initialize Form
@@ -112,57 +113,56 @@ Update Form Element
     CLIENT:
         # PUT implies that we are UPDATING the resource. Could be a single field or ListType/Array field.
         # OID refers to the doc in the _tmp collection of the corresponding model collection
-        # elemKey refers to unique key in a ListType field.
-        # QUESTION: Use offset instead? elemKey seems safer but requires all ListType elements to have an elemKey to search for.
-        HTTP PUT: /<_c>/<OID>/<attributeName>[/<elemKey>]
+        # elemId refers to unique key in a ListType field.
+        HTTP PUT: /<_c>/<OID>/<attrName>[/<elemId>]
             data:
-                attributeVal: <new attribute value>
+                attrVal: <new attr value>
     API:
         HTTP PUT Triggers: views.generic.put
             querydata:
-                _c           : <model class name>
-                OID          : 
-                attributeName: 
-                [elemKey]    : 
+                _c      : <model class name>
+                OID     : 
+                attrName: 
+                [elemId]: 
             data: 
-                attributeVal : <new attribute value>
+                attrVal : <new attr value>
 
             RUN: controllers.generic.put
                 args:
-                    _c           : <model class name>
-                    OID          : <OID of doc in _tmp collection>
-                    attributeName: 
-                    [elemKey]    : 
-                    attributeVal : <new attribute value>
-                        # if no elemKey and attributeVal is a single Item, only one item is involved, otherwise, the complete list of all items
+                    _c      : <model class name>
+                    OID     : <OID of doc in _tmp collection>
+                    attrName: 
+                    [elemId]: 
+                    attrVal : <new attr value>
+                        # if no elemId and attrVal is a single Item, only one item is involved, otherwise, the complete list of all items
                 DO THIS:
-                    Find and modify attributeName of doc at OID in _tmp collection.
+                    Find and modify attrName of doc at OID in _tmp collection.
                         Log the change
                     Basic fields
                     ModelType fields
                     ListType fields
                     QUESTION:
-                        How to determine the type of the attribute/field? Hardcode?
+                        How to determine the type of the attr/field? Hardcode?
                         Schematics has a way to validate ONE field.
                 RETURN:
                     status: 
-                    attributeVal: 
+                    attrVal: 
                     [errors]: 
             RETURN:
                 status: 
-                attributeVal:
+                attrVal:
                 [errors]: 
 Add to a ListType Form Element
     NOTE:
     CLIENT:
-        USER: Click Add Button related to a ListType attribute/field.
+        USER: Click Add Button related to a ListType attr/field.
         Phone Example:
             UI: Insert a Tel (phone) form.
             USER: Click Submit Button
 
             HTTP POST: /<_c>/<OID>/tels
                 data:
-                    attributeVal: <new attribute value>
+                    attrVal: <new attr value>
         New to/parent link to a Company Example:
             Note that user had opportunity to add a new link to any valid Doc/Item, ie, Person, Company, Event, etc. When they clicked, they passed the target_c (model class name), ie, Cmp for a link to a Company AND whether it was targeting a new to/parent or fr/child, ie, targetAs = to/parent OR fr/child.
             Clicking exposes:
@@ -194,31 +194,31 @@ Add to a ListType Form Element
 
 
         # POST implies that we are ADD an item to a ListType/Array field.
-        # attributeName must refer to a ListType doc attribute
-        HTTP POST: /<_c>/<OID>/<attributeName>
+        # attrName must refer to a ListType doc attr
+        HTTP POST: /<_c>/<OID>/<attrName>
             data:
-                attributeVal: <new attribute value>
+                attrVal: <new attr value>
     API:
         HTTP POST Triggers: views.generic.post
             querydata:
                 _c           : <model class name>
                 OID          : 
-                attributeName: 
+                attrName: 
             data: 
-                attributeVal : <new attribute value>
+                attrVal : <new attr value>
 
             RUN: controllers.generic.post
                 args:
                     _c           : <model class name>
                     OID          : <OID of doc in _tmp collection>
-                    attributeName: tos <ListType attribute name> 
-                        # to add new items to a ListType attribute, attributeName must refer to a ListType field.
-                    attributeVal : <new attribute value>
-                        # attributeVal must be a single Item
+                    attrName: tos <ListType attr name> 
+                        # to add new items to a ListType attr, attrName must refer to a ListType field.
+                    attrVal : <new attr value>
+                        # attrVal must be a single Item
                 DO THIS:
-                    Validate attributeVal for doc model using schematics.
-                    Find and append/add attributeVal to attributeName of doc at OID in _tmp collection.
-                    If the attributeName is in ['tos', 'frs']:
+                    Validate attrVal for doc model using schematics.
+                    Find and append/add attrVal to attrName of doc at OID in _tmp collection.
+                    If the attrName is in ['tos', 'frs']:
                         FUNCTION?
                             controllers.pth.mk # mk/generate to/fr pth
                             RETURN:
@@ -230,63 +230,63 @@ Add to a ListType Form Element
                         Add pths['target'] to tos. Conversely could be frs.
                         Initialize for tmp doc an onSave dict with following:
                             targetOID:
-                                attributeName: frs 
+                                attrName: frs 
                                 action       : post
-                                attributeVal : pths['source']
+                                attrVal : pths['source']
                             NOTE:
                                 While submitting/saving changes to a doc:
                                     for OID in targetOID:
                                         Set locked ON
                                     for OID in targetOID:
                                         find OID
-                                        do action on attributeName field
-                                            attributeVal
+                                        do action on attrName field
+                                            attrVal
                                     for OID in targetOID:
                                         Set locked OFF
-                    If the attributeName is ListType like tels, emails, etc:
+                    If the attrName is ListType like tels, emails, etc:
                         Add email to emails.
                         LOGAUDIT: 
                             OID          :
-                            attributeName: emails
+                            attrName: emails
                             action       : post
-                            attributeVal : email
+                            attrVal : email
                             elemId       : elemId
 
                         Initialize for tmp doc an onSave dict with following:
                             targetOID:
-                                attributeName: emails
+                                attrName: emails
                                 action       : post
-                                attributeVal : email
-                                elemKey      : elemKey
+                                attrVal : email
+                                elemId      : elemId
                             NOTE:
                                 While submitting/saving changes to a doc:
                                     for OID in targetOID:
                                         Set locked ON
                                     for OID in targetOID:
                                         find OID
-                                        do action on attributeName field
-                                            attributeVal
+                                        do action on attrName field
+                                            attrVal
                                     for OID in targetOID:
                                         Set locked OFF                
                 RETURN:
                     status: 
-                    attributeVal: 
+                    attrVal: 
                     [errors]: 
             RETURN:
                 status: 
-                attributeVal:
+                attrVal:
                 [errors]: 
 
 Add to a ListType Attribute
         Client:
-            FUNCTION: POST: /<_c>/<tmpOID>/<attribute>
+            FUNCTION: POST: /<_c>/<tmpOID>/<attr>
                 queryData:
                     _c           : <_c>
                     tmpOID       : <tmpOID>
-                    attributeName: <attribute>
+                    attrName: <attr>
                 data:
                     action: post
-                    attributeVal: <attributeVal> # could be a to/fr/emails/tels/etc
+                    attrVal: <attrVal> # could be a to/fr/emails/tels/etc
                     targetOID   : <targetOID>
                     relTypeOID  : <relTypeOID>
                     retTypeTitle: <retTypeTitle>
@@ -294,18 +294,18 @@ Add to a ListType Attribute
         API:
     Update Attribute
         Client:
-            FUNCTION: PUT: /<_c>/<tmpOID>/<attribute>[/<id>]
-                # if id is provided, this refers to an element in ListType attribute
+            FUNCTION: PUT: /<_c>/<tmpOID>/<attr>[/<id>]
+                # if id is provided, this refers to an element in ListType attr
                 queryData:
                     _c           : <_c>
                     tmpOID       : <tmpOID>
-                    attributeName: <attribute>
+                    attrName: <attr>
                     [id]         : <id>
                 data:
                     action      : put
                     [srcOID]    : <srcOID>
-                    attributeVal: <attributeVal>
-                    # if no id and attributeVal is a single Item, only one item is involved, otherwise, the complete list of items
+                    attrVal: <attrVal>
+                    # if no id and attrVal is a single Item, only one item is involved, otherwise, the complete list of items
                     targetOID   : <targetOID>
                     relTypeOID  : <relTypeOID>
                     retTypeTitle: <retTypeTitle>
@@ -314,11 +314,11 @@ Add to a ListType Attribute
     Clone Attribute
         Client:
             # in the case of to/fr relation, cloning allows for easily adding more relationships with different roles/titles, etc.
-            FUNCTION: PUT: /<_c>/<tmpOID>/<attribute>[/<id>]
+            FUNCTION: PUT: /<_c>/<tmpOID>/<attr>[/<id>]
                 queryData:
                     _c           : <_c>
                     tmpOID       : <tmpOID>
-                    attributeName: <attribute>
+                    attrName: <attr>
                     id           : <id>
                 data:
                     action      : clone
@@ -329,11 +329,11 @@ Add to a ListType Attribute
         API:
     Delete Form Element
         Client:
-            FUNCTION: DELETE: /<_c>/<tmpOID>/<attribute>/<id>
+            FUNCTION: DELETE: /<_c>/<tmpOID>/<attr>/<id>
                 queryData:
                     _c           : <_c>
                     tmpOID       : <tmpOID>
-                    attributeName: <attribute>
+                    attrName: <attr>
                     [id]         : <id>
                 data:
                     action      : delete  
@@ -376,20 +376,20 @@ Add to a ListType Attribute
                 queryData:
                     _c           :
                     tmpOID       :
-                    attributeName:
+                    attrName:
                     id           :
                 data:
                     action      : post
-                    attributeVal: <attributeVal> # could be a to/fr
+                    attrVal: <attrVal> # could be a to/fr
                     targetOID   : <targetOID>    # optional
                     relTypeOID  : <relTypeOID>   # optional
                     retTypeTitle: <retTypeTitle> # optional
                     retTypeNote : <retTypeNote>  # optional
                 Processes:
                     Find the doc 
-                    # If no id, and attributeData is an array, assume dealing with complete set.
+                    # If no id, and attrData is an array, assume dealing with complete set.
                     Validate
-                    Update doc.attribute
+                    Update doc.attr
                         # may involve relating to another doc IF targetOID and other data is provided.
                     Response            
         Put Form Element
@@ -397,10 +397,10 @@ Add to a ListType Attribute
                 queryData:
                     _c           :
                     tmpOID       :
-                    attributeName:
+                    attrName:
                     id           :
                 data:
-                    attributeVal  : <attributeVal> # could be a to/fr
+                    attrVal  : <attrVal> # could be a to/fr
                     [srcOID]      : <srcOID>
                     [targetOID]   : <targetOID>
                     [relTypeOID]  : <relTypeOID>
@@ -408,13 +408,13 @@ Add to a ListType Attribute
                     [retTypeNote] : <retTypeNote>
                 Processes:
                     Find the doc 
-                    # If no id, and attributeData is an array, assume dealing with complete set.
+                    # If no id, and attrData is an array, assume dealing with complete set.
                     Validate
-                    Update doc.attribute
-                        if the attribute is tos/frs
+                    Update doc.attr
+                        if the attr is tos/frs
                             create to toBeUpdtd{}
                             srcAttributeName    = tos
-                            # this means target.attribute would be frs
+                            # this means target.attr would be frs
                             targetOID           = Get the element based on id
                             targetAttributeName = frs
                             # generate a dRel docs to be embedded
@@ -429,22 +429,22 @@ Add to a ListType Attribute
                         # may involve relating to another doc IF targetOID and other data is provided.
                     Response
         Delete Form Element
-            # Existing form/doc attribute can be deleted/removed 
+            # Existing form/doc attr can be deleted/removed 
             # Existing form/doc ListType/array can an element deleted/removed 
             FUNCTION: views.generic.delete 
                 queryData:
                     _c           :
                     tmpOID       :
-                    attributeName:
+                    attrName:
                     id           :
                 data:
-                    attributeVal: <attributeVal> # could be a to/fr
+                    attrVal: <attrVal> # could be a to/fr
                 Processes:
                     Find the doc 
-                    # If no id, and attributeData is an array, assume dealing with complete set.
+                    # If no id, and attrData is an array, assume dealing with complete set.
                     Validate
-                    Delete doc.attribute
-                        if attribute is a to/fr 
+                    Delete doc.attr
+                        if attr is a to/fr 
                             # need to delete element from related doc tos/frs
                     Response                        
         Cancel Form
@@ -476,7 +476,7 @@ Validate Element
     Client:
         Processes:
             Validate Element
-                HTTP: GET: /<model>/<attribute>/validate
+                HTTP: GET: /<model>/<attr>/validate
                     data:
                         Element data
     API:
@@ -528,14 +528,14 @@ Doc Edit
                             tmpDoc: <doc>
 
             Update Form Elements
-                FUNCTION: PUT: /<_c>/<OID>/<attribute>/<id>
+                FUNCTION: PUT: /<_c>/<OID>/<attr>/<id>
                     queryData:
                         _c           : <_c>
                         OID          : <OID>
-                        attributeName: <attribute>
+                        attrName: <attr>
                         id          : <id>
                     data:
-                        attributeVal: <attributeVal>
+                        attrVal: <attrVal>
             Cancel Form
                 Abandon Edit
                     FUNCTION: PUT: /<model>/<OID>/tmp 
@@ -571,15 +571,15 @@ Doc Edit
                     queryData:
                         _c           :
                         OID          :
-                        attributeName:
+                        attrName:
                         id           :
                     data:
-                        attributeData: <data>
+                        attrData: <data>
                     Processes:
                         Find the doc 
-                        # If no id, and attributeData is an array, assume dealing with complete set.
+                        # If no id, and attrData is an array, assume dealing with complete set.
                         Validate
-                        Update doc.attribute
+                        Update doc.attr
                         Response
             Cancel Form
                 FUNCTION: views.generic.put
@@ -600,7 +600,7 @@ Doc Edit
                         action: submit
                         NOTE: srcDoc will have locked set to tmp_id.
                     Processes:
-                        Loop through all fields and where srcDoc.Attribute is different than tmpDoc.Attribute, update attribute.
+                        Loop through all fields and where srcDoc.Attribute is different than tmpDoc.Attribute, update attr.
                         Delete tmpDoc 
                         Unlock srcDoc.locked
         Response:
@@ -748,11 +748,11 @@ Delete Dx relation
                     OID:
                     
                     Check OID for presence in database. If Doc doe not exist respond with a status code. With a possible message of session hijacking.
-                    Client will send request with type and value because any of the attributes can be updated. Any of the following can trigger a
+                    Client will send request with type and value because any of the attrs can be updated. Any of the following can trigger a
                     change in Dx and DxRel.
                     fr_c, frNam, frNamS, frGen, to_c, toNam, toNamS, toGen, fam, mask, w.
                     Changes in dNam and dNamS of objects will also trigger these changes. Gender change will also effect and class changes too.
-                    Check if these attributes have changed. If yes immediate parent's tos will be updated.
+                    Check if these attrs have changed. If yes immediate parent's tos will be updated.
                     And like deleteChild call update child with OID.
                 
             FUNCTION: controllers.dx.updateChild
