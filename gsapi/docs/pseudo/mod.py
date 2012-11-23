@@ -5,12 +5,32 @@ NOTES:
     When editing a doc, the cloned copy must be inserted in a collection name with the extension _tmp to avoid unique value index problems.
     When creating a new doc, an empty (non-validated) doc must be inserted in a collection name with the extension _tmp to avoid unique value index problems.
 TODOs:
+    Accommodate ListType.elemId = unique Id based on _c.docId.nextId 
+        collection ids:
+            locked   :
+            _c       :
+            dId      :
+            attribNam:
+            nextId   :
     Need a controllers.generic.clone
         args:
             _c: <doc model class name>
             doc: <source doc to clone>
             isTmp: <boolean clone to tmp collection?>
 QUESTIONS:
+    Provision for logging doc changes.
+        On add/update/clone/delete, log in a doc with the fields that were changed.
+            logaudits
+                doc
+                    datetime:
+                    mBy     : user ObjectID
+                    mPl     : modified place 
+                    _c      : model class 
+                    d_id    : doc ObjectID
+                    acts:
+                        act     : Action, add, clone, update, delete [a,c,u,d]
+                        aNam    : Attribute Name 
+                        aVal    : Attribute Val
     What/if any validation rules can be delivered to client to relieve client to having to ping API for each/every form element?
 
 New Doc Initialize Form
@@ -32,7 +52,7 @@ New Doc Initialize Form
                     # if no OID exists, this is a new doc. Will need to generate a temporary doc to work with.
                 DO THIS:
                     Set collection_name_tmp based on collection name + _tmp.
-                    Create an initialized stub doc in collection_tmp.
+                    Create an initialized stub doc in cnts_tmp.
                 RETURN:
                     status  :
                     doc     : <initialized model doc> # An ObjectID (_id), id (incremented Id) and slug is created.
@@ -59,6 +79,7 @@ Update Doc Initialize Form
                 args:
                     _c: <model class name>
                     OID: 
+                    doc: <data>
                     # if doc arg does not exist AND OID exists, this is an EXISTING doc. Generate a clone copy of this doc in the <coll>_tmp collection to work with.
                 DO THIS:
                     Is this doc unlocked: controllers.generic.get 
@@ -116,6 +137,7 @@ Update Form Element
                         # if no elemKey and attributeVal is a single Item, only one item is involved, otherwise, the complete list of all items
                 DO THIS:
                     Find and modify attributeName of doc at OID in _tmp collection.
+                        Log the change
                     Basic fields
                     ModelType fields
                     ListType fields
@@ -133,6 +155,44 @@ Update Form Element
 Add to a ListType Form Element
     NOTE:
     CLIENT:
+        USER: Click Add Button related to a ListType attribute/field.
+        Phone Example:
+            UI: Insert a Tel (phone) form.
+            USER: Click Submit Button
+
+            HTTP POST: /<_c>/<OID>/tels
+                data:
+                    attributeVal: <new attribute value>
+        New to/parent link to a Company Example:
+            Note that user had opportunity to add a new link to any valid Doc/Item, ie, Person, Company, Event, etc. When they clicked, they passed the target_c (model class name), ie, Cmp for a link to a Company AND whether it was targeting a new to/parent or fr/child, ie, targetAs = to/parent OR fr/child.
+            Clicking exposes:
+                target_c: target model class name 
+                targetAs: target doc is a new to/parent OR fr/child
+                fr_c    : fr/subject/source model class name
+                frOID   : fr/subject/source docOID, what we are linking FROM
+            UI: Insert a Lnk form. (Call it Pth?)
+                TODOs:
+                    Incremental Search:
+                        HTTP GET /<target_c>/?<find criteria>
+                            search chars 
+
+                    New Parent/Child to what type of item: <dropdown of model classes>
+                        TODO: Client has access to static list of all models, ie, Prs:Person, etc.
+                          Prompt user to describe the relationship. TODO: UI either access static list of DxRel (relationship titles)? Another AJAX call required?
+                            Since the UI knows the typ (type) of document, it can list relevent rel(ationship) titles. If UI is adding a new parent/to relationship, list would include titles such as Son of, Employed by, etc.
+                                NOTE: it might be appropriate for UI to prompt for the type/class of parent to create, ie, Person, Company, etc. This would/could enable further filtering of available/appropriate titles from the list.
+
+                    lnkTitle:
+                    lnkNote :
+                HTTP POST: /<_c>/<OID>/tos
+                    data:
+                        target_c : target model class name 
+                        targetOID: target docOID, what we are linking FROM
+                        lnkTypId :
+                        lnkTitle :
+                        lnkNote  :
+
+
         # POST implies that we are ADD an item to a ListType/Array field.
         # attributeName must refer to a ListType doc attribute
         HTTP POST: /<_c>/<OID>/<attributeName>
@@ -151,7 +211,7 @@ Add to a ListType Form Element
                 args:
                     _c           : <model class name>
                     OID          : <OID of doc in _tmp collection>
-                    attributeName: <ListType attribute name>
+                    attributeName: tos <ListType attribute name> 
                         # to add new items to a ListType attribute, attributeName must refer to a ListType field.
                     attributeVal : <new attribute value>
                         # attributeVal must be a single Item
@@ -159,13 +219,55 @@ Add to a ListType Form Element
                     Validate attributeVal for doc model using schematics.
                     Find and append/add attributeVal to attributeName of doc at OID in _tmp collection.
                     If the attributeName is in ['tos', 'frs']:
-                        Generate to.Pth and fr.Pth
-                        Add Pth to tos or frs.
-                        Initialize for tmp doc an OnSave dict with following:
+                        FUNCTION?
+                            controllers.pth.mk # mk/generate to/fr pth
+                            RETURN:
+                                pths:
+                                    target:
+                                        pth details
+                                    source:
+                                        pth details
+                        Add pths['target'] to tos. Conversely could be frs.
+                        Initialize for tmp doc an onSave dict with following:
                             targetOID:
-                                action: post, put, delete
-                                attrib: tos, frs 
-                                val: attribVal
+                                attributeName: frs 
+                                action       : post
+                                attributeVal : pths['source']
+                            NOTE:
+                                While submitting/saving changes to a doc:
+                                    for OID in targetOID:
+                                        Set locked ON
+                                    for OID in targetOID:
+                                        find OID
+                                        do action on attributeName field
+                                            attributeVal
+                                    for OID in targetOID:
+                                        Set locked OFF
+                    If the attributeName is ListType like tels, emails, etc:
+                        Add email to emails.
+                        LOGAUDIT: 
+                            OID          :
+                            attributeName: emails
+                            action       : post
+                            attributeVal : email
+                            elemId       : elemId
+
+                        Initialize for tmp doc an onSave dict with following:
+                            targetOID:
+                                attributeName: emails
+                                action       : post
+                                attributeVal : email
+                                elemKey      : elemKey
+                            NOTE:
+                                While submitting/saving changes to a doc:
+                                    for OID in targetOID:
+                                        Set locked ON
+                                    for OID in targetOID:
+                                        find OID
+                                        do action on attributeName field
+                                            attributeVal
+                                    for OID in targetOID:
+                                        Set locked OFF                
                 RETURN:
                     status: 
                     attributeVal: 
