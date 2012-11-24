@@ -8,10 +8,19 @@ TODOs:
     Accommodate ListType.id = unique Id based on _c.docId.nextId 
         collection ids:
             locked   :
-            _c       :
+            collNam  :
             dId      :
             attribNam:
-            nextId   :
+            nextId   :        
+
+
+        collection slugs:
+            locked   :
+            collNam  : cnts
+            dId      :
+            attribNam: slug
+            slugBase   : john_doe
+            slugNo   : 2
     Need a controllers.generic.clone
         args:
             _c: <doc model class name>

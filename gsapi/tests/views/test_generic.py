@@ -20,6 +20,7 @@ import isodate
 class TestGeneric(TestCase):
     collection = 'Prs'
     collection_name = 'Prs'
+    
     def test_post_one(self):
         print "## TestPersons.test_post_one"
         print '''### INSERT NEW PERSON:'''
