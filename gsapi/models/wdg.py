@@ -7,11 +7,11 @@ from bson import ObjectId
 from embed import Email, Note, Im, Shr, Review
 
 from schematics.types.mongo import ObjectIdType
-from mixins import DxMixin
+from mixins import ModMixin
 
 import datetime
 
-class Wdg(Mod, DxMixind):
+class Wdg(Mod, ModMixin):
     slug      = StringType(minimized_field_name='Slug', description='Used in URL params.')
 
     @property

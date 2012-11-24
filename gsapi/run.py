@@ -4,7 +4,7 @@ import json
 import sys, os
 
 sys.path.insert(0, "..")
-#sys.path.insert(0, os.getcwd())
+sys.path.insert(0, os.getcwd())
 
 from views import generic
 from views.contacts import contacts

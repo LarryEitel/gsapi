@@ -6,10 +6,9 @@ from schematics.types.compound import ListType, ModelType
 from schematics.types.mongo import ObjectIdType
 from bson import ObjectId
 from embed import Email, Note, Tel, Im
-from generic import FamTag, HobbyTag, SkillTag
-from mixins import DxMixin
+from mixins import ModMixin
 
-class Cnt(Mod, DxMixin):
+class Cnt(Mod, ModMixin):
     '''
     Google Contacts API: https://developers.google.com/google-apps/contacts/v3/
     '''

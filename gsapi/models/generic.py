@@ -6,17 +6,17 @@ from mod import Mod
 from embed import Note
 
 class AppId(Mod):
-	appName  = StringType()
-	appKey   = StringType()
-	appId    = StringType()
-	appUrl   = StringType()
-	siteUrl  = StringType()
-	callBack = StringType()
+    appName  = StringType()
+    appKey   = StringType()
+    appId    = StringType()
+    appUrl   = StringType()
+    siteUrl  = StringType()
+    callBack = StringType()
 
-	meta   = {
+    meta   = {
         'collection': 'apps',
         '_c': 'AppId',
-        }
+    }
 # class Share(_Model):
 #     _c    = StringType(required=True, description='Class')
 #     _public_fields = ['_c']
@@ -41,7 +41,7 @@ class Log(_Model):
     meta = {
         'collection': 'log',
         '_c': 'Log',
-        }
+    }
 
 # class Email(_Model):
 #     if 1: # Fields
@@ -59,7 +59,7 @@ class Log(_Model):
 #         }
 
 # class Note(_Model):
-    
+
 #     if 1: # Fields
 #         note    = StringType()
 

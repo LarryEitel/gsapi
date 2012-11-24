@@ -1,7 +1,7 @@
 from schematics.types.compound import ListType, ModelType
 
 from mod import Mod
-from generic import Loc
+from loc import Loc
 
 
 class Typ(Mod):

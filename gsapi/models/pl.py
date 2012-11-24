@@ -3,7 +3,7 @@ from schematics.models import Model as _Model
 from schematics.types import IntType, LongType, StringType, FloatType, DateTimeType, EmailType, GeoPointType, URLType, BooleanType, DictType
 from schematics.types.compound import ListType, ModelType
 from embed import Email, Note, Im, Review
-from mixins import DxMixin
+from mixins import ModMixin
 from loc import Loc
 from typ import Typ
 from schematics.types.mongo import ObjectIdType
@@ -58,12 +58,12 @@ class PostalAddr(Mod):
         }
 
 class Poly(_Model):
-    poly       = ListType(ModelType(GeoPtTyp)) # array of points/locs # boundary of place if an area is involved
+    poly       = ListType(GeoPtTyp()) # array of points/locs # boundary of place if an area is involved
     bBox       = DictType() # contain topLat, rightLng, bottomLat, leftLng
     centerPt   = GeoPointType() # LNG,LAT, if this involves a boundary, loc becomes center pt
     centerPtOk = BooleanType() # empty = unconfirmed
 
-class Pl(Mod, DxMixin):
+class Pl(Mod, ModMixin):
     '''https://developers.google.com/places/documentation/details
         https://developers.google.com/maps/documentation/javascript/places#place_details_responses
         '''

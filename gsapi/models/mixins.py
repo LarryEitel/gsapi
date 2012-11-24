@@ -1,12 +1,11 @@
 from schematics.models import Mixin
-from schematics.types import StringType, BooleanType, URLType, EmailType
+from schematics.types import StringType, IntType, LongType, BooleanType, URLType, EmailType
 from schematics.types.compound import ListType, ModelType
-from embed import Email, Note, Tel, Im, Review
+from embed import Email, Note, Tel, Im, Pth, Review, Shr
 from schematics.types.mongo import ObjectIdType
 from bson import ObjectId
-from dx import DRel
+from tag import Tag
 from rdt import Rdt
-from embed import Shr
 
 # mixins
 # https://github.com/j2labs/schematics/blob/master/demos/mixins.py
@@ -16,7 +15,7 @@ from embed import Shr
 
 # ResourceType() # https://developers.google.com/gdata/docs/2.0/elements#gdResourceId
 
-class DxMixin(Mixin):
+class ModMixin(Mixin):
     count     = LongType()
     
     liked     = ListType(ObjectIdType(ObjectId))
@@ -42,10 +41,10 @@ class DxMixin(Mixin):
     shrs      = ListType(ModelType(Shr), minimized_field_name='Share List', description='List of Share docs that describe who and at what level/role this doc is shared with.')
     
     # tos     : ie, parents
-    tos       = ListType(ModelType(DRel))
+    tos       = ListType(ModelType(Pth))
     
     # frs     : froms, ie, children
     frCount   = IntType()
-    frs       = ListType(ModelType(DRel))
+    frs       = ListType(ModelType(Pth))
     # question how to handle cases where number of frs/children exceed max doc size
-    frFs      = ModelType(GridFs)
+    # frFs      = ModelType(GridFs)

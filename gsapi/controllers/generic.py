@@ -5,6 +5,7 @@ from bson import ObjectId
 import re
 import datetime
 from gsapi import models
+# from mod import Mod
 
 class Generic(object):
     """Docstring for class Generic"""

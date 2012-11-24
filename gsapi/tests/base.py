@@ -8,8 +8,8 @@ import sys, os
 
 sys.path.insert(0, "..")
 sys.path.insert(0, os.getcwd() + os.sep + 'gsapi')
-# # sys.path.insert(0, os.sep.join(os.getcwd().split(os.sep)[:-1]))
-# # sys.path.insert(0, os.sep.join(__file__.split(os.sep)[:-1]))
+sys.path.insert(0, os.sep.join(os.getcwd().split(os.sep)[:-1]))
+sys.path.insert(0, os.sep.join(__file__.split(os.sep)[:-1]))
 
 import os
 import base64
@@ -19,7 +19,7 @@ from pyes.es import ES
 
 from flask import session
 
-import gsapi.run as run
+import run as run
 from gsapi import models
 from gsapi.utils import load_data
 from pymongo import Connection

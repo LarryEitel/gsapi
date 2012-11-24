@@ -1,6 +1,5 @@
 from schematics.models import Model as _Model
-from mod import Mod
-from schematics.types import StringType, IntType, DateTimeType, EmailType, FloatType, BooleanType, GeoPointType
+from schematics.types import StringType, IntType, LongType, DateTimeType, EmailType, FloatType, BooleanType, GeoPointType
 from schematics.types.compound import ListType, ModelType
 from schematics.types.mongo import ObjectIdType
 from mod import Mod
@@ -35,8 +34,21 @@ class Pth(Mod):
     lnkTypId = LongType(minimized_field_name='Link Type Id.')
     lnkTitle = StringType(minimized_field_name='Link Title.')
     lnkNote  = StringType(minimized_field_name='Link Note.')
-    lnks     = ListType(Lnk)
-    ids      = ListType(LongType)
+    lnks     = ListType(ModelType(Lnk))
+    ids      = ListType(LongType())
+
+class Note(Mod):
+    eId      = IntType(minimized_field_name='Element Id')
+    title    = StringType()
+    note     = StringType()
+    noteHTML = StringType()
+
+    def __unicode__(self):
+        return self.note
+
+    meta = {
+        '_c': 'Note',
+        }
 
 # https://developers.google.com/gdata/docs/2.0/elements#gdMessageKind
 class Msg(Mod):
@@ -89,7 +101,7 @@ class Tel(Mod):
         lbl     = StringType(minimized_field_name='Label', description='A simple string value used to name this phone number. It allows UIs to display a label such as "Work", "Personal", "Preferred", etc.')
         
         # enum  : home, work, other
-        typs    = ListType(StringType(minimized_field_name='Telephone Types')
+        typs    = ListType(StringType(minimized_field_name='Telephone Types'))
         
         uri     = StringType(minimized_field_name='An optional "tel URI"', description='An optional "tel URI" used to represent the number in a formal way, useful for programmatic access, such as a VoIP/PSTN bridge. See RFC 3966 for more information on tel URIs.')
         
@@ -117,7 +129,7 @@ class Im(Mod):
         w        = FloatType(minimized_field_name='Sort weight', description='Sort list by weight value.')
         
         # enum   : home, work, other
-        typs     = ListType(StringType(minimized_field_name='IM Types')
+        typs     = ListType(StringType(minimized_field_name='IM Types'))
         
         protocol = StringType(minimized_field_name='IM network', description='Identifies the IM network. The value may be either one of the standard values (shown below) or a URI identifying a proprietary IM network.')
         '''['aim','msn','yahoo','skype','qq','gtalk','icq','jabber']'''
@@ -133,19 +145,6 @@ class Im(Mod):
 
     meta = {
         '_c': 'Im',
-        }
-
-class Note(Mod):
-    eId      = IntType(minimized_field_name='Element Id')
-    title    = StringType()
-    note     = StringType()
-    noteHTML = StringType()
-
-    def __unicode__(self):
-        return self.note
-
-    meta = {
-        '_c': 'Note',
         }
 
 class Rating(Mod):
@@ -168,7 +167,7 @@ class PlAspectRating(_Model):
 class Review(Mod):
     '''https://developers.google.com/maps/documentation/javascript/places#place_details_responses'''
     eId     = IntType(minimized_field_name='Element Id')
-    aspects = ListType(ModelType(PlaceAspectRating))
+    aspects = ListType(ModelType(PlAspectRating))
     cBy     = ObjectIdType(minimized_field_name='Author')
     body    = StringType(description='the user\'s review.')
     cOn     = DateTimeType(description='When Created/Added')

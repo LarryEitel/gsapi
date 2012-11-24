@@ -1,10 +1,7 @@
 from mod import Mod
 from schematics.models import Model as _Model
-from schematics.types import IntType, LongType, StringType, FloatType, DateTimeType, EmailType, GeoPointType, URLType, BooleanType, DictType
+from schematics.types import StringType, FloatType
 from schematics.types.compound import ListType, ModelType
-from embed import Email, Note, Im, Review
-from mixins import DxMixin
-from schematics.types.mongo import ObjectIdType
 from bson import ObjectId
 
 class TagGrp(Mod):
