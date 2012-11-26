@@ -15,7 +15,8 @@ import datetime
         #"oOn"       : self.oOn
         
 class Mod(_Model):
-    _c             = StringType(required=True, description='Class')
+    # _c             = StringType(required=True, description='Class')
+    _c             = StringType(description='Class')
     _public_fields = ['_c']
     
     # optional. A model that exents from Mod may choose to impliment an incremented key value similar to a RDBMS incremented primary key.

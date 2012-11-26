@@ -1,10 +1,10 @@
 # -*- coding: utf-8 -*-
 import os
-from gsapi.extensions import validate
+from extensions import validate
 from bson import ObjectId
 import re
 import datetime
-from gsapi import models
+import models
 # from mod import Mod
 
 class Generic(object):
@@ -71,10 +71,12 @@ class Generic(object):
     def post(self, **kwargs):
         """Docstring for post method:"""
         db = self.db
-        class_name = kwargs['class_name']
-        model = getattr(models, class_name)
+        _c = kwargs['_c']
+        model = getattr(models, _c)
         collection_name = model.meta['collection']
+        collection_name_tmp = collection_name + '_tmp'
         collection = db[collection_name]
+        collection_tmp = db[collection_name_tmp]
 
         response = {}
         docs = []
@@ -89,10 +91,11 @@ class Generic(object):
             user_id = "50468de92558713d84b03fd7"
 
             # need to stuff in class_name
-            doc['_c'] = class_name
+            doc['_c'] = _c
 
             # Validate
             doc_errors = validate(model, doc)
+            
             if doc_errors:
                 total_errors += doc_errors['count']
                 post_errors.append(doc_errors)

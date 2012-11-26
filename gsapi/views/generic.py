@@ -12,10 +12,11 @@ import re
 import datetime
 from flask import current_app
 
-from gsapi import models, controllers
-from gsapi.utils import mongo_json_object_hook
-from gsapi.extensions import validate
-from gsapi.jsondatetime import loads
+import models
+import controllers
+from utils import mongo_json_object_hook
+from extensions import validate
+from jsondatetime import loads
 
 mimerender  = mimerender.FlaskMimeRender()
 
