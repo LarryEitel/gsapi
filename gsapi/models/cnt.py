@@ -8,7 +8,8 @@ from bson import ObjectId
 from embed import Email, Note, Tel, Im
 from mixins import ModMixin
 
-class Cnt(Mod, ModMixin):
+# class Cnt(Mod, ModMixin):
+class Cnt(Mod):
     '''
     Google Contacts API: https://developers.google.com/google-apps/contacts/v3/
     '''

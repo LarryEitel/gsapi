@@ -93,7 +93,6 @@ class TestGeneric(MongoTestCase):
         args['_c'] = self._c
         args['docs'] = [sample_doc]
 
-
         response = generic.post(**args)
 
         assert response['status_code'] == 200

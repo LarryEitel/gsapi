@@ -90,9 +90,10 @@ class Generic(object):
             errors = {}
             user_id = "50468de92558713d84b03fd7"
 
-            # need to stuff in class_name
+            # init model for this doc
             doc['_c'] = _c
-
+            m = model(**doc)
+            
             # Validate
             doc_errors = validate(model, doc)
             
@@ -101,24 +102,24 @@ class Generic(object):
                 post_errors.append(doc_errors)
                 continue
 
-            # init model for this doc
-            m = model(**doc)
-
             #log date time user involved with this event
             m.logit(user_id, 'post')
 
-            # need to stuff into mongo
+            # model stuffed in all available fields
+            # let's remove all empty fields to keep mongo clean.
             doc_validated = m.to_python()
-            try:
-                doc_validated['_c'] = m.meta['_c']
-            except:
-                pass
-
+            doc_clean = {}
+            doc_clean['_c'] = _c
+            for k,v in doc_validated.iteritems():
+                if doc_validated[k]:
+                    doc_clean[k] = doc_validated[k]
+            
+            
             doc_info = {}
 
-            id = str(collection.insert(doc_validated, safe = True))
+            id = str(collection.insert(doc_clean, safe = True))
             doc_info['id'] = id
-            doc_info['doc'] = doc_validated
+            doc_info['doc'] = doc_clean
             #doc_info['link'] = get_document_link(class_name, id)
 
             docs.append(doc_info)
