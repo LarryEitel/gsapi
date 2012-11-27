@@ -1,26 +1,22 @@
 # -*- coding: utf-8 -*-
 import os
-from models.extensions import validate
-from models.logit import logit
-from bson import ObjectId
 import re
 import datetime
+from bson import ObjectId
 import models
-from utils.nextid import NextId
+from models.extensions import validate
+from models.logit import logit
+from utils.nextid import nextId
 from utils.slugify import slugify
-# from mod import Mod
 
 class Generic(object):
-    """Docstring for class Generic"""
 
     def __init__(self, db, es = None):
         #: Doc comment for instance attribute db
         self.db = db
         self.es = es
-        self.NextId = NextId()
     
     def post(self, **kwargs):
-        """Docstring for post method:"""
         db           = self.db
         
         response     = {}
@@ -39,7 +35,7 @@ class Generic(object):
             _c         = doc['_c']
             modelClass = getattr(models, _c)
 
-            # if _id is passed,  it directs that a temp doc be initialized and inserted into the appropriate Tmp (temp) collection.
+            # if _ id is passed,  it directs that a temp doc be initialized and inserted into the appropriate Tmp (temp) collection.
             # if an _id IS passed, it directs that the doc passed in be validated and inserted in the base collection and the temp doc in the temp collection be deleted.
             useTmpDoc   = not '_id' in doc.keys()
             _id         = doc['_id'] if not useTmpDoc else None
@@ -54,13 +50,14 @@ class Generic(object):
             model.isTmp = useTmpDoc and 'isTmp' in model._fields
 
             # try to generate dNam
+            # if there is a vNam class property 
             # if already has a value, use it
-            if not useTmpDoc and 'dNam' in model._fields and not model.dNam:
+            if hasattr(model, 'vNam') and not useTmpDoc and 'dNam' in model._fields and not model.dNam:
                 model.dNam = model.vNam
 
             # assign dId
             if 'dId' in model._fields and not model.dId:
-                model.dId = self.NextId.nextId(coll)
+                model.dId = nextId(coll)
 
             # generate a slug if:
             # not a temp doc and slug is empty
@@ -92,30 +89,29 @@ class Generic(object):
 
             doc_clean       = {}
             doc_clean['_c'] = _c
-            for k,v in doc.iteritems():
+            for k, v in doc.iteritems():
                 if doc[k]:
                     doc_clean[k] = doc[k]
             
             doc_info = {}
             
-            # no need to pass param safe if this is a temp doc
-            if useTmpDoc:
-                id = str(collTmp.insert(doc_clean))
+            # posting an existing temp doc to base collection
+            if _id:
+                doc_clean['_id'] = str(_id)
+                id = str(coll.insert(doc_clean))
+                # TODO properly handle exception
+                try:
+                    collTmp.remove({'_id': _id})
+                except:
+                    pass
+
+            # posting initialized temp doc
             else:
-                if _id:
-                    doc_clean['_id'] = str(_id)
-                    id = str(coll.insert(doc_clean, safe = True))
-                    # TODO properly handle exception
-                    try:
-                        collTmp.remove({'_id': _id})
-                    except:
-                        pass
-                else:
-                    # TODO properly handle exception
-                    try:
-                        coll.insert(doc_clean, safe = True)
-                    except:
-                        pass                  
+                # TODO properly handle exception
+                try:
+                    coll.insert(doc_clean)
+                except:
+                    pass                  
                     
             doc_info['doc']   = doc_clean
             
