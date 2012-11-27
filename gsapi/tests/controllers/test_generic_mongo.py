@@ -49,14 +49,17 @@ class TestGenericMongo(MongoTestCase):
         
         # now let's put some data in and the repost. It should move tmp doc to main collection and delete the temp doc.
 
-        args               = {}
-        args['usrOID']     = "50468de92558713d84b03fd7"
+        args                 = {}
+        args['usrOID']       = "50468de92558713d84b03fd7"
         
-        sample_doc         = doc
-        sample_doc['fNam'] = 'Larry'
-        args['docs']       = [sample_doc]
+        sample_doc           = doc
+        sample_doc['prefix'] = 'Mr'
+        sample_doc['fNam']   = 'Larry'
+        sample_doc['lNam']   = 'King'
+        sample_doc['suffix'] = 'Sr'
+        args['docs']         = [sample_doc]
         
-        response           = generic.post(**args)
+        response             = generic.post(**args)
 
         assert response['status_code'] == 200
         data     = response['response']
@@ -69,7 +72,6 @@ class TestGenericMongo(MongoTestCase):
 
         #TODO 
         # Make sure tmp doc was successfully removed
-
 
     def test_post(self):
         print

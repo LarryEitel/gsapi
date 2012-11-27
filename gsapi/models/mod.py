@@ -23,8 +23,7 @@ class Mod(_Model):
     # It is the responsibility of the extended model to manage uniqueness if this field/attribute is used.
 
     dId            = LongType(minimized_field_name='Unique Doc Id')
-    collNam        = StringType(minimized_field_name='Collection Name')
-    '''Used to tract whether this object was created in base collection or _tmp (temp) collection'''
+    
     isTmp          = LongType(minimized_field_name='Is Temp Doc')
     '''When creating an initialized temp doc, set this flag. It should not be persisted to base collection.'''
 
@@ -79,25 +78,10 @@ class Mod(_Model):
     img            = StringType(minimized_field_name='Place Icon', description='URL to an image resource that can be used to represent this object.')
     
     meta           = {
-        '_c': 'Mod',
+        'collection': 'docs',
+        '_c'        : 'Mod',
         }
 
     @property
     def index(self):
         return {}
-
-    @classmethod
-    def logit(self, usrId, method='post'):
-
-        # Log this
-        now = datetime.datetime.utcnow()
-
-        if method == 'post':
-            self.oBy = usrId
-            self.oOn = now
-            self.cBy = usrId
-            self.cOn = now
-
-        self.mBy = usrId
-        self.mOn = now
-

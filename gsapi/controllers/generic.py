@@ -1,11 +1,13 @@
 # -*- coding: utf-8 -*-
 import os
 from models.extensions import validate
+from models.logit import logit
 from bson import ObjectId
 import re
 import datetime
 import models
 from utils.nextid import NextId
+from utils.slugify import slugify
 # from mod import Mod
 
 class Generic(object):
@@ -41,25 +43,34 @@ class Generic(object):
             # if an _id IS passed, it directs that the doc passed in be validated and inserted in the base collection and the temp doc in the temp collection be deleted.
             useTmpDoc   = not '_id' in doc.keys()
             _id         = doc['_id'] if not useTmpDoc else None
-            collNamBase = modelClass.meta['collection']
-            collNam     = collNamBase + ('_tmp' if useTmpDoc else '')
+            collNam     = modelClass.meta['collection']
+            collTmp     = db[collNam + '_tmp']
             coll        = db[collNam]
             
             # init model instance
             model       = modelClass(**doc)
-
+            
             # set isTemp
-            model.isTmp   = useTmpDoc and 'isTmp' in model._fields
-            model.collNam = collNam
+            model.isTmp = useTmpDoc and 'isTmp' in model._fields
+
+            # try to generate dNam
+            # if already has a value, use it
+            if not useTmpDoc and 'dNam' in model._fields and not model.dNam:
+                model.dNam = model.vNam
 
             # assign dId
             if 'dId' in model._fields and not model.dId:
-                model.dId = self.NextId.nextId(db[collNamBase])
+                model.dId = self.NextId.nextId(coll)
 
             # generate a slug if:
             # not a temp doc and slug is empty
             if 'slug' in model._fields and not useTmpDoc and not model.slug:
-                pass
+                model.slug = slugify(model.dNam, coll)
+
+            # set dNamS if used:
+            # not a temp doc and dNamS is empty, set to value of slug
+            if 'dNamS' in model._fields and not useTmpDoc and not model.dNamS:
+                model.dNamS = model.slug
 
             # do not validate if using temp doc
             if not useTmpDoc:
@@ -70,15 +81,15 @@ class Generic(object):
                     post_errors.append(doc_errors)
                     continue
 
-    
-            # do not log if using temp doc
-            #log date time user involved with this event
-            if not useTmpDoc:
-                model.logit(usrOID, 'post')
-
             # modelClass stuffed in all available fields
             # let's remove all empty fields to keep mongo clean.
             doc             = model.to_python()
+
+            # do not log if using temp doc
+            #log date time user involved with this event
+            if not useTmpDoc:
+                doc = logit(usrOID, doc, 'post')
+
             doc_clean       = {}
             doc_clean['_c'] = _c
             for k,v in doc.iteritems():
@@ -89,12 +100,11 @@ class Generic(object):
             
             # no need to pass param safe if this is a temp doc
             if useTmpDoc:
-                id = str(coll.insert(doc_clean))
+                id = str(collTmp.insert(doc_clean))
             else:
                 if _id:
                     doc_clean['_id'] = str(_id)
                     id = str(coll.insert(doc_clean, safe = True))
-                    collTmp = db[modelClass.meta['collection'] + '_tmp']
                     # TODO properly handle exception
                     try:
                         collTmp.remove({'_id': _id})
@@ -103,8 +113,6 @@ class Generic(object):
                 else:
                     # TODO properly handle exception
                     try:
-                        if 'collNam' in doc_clean.keys():
-                            del doc_clean['collNam']
                         coll.insert(doc_clean, safe = True)
                     except:
                         pass                  
@@ -150,7 +158,7 @@ class Generic(object):
         where = data['where']
         patch = data['patch']
 
-        # validata patch
+        # validate patch
         # init modelClass for this doc
         patch_errors = validate(modelClass, patch)
         if patch_errors:
@@ -189,7 +197,7 @@ class Generic(object):
         class_name = kwargs['class_name']
         modelClass = getattr(models, class_name)
         collNam = modelClass.meta['collection']
-        collection = db[collNam]
+        coll = db[collNam]
 
         response = {}
         docs = []
@@ -198,7 +206,7 @@ class Generic(object):
         # if an id was passed, try to return only that one
         if 'id' in kwargs:
             id = kwargs['id']
-            doc = collection.find_one({"_id": ObjectId(id)})
+            doc = coll.find_one({"_id": ObjectId(id)})
             response['doc'] = doc
             return {'response': response, 'status_code': status}
 
@@ -229,9 +237,9 @@ class Generic(object):
         skip_limit = skip > -1 and limit
 
         if sorts:
-            cursor = collection.find(spec = where, fields = fields, skip = skip, limit = limit).sort(sorts)
+            cursor = coll.find(spec = where, fields = fields, skip = skip, limit = limit).sort(sorts)
         else:
-            cursor = collection.find(spec = where, fields = fields, skip = skip, limit = limit)
+            cursor = coll.find(spec = where, fields = fields, skip = skip, limit = limit)
         for doc in cursor:
             docs.append(doc)
 
