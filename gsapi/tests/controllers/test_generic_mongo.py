@@ -67,6 +67,9 @@ class TestGenericMongo(MongoTestCase):
         assert doc['fNam'] == sample_doc['fNam']
         assert not 'isTmp' in doc.keys()
 
+        #TODO 
+        # Make sure tmp doc was successfully removed
+
 
     def test_post(self):
         print

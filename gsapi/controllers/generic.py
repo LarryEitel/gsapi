@@ -49,7 +49,8 @@ class Generic(object):
             model       = modelClass(**doc)
 
             # set isTemp
-            model.isTmp = useTmpDoc and 'isTmp' in model._fields
+            model.isTmp   = useTmpDoc and 'isTmp' in model._fields
+            model.collNam = collNam
 
             # assign dId
             if 'dId' in model._fields and not model.dId:
@@ -102,6 +103,8 @@ class Generic(object):
                 else:
                     # TODO properly handle exception
                     try:
+                        if 'collNam' in doc_clean.keys():
+                            del doc_clean['collNam']
                         coll.insert(doc_clean, safe = True)
                     except:
                         pass                  
@@ -132,9 +135,8 @@ class Generic(object):
         """Docstring for put method:"""
         db = self.db
         # TODO: accomodate where clause to put changes to more than one doc.
-        class_name = kwargs['class_name']
         modelClass = getattr(models, class_name)
-        collNam = modelClass.meta['collection']
+        collNam    = kwargs['collNam'] if 'collNam' in kwargs.keys() else modelClass.meta['collection']
         collection = db[collNam]
 
         response = {}

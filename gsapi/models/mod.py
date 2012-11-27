@@ -23,9 +23,11 @@ class Mod(_Model):
     # It is the responsibility of the extended model to manage uniqueness if this field/attribute is used.
 
     dId            = LongType(minimized_field_name='Unique Doc Id')
+    collNam        = StringType(minimized_field_name='Collection Name')
+    '''Used to tract whether this object was created in base collection or _tmp (temp) collection'''
     isTmp          = LongType(minimized_field_name='Is Temp Doc')
     '''When creating an initialized temp doc, set this flag. It should not be persisted to base collection.'''
-    
+
     cloned_id      = ObjectIdType(ObjectId)
     '''if this doc has been cloned, set to _id of source doc.'''
 
