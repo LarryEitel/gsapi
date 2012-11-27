@@ -5,6 +5,7 @@ from bson import ObjectId
 import re
 import datetime
 import models
+from utils_.nextid import NextId
 # from mod import Mod
 
 class Generic(object):
@@ -14,15 +15,107 @@ class Generic(object):
         #: Doc comment for instance attribute db
         self.db = db
         self.es = es
+        self.NextId = NextId(db)
+    
+    def post(self, **kwargs):
+        """Docstring for post method:"""
+        db           = self.db
+        
+        response     = {}
+        docs         = []
+        status       = 200
+        
+        usrOID       = kwargs['usrOID']
+        docs_to_post = kwargs['docs']
+        
+        post_errors  = []
+        total_errors = 0
 
+        for doc in docs_to_post:
+            errors     = {}
+            
+            _c         = doc['_c']
+            modelClass = getattr(models, _c)
+
+
+            # if the only key of the doc passed in is _c it directs that a temp doc be initialized and inserted into the appropriate Tmp (temp) collection.
+            useTmpDoc = len(doc.keys()) == 1
+            collNamBase = modelClass.meta['collection']
+            collNam = collNamBase + '_tmp' if useTmpDoc else ''
+            coll    = db[collNam]
+            
+            # init model instance
+            model   = modelClass(**doc)
+            
+            # assign id
+            if 'id' in model._fields and not model.id:
+                model.id = self.NextId.nextId(db[collNamBase])
+
+            # generate a slug if:
+            # not a temp doc and slug is empty
+            if 'slug' in model._fields and not useTmpDoc and not model.slug:
+                pass
+
+
+            # do not validate if using temp doc
+            if not useTmpDoc:
+                doc_errors = validate(modelClass, doc)
+                
+                if doc_errors:
+                    total_errors += doc_errors['count']
+                    post_errors.append(doc_errors)
+                    continue
+
+    
+            # do not log if using temp doc
+            #log date time user involved with this event
+            if not useTmpDoc:
+                model.logit(usrOID, 'post')
+
+            # modelClass stuffed in all available fields
+            # let's remove all empty fields to keep mongo clean.
+            doc             = model.to_python()
+            doc_clean       = {}
+            doc_clean['_c'] = _c
+            for k,v in doc.iteritems():
+                if doc[k]:
+                    doc_clean[k] = doc[k]
+            
+            doc_info = {}
+            
+            # no need to pass param safe if this is a temp doc
+            if useTmpDoc:
+                id = str(coll.insert(doc_clean))
+            else:
+                id = str(coll.insert(doc_clean, safe = True))
+
+            doc_info['doc']   = doc_clean
+            #doc_info['link'] = get_document_link(class_name, id)
+
+            docs.append(doc_info)
+
+        response['total_inserted'] = len(docs)
+
+        if post_errors:
+            response['total_invalid'] = len(post_errors)
+            response['errors']        = post_errors
+            response['total_errors']  = total_errors
+            status                    = 400
+        else:
+            response['total_invalid'] = 0
+
+        response['docs'] = docs
+
+        return {'response': response, 'status_code': status}
+    
     def put(self, **kwargs):
         """Docstring for put method:"""
         db = self.db
         # TODO: accomodate where clause to put changes to more than one doc.
         class_name = kwargs['class_name']
-        model = getattr(models, class_name)
-        collection_name = model.meta['collection']
-        collection = db[collection_name]
+        modelClass = getattr(models, class_name)
+        collNam = modelClass.meta['collection']
+        collection = db[collNam]
 
         response = {}
         docs = []
@@ -36,8 +129,8 @@ class Generic(object):
         patch = data['patch']
 
         # validata patch
-        # init model for this doc
-        patch_errors = validate(model, patch)
+        # init modelClass for this doc
+        patch_errors = validate(modelClass, patch)
         if patch_errors:
             response['errors'] = patch_errors['errors']
             response['total_errors'] = patch_errors['count']
@@ -52,14 +145,14 @@ class Generic(object):
         patch['mOn'] = datetime.datetime.utcnow()
 
         # https://github.com/mongodb/mongo-python-driver/blob/master/pymongo/collection.py#L1035
-        resp = db.command('findAndModify', collection_name,
+        resp = db.command('findAndModify', collNam,
             query = where,
             update = {"$set": patch},
             new = True
         )
 
         # only return if error condition exists
-        response['collection'] = collection_name
+        response['collection'] = collNam
         response['total_invalid'] = 0
         response['id'] = id.__str__()
 
@@ -67,85 +160,14 @@ class Generic(object):
         response['doc'] = resp['value']
 
         return {'response': response, 'status_code': status}
-    
-    def post(self, **kwargs):
-        """Docstring for post method:"""
-        db = self.db
-        _c = kwargs['_c']
-        model = getattr(models, _c)
-        collection_name = model.meta['collection']
-        collection_name_tmp = collection_name + '_tmp'
-        collection = db[collection_name]
-        collection_tmp = db[collection_name_tmp]
 
-        response = {}
-        docs = []
-        status = 200
-
-        docs_to_post = kwargs['docs']
-
-        post_errors = []
-        total_errors = 0
-        for doc in docs_to_post:
-            errors = {}
-            user_id = "50468de92558713d84b03fd7"
-
-            # init model for this doc
-            doc['_c'] = _c
-            m = model(**doc)
-            
-            # Validate
-            doc_errors = validate(model, doc)
-            
-            if doc_errors:
-                total_errors += doc_errors['count']
-                post_errors.append(doc_errors)
-                continue
-
-            #log date time user involved with this event
-            m.logit(user_id, 'post')
-
-            # model stuffed in all available fields
-            # let's remove all empty fields to keep mongo clean.
-            doc_validated = m.to_python()
-            doc_clean = {}
-            doc_clean['_c'] = _c
-            for k,v in doc_validated.iteritems():
-                if doc_validated[k]:
-                    doc_clean[k] = doc_validated[k]
-            
-            
-            doc_info = {}
-
-            id = str(collection.insert(doc_clean, safe = True))
-            doc_info['id'] = id
-            doc_info['doc'] = doc_clean
-            #doc_info['link'] = get_document_link(class_name, id)
-
-            docs.append(doc_info)
-
-        response['total_inserted'] = len(docs)
-
-        if post_errors:
-            response['total_invalid'] = len(post_errors)
-            response['errors'] = post_errors
-            response['total_errors'] = total_errors
-            status = 400
-        else:
-            response['total_invalid'] = 0
-
-
-        response['docs'] = docs
-
-        return {'response': response, 'status_code': status}
-    
     def get(self, **kwargs):
         """Docstring for get method:"""
         db = self.db
         class_name = kwargs['class_name']
-        model = getattr(models, class_name)
-        collection_name = model.meta['collection']
-        collection = db[collection_name]
+        modelClass = getattr(models, class_name)
+        collNam = modelClass.meta['collection']
+        collection = db[collNam]
 
         response = {}
         docs = []
@@ -195,7 +217,7 @@ class Generic(object):
         if 'vflds' in kwargs:
             vflds = kwargs['vflds']
             for i, doc in enumerate(docs):
-                initialed_model = model(**doc)
+                initialed_model = modelClass(**doc)
                 for vfld in vflds:
                     docs[i][vfld] = getattr(initialed_model, vfld)
 
