@@ -9,7 +9,7 @@ sys.path.insert(0, os.getcwd())
 from views import generic
 from views.contacts import contacts
 from bson.json_util import dumps
-from extensions import RegexConverter
+from models.extensions import RegexConverter
 from settings import Config
 
 from pyes.es import ES

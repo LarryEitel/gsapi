@@ -6,7 +6,7 @@ except ImportError:
 
 import os
 from gsapi.tests.base import TestCase
-from gsapi.utils import mongo_json_object_hook
+from utils.utils import mongo_json_object_hook
 
 from bson.json_util import dumps, loads
 import json

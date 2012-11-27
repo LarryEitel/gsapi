@@ -5,8 +5,8 @@ except ImportError:
     import unittest  # NOQA
 
 import os
-from gsapi.tests.base import TestCase
-from gsapi.utils import mongo_json_object_hook
+from tests.base import TestCase
+from utils.utils import mongo_json_object_hook
 
 from bson.json_util import dumps, loads
 import json
@@ -15,7 +15,7 @@ import time
 import datetime
 import dateutil.parser
 from flask import request
-from gsapi import models
+import models
 from pprint import pprint as P
 import requests as R # http://docs.python-requests.org/en/latest/
 

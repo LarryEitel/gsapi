@@ -21,7 +21,7 @@ class TestUtils(TestCase):
         print "\nTestUtils.test_load_data"
         print """LOAD SAMPLE DOCS:\n"""
 
-        from gsapi.utils import load_data
+        from utils.utils import load_data
 
         json_fname = 'contacts'
         resp = self.load_sample(json_fname)

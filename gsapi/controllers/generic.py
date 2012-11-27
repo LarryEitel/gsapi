@@ -1,11 +1,11 @@
 # -*- coding: utf-8 -*-
 import os
-from extensions import validate
+from models.extensions import validate
 from bson import ObjectId
 import re
 import datetime
 import models
-from utils_.nextid import NextId
+from utils.nextid import NextId
 # from mod import Mod
 
 class Generic(object):
@@ -15,7 +15,7 @@ class Generic(object):
         #: Doc comment for instance attribute db
         self.db = db
         self.es = es
-        self.NextId = NextId(db)
+        self.NextId = NextId()
     
     def post(self, **kwargs):
         """Docstring for post method:"""
@@ -36,7 +36,6 @@ class Generic(object):
             
             _c         = doc['_c']
             modelClass = getattr(models, _c)
-
 
             # if the only key of the doc passed in is _c it directs that a temp doc be initialized and inserted into the appropriate Tmp (temp) collection.
             useTmpDoc = len(doc.keys()) == 1

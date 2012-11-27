@@ -5,7 +5,7 @@ import jsondatetime # https://github.com/nicolaiarocci/json-datetime
 from bson.json_util import dumps, loads
 import bson.json_util as bson_json_util
 from bson import ObjectId
-from extensions import validate
+from models.extensions import validate
 import datetime
 from flask import redirect
 from werkzeug.routing import HTTPException, RoutingException

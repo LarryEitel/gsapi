@@ -19,7 +19,7 @@ from flask import session
 
 import run as run
 import models
-from utils import load_data
+from utils.utils import load_data
 from pymongo import Connection
 
 # get elasticsearch connection
