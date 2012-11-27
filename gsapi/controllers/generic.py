@@ -37,24 +37,28 @@ class Generic(object):
             _c         = doc['_c']
             modelClass = getattr(models, _c)
 
-            # if the only key of the doc passed in is _c it directs that a temp doc be initialized and inserted into the appropriate Tmp (temp) collection.
-            useTmpDoc = len(doc.keys()) == 1
+            # if _id is passed,  it directs that a temp doc be initialized and inserted into the appropriate Tmp (temp) collection.
+            # if an _id IS passed, it directs that the doc passed in be validated and inserted in the base collection and the temp doc in the temp collection be deleted.
+            useTmpDoc   = not '_id' in doc.keys()
+            _id         = doc['_id'] if not useTmpDoc else None
             collNamBase = modelClass.meta['collection']
-            collNam = collNamBase + '_tmp' if useTmpDoc else ''
-            coll    = db[collNam]
+            collNam     = collNamBase + ('_tmp' if useTmpDoc else '')
+            coll        = db[collNam]
             
             # init model instance
-            model   = modelClass(**doc)
-            
-            # assign id
-            if 'id' in model._fields and not model.id:
-                model.id = self.NextId.nextId(db[collNamBase])
+            model       = modelClass(**doc)
+
+            # set isTemp
+            model.isTmp = useTmpDoc and 'isTmp' in model._fields
+
+            # assign dId
+            if 'dId' in model._fields and not model.dId:
+                model.dId = self.NextId.nextId(db[collNamBase])
 
             # generate a slug if:
             # not a temp doc and slug is empty
             if 'slug' in model._fields and not useTmpDoc and not model.slug:
                 pass
-
 
             # do not validate if using temp doc
             if not useTmpDoc:
@@ -86,9 +90,26 @@ class Generic(object):
             if useTmpDoc:
                 id = str(coll.insert(doc_clean))
             else:
-                id = str(coll.insert(doc_clean, safe = True))
-
+                if _id:
+                    doc_clean['_id'] = str(_id)
+                    id = str(coll.insert(doc_clean, safe = True))
+                    collTmp = db[modelClass.meta['collection'] + '_tmp']
+                    # TODO properly handle exception
+                    try:
+                        collTmp.remove({'_id': _id})
+                    except:
+                        pass
+                else:
+                    # TODO properly handle exception
+                    try:
+                        coll.insert(doc_clean, safe = True)
+                    except:
+                        pass                  
+                    
             doc_info['doc']   = doc_clean
+            
+            # TODO
+            # should return a link to object according to good practice
             #doc_info['link'] = get_document_link(class_name, id)
 
             docs.append(doc_info)

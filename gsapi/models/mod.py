@@ -22,7 +22,10 @@ class Mod(_Model):
     # optional. A model that exents from Mod may choose to impliment an incremented key value similar to a RDBMS incremented primary key.
     # It is the responsibility of the extended model to manage uniqueness if this field/attribute is used.
 
-    id             = LongType()
+    dId            = LongType(minimized_field_name='Unique Doc Id')
+    isTmp          = LongType(minimized_field_name='Is Temp Doc')
+    '''When creating an initialized temp doc, set this flag. It should not be persisted to base collection.'''
+    
     cloned_id      = ObjectIdType(ObjectId)
     '''if this doc has been cloned, set to _id of source doc.'''
 
