@@ -21,6 +21,7 @@ local_settings.py
 .DS_Store
 .project
 .pydevproject
+.idea/
 venv/
 
 *.project
