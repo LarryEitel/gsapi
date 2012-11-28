@@ -1,6 +1,6 @@
 import datetime
 
-def logit(usrId, docDict, method='post'):
+def logit(usrId, docDict, method=''):
     now = datetime.datetime.utcnow()
 
     if method == 'post':

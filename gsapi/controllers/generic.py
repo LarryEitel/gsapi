@@ -17,6 +17,12 @@ class Generic(object):
         self.es = es
     
     def post(self, **kwargs):
+        '''Insert a doc
+            newDocTmp: Initialize a temp (tmp) doc if no OID and no data.
+            cloneDocTmp: Clone to a temp doc if OID and no isTmp flag set.
+            upsertDocTmp: Update or Insert temp doc to base collection if OID and isTmp is set.
+            insertDoc: Insert a new doc if no OID and there are more attributes than _c.
+            '''
         db           = self.db
         
         response     = {}
@@ -31,17 +37,96 @@ class Generic(object):
 
         for doc in docs_to_post:
             errors     = {}
-            
+            doc_info   = {}
+                   
+            # required attribute
             _c         = doc['_c']
+            
+            # shortcut
+            doc_keys    = doc.keys()     
+            
             modelClass = getattr(models, _c)
+            _id        = doc['_id'] if '_id' in doc_keys else None
+            collNam    = modelClass.meta['collection']
+            collTmp    = db[collNam + '_tmp']
+            coll       = db[collNam]
+            
 
             # if _ id is passed,  it directs that a temp doc be initialized and inserted into the appropriate Tmp (temp) collection.
             # if an _id IS passed, it directs that the doc passed in be validated and inserted in the base collection and the temp doc in the temp collection be deleted.
-            useTmpDoc   = not '_id' in doc.keys()
-            _id         = doc['_id'] if not useTmpDoc else None
-            collNam     = modelClass.meta['collection']
-            collTmp     = db[collNam + '_tmp']
-            coll        = db[collNam]
+            
+            # Initialize a temp (tmp) doc if no OID and no data.
+            if not '_id' in doc_keys and len(doc_keys) == 1:
+                newDocTmp = True
+                useTmpDoc = True
+                
+            # Clone to a temp doc if OID and no isTmp flag set.
+            elif '_id' in doc_keys and not '_isTmp' in doc_keys and len(doc_keys) > 2:
+                cloneDocTmp  = True
+                useTmpDoc    = True
+                
+                
+                # find source doc
+                # set locked = True                
+                doc_cloned = coll.find_and_modify(
+                    query = {'_id':_id},
+                    update = {"$set": {'locked': True}},
+                    new = True
+                )                
+                # set cloned doc in tmp collection isTmp = True  
+                doc_cloned['_isTmp'] = True
+                
+                # don't need locked set in tmp doc 
+                del doc_cloned['locked']
+                
+                # clone/save doc to tmp collection
+
+                # TODO properly handle exception
+                try:
+                    collTmp.insert(doc_cloned)
+                except:
+                    pass                  
+                        
+                doc_info['doc']   = doc_cloned
+                
+                # TODO
+                # should return a link to object according to good practice
+                #doc_info['link'] = get_document_link(class_name, id)
+    
+                docs.append(doc_info)   
+                
+                continue
+                
+            # Update temp doc to base collection if OID and isTmp is set.
+            elif '_id' in doc_keys and '_isTmp' in doc_keys and doc['_isTmp']:
+                upsertDocTmp  = True
+                useTmpDoc     = False
+
+                tmp_doc = collTmp.find_one({'_id': _id})
+                
+                # unset _isTmp
+                _id = tmp_doc['_id']
+                tmp_doc['locked'] = False
+                del tmp_doc['_id']             
+                
+                # logit update
+                tmp_doc = logit(usrOID, tmp_doc)
+                
+                # update original/source doc
+                doc = coll.update({'_id': _id}, {"$set": tmp_doc}, upsert=True, safe=True)
+                
+                # remove tmp doc
+                collTmp.remove({'_id': _id})
+                
+                doc_info['doc']   = doc  
+                docs.append(doc_info)  
+                
+                continue
+                
+            # Insert a new doc if no OID and there are more attributes than _c.
+            elif not '_id' in doc_keys and len(doc_keys) > 2:
+                insertDoc  = True
+                useTmpDoc  = False
             
             # init model instance
             model       = modelClass(**doc)
@@ -92,8 +177,6 @@ class Generic(object):
             for k, v in doc.iteritems():
                 if doc[k]:
                     doc_clean[k] = doc[k]
-            
-            doc_info = {}
             
             # posting an existing temp doc to base collection
             if _id:
