@@ -47,6 +47,51 @@ class TestGenericMongo(MongoTestCase):
         doc            = data['docs'][0]['doc']
         assert doc['dId'] > 0
         return doc
+
+    def test_post_listtype(self):
+        '''Passing in doc with OID should clone the doc and save in tmp collection. Set isTmp = True.
+            '''
+        db      = self.db
+        generic = controllers.Generic(db)
+
+        # lets create a some sample docs bypassing tmp process.
+        sample_doc = self.post_sample({'_c': 'Prs', 'fNam': 'Larry', 'lNam': 'Stooge'})
+
+        # now let's pretent to initiate an update of this doc
+        response = generic.post(**{'usrOID': "50468de92558713d84b03fd7", 'docs': [sample_doc]})
+        
+        # now let's add emails
+        test_field   = 'emails'
+        test_field_c = 'Email'
+        test_value   = [{'_c': 'Email', 'address': 'bill@ms.com', 'prim': '1'},
+                        {'_c': 'Email', 'address': 'steve@apple.com'}]
+        doc = {
+            '_c'         : sample_doc['_c'],
+            '_id'        : sample_doc['_id'],
+            'listTypeNam': test_field,
+            'listType_c' : test_field_c,
+            'listTypeVal': test_value,
+            }
+
+        response = generic.post(**{'usrOID': "50468de92558713d84b03fd7", 'docs': [doc]})
+        
+        assert response['status_code'] == 200
+        
+        # let's get the tmp doc
+        tmp_doc_id           = doc['_id']
+        tmp_doc              = db['cnts_tmp'].find_one({'_id': ObjectId(tmp_doc_id)})
+        
+        # should have the correct number of added listType elements
+        assert len(test_value) == len(tmp_doc[test_field])
+
+        # let's submit changes to original source doc.
+        response = generic.post(**{'usrOID': self.usrOID, 'docs': [tmp_doc]})
+        doc      = response['response']['docs'][0]['doc']
+
+        # original doc should now have updated value
+        assert doc[test_field] == test_value      
+
+
     def test_put(self):
         '''Need doc here
             '''
@@ -55,9 +100,9 @@ class TestGenericMongo(MongoTestCase):
 
         # lets create a some sample docs bypassing tmp process.
         sample_docs = [
-            #self.post_sample({'_c': 'Prs', 'fNam': 'Larry', 'lNam': 'Stooge'}),
-            #self.post_sample({'_c': 'Prs', 'fNam': 'Moe', 'lNam': 'Stooge'}),
-            #self.post_sample({'_c': 'Prs', 'fNam': 'Curley', 'lNam': 'Stooge'}),
+            self.post_sample({'_c': 'Prs', 'fNam': 'Larry', 'lNam': 'Stooge'}),
+            self.post_sample({'_c': 'Prs', 'fNam': 'Moe', 'lNam': 'Stooge'}),
+            self.post_sample({'_c': 'Prs', 'fNam': 'Curley', 'lNam': 'Stooge'}),
             ]
 
         emailModel = models.embed.Email()
@@ -109,8 +154,6 @@ class TestGenericMongo(MongoTestCase):
 
         # original doc should now have updated value
         assert doc[test_field] == test_value
-
-
     def test_post_new(self):
         '''Passing in doc with only _c(lass) should initialize a doc and save in tmp collection.
             '''

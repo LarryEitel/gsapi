@@ -38,27 +38,77 @@ class Generic(object):
         total_errors = 0
 
         for doc in docs_to_post:
-            errors     = {}
-            doc_info   = {}
-                   
+            errors      = {}
+            doc_info    = {}
+
             # required attribute
-            _c         = doc['_c']
-            
+            _c          = doc['_c']
+
             # shortcut
             doc_keys    = doc.keys()     
-            
-            modelClass = getattr(models, _c)
-            _id        = doc['_id'] if '_id' in doc_keys else None
-            collNam    = modelClass.meta['collection']
-            collTmp    = db[collNam + '_tmp']
-            coll       = db[collNam]
+
+            modelClass  = getattr(models, _c)
+            _id         = doc['_id'] if '_id' in doc_keys else None
+            where       = {'_id': ObjectId(_id)} if _id else None
+            listTypeNam = doc['listTypeNam'] if 'listTypeNam' in doc_keys else None
+            listType_c  = doc['listType_c'] if listTypeNam else None
+            listTypeVal = doc['listTypeVal'] if listTypeNam else None
+            collNam     = modelClass.meta['collection']
+            collTmp     = db[collNam + '_tmp']
+            coll        = db[collNam]
             
 
             # if _ id is passed,  it directs that a temp doc be initialized and inserted into the appropriate Tmp (temp) collection.
             # if an _id IS passed, it directs that the doc passed in be validated and inserted in the base collection and the temp doc in the temp collection be deleted.
             
+            # if attrNam, posting a new value to a listtype attribute/field
+            if listTypeNam:
+                eId = 1
+                for elem in listTypeVal:
+                    modelClass = getattr(models.embed, listType_c)
+                    model = modelClass()
+                    for k,v in elem.iteritems(): setattr(model, k, v)
+                    
+                    # next sequencing code here.
+                    model.eId = eId
+                    eId += 1
+                    
+                    embedDoc = doc_remove_empty_keys(to_python(model, allow_none=True))    
+                    doc_errors = validate(modelClass, embedDoc)
+                    
+                    if doc_errors:
+                        total_errors += doc_errors['count']
+                        post_errors.append(doc_errors)
+                        continue                    
+                    
+                    embedDoc['_c'] = listType_c
+                    
+                    # http://docs.mongodb.org/manual/applications/update/
+                    collTmp.update(where,
+                            {"$push": { listTypeNam: elem}}
+                        )
+                    
+                    doc_info['doc']   = embedDoc
+                    docs.append(doc_info)   
+                               
+                # { $set: { 'inviteCode.$.status': '2' }
+        
+                response['total_inserted'] = len(docs)
+        
+                if post_errors:
+                    response['total_invalid'] = len(post_errors)
+                    response['errors']        = post_errors
+                    response['total_errors']  = total_errors
+                    status                    = 400
+                else:
+                    response['total_invalid'] = 0
+        
+                response['docs'] = docs
+        
+                return {'response': response, 'status_code': status}                
+                
             # Initialize a temp (tmp) doc if no OID and no data.
-            if not '_id' in doc_keys and len(doc_keys) == 1:
+            elif not '_id' in doc_keys and len(doc_keys) == 1:
                 newDocTmp = True
                 useTmpDoc = True
                 
