@@ -84,6 +84,7 @@ class TestGenericMongo(MongoTestCase):
         response = generic.put(**{'usrOID': ObjectId(self.usrOID), 'data': data})
         doc      = response['response']['doc']
         
+        
         # did it properly update the value?
         assert doc[test_field] == test_value
         
