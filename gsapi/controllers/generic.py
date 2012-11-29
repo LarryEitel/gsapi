@@ -4,7 +4,9 @@ import re
 import datetime
 from bson import ObjectId
 import models
-from models.extensions import validate
+from schematics.serialize import (to_python, to_json, make_safe_python,
+                                  make_safe_json, blacklist, whitelist)
+from models.extensions import validate, validate_partial
 from models.logit import logit
 from utils.nextid import nextId
 from utils.slugify import slugify
@@ -61,7 +63,7 @@ class Generic(object):
                 useTmpDoc = True
                 
             # Clone to a temp doc if OID and no isTmp flag set.
-            elif '_id' in doc_keys and not '_isTmp' in doc_keys and len(doc_keys) > 2:
+            elif '_id' in doc_keys and not 'isTmp' in doc_keys and len(doc_keys) > 2:
                 cloneDocTmp  = True
                 useTmpDoc    = True
                 
@@ -74,7 +76,7 @@ class Generic(object):
                     new = True
                 )                
                 # set cloned doc in tmp collection isTmp = True  
-                doc_cloned['_isTmp'] = True
+                doc_cloned['isTmp'] = True
                 
                 # don't need locked set in tmp doc 
                 del doc_cloned['locked']
@@ -98,16 +100,17 @@ class Generic(object):
                 continue
                 
             # Update temp doc to base collection if OID and isTmp is set.
-            elif '_id' in doc_keys and '_isTmp' in doc_keys and doc['_isTmp']:
+            elif '_id' in doc_keys and 'isTmp' in doc_keys and doc['isTmp']:
                 upsertDocTmp  = True
                 useTmpDoc     = False
 
                 tmp_doc = collTmp.find_one({'_id': _id})
                 
-                # unset _isTmp
+                # unset isTmp
                 _id = tmp_doc['_id']
                 tmp_doc['locked'] = False
                 del tmp_doc['_id']             
+                del tmp_doc['isTmp']             
                 
                 # logit update
                 tmp_doc = logit(usrOID, tmp_doc)
@@ -117,6 +120,9 @@ class Generic(object):
                 
                 # remove tmp doc
                 collTmp.remove({'_id': _id})
+                
+                # though not necessary, to be consistant, return full doc
+                doc = coll.find_one({'_id': _id})
                 
                 doc_info['doc']   = doc  
                 docs.append(doc_info)  
@@ -165,7 +171,7 @@ class Generic(object):
 
             # modelClass stuffed in all available fields
             # let's remove all empty fields to keep mongo clean.
-            doc             = model.to_python()
+            doc             = to_python(model, allow_none=True)
 
             # do not log if using temp doc
             #log date time user involved with this event
@@ -219,27 +225,31 @@ class Generic(object):
         return {'response': response, 'status_code': status}
     
     def put(self, **kwargs):
-        """Docstring for put method:"""
+        """Update a doc"""
         db = self.db
         # TODO: accomodate where clause to put changes to more than one doc.
-        modelClass = getattr(models, class_name)
-        collNam    = kwargs['collNam'] if 'collNam' in kwargs.keys() else modelClass.meta['collection']
-        collection = db[collNam]
-
-        response = {}
-        docs = []
-        status = 200
-
-        data = kwargs['data']
-        usrid = kwargs['usrid']
-
+        
+        usrOID     = kwargs['usrOID']
+        data       = kwargs['data']
+        _c         = data['_c']
+        modelClass = getattr(models, _c)
+        collNam    = modelClass.meta['collection']
+        collNamTmp = collNam + '_tmp'
+        collTmp    = db[collNamTmp]
+        coll       = db[collNam]
+        
+        response   = {}
+        docs       = []
+        status     = 200
+        
+        
         # expecting where
-        where = data['where']
-        patch = data['patch']
+        where      = data['where']
+        patch      = data['patch']
 
         # validate patch
         # init modelClass for this doc
-        patch_errors = validate(modelClass, patch)
+        patch_errors = validate_partial(modelClass, patch)
         if patch_errors:
             response['errors'] = patch_errors['errors']
             response['total_errors'] = patch_errors['count']
@@ -247,26 +257,46 @@ class Generic(object):
 
             return prep_response(response, status = status)
 
-        # until we get signals working
-        # manually include modified event details
-        # patch['mBy'] = user_id
-        patch['mBy'] = ObjectId(usrid)
-        patch['mOn'] = datetime.datetime.utcnow()
-
-        # https://github.com/mongodb/mongo-python-driver/blob/master/pymongo/collection.py#L1035
-        resp = db.command('findAndModify', collNam,
+        # logit update
+        patch = logit(usrOID, patch)
+                
+        # patch update in tmp collection
+        doc = collTmp.find_and_modify(
             query = where,
             update = {"$set": patch},
             new = True
         )
 
-        # only return if error condition exists
-        response['collection'] = collNam
+        # need to handle case where model has a dNam, etc. which may have been affected by patch
+
+        # init model instance
+        model      = modelClass(**doc)
+        
+        # if there is a vNam class property 
+        if hasattr(model, 'vNam') and 'dNam' in model._fields:
+            doc        = collTmp.find_one(where)
+            _id        = doc['_id']
+            model.dNam = model.vNam
+            if hasattr(model, 'vNamS') and 'dNamS' in model._fields:
+                model.dNamS = model.vNamS
+                
+            doc        = to_python(model, allow_none=True)
+            doc_clean  = {'_c': _c}
+            for k, v in doc.iteritems():
+                if doc[k]:
+                    doc_clean[k] = doc[k]
+            doc = doc_clean
+            collTmp.update(where, doc)
+            # gotta put the _id back
+            doc['_id'] = _id
+
+
+        response['collection'] = collNamTmp
         response['total_invalid'] = 0
         response['id'] = id.__str__()
 
         # remove this, not needed
-        response['doc'] = resp['value']
+        response['doc'] = doc
 
         return {'response': response, 'status_code': status}
 

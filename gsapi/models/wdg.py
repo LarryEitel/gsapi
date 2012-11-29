@@ -12,7 +12,7 @@ from mixins import ModMixin
 import datetime
 
 class Wdg(Mod, ModMixin):
-    slug      = StringType(minimized_field_name='Slug', description='Used in URL params.')
+    slug      = StringType(description='Slug Used in URL params.')
 
     @property
     def dNam(self):
@@ -25,12 +25,12 @@ class Wdg(Mod, ModMixin):
 
 class Event(Wdg):
     '''https://developers.google.com/places/documentation/actions#event_details'''
-    duration       = LongType(minimized_field_name='Duration', description="Duration in seconds.")
+    duration       = LongType(description="Duration in seconds.")
 
     # start_time
-    begOn       = DateTimeType(minimized_field_name='Duration', description="Duration in seconds.")
-    url         = URLType(minimized_field_name='Url', description="A URL pointing to details about the event.")
-    summary     = StringType(minimized_field_name='Description', description="A textual description of the event. This property contains a string, the contents of which are not sanitized by the server. Your application should be prepared to prevent or deal with attempted exploits, if necessary.")
+    begOn       = DateTimeType(description="Duration Duration in seconds.")
+    url         = URLType(description="A URL pointing to details about the event.")
+    summary     = StringType(description="A textual description of the event. This property contains a string, the contents of which are not sanitized by the server. Your application should be prepared to prevent or deal with attempted exploits, if necessary.")
 
     meta   = {
         'collection': 'wdgs',

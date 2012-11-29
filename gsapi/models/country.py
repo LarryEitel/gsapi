@@ -8,11 +8,11 @@ class Country(_Model):
     '''
         http://www.iso.org/iso/iso-3166-1_decoding_table
         '''
-    _id       = StringType(minimized_field_name='ID', description='Country code as in ISO 3166-1 alpha-2')
+    _id       = StringType(description='ID, Country code as in ISO 3166-1 alpha-2')
     # display
-    nam       = StringType(minimized_field_name='Name')
+    nam       = StringType(description='Name')
     #short display name
-    namS      = StringType(minimized_field_name='NameShort')
+    namS      = StringType(description='NameShort')
     timeZones = ListType(StringType())
     locs      = ListType(ModelType(Loc))
 

@@ -11,13 +11,13 @@ class TagGrp(Mod):
     # skillTags
     # bio      
     # pets     
-    mod_c   = ListType(StringType(minimized_field_name='Tag model classes'))
+    mod_c   = ListType(StringType(description='Tag model classes'))
     # use base dNam and dNamS for name of tag
-    # dNam    = StringType(minimized_field_name='Tag type name')
-    # dNamS   = StringType(minimized_field_name='Tag type name verbose')
+    # dNam    = StringType(description='Tag type name')
+    # dNamS   = StringType(description='Tag type name verbose')
     
     # in a list of aPath's, sort list on this value to control order
-    w       = FloatType(minimized_field_name='Sort weight value', description='')
+    w       = FloatType(description='Sort weight value')
 
     meta    = {
         'collection': 'tagtyps',
@@ -28,8 +28,8 @@ class Tag(Mod):
     tagGrp = ModelType(TagGrp)
     
     # use base dNam and dNamS for name of tag
-    # nam    = StringType(minimized_field_name='Tag name')
-    # namS   = StringType(minimized_field_name='Tag name verbose')
+    # nam    = StringType(description='Tag name')
+    # namS   = StringType(description='Tag name verbose')
     
     meta   = {
         'collection': 'tags',

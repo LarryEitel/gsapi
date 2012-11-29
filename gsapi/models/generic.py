@@ -22,11 +22,11 @@ class AppId(Mod):
 #     _public_fields = ['_c']
 
 #     # The reason for this parent field given the fact that Wid'gets can contain an array of other widgets is that OTHER Widgets may LINK to this widget AND add their Share properties. It is necessary
-#     parent   = ObjectIdType(minimized_field_name='Parent Widget ID', description='Primary Parent owner of this widget.')
+#     parent   = ObjectIdType(description='Parent Widget ID', description='Primary Parent owner of this widget.')
 
-#     usr_id   = ObjectIdType(minimized_field_name='Usr ID', description='Usr id for this Share.')
+#     usr_id   = ObjectIdType(description='Usr ID', description='Usr id for this Share.')
 
-#     permission   = StringType(minimized_field_name='Permission', choices=['aa','ab','b'], description='aa=At and Above, ab=At and below, b=Below.')
+#     permission   = StringType(description='Permission', choices=['aa','ab','b'], description='aa=At and Above, ab=At and below, b=Below.')
 
 
 class Log(_Model):
@@ -35,8 +35,8 @@ class Log(_Model):
         dt  	= DateTimeType()
         ip      = StringType()
         loc     = StringType()
-        act  	= StringType(minimized_field_name='Action Name', description='')
-        rs  	= StringType(minimized_field_name='Action Response', description='json blob related to return value of action')
+        act  	= StringType(description='Action Name')
+        rs  	= StringType(description='Action Response, json blob related to return value of action')
 
     meta = {
         'collection': 'log',
@@ -46,7 +46,7 @@ class Log(_Model):
 # class Email(_Model):
 #     if 1: # Fields
 #         email  = EmailType()
-#     	sort   = FloatType(minimized_field_name='Sort', description='Sorted with prim being first in list.')
+#     	sort   = FloatType(description='Sort', description='Sorted with prim being first in list.')
 #     	note    = StringType()
 
 #     if 1: # Methods

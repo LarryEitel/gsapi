@@ -1,4 +1,5 @@
 from schematics.base import ModelException
+from schematics.validation import validate_instance, validate_class_partial
 #from flaskext.mail import Mail
 
 #db = PyMongo
@@ -11,6 +12,21 @@ class RegexConverter(BaseConverter):
         self.regex = items[0]
 
 
+def validate_partial(model, patch):
+    '''Validate only fields submitted. Return any/all failed validation along with details'''
+
+    errors = []
+
+    try:
+        validate_class_partial(model, patch)
+        # model(**doc).validate(validate_all=True)
+    except ModelException, errs:
+        for err in errs.error_list:
+            errors.append(err.__dict__)
+
+    return {'patch':patch, 'errors':errors, 'count':len(errors)} if errors else None
+
+
 
 def validate(model, doc):
     '''Validate all fields. Return any/all failed validation along with details'''
@@ -18,7 +34,8 @@ def validate(model, doc):
     errors = []
 
     try:
-        model(**doc).validate(validate_all=True)
+        validate_instance(model(**doc))
+        # model(**doc).validate(validate_all=True)
     except ModelException, errs:
         for err in errs.error_list:
             errors.append(err.__dict__)
