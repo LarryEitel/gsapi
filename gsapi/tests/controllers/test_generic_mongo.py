@@ -17,6 +17,8 @@ from bson.json_util import dumps
 from bson import json_util
 import models
 import controllers
+from models.extensions import validate, validate_partial, doc_remove_empty_keys
+from schematics.serialize import to_python
 
 class TestGenericMongo(MongoTestCase):
     print "Generic tests"
@@ -53,11 +55,24 @@ class TestGenericMongo(MongoTestCase):
 
         # lets create a some sample docs bypassing tmp process.
         sample_docs = [
-            self.post_sample({'_c': 'Prs', 'fNam': 'Larry', 'lNam': 'Stooge'}),
-            self.post_sample({'_c': 'Prs', 'fNam': 'Moe', 'lNam': 'Stooge'}),
-            self.post_sample({'_c': 'Prs', 'fNam': 'Curley', 'lNam': 'Stooge'}),
+            #self.post_sample({'_c': 'Prs', 'fNam': 'Larry', 'lNam': 'Stooge'}),
+            #self.post_sample({'_c': 'Prs', 'fNam': 'Moe', 'lNam': 'Stooge'}),
+            #self.post_sample({'_c': 'Prs', 'fNam': 'Curley', 'lNam': 'Stooge'}),
             ]
 
+        emailModel = models.embed.Email()
+        emailModel._c = 'Email'
+        emailModel.eId = 1
+        emailModel.address = 'bill@ms.com'
+        emailModel.prim = True
+        
+        email = doc_remove_empty_keys(to_python(emailModel, allow_none=True))
+        
+        doc_with_emails = {'_c': 'Prs', 'fNam': 'Mary', 'lNam': 'Sue'}
+        doc_with_emails['emails'] = [email]
+
+        sample_docs.append(self.post_sample(doc_with_emails))
+        
         # grab a random doc from sample docs
         sample_doc_offset = randint(0, len(sample_docs) - 1)
         sample_doc        = sample_docs[sample_doc_offset]

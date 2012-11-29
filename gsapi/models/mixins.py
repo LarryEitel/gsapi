@@ -1,4 +1,4 @@
-# from schematics.models import Mixin
+from schematics.models import Model as _Model
 from schematics.types import StringType, IntType, LongType, BooleanType, URLType, EmailType
 from schematics.types.compound import ListType, ModelType
 from embed import Email, Note, Tel, Im, Pth, Review, Shr
@@ -15,7 +15,7 @@ from rdt import Rdt
 
 # ResourceType() # https://developers.google.com/gdata/docs/2.0/elements#gdResourceId
 
-class ModMixin(object):
+class ModMixin(_Model):
     count     = LongType()
     
     liked     = ListType(ObjectIdType(ObjectId))

@@ -6,7 +6,7 @@ from bson import ObjectId
 import models
 from schematics.serialize import (to_python, to_json, make_safe_python,
                                   make_safe_json, blacklist, whitelist)
-from models.extensions import validate, validate_partial
+from models.extensions import validate, validate_partial, doc_remove_empty_keys
 from models.logit import logit
 from utils.nextid import nextId
 from utils.slugify import slugify
@@ -178,11 +178,8 @@ class Generic(object):
             if not useTmpDoc:
                 doc = logit(usrOID, doc, 'post')
 
-            doc_clean       = {}
-            doc_clean['_c'] = _c
-            for k, v in doc.iteritems():
-                if doc[k]:
-                    doc_clean[k] = doc[k]
+            doc['_c'] = _c
+            doc_clean = doc_remove_empty_keys(doc)
             
             # posting an existing temp doc to base collection
             if _id:

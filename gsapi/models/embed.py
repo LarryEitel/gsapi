@@ -75,21 +75,27 @@ class Shr(Mod):
         '_c': 'Shr',
         }
 
-class Email(Mod):
-    eId         = IntType(description='Element Id')
-    address = EmailType(description='Email Address')
+class Email(_Model):
+    eId     = IntType(required=True, description='Element Id')
+    address = EmailType(required=True, description='Email Address')
     
-    w       = FloatType(description='Sort weight, Sort list by weight value.')
+    w       = FloatType(description='Sort weight, Sort list by weight value.', default=0)
     
     prim    = BooleanType(default=False, description='Primary, When multiple emails appear in a list, indicates which is prim. At most one may be prim.')
-    
-    if 1: # Methods
-        def __unicode__(self):
-            return self.address
+
+    # def __unicode__(self):
+    #     return self.address
+
+    # @property
+    # def vNam(self):
+    #     return self.address
 
     meta = {
         '_c': 'Email',
         }
+
+    class Meta:
+        mixin = True
 
 class Tel(Mod):
     '''https://developers.google.com/gdata/docs/2.0/elements#gdPhoneNumber'''

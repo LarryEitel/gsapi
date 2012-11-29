@@ -12,6 +12,15 @@ class RegexConverter(BaseConverter):
         self.regex = items[0]
 
 
+def doc_remove_empty_keys(doc):
+    '''Remove any dict keys without a value'''
+    doc_clean       = {}
+    for k, v in doc.iteritems():
+        if doc[k]:
+            doc_clean[k] = doc[k]
+            
+    return doc_clean
+
 def validate_partial(model, patch):
     '''Validate only fields submitted. Return any/all failed validation along with details'''
 
