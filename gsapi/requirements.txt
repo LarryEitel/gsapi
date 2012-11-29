@@ -4,7 +4,6 @@ Flask-Testing
 mimerender
 simplejson
 bpython
-schematics
 rawes
 pyes
 #pexpect
@@ -12,7 +11,7 @@ sphinx
 #sphinx-apidoc
 jinja2
 pyyaml
-
+-e git+git://github.com/j2labs/schematics.git#egg=schematics
 -e git+git://github.com/mongodb/mongo-python-driver.git#egg=pymongo
 fabric
 python-dateutil
