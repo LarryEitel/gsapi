@@ -45,35 +45,35 @@ class Generic(object):
             _c          = doc['_c']
 
             # shortcut
-            doc_keys    = doc.keys()     
-
-            modelClass  = getattr(models, _c)
-            _id         = doc['_id'] if '_id' in doc_keys else None
-            where       = {'_id': ObjectId(_id)} if _id else None
-            listTypeNam = doc['listTypeNam'] if 'listTypeNam' in doc_keys else None
-            listType_c  = doc['listType_c'] if listTypeNam else None
-            listTypeVal = doc['listTypeVal'] if listTypeNam else None
-            collNam     = modelClass.meta['collection']
-            collTmp     = db[collNam + '_tmp']
-            coll        = db[collNam]
+            doc_keys   = doc.keys()     
+            
+            modelClass = getattr(models, _c)
+            _id        = doc['_id'] if '_id' in doc_keys else None
+            where      = {'_id': ObjectId(_id)} if _id else None
+            attrNam    = doc['attrNam'] if 'attrNam' in doc_keys else None
+            attr_c     = doc['attr_c'] if attrNam else None
+            attrVal    = doc['attrVal'] if attrNam else None
+            collNam    = modelClass.meta['collection']
+            collTmp    = db[collNam + '_tmp']
+            coll       = db[collNam]
             
 
             # if _ id is passed,  it directs that a temp doc be initialized and inserted into the appropriate Tmp (temp) collection.
             # if an _id IS passed, it directs that the doc passed in be validated and inserted in the base collection and the temp doc in the temp collection be deleted.
             
             # if attrNam, posting a new value to a listtype attribute/field
-            if listTypeNam:
+            if attrNam:
                 eId = 1
-                for elem in listTypeVal:
-                    modelClass = getattr(models.embed, listType_c)
-                    model = modelClass()
+                for elem in attrVal:
+                    modelClass = getattr(models.embed, attr_c)
+                    model      = modelClass()
                     for k,v in elem.iteritems(): setattr(model, k, v)
                     
                     # next sequencing code here.
-                    model.eId = eId
-                    eId += 1
+                    model.eId  = eId
+                    eId        += 1
                     
-                    embedDoc = doc_remove_empty_keys(to_python(model, allow_none=True))    
+                    embedDoc   = doc_remove_empty_keys(to_python(model, allow_none=True))    
                     doc_errors = validate(modelClass, embedDoc)
                     
                     if doc_errors:
@@ -81,11 +81,11 @@ class Generic(object):
                         post_errors.append(doc_errors)
                         continue                    
                     
-                    embedDoc['_c'] = listType_c
+                    embedDoc['_c'] = attr_c
                     
                     # http://docs.mongodb.org/manual/applications/update/
                     collTmp.update(where,
-                            {"$push": { listTypeNam: elem}}
+                            {"$push": { attrNam: elem}}
                         )
                     
                     doc_info['doc']   = embedDoc

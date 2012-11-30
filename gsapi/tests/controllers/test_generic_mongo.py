@@ -17,6 +17,7 @@ from bson.json_util import dumps
 from bson import json_util
 import models
 import controllers
+#from utils import appG, sessionG
 from models.extensions import validate, validate_partial, doc_remove_empty_keys
 from schematics.serialize import to_python
 
@@ -54,6 +55,13 @@ class TestGenericMongo(MongoTestCase):
         db      = self.db
         generic = controllers.Generic(db)
 
+        # lets create sample typs bypassing tmp process.
+        typs = []
+        response = generic.post(**{'usrOID':self.usrOID, 'docs': [{'_c': 'Typ', 'dNam': 'Work', 'dNamS': 'work'}]})
+        typs.append(response['response']['docs'][0]['doc'])
+        response = generic.post(**{'usrOID':self.usrOID, 'docs': [{'_c': 'Typ', 'dNam': 'Home', 'dNamS': 'home'}]})
+        typs.append(response['response']['docs'][0]['doc'])
+
         # lets create a some sample docs bypassing tmp process.
         sample_doc = self.post_sample({'_c': 'Prs', 'fNam': 'Larry', 'lNam': 'Stooge'})
 
@@ -63,25 +71,25 @@ class TestGenericMongo(MongoTestCase):
         # now let's add emails
         test_field   = 'emails'
         test_field_c = 'Email'
-        test_value   = [{'_c': 'Email', 'address': 'bill@ms.com', 'prim': '1'},
+        test_value   = [{'typ': {'_id': 'Email.work'}, '_c': 'Email', 'address': 'bill@ms.com', 'prim': '1'},
                         {'_c': 'Email', 'address': 'steve@apple.com'}]
         doc = {
-            '_c'         : sample_doc['_c'],
-            '_id'        : sample_doc['_id'],
-            'listTypeNam': test_field,
-            'listType_c' : test_field_c,
-            'listTypeVal': test_value,
+            '_c'     : sample_doc['_c'],
+            '_id'    : sample_doc['_id'],
+            'attrNam': test_field,
+            'attr_c' : test_field_c,
+            'attrVal': test_value,
             }
 
         response = generic.post(**{'usrOID': "50468de92558713d84b03fd7", 'docs': [doc]})
-        
+
         assert response['status_code'] == 200
         
         # let's get the tmp doc
         tmp_doc_id           = doc['_id']
         tmp_doc              = db['cnts_tmp'].find_one({'_id': ObjectId(tmp_doc_id)})
         
-        # should have the correct number of added listType elements
+        # should have the correct number of added attr elements
         assert len(test_value) == len(tmp_doc[test_field])
 
         # let's submit changes to original source doc.

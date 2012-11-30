@@ -3,7 +3,7 @@ from schematics.types import StringType, IntType, LongType, DateTimeType, EmailT
 from schematics.types.compound import ListType, ModelType
 from schematics.types.mongo import ObjectIdType
 from mod import Mod
-
+from typ import Typ
 
 class LnkTyp(Mod):
     fam         = BooleanType(description='Is Family Link/Relationship?')
@@ -75,24 +75,28 @@ class Shr(Mod):
         '_c': 'Shr',
         }
 
-class Email(_Model):
+class Email(Mod):
+    typ     = StringType() 
+    '''typ.work'''
     eId     = IntType(required=True, description='Element Id')
     address = EmailType(required=True, description='Email Address')
-    
     w       = FloatType(description='Sort weight, Sort list by weight value.', default=0)
     
     prim    = BooleanType(default=False, description='Primary, When multiple emails appear in a list, indicates which is prim. At most one may be prim.')
 
-    # def __unicode__(self):
-    #     return self.address
-
-    # @property
-    # def vNam(self):
-    #     return self.address
-
     meta = {
         '_c': 'Email',
         }
+
+    @property
+    def vNam(self):
+        dNam = self.typ['dNam'] + ': ' + self.address.lower()
+        dNam += '(Primary)' if self.prim else ''
+        return dNam
+
+    @property
+    def vNamS(self):
+        return self.dNam.lower().replace(' ', '_')
 
     class Meta:
         mixin = True
