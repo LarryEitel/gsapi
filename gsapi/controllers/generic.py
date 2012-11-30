@@ -211,7 +211,12 @@ class Generic(object):
 
             # assign dId
             if 'dId' in model._fields and not model.dId:
-                model.dId = nextId(coll)
+                response = nextId(coll)
+                if response['status'] == 200:
+                    model.dId = response['nextId']
+                else:
+                    # handle error condition
+                    pass
 
             # generate a slug if:
             # not a temp doc and slug is empty

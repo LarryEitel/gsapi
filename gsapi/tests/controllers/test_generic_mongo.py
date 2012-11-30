@@ -84,7 +84,6 @@ class TestGenericMongo(MongoTestCase):
             self.post_sample({'_c': 'Prs', 'fNam': 'Larry', 'lNam': 'Stooge'}),
             self.post_sample({'_c': 'Prs', 'fNam': 'Moe', 'lNam': 'Stooge'}),
             self.post_sample({'_c': 'Prs', 'fNam': 'Curley', 'lNam': 'Stooge', "emails" : [{
-                      #"cloned_id" : ObjectId("50468de92558713d84b03fd7"),
                       "prim" : True,
                       "dNam" : "typ_work: bill@ms.com(Primary)",
                       "dId" : 1,
@@ -94,7 +93,6 @@ class TestGenericMongo(MongoTestCase):
                       "dNamS" : "typ_work:_bill@ms.com(primary)",
                       "_c" : "Email"
                     }, {
-                      #"cloned_id" : ObjectId("50468de92558713d84b03fd8"),
                       "dNam" : "typ_home: steve@apple.com",
                       "dId" : 2,
                       "address" : "steve@apple.com",
@@ -112,7 +110,7 @@ class TestGenericMongo(MongoTestCase):
 
         # when we need to edit most docs, we lock the doc and clone a tmp doc to work on.
         # now let's pretent to initiate an update of this doc
-        response = generic.post(**{'usrOID': "50468de92558713d84b03fd7", 'docs': [sample_doc]})
+        response = generic.post(**{'usrOID': self.usrOID, 'docs': [sample_doc]})
         
         # this is the temp doc, the original is locked
         doc_tmp           = response['response']['docs'][0]['doc']
@@ -139,7 +137,7 @@ class TestGenericMongo(MongoTestCase):
 
         # when we need to edit most docs, we lock the doc and clone a tmp doc to work on.
         # now let's pretent to initiate an update of this doc
-        response = generic.post(**{'usrOID': "50468de92558713d84b03fd7", 'docs': [sample_doc]})
+        response = generic.post(**{'usrOID': self.usrOID, 'docs': [sample_doc]})
         
         # this is the temp doc, the original is locked
         doc_tmp           = response['response']['docs'][0]['doc']
@@ -151,7 +149,7 @@ class TestGenericMongo(MongoTestCase):
                 'where': {'_id': sample_doc['_id']},
                 'patch': {
                         test_field: test_value,
-                        "rBy"     : ObjectId("50468de92558713d84b03fd7")
+                        "rBy"     : ObjectId(self.usrOID)
                     }
                 }
         
@@ -183,7 +181,7 @@ class TestGenericMongo(MongoTestCase):
 
         # now let's pretent to initiate an update of this doc
         args                 = {}
-        args['usrOID']       = "50468de92558713d84b03fd7"
+        args['usrOID']       = self.usrOID
         
         sample_doc           = doc
         args['docs']         = [sample_doc]
@@ -219,7 +217,7 @@ class TestGenericMongo(MongoTestCase):
         
         # now let's pretent to initiate an update of this doc
         args                 = {}
-        args['usrOID']       = "50468de92558713d84b03fd7"
+        args['usrOID']       = self.usrOID
         
         args['docs']         = [doc]
         
@@ -241,7 +239,7 @@ class TestGenericMongo(MongoTestCase):
         # Once any updates are made to tmp/clone copy, update original/source doc. Then delete the temp doc.
 
         args                 = {}
-        args['usrOID']       = "50468de92558713d84b03fd7"
+        args['usrOID']       = self.usrOID
         args['docs']         = [tmp_doc]
         
         response             = generic.post(**args)
