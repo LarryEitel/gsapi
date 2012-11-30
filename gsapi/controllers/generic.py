@@ -100,6 +100,7 @@ class Generic(object):
                             {"$push": { attrNam: embedDoc}}
                         )
                     
+                    
                     doc_info['doc']   = embedDoc
                     docs.append(doc_info)   
                                
