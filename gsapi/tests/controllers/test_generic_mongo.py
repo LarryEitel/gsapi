@@ -29,38 +29,11 @@ class TestGenericMongo(MongoTestCase):
         response = controllers.Generic(self.db).post(**{'usrOID':self.usrOID, 'docs': [doc]})
         assert response['status_code'] == 200
         return response['response']['docs'][0]['doc']
-        
-    def post_sample_cnt(self):
-        '''Passing in doc with OID should clone the doc and save in tmp collection. Set isTmp = True.
-            '''
-        db      = self.db
-        generic = controllers.Generic(db)
-
-        # lets create a sample doc bypassing tmp process.
-        response = generic.post(**{'usrOID':self.usrOID, 'docs': [{'_c': 'Prs', 'fNam': 'Larry', 'lNam': 'King', 'suffix': 'Sr'}]})
-
-
-        assert response['status_code'] == 200
-        data           = response['response']
-
-        assert data['total_inserted'] == 1
-        
-        doc            = data['docs'][0]['doc']
-        assert doc['dId'] > 0
-        return doc
-
     def test_post_listtype(self):
         '''Passing in doc with OID should clone the doc and save in tmp collection. Set isTmp = True.
             '''
         db      = self.db
         generic = controllers.Generic(db)
-
-        # lets create sample typs bypassing tmp process.
-        typs = []
-        response = generic.post(**{'usrOID':self.usrOID, 'docs': [{'_c': 'Typ', 'dNam': 'Work', 'dNamS': 'work'}]})
-        typs.append(response['response']['docs'][0]['doc'])
-        response = generic.post(**{'usrOID':self.usrOID, 'docs': [{'_c': 'Typ', 'dNam': 'Home', 'dNamS': 'home'}]})
-        typs.append(response['response']['docs'][0]['doc'])
 
         # lets create a some sample docs bypassing tmp process.
         sample_doc = self.post_sample({'_c': 'Prs', 'fNam': 'Larry', 'lNam': 'Stooge'})
@@ -165,7 +138,7 @@ class TestGenericMongo(MongoTestCase):
     def test_post_new(self):
         '''Passing in doc with only _c(lass) should initialize a doc and save in tmp collection.
             '''
-        self.post_sample_cnt()
+        sample_doc = self.post_sample({'_c': 'Prs', 'fNam': 'Larry', 'lNam': 'King', 'suffix': 'Sr'})
     def test_post_update(self):
         '''Passing in doc with OID should clone the doc and save in tmp collection. Set isTmp = True.
             '''
@@ -173,7 +146,7 @@ class TestGenericMongo(MongoTestCase):
         generic = controllers.Generic(db)
         
         # lets create a sample doc bypassing tmp process.
-        doc = self.post_sample_cnt()
+        doc = self.post_sample({'_c': 'Prs', 'fNam': 'Larry', 'lNam': 'King', 'suffix': 'Sr'})
 
         # now let's pretent to initiate an update of this doc
         args                 = {}
@@ -209,7 +182,7 @@ class TestGenericMongo(MongoTestCase):
         generic = controllers.Generic(db)
 
         # lets create a sample doc bypassing tmp process.
-        doc = self.post_sample_cnt()
+        doc = self.post_sample({'_c': 'Prs', 'fNam': 'Larry', 'lNam': 'King', 'suffix': 'Sr'})
         
         # now let's pretent to initiate an update of this doc
         args                 = {}
