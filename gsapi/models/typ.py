@@ -17,6 +17,11 @@ class Typ(Mod):
         '_c': 'Typ',
         }
 
+    def typs(self):
+    	return {
+	    'Email.typ': {'typs': ['home', 'work']}, 
+	    'Tel.typ': {'typs': ['home', 'work']}
+	    }
 
 # TODOs:
 # * read data/collections/typs.yaml

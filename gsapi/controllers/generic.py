@@ -8,6 +8,7 @@ from schematics.serialize import (to_python, to_json, make_safe_python,
                                   make_safe_json, blacklist, whitelist)
 from models.extensions import validate, validate_partial, doc_remove_empty_keys
 from models.logit import logit
+from models.typ import Typ
 from utils.nextid import nextId
 from utils.slugify import slugify
 
@@ -56,7 +57,6 @@ class Generic(object):
             collNam    = modelClass.meta['collection']
             collTmp    = db[collNam + '_tmp']
             coll       = db[collNam]
-            
 
             # if _ id is passed,  it directs that a temp doc be initialized and inserted into the appropriate Tmp (temp) collection.
             # if an _id IS passed, it directs that the doc passed in be validated and inserted in the base collection and the temp doc in the temp collection be deleted.
@@ -73,7 +73,19 @@ class Generic(object):
                     model.eId  = eId
                     eId        += 1
                     
-                    embedDoc   = doc_remove_empty_keys(to_python(model, allow_none=True))    
+                    if hasattr(model, 'vNam') and 'dNam' in model._fields and not model.dNam:
+                        model.dNam = model.vNam
+
+                    # generate a slug if slug is empty
+                    if 'slug' in model._fields and 'dNam' in model._fields and not model.slug:
+                        model.slug = slugify(model.dNam, coll)
+
+                    # set dNamS if used:
+                    # if dNamS is empty, set to value of slug
+                    if 'dNamS' in model._fields and not model.dNamS:
+                        model.dNamS = model.slug
+
+                    embedDoc   = doc_remove_empty_keys(to_python(model, allow_none=True))
                     doc_errors = validate(modelClass, embedDoc)
                     
                     if doc_errors:
@@ -85,7 +97,7 @@ class Generic(object):
                     
                     # http://docs.mongodb.org/manual/applications/update/
                     collTmp.update(where,
-                            {"$push": { attrNam: elem}}
+                            {"$push": { attrNam: embedDoc}}
                         )
                     
                     doc_info['doc']   = embedDoc

@@ -77,7 +77,7 @@ class Shr(Mod):
 
 class Email(Mod):
     typ     = StringType() 
-    '''typ.work'''
+    '''work'''
     eId     = IntType(required=True, description='Element Id')
     address = EmailType(required=True, description='Email Address')
     w       = FloatType(description='Sort weight, Sort list by weight value.', default=0)
@@ -90,13 +90,13 @@ class Email(Mod):
 
     @property
     def vNam(self):
-        dNam = self.typ['dNam'] + ': ' + self.address.lower()
+        dNam = 'typ_' + self.typ + ': ' + self.address.lower()
         dNam += '(Primary)' if self.prim else ''
         return dNam
 
     @property
     def vNamS(self):
-        return self.dNam.lower().replace(' ', '_')
+        return self.dNam.replace(' ', '_')
 
     class Meta:
         mixin = True

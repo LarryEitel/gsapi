@@ -11,7 +11,6 @@ class RegexConverter(BaseConverter):
         super(RegexConverter, self).__init__(url_map)
         self.regex = items[0]
 
-
 def doc_remove_empty_keys(doc):
     '''Remove any dict keys without a value'''
     doc_clean       = {}
