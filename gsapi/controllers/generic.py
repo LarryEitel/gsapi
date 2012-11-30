@@ -4,7 +4,9 @@ import re
 import datetime
 from bson import ObjectId
 import models
-from models.extensions import validate
+from schematics.serialize import (to_python, to_json, make_safe_python,
+                                  make_safe_json, blacklist, whitelist)
+from models.extensions import validate, validate_partial, doc_remove_empty_keys
 from models.logit import logit
 from utils.nextid import nextId
 from utils.slugify import slugify
@@ -17,6 +19,12 @@ class Generic(object):
         self.es = es
     
     def post(self, **kwargs):
+        '''Insert a doc
+            newDocTmp: Initialize a temp (tmp) doc if no OID and no data.
+            cloneDocTmp: Clone to a temp doc if OID and no isTmp flag set.
+            upsertDocTmp: Update or Insert temp doc to base collection if OID and isTmp is set.
+            insertDoc: Insert a new doc if no OID and there are more attributes than _c.
+            '''
         db           = self.db
         
         response     = {}
@@ -30,18 +38,151 @@ class Generic(object):
         total_errors = 0
 
         for doc in docs_to_post:
-            errors     = {}
-            
-            _c         = doc['_c']
-            modelClass = getattr(models, _c)
+            errors      = {}
+            doc_info    = {}
 
-            # if _ id is passed,  it directs that a temp doc be initialized and inserted into the appropriate Tmp (temp) collection.
-            # if an _id IS passed, it directs that the doc passed in be validated and inserted in the base collection and the temp doc in the temp collection be deleted.
-            useTmpDoc   = not '_id' in doc.keys()
-            _id         = doc['_id'] if not useTmpDoc else None
+            # required attribute
+            _c          = doc['_c']
+
+            # shortcut
+            doc_keys    = doc.keys()     
+
+            modelClass  = getattr(models, _c)
+            _id         = doc['_id'] if '_id' in doc_keys else None
+            where       = {'_id': ObjectId(_id)} if _id else None
+            listTypeNam = doc['listTypeNam'] if 'listTypeNam' in doc_keys else None
+            listType_c  = doc['listType_c'] if listTypeNam else None
+            listTypeVal = doc['listTypeVal'] if listTypeNam else None
             collNam     = modelClass.meta['collection']
             collTmp     = db[collNam + '_tmp']
             coll        = db[collNam]
+            
+
+            # if _ id is passed,  it directs that a temp doc be initialized and inserted into the appropriate Tmp (temp) collection.
+            # if an _id IS passed, it directs that the doc passed in be validated and inserted in the base collection and the temp doc in the temp collection be deleted.
+            
+            # if attrNam, posting a new value to a listtype attribute/field
+            if listTypeNam:
+                eId = 1
+                for elem in listTypeVal:
+                    modelClass = getattr(models.embed, listType_c)
+                    model = modelClass()
+                    for k,v in elem.iteritems(): setattr(model, k, v)
+                    
+                    # next sequencing code here.
+                    model.eId = eId
+                    eId += 1
+                    
+                    embedDoc = doc_remove_empty_keys(to_python(model, allow_none=True))    
+                    doc_errors = validate(modelClass, embedDoc)
+                    
+                    if doc_errors:
+                        total_errors += doc_errors['count']
+                        post_errors.append(doc_errors)
+                        continue                    
+                    
+                    embedDoc['_c'] = listType_c
+                    
+                    # http://docs.mongodb.org/manual/applications/update/
+                    collTmp.update(where,
+                            {"$push": { listTypeNam: elem}}
+                        )
+                    
+                    doc_info['doc']   = embedDoc
+                    docs.append(doc_info)   
+                               
+                # { $set: { 'inviteCode.$.status': '2' }
+        
+                response['total_inserted'] = len(docs)
+        
+                if post_errors:
+                    response['total_invalid'] = len(post_errors)
+                    response['errors']        = post_errors
+                    response['total_errors']  = total_errors
+                    status                    = 400
+                else:
+                    response['total_invalid'] = 0
+        
+                response['docs'] = docs
+        
+                return {'response': response, 'status_code': status}                
+                
+            # Initialize a temp (tmp) doc if no OID and no data.
+            elif not '_id' in doc_keys and len(doc_keys) == 1:
+                newDocTmp = True
+                useTmpDoc = True
+                
+            # Clone to a temp doc if OID and no isTmp flag set.
+            elif '_id' in doc_keys and not 'isTmp' in doc_keys and len(doc_keys) > 2:
+                cloneDocTmp  = True
+                useTmpDoc    = True
+                
+                
+                # find source doc
+                # set locked = True                
+                doc_cloned = coll.find_and_modify(
+                    query = {'_id':_id},
+                    update = {"$set": {'locked': True}},
+                    new = True
+                )                
+                # set cloned doc in tmp collection isTmp = True  
+                doc_cloned['isTmp'] = True
+                
+                # don't need locked set in tmp doc 
+                del doc_cloned['locked']
+                
+                # clone/save doc to tmp collection
+
+                # TODO properly handle exception
+                try:
+                    collTmp.insert(doc_cloned)
+                except:
+                    pass                  
+                        
+                doc_info['doc']   = doc_cloned
+                
+                # TODO
+                # should return a link to object according to good practice
+                #doc_info['link'] = get_document_link(class_name, id)
+    
+                docs.append(doc_info)   
+                
+                continue
+                
+            # Update temp doc to base collection if OID and isTmp is set.
+            elif '_id' in doc_keys and 'isTmp' in doc_keys and doc['isTmp']:
+                upsertDocTmp  = True
+                useTmpDoc     = False
+
+                tmp_doc = collTmp.find_one({'_id': _id})
+                
+                # unset isTmp
+                _id = tmp_doc['_id']
+                tmp_doc['locked'] = False
+                del tmp_doc['_id']             
+                del tmp_doc['isTmp']             
+                
+                # logit update
+                tmp_doc = logit(usrOID, tmp_doc)
+                
+                # update original/source doc
+                doc = coll.update({'_id': _id}, {"$set": tmp_doc}, upsert=True, safe=True)
+                
+                # remove tmp doc
+                collTmp.remove({'_id': _id})
+                
+                # though not necessary, to be consistant, return full doc
+                doc = coll.find_one({'_id': _id})
+                
+                doc_info['doc']   = doc  
+                docs.append(doc_info)  
+                
+                continue
+                
+            # Insert a new doc if no OID and there are more attributes than _c.
+            elif not '_id' in doc_keys and len(doc_keys) > 2:
+                insertDoc  = True
+                useTmpDoc  = False
             
             # init model instance
             model       = modelClass(**doc)
@@ -80,20 +221,15 @@ class Generic(object):
 
             # modelClass stuffed in all available fields
             # let's remove all empty fields to keep mongo clean.
-            doc             = model.to_python()
+            doc             = to_python(model, allow_none=True)
 
             # do not log if using temp doc
             #log date time user involved with this event
             if not useTmpDoc:
                 doc = logit(usrOID, doc, 'post')
 
-            doc_clean       = {}
-            doc_clean['_c'] = _c
-            for k, v in doc.iteritems():
-                if doc[k]:
-                    doc_clean[k] = doc[k]
-            
-            doc_info = {}
+            doc['_c'] = _c
+            doc_clean = doc_remove_empty_keys(doc)
             
             # posting an existing temp doc to base collection
             if _id:
@@ -136,27 +272,31 @@ class Generic(object):
         return {'response': response, 'status_code': status}
     
     def put(self, **kwargs):
-        """Docstring for put method:"""
+        """Update a doc"""
         db = self.db
         # TODO: accomodate where clause to put changes to more than one doc.
-        modelClass = getattr(models, class_name)
-        collNam    = kwargs['collNam'] if 'collNam' in kwargs.keys() else modelClass.meta['collection']
-        collection = db[collNam]
-
-        response = {}
-        docs = []
-        status = 200
-
-        data = kwargs['data']
-        usrid = kwargs['usrid']
-
+        
+        usrOID     = kwargs['usrOID']
+        data       = kwargs['data']
+        _c         = data['_c']
+        modelClass = getattr(models, _c)
+        collNam    = modelClass.meta['collection']
+        collNamTmp = collNam + '_tmp'
+        collTmp    = db[collNamTmp]
+        coll       = db[collNam]
+        
+        response   = {}
+        docs       = []
+        status     = 200
+        
+        
         # expecting where
-        where = data['where']
-        patch = data['patch']
+        where      = data['where']
+        patch      = data['patch']
 
         # validate patch
         # init modelClass for this doc
-        patch_errors = validate(modelClass, patch)
+        patch_errors = validate_partial(modelClass, patch)
         if patch_errors:
             response['errors'] = patch_errors['errors']
             response['total_errors'] = patch_errors['count']
@@ -164,26 +304,46 @@ class Generic(object):
 
             return prep_response(response, status = status)
 
-        # until we get signals working
-        # manually include modified event details
-        # patch['mBy'] = user_id
-        patch['mBy'] = ObjectId(usrid)
-        patch['mOn'] = datetime.datetime.utcnow()
-
-        # https://github.com/mongodb/mongo-python-driver/blob/master/pymongo/collection.py#L1035
-        resp = db.command('findAndModify', collNam,
+        # logit update
+        patch = logit(usrOID, patch)
+                
+        # patch update in tmp collection
+        doc = collTmp.find_and_modify(
             query = where,
             update = {"$set": patch},
             new = True
         )
 
-        # only return if error condition exists
-        response['collection'] = collNam
+        # need to handle case where model has a dNam, etc. which may have been affected by patch
+
+        # init model instance
+        model      = modelClass(**doc)
+        
+        # if there is a vNam class property 
+        if hasattr(model, 'vNam') and 'dNam' in model._fields:
+            doc        = collTmp.find_one(where)
+            _id        = doc['_id']
+            model.dNam = model.vNam
+            if hasattr(model, 'vNamS') and 'dNamS' in model._fields:
+                model.dNamS = model.vNamS
+                
+            doc        = to_python(model, allow_none=True)
+            doc_clean  = {'_c': _c}
+            for k, v in doc.iteritems():
+                if doc[k]:
+                    doc_clean[k] = doc[k]
+            doc = doc_clean
+            collTmp.update(where, doc)
+            # gotta put the _id back
+            doc['_id'] = _id
+
+
+        response['collection'] = collNamTmp
         response['total_invalid'] = 0
         response['id'] = id.__str__()
 
         # remove this, not needed
-        response['doc'] = resp['value']
+        response['doc'] = doc
 
         return {'response': response, 'status_code': status}
 

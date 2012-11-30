@@ -1,4 +1,4 @@
-from schematics.models import Mixin
+from schematics.models import Model as _Model
 from schematics.types import StringType, IntType, LongType, BooleanType, URLType, EmailType
 from schematics.types.compound import ListType, ModelType
 from embed import Email, Note, Tel, Im, Pth, Review, Shr
@@ -15,7 +15,7 @@ from rdt import Rdt
 
 # ResourceType() # https://developers.google.com/gdata/docs/2.0/elements#gdResourceId
 
-class ModMixin(Mixin):
+class ModMixin(_Model):
     count     = LongType()
     
     liked     = ListType(ObjectIdType(ObjectId))
@@ -29,16 +29,16 @@ class ModMixin(Mixin):
     
     tags      = ListType(ModelType(Tag))
     
-    tels      = ListType(ModelType(Tel), minimized_field_name='Telephones', description='')
-    emails    = ListType(ModelType(Email), minimized_field_name='Emails', description='')
-    ims       = ListType(ModelType(Im), minimized_field_name='Instant Message Network', description='')
+    tels      = ListType(ModelType(Tel), description='Telephones')
+    emails    = ListType(ModelType(Email), description='Emails')
+    ims       = ListType(ModelType(Im), description='Instant Message Network')
     
-    urls      = ListType(URLType(), minimized_field_name='Urls', description='Urls associated with this doc.')
+    urls      = ListType(URLType(), description='Urls associated with this doc.')
     rdts      = ListType(ModelType(Rdt))
-    desc      = StringType(minimized_field_name='Description')
+    desc      = StringType(description='Description')
     notes     = ListType(ModelType(Note))
     
-    shrs      = ListType(ModelType(Shr), minimized_field_name='Share List', description='List of Share docs that describe who and at what level/role this doc is shared with.')
+    shrs      = ListType(ModelType(Shr), description='Share List of Share docs that describe who and at what level/role this doc is shared with.')
     
     # tos     : ie, parents
     tos       = ListType(ModelType(Pth))

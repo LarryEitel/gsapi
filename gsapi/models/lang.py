@@ -4,8 +4,8 @@ from schematics.types.compound import ListType, ModelType
 from loc import Loc
 
 class Lang(Mod):
-    _id    = StringType(minimized_field_name='ID', description='Language code ISO')
-    jwId   = StringType(minimized_field_name='JW ID', description='Language code jw.org')
+    _id    = StringType(description='ID, Language code ISO')
+    jwId   = StringType(description='JW ID, Language code jw.org')
 
     # use base dNam, etc
     locs      = ListType(ModelType(Loc))

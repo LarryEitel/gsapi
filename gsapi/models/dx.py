@@ -39,14 +39,14 @@ class DRelToFr(_Model):
     
     # doc Relation Display Name 
     # ie, Administrator
-    dxNam  = StringType(minimized_field_name="Relation/Role")
+    dxNam  = StringType(description="Relation/Role")
     
     # doc Relation Display Name Short
     # ie, admin
-    dxNamS = StringType(minimized_field_name="Relation/Role Short")
+    dxNamS = StringType(description="Relation/Role Short")
     
-    ddNam  = StringType(minimized_field_name="Doc Display Name")
-    ddNamS = StringType(minimized_field_name="Doc Display Name Short")
+    ddNam  = StringType(description="Doc Display Name")
+    ddNamS = StringType(description="Doc Display Name Short")
 
 class DRel(_Model):
     '''Doc Relationship 
@@ -56,10 +56,10 @@ class DRel(_Model):
     dx_id      = ObjectIdType(ObjectId)
 
     # Doc Class is the doc Class of the immediate parent/to OR child/fr/from in the array/list of IDs/dRels
-    d_c       = StringType(minimized_field_name='Document class', description="doc class of immediate parent/to OR child/fr")
+    d_c       = StringType(description='Document class of immediate parent/to OR child/fr")
     
-    dRelTitle = StringType(minimized_field_name='Role/relationship/title')
-    dRelNote  = StringType(minimized_field_name='Role/relationship description, ie, Job Description.')
+    dRelTitle = StringType(description='Role/relationship/title')
+    dRelNote  = StringType(description='Role/relationship description, ie, Job Description.')
     
     # List of Doc IDs in the relToFms list. This is used to quickly check whether a doc ID is referenced.
     # This should be reviewed for effeciency
@@ -69,7 +69,7 @@ class DRel(_Model):
     dRelToFrs = ListType(ModelType(DRelToFr))
     
     # in a list of aPath's, sort list on this value to control order
-    w         = FloatType(minimized_field_name='Sort weight value', description='')
+    w         = FloatType(description='Sort weight value', description='')
     
 class DxRel(Mod):
     '''Collection of relationship description/titles between document objects. '''
@@ -81,23 +81,23 @@ class DxRel(Mod):
         '''
 
     fr_c   = ListType(StringType())
-    frGens  = StringType(minimized_field_name='From/Subject Gender', description='')
+    frGens  = StringType(description='From/Subject Gender')
     '''This should contain all genders that apply: m, f, fm '''
 
-    frNam  = StringType(minimized_field_name='From Relationship/Role', description='')
-    frNamS = StringType(minimized_field_name='From Relationship/Role', description='')
+    frNam  = StringType(description='From Relationship/Role')
+    frNamS = StringType(description='From Relationship/Role')
     
     to_c   = ListType(StringType())
-    toGens  = StringType(minimized_field_name='To/Target Gender', description='')
-    toNam  = StringType(minimized_field_name='To Relationship/Role', description='')
-    toNamS = StringType(minimized_field_name='To Relationship/Role', description='')
+    toGens  = StringType(description='To/Target Gender')
+    toNam  = StringType(description='To Relationship/Role')
+    toNamS = StringType(description='To Relationship/Role')
     
     # this rel is a family relationship
-    fam    = StringType(minimized_field_name='Family Parternam/Maternal?', description='p=Parternal/m=Maternal type relationship')
+    fam    = StringType(description='Family Parternam/Maternal? p=Parternal/m=Maternal type relationship')
     
-    mask   = StringType(minimized_field_name='Mask', description='ie. 1, 11')
+    mask   = StringType(description='Mask, ie. 1, 11')
     
-    w      = FloatType(minimized_field_name='Sort weight value', description='')
+    w      = FloatType(description='Sort weight value')
 
 class Dx(Mod):
     '''Used to link two Models/Docs together along with reference to rel(ationship) description.

@@ -22,35 +22,35 @@ class Mod(_Model):
     # optional. A model that exents from Mod may choose to impliment an incremented key value similar to a RDBMS incremented primary key.
     # It is the responsibility of the extended model to manage uniqueness if this field/attribute is used.
 
-    dId            = LongType(minimized_field_name='Unique Doc Id')
+    dId            = LongType(description='Unique Doc Id')
     
-    isTmp          = LongType(minimized_field_name='Is Temp Doc')
+    isTmp          = LongType(description='Is Temp Doc')
     '''When creating an initialized temp doc, set this flag. It should not be persisted to base collection.'''
 
     cloned_id      = ObjectIdType(ObjectId)
     '''if this doc has been cloned, set to _id of source doc.'''
 
     # unique slug value generated on save and optionally used for SEO friendly urls.
-    slug           = StringType(minimized_field_name='Unique Slug')
+    slug           = StringType(description='Unique Slug')
 
     # display
-    dNam           = StringType(minimized_field_name='Name')
+    dNam           = StringType(description='Name')
 
     # HTML version of display
     # inspired by value of pre-rendering Pth's in tos/frs
-    dNamHTML           = StringType(minimized_field_name='Name')
+    dNamHTML           = StringType(description='Name')
 
     #short display name
     # this will default to slug value but can be optionally overwritten
-    dNamS          = StringType(minimized_field_name='NameShort')
+    dNamS          = StringType(description='NameShort')
 
-    locked         = StringType(minimized_field_name='Locked', description='May be set with OID of tmp snapshot of doc being edited.')
-    lockedDuration = IntType(minimized_field_name='Lock Duration Time in Minutes', description='')
+    locked         = StringType(description='Locked, May be set with OID of tmp snapshot of doc being edited.')
+    lockedDuration = IntType(description='Lock Duration Time in Minutes')
     '''User will be prompted to continue, save, cancel edit of this doc'''
 
-    publish        = BooleanType(minimized_field_name='Publish', description='')
+    publish        = BooleanType(description='Publish')
 
-    dele           = BooleanType(minimized_field_name='Deleted', description='Marked for removal.')
+    dele           = BooleanType(description='Deleted, Marked for removal.')
     
     # owned
     oBy            = ObjectIdType(ObjectId)
@@ -75,7 +75,7 @@ class Mod(_Model):
     
     # note           = ModelType(Note)
 
-    img            = StringType(minimized_field_name='Place Icon', description='URL to an image resource that can be used to represent this object.')
+    img            = StringType(description='Place Icon, URL to an image resource that can be used to represent this object.')
     
     meta           = {
         'collection': 'docs',

@@ -8,14 +8,14 @@ from bson import ObjectId
 from embed import Email, Note, Tel, Im
 from mixins import ModMixin
 
-# class Cnt(Mod, ModMixin):
-class Cnt(Mod):
+class Cnt(Mod, ModMixin):
+# class Cnt(Mod):
     '''
     Google Contacts API: https://developers.google.com/google-apps/contacts/v3/
     '''
-    code        = StringType(minimized_field_name='General Code', description='')
+    code        = StringType(description='')
 
-    # langs       = ListType(ModelType(Lang), minimized_field_name='Languages', description='Languages associated with this contact.')
+    # langs       = ListType(ModelType(Lang), description='Languages associated with this contact.')
 
     @property
     def index(self):
@@ -33,10 +33,10 @@ class Cnt(Mod):
 class Cmp(Cnt):
     '''https://developers.google.com/gdata/docs/2.0/elements#gdOrganization'''
     # use dNam for company name from base Mod class
-    # cNam = StringType(required=True, minimized_field_name='Company Name/Branch/Div/Department/Group/Troop', description='')
-    # cNamS = StringType(required=True, minimized_field_name='Short Company Name', description='Abbreviation or Acronym')
+    # cNam = StringType(required=True, description='')
+    # cNamS = StringType(required=True, description='Abbreviation or Acronym')
 
-    symbol = StringType(minimized_field_name='Company Symbol', description='')
+    symbol = StringType(description='')
 
     meta = {
         'collection': 'cnts',
@@ -56,22 +56,22 @@ class Prs(Cnt):
     '''https://developers.google.com/gdata/docs/2.0/elements#gdName'''
 
     # namePrefix
-    prefix    = StringType(minimized_field_name='Prefix', description='Examples: Mr, Mrs, Ms, etc')
+    prefix    = StringType(description='Examples: Mr, Mrs, Ms, etc')
     
     # givenName
-    fNam      = StringType(minimized_field_name="First/Given Name")
+    fNam      = StringType()
     
     # additionalName
-    fNam2     = StringType(minimized_field_name="Additional/Middle Name")
+    fNam2     = StringType()
     
     # givenName
-    lNam      = StringType(minimized_field_name="Family/Last Name")
+    lNam      = StringType()
     lNam2     = StringType()
     
     # nameSuffix
-    suffix    = StringType(minimized_field_name='Suffix', description='Examples: MD, PHD, Jr, Sr, etc')
-    gen       = StringType(minimized_field_name='Gender', choices=['m','f'], description='Gender')
-    rBy       = ObjectIdType(minimized_field_name='Referred/Registered By', description='User that referred or registered this user.')
+    suffix    = StringType(description='Examples: MD, PHD, Jr, Sr, etc')
+    gen       = StringType(choices=['m','f'], description='Gender')
+    rBy       = ObjectIdType(description='User that referred or registered this user.')
     
     meta      = {
         'collection': 'cnts',
@@ -128,16 +128,20 @@ class Prs(Cnt):
             dNam += fNam
         return dNam
 
+    @property
+    def vNamS(self):
+        return self.dNam.lower().replace(' ', '_')
+
 class Usr(Prs):
-    root   = StringType(minimized_field_name='System Root User', description='a=Admin, m=Moderator')
-    uNam   = StringType(required=True, minimized_field_name='UserName', description='')
-    pw     = StringType(minimized_field_name='Password', description='Password Hash')
+    root   = StringType(description='a=Admin, m=Moderator')
+    uNam   = StringType(required=True, description='')
+    pw     = StringType(description='Password Hash')
     # initially, this will contain 'admin' for admin users
 
-    rstTkn = StringType(minimized_field_name='Reset Token', description='Used for resetting credentials.')
-    rstOn  = DateTimeType(minimized_field_name='Reset Token DateTime Expiration', description='Used for resetting credentials.')
+    rstTkn = StringType(description='Used for resetting credentials.')
+    rstOn  = DateTimeType(description='Used for resetting credentials.')
 
-    lvOn   = DateTimeType(minimized_field_name='Last Viewed', description='DateTime when user last viewed the site.')
+    lvOn   = DateTimeType(description='DateTime when user last viewed the site.')
 
     meta   = {
         'collection': 'cnts',

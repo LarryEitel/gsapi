@@ -30,15 +30,15 @@ class Rdt(Mod):
     '''
     # make yaml Rdt.log, Rdt.event, Rdt.todo, Rdt.anniverary, etc
     
-    y            = IntType(minimized_field_name="Year", description="year ie, 2012")
-    ym           = IntType(minimized_field_name="YearMonth", description="year+month, ie, 201207 or -60710")
-    ymd          = IntType(minimized_field_name="YearMonthDay", description="year+month+day, ie, 20120730")
-    isoDate      = StringType(minimized_field_name="Date in ISO", description="yyyymmdd")
-    isoTime      = StringType(minimized_field_name="Time in ISO", description="hhss")
-    tz           = StringType(minimized_field_name="Timezone ISO UTC", description="UTC in form of: [+-]hh:mm")
+    y            = IntType(description="Year ie, 2012")
+    ym           = IntType(description="YearMonth year+month, ie, 201207 or -60710")
+    ymd          = IntType(description="YearMonthDay year+month+day, ie, 20120730")
+    isoDate      = StringType(description="Date in ISO yyyymmdd")
+    isoTime      = StringType(description="Time in ISO hhss")
+    tz           = StringType(description="Timezone ISO UTC UTC in form of: [+-]hh:mm")
     
-    instance     = StringType(minimized_field_name="Instance", description="b=begin, e=end, l=lap, m=milestone")
-    period       = StringType(minimized_field_name="Period", description="b=before, a=after, c=circa/close")
+    instance     = StringType(description="Instance b=begin, e=end, l=lap, m=milestone")
+    period       = StringType(description="Period b=before, a=after, c=circa/close")
     
     note         = StringType()
     
