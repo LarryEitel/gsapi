@@ -71,6 +71,10 @@ class TestGenericMongo(MongoTestCase):
 
         # original doc should now have updated value
         assert doc[test_field][0]['address'] == test_value[0]['address']
+        
+        # verify that eIds was correctly added
+        assert doc['eIds']['emails'] == 3
+        
 
 
     def test_put_listtype(self):
@@ -86,7 +90,7 @@ class TestGenericMongo(MongoTestCase):
             self.post_sample({'_c': 'Prs', 'fNam': 'Curley', 'lNam': 'Stooge', "emails" : [{
                       "prim" : True,
                       "dNam" : "typ_work: bill@ms.com(Primary)",
-                      "dId" : 1,
+                      "eId" : 1,
                       "address" : "bill@ms.com",
                       "typ" : "work",
                       "slug" : "typ_work:_bill@ms.com(primary)",
@@ -94,7 +98,7 @@ class TestGenericMongo(MongoTestCase):
                       "_c" : "Email"
                     }, {
                       "dNam" : "typ_home: steve@apple.com",
-                      "dId" : 2,
+                      "eId" : 2,
                       "address" : "steve@apple.com",
                       "typ" : "home",
                       "slug" : "typ_home:_steve@apple.com",
@@ -104,8 +108,7 @@ class TestGenericMongo(MongoTestCase):
             ]
 
         # grab a random doc from sample docs
-        sample_doc_offset = randint(0, len(sample_docs) - 1)
-        sample_doc        = sample_docs[sample_doc_offset]
+        sample_doc        = sample_docs[2]
         sample_doc_id     = sample_doc['_id']
 
         # when we need to edit most docs, we lock the doc and clone a tmp doc to work on.
@@ -114,7 +117,30 @@ class TestGenericMongo(MongoTestCase):
         
         # this is the temp doc, the original is locked
         doc_tmp           = response['response']['docs'][0]['doc']
+        
 
+        test_field        = 'emails'
+        test_value        = [{
+                "_c"     : "Email",
+                "eId"    : 2,
+                "address": "fred@apple.com",
+                "typ"    : "home",
+                "w"      : 0.0
+            }]
+        test_eId          = 2
+        data              = {
+                "_c"   : sample_doc['_c'],
+                'where': {'_id': sample_doc['_id'], test_field + '.eId': test_eId},
+                'patch': {
+                        test_field: test_value,
+                    },
+                "eId"  : 2
+                }
+        
+        response = generic.put(**{'usrOID': ObjectId(self.usrOID), 'data': data})
+        doc      = response['response']['doc']
+
+        pass
 
 
     def test_put(self):

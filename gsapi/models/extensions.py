@@ -11,6 +11,24 @@ class RegexConverter(BaseConverter):
         super(RegexConverter, self).__init__(url_map)
         self.regex = items[0]
 
+        
+def nextEId(doc, attrNam):
+    '''Get next element eId for a list item'''
+    
+    # if doc['eIds'] doesn't exist, add it
+    if not 'eIds' in doc:
+        doc['eIds'] = {}
+        
+    # if doc['eIds']['attrNam'] does not exist, add it and return 1
+    if not attrNam in doc['eIds']:
+        doc['eIds'][attrNam] = 2
+        return {'doc': doc, 'eId': 1}
+    else:
+        eId = doc['eIds'][attrNam]
+        doc['eIds'][attrNam] += 1
+        return {'doc': doc, 'eId': eId}
+        
+
 def doc_remove_empty_keys(doc):
     '''Remove any dict keys without a value'''
     doc_clean       = {}

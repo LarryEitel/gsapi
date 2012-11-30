@@ -6,7 +6,7 @@ from bson import ObjectId
 import models
 from schematics.serialize import (to_python, to_json, make_safe_python,
                                   make_safe_json, blacklist, whitelist)
-from models.extensions import validate, validate_partial, doc_remove_empty_keys
+from models.extensions import validate, validate_partial, doc_remove_empty_keys, nextEId
 from models.logit import logit
 from models.typ import Typ
 from utils.nextid import nextId
@@ -63,15 +63,15 @@ class Generic(object):
             
             # if attrNam, posting a new value to a listtype attribute/field
             if attrNam:
-                dId = 1
                 for elem in attrVal:
                     modelClass = getattr(models.embed, attr_c)
                     model      = modelClass()
                     for k,v in elem.iteritems(): setattr(model, k, v)
                     
-                    # next sequencing code here.
-                    model.dId  = dId
-                    dId        += 1
+                    resp       = nextEId(doc, attrNam)
+                    doc        = resp['doc']
+                    # model.eIds = doc['eIds']
+                    model.eId  = resp['eId']
                     
                     if hasattr(model, 'vNam') and 'dNam' in model._fields and not model.dNam:
                         model.dNam = model.vNam
@@ -95,16 +95,17 @@ class Generic(object):
                     
                     embedDoc['_c'] = attr_c
                     
-                    # http://docs.mongodb.org/manual/applications/update/
+                    
                     collTmp.update(where,
-                            {"$push": { attrNam: embedDoc}}
+                            {"$push": { attrNam: embedDoc}, "$set": {'eIds': doc['eIds']}}
                         )
                     
 
                     doc_info['doc']   = embedDoc
                     docs.append(doc_info)   
                                
-                # { $set: { 'inviteCode.$.status': '2' }
+                # http://docs.mongodb.org/manual/applications/update/
+                # { $set: { 'emails.$.eId': 2 }
         
                 response['total_inserted'] = len(docs)
         
@@ -311,30 +312,54 @@ class Generic(object):
         docs       = []
         status     = 200
         
-        
-        # expecting where
         where      = data['where']
         patch      = data['patch']
-
-        # validate patch
-        # init modelClass for this doc
-        patch_errors = validate_partial(modelClass, patch)
-        if patch_errors:
-            response['errors'] = patch_errors['errors']
-            response['total_errors'] = patch_errors['count']
-            status = 400
-
-            return prep_response(response, status = status)
-
-        # logit update
-        patch = logit(usrOID, patch)
-                
-        # patch update in tmp collection
-        doc = collTmp.find_and_modify(
-            query = where,
-            update = {"$set": patch},
-            new = True
-        )
+        eId        = data['eId'] if 'eId' in data else None
+        
+        if eId and len(patch.keys()) > 1:
+            # TODO Handle error
+            pass
+        if eId:
+            for k, v in patch.iteritems():
+                attrNam = k
+                if type(v) == list:
+                    for el in v:
+                        patchClass = getattr(models, el['_c'])
+                        patch_errors = validate_partial(patchClass, el)
+                        break
+                    
+            # logit update
+            patch = logit(usrOID, el)
+                    
+            # http://docs.mongodb.org/manual/applications/update/
+            # patch update in tmp collection
+            attrEl = attrNam + '.$'
+            doc = collTmp.find_and_modify(
+                query = where,
+                update = { "$set": { attrEl: el }},
+                new = True
+            )
+            pass
+        else:
+            # validate patch
+            # init modelClass for this doc
+            patch_errors = validate_partial(modelClass, patch)
+            if patch_errors:
+                response['errors'] = patch_errors['errors']
+                response['total_errors'] = patch_errors['count']
+                status = 400
+    
+                return prep_response(response, status = status)
+    
+            # logit update
+            patch = logit(usrOID, patch)
+                    
+            # patch update in tmp collection
+            doc = collTmp.find_and_modify(
+                query = where,
+                update = {"$set": patch},
+                new = True
+            )
 
         # need to handle case where model has a dNam, etc. which may have been affected by patch
 
