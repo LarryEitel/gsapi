@@ -76,9 +76,10 @@ class Shr(Mod):
         }
 
 class Email(Mod):
+    # cloned_id     = ObjectIdType() 
     typ     = StringType() 
     '''work'''
-    eId     = IntType(required=True, description='Element Id')
+    # eId     = IntType(required=True, description='Element Id')
     address = EmailType(required=True, description='Email Address')
     w       = FloatType(description='Sort weight, Sort list by weight value.', default=0)
     
@@ -98,8 +99,6 @@ class Email(Mod):
     def vNamS(self):
         return self.dNam.replace(' ', '_')
 
-    class Meta:
-        mixin = True
 
 class Tel(Mod):
     '''https://developers.google.com/gdata/docs/2.0/elements#gdPhoneNumber'''

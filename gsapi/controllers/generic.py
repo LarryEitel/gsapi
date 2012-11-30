@@ -63,15 +63,15 @@ class Generic(object):
             
             # if attrNam, posting a new value to a listtype attribute/field
             if attrNam:
-                eId = 1
+                dId = 1
                 for elem in attrVal:
                     modelClass = getattr(models.embed, attr_c)
                     model      = modelClass()
                     for k,v in elem.iteritems(): setattr(model, k, v)
                     
                     # next sequencing code here.
-                    model.eId  = eId
-                    eId        += 1
+                    model.dId  = dId
+                    dId        += 1
                     
                     if hasattr(model, 'vNam') and 'dNam' in model._fields and not model.dNam:
                         model.dNam = model.vNam
@@ -100,7 +100,7 @@ class Generic(object):
                             {"$push": { attrNam: embedDoc}}
                         )
                     
-                    
+
                     doc_info['doc']   = embedDoc
                     docs.append(doc_info)   
                                
@@ -293,6 +293,10 @@ class Generic(object):
         data       = kwargs['data']
         _c         = data['_c']
         modelClass = getattr(models, _c)
+        #attrNam    = doc['attrNam'] if 'attrNam' in doc_keys else None
+        #attr_c     = doc['attr_c'] if attrNam else None
+        #attrEid    = doc['attrEid'] if attrNam else None
+        #attrVal    = doc['attrVal'] if attrNam else None
         collNam    = modelClass.meta['collection']
         collNamTmp = collNam + '_tmp'
         collTmp    = db[collNamTmp]

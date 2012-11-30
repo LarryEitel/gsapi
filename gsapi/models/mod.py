@@ -22,12 +22,13 @@ class Mod(_Model):
     # optional. A model that exents from Mod may choose to impliment an incremented key value similar to a RDBMS incremented primary key.
     # It is the responsibility of the extended model to manage uniqueness if this field/attribute is used.
 
-    dId            = LongType(description='Unique Doc Id')
+    # dId            = LongType(description='Unique Doc Id')
+    dId            = LongType(default=0)
     
-    isTmp          = LongType(description='Is Temp Doc')
+    isTmp          = BooleanType(description='Is Temp Doc')
     '''When creating an initialized temp doc, set this flag. It should not be persisted to base collection.'''
 
-    cloned_id      = ObjectIdType(ObjectId)
+    # cloned_id      = ObjectIdType(ObjectId)
     '''if this doc has been cloned, set to _id of source doc.'''
 
     # unique slug value generated on save and optionally used for SEO friendly urls.
@@ -38,44 +39,44 @@ class Mod(_Model):
 
     # HTML version of display
     # inspired by value of pre-rendering Pth's in tos/frs
-    dNamHTML           = StringType(description='Name')
+    # dNamHTML           = StringType(description='Name')
 
     #short display name
     # this will default to slug value but can be optionally overwritten
     dNamS          = StringType(description='NameShort')
 
-    locked         = StringType(description='Locked, May be set with OID of tmp snapshot of doc being edited.')
-    lockedDuration = IntType(description='Lock Duration Time in Minutes')
-    '''User will be prompted to continue, save, cancel edit of this doc'''
+    # locked         = StringType(description='Locked, May be set with OID of tmp snapshot of doc being edited.')
+    # lockedDuration = IntType(default=0)
+    '''Lock Duration Time in Minutes. User will be prompted to continue, save, cancel edit of this doc'''
 
-    publish        = BooleanType(description='Publish')
+    # publish        = BooleanType(description='Publish')
 
-    dele           = BooleanType(description='Deleted, Marked for removal.')
+    # dele           = BooleanType(description='Deleted, Marked for removal.')
     
-    # owned
-    oBy            = ObjectIdType(ObjectId)
-    oOn            = DateTimeType()
-    oPl            = StringType()
+    # # owned
+    # oBy            = ObjectIdType()
+    # oOn            = DateTimeType()
+    # oPl            = StringType()
     
-    # created
-    cBy            = ObjectIdType(ObjectId)
-    cOn            = DateTimeType()
-    cPl            = StringType()
+    # # created
+    # cBy            = ObjectIdType()
+    # cOn            = DateTimeType()
+    # cPl            = StringType()
     
-    # modified
-    mBy            = ObjectIdType(ObjectId)
-    mOn            = DateTimeType()
-    mPl            = StringType()
+    # # modified
+    # mBy            = ObjectIdType()
+    # mOn            = DateTimeType()
+    # mPl            = StringType()
     
-    # deleted
-    dBy            = ObjectIdType(ObjectId)
-    dOn            = DateTimeType()
-    dPl            = StringType()
+    # # deleted
+    # dBy            = ObjectIdType()
+    # dOn            = DateTimeType()
+    # dPl            = StringType()
     
     
     # note           = ModelType(Note)
 
-    img            = StringType(description='Place Icon, URL to an image resource that can be used to represent this object.')
+    # img            = StringType(description='Place Icon, URL to an image resource that can be used to represent this object.')
     
     meta           = {
         'collection': 'docs',

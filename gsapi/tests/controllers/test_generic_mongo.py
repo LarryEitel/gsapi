@@ -73,6 +73,52 @@ class TestGenericMongo(MongoTestCase):
         assert doc[test_field][0]['address'] == test_value[0]['address']
 
 
+    def test_put_listtype(self):
+        '''Need doc here
+            '''
+        db       = self.db
+        generic  = controllers.Generic(db)
+
+        # lets create a some sample docs bypassing tmp process.
+        sample_docs = [
+            self.post_sample({'_c': 'Prs', 'fNam': 'Larry', 'lNam': 'Stooge'}),
+            self.post_sample({'_c': 'Prs', 'fNam': 'Moe', 'lNam': 'Stooge'}),
+            self.post_sample({'_c': 'Prs', 'fNam': 'Curley', 'lNam': 'Stooge', "emails" : [{
+                      #"cloned_id" : ObjectId("50468de92558713d84b03fd7"),
+                      "prim" : True,
+                      "dNam" : "typ_work: bill@ms.com(Primary)",
+                      "dId" : 1,
+                      "address" : "bill@ms.com",
+                      "typ" : "work",
+                      "slug" : "typ_work:_bill@ms.com(primary)",
+                      "dNamS" : "typ_work:_bill@ms.com(primary)",
+                      "_c" : "Email"
+                    }, {
+                      #"cloned_id" : ObjectId("50468de92558713d84b03fd8"),
+                      "dNam" : "typ_home: steve@apple.com",
+                      "dId" : 2,
+                      "address" : "steve@apple.com",
+                      "typ" : "home",
+                      "slug" : "typ_home:_steve@apple.com",
+                      "dNamS" : "typ_home:_steve@apple.com",
+                      "_c" : "Email"
+                    }]}),
+            ]
+
+        # grab a random doc from sample docs
+        sample_doc_offset = randint(0, len(sample_docs) - 1)
+        sample_doc        = sample_docs[sample_doc_offset]
+        sample_doc_id     = sample_doc['_id']
+
+        # when we need to edit most docs, we lock the doc and clone a tmp doc to work on.
+        # now let's pretent to initiate an update of this doc
+        response = generic.post(**{'usrOID': "50468de92558713d84b03fd7", 'docs': [sample_doc]})
+        
+        # this is the temp doc, the original is locked
+        doc_tmp           = response['response']['docs'][0]['doc']
+
+
+
     def test_put(self):
         '''Need doc here
             '''
@@ -85,19 +131,6 @@ class TestGenericMongo(MongoTestCase):
             self.post_sample({'_c': 'Prs', 'fNam': 'Moe', 'lNam': 'Stooge'}),
             self.post_sample({'_c': 'Prs', 'fNam': 'Curley', 'lNam': 'Stooge'}),
             ]
-
-        #emailModel = models.embed.Email()
-        #emailModel._c = 'Email'
-        #emailModel.eId = 1
-        #emailModel.address = 'bill@ms.com'
-        #emailModel.prim = True
-        
-        #email = doc_remove_empty_keys(to_python(emailModel, allow_none=True))
-        
-        #doc_with_emails = {'_c': 'Prs', 'fNam': 'Mary', 'lNam': 'Sue'}
-        #doc_with_emails['emails'] = [email]
-
-        #sample_docs.append(self.post_sample(doc_with_emails))
         
         # grab a random doc from sample docs
         sample_doc_offset = randint(0, len(sample_docs) - 1)
