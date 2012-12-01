@@ -20,7 +20,7 @@ class TagGrp(Mod):
     w       = FloatType(description='Sort weight value')
 
     meta    = {
-        'collection': 'tagtyps',
+        'collection': 'taggrps',
         '_c': 'TagTyp',
         }
 

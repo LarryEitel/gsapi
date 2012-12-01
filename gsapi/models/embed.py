@@ -56,6 +56,15 @@ class Note(Embs):
     meta = {
         '_c': 'Note',
         }
+    @property
+    def vNam(self):
+        dNam = self.title
+        return dNam
+
+    @property
+    def vNamS(self):
+        return self.title.lower().replace(' ', '_')
+
 
 # https://developers.google.com/gdata/docs/2.0/elements#gdMessageKind
 class Msg(Embs):
@@ -102,11 +111,9 @@ class Email(Embs):
 
 class Tel(Embs):
     '''https://developers.google.com/gdata/docs/2.0/elements#gdPhoneNumber'''
-    text  = StringType(description='Human-readable phone number')
+    text  = StringType(required=True, description='Human-readable phone number')
     
     uri   = StringType(description='An optional "tel URI", An optional "tel URI" used to represent the number in a formal way, useful for programmatic access, such as a VoIP/PSTN bridge. See RFC 3966 for more information on tel URIs.')
-    note  = StringType(description='note')
-    
     note  = StringType(description='note')
     
     meta  = {
@@ -115,31 +122,48 @@ class Tel(Embs):
 
     @property
     def vNam(self):
-        dNam = 'typ_' + self.typ + ': ' + self.text.lower()
-        dNam += ' (Primary)' if self.prim else ''
-        dNam += (' ' + self.note) if self.note else ''
-        return dNam
+        s = ('typ_' + self.typ + ': ') if self.typ else ''
+        s = self.text.lower()
+        s += ' (Primary)' if self.prim else ''
+        s += (' ' + self.note) if self.note else ''
+        return s
 
     @property
     def vNamS(self):
-        return self.text.lower()
-
+        s = (self.typ + ':') if self.typ else ''
+        s += self.text.lower()
+        s += ' (Primary)' if self.prim else ''
+        return s.lower().replace('() -_', '')
 
 class Im(Embs):
     '''https://developers.google.com/gdata/docs/2.0/elements#gdIm'''
-    address  = StringType(description='IM Address')
+    address  = StringType(required=True, description='IM Address')
     
-    # enum   : home, work, other
-    typs     = ListType(StringType(description='IM Types'))
-    
-    protocol = StringType(description='IM network, Identifies the IM network. The value may be either one of the standard values (shown below) or a URI identifying a proprietary IM network.')
+    protocol = StringType(required=True, description='IM network, Identifies the IM network. The value may be either one of the standard values (shown below) or a URI identifying a proprietary IM network.')
     '''['aim','msn','yahoo','skype','qq','gtalk','icq','jabber']'''
     
-    notes    = ModelType(Note)
+    note  = StringType(description='note')
 
     meta = {
         '_c': 'Im',
         }
+
+    @property
+    def vNam(self):
+        s = ''
+        s += ('typ_' + self.typ + ': ') if self.typ else ''
+        s += self.address.lower()
+        s += ' (Primary)' if self.prim else ''
+        s += (' ' + self.note) if self.note else ''
+        return s
+
+    @property
+    def vNamS(self):
+        s = ''
+        s += (self.typ + ':') if self.typ else ''
+        s += self.protocol.lower() + ':' + self.address.lower()
+        s += ' (Primary)' if self.prim else ''
+        return s.lower().replace(' ', '_')
 
 class Rating(Mod):
     eId       = IntType(description='Element Id')
