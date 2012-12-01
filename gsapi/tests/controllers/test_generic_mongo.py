@@ -9,25 +9,20 @@ import sys
 from tests.base import MongoTestCase
 import json
 import time
-import isodate
-import yaml
 from random import randint
 from bson import ObjectId
-from bson.json_util import dumps
-from bson import json_util
 import models
 import controllers
-#from utils import appG, sessionG
 from models.extensions import validate, validate_partial, doc_remove_empty_keys
 from schematics.serialize import to_python
 
 class TestGenericMongo(MongoTestCase):
     print "Generic tests"
     print "=============="
-    usrOID = "50468de92558713d84b03fd7"
-    usr    = {"OID": "50468de92558713d84b03fd7"}
+    usr    = {"OID": "50468de92558713d84b03fd7", "at": (-84.163063, 9.980516)} 
+    # at location lnglat - lattitude, longitude (x,y) per: https://github.com/j2labs/schematics/blob/master/schematics/base.py
     def post_sample(self, doc):
-        response = controllers.Generic(self.usr, self.db).post(**{'usrOID':self.usrOID, 'docs': [doc]})
+        response = controllers.Generic(self.usr, self.db).post(**{'docs': [doc]})
         assert response['status'] == 200
         return response['response']['docs'][0]['doc']
     def test_post_attr(self):
@@ -87,7 +82,6 @@ class TestGenericMongo(MongoTestCase):
         for test_value in test_values:
             generic.post_attr(sample_doc, test_field, test_field_c, test_value, useTmpDoc=False) 
 
-
         return db['cnts'].find_one({'_id': sample_doc['_id']})
     def test_post_listtype(self):
         '''Passing in doc with OID should clone the doc and save in tmp collection. Set isTmp = True.
@@ -99,7 +93,7 @@ class TestGenericMongo(MongoTestCase):
         sample_doc = self.post_sample({'_c': 'Prs', 'fNam': 'Larry', 'lNam': 'Stooge'})
 
         # now let's pretent to initiate an update of this doc
-        response = generic.post(**{'usrOID': "50468de92558713d84b03fd7", 'docs': [sample_doc]})
+        response = generic.post(**{'docs': [sample_doc]})
         
         test_field   = 'emails'
         test_field_c = 'Email'
@@ -116,7 +110,7 @@ class TestGenericMongo(MongoTestCase):
         assert len(tmp_doc[test_field]) == len(test_values)
 
         # let's submit changes to original source doc.
-        response = generic.post(**{'usrOID': self.usrOID, 'docs': [tmp_doc]})
+        response = generic.post(**{'docs': [tmp_doc]})
         doc      = response['response']['docs'][0]['doc']
 
         # original doc should now have updated value
@@ -144,7 +138,7 @@ class TestGenericMongo(MongoTestCase):
 
         # when we need to edit most docs, we lock the doc and clone a tmp doc to work on.
         # now let's pretent to initiate an update of this doc
-        response = generic.post(**{'usrOID': self.usrOID, 'docs': [sample_doc]})
+        response = generic.post(**{'docs': [sample_doc]})
         
         # this is the temp doc, the original is locked
         doc_tmp           = response['response']['docs'][0]['doc']
@@ -168,11 +162,11 @@ class TestGenericMongo(MongoTestCase):
                 }
         
         # submit patch to tmp doc
-        response = generic.put(**{'usrOID': ObjectId(self.usrOID), 'data': data})
+        response = generic.put(**{'data': data})
         tmp_doc  = response['response']['doc']
         
         # let's submit changes to original source doc.
-        response = generic.post(**{'usrOID': self.usrOID, 'docs': [tmp_doc]})
+        response = generic.post(**{'docs': [tmp_doc]})
         doc      = response['response']['docs'][0]['doc']
 
         # original doc should now have updated value
@@ -199,7 +193,7 @@ class TestGenericMongo(MongoTestCase):
 
         # when we need to edit most docs, we lock the doc and clone a tmp doc to work on.
         # now let's pretent to initiate an update of this doc
-        response = generic.post(**{'usrOID': self.usrOID, 'docs': [sample_doc]})
+        response = generic.post(**{'docs': [sample_doc]})
         
         # this is the temp doc, the original is locked
         doc_tmp           = response['response']['docs'][0]['doc']
@@ -211,11 +205,11 @@ class TestGenericMongo(MongoTestCase):
                 'where': {'_id': sample_doc['_id']},
                 'patch': {
                         test_field: test_value,
-                        "rBy"     : ObjectId(self.usrOID)
+                        "rBy"     : ObjectId(self.usr['OID'])
                     }
                 }
         
-        response = generic.put(**{'usrOID': ObjectId(self.usrOID), 'data': data})
+        response = generic.put(**{'data': data})
         doc      = response['response']['doc']
         
         
@@ -223,7 +217,7 @@ class TestGenericMongo(MongoTestCase):
         assert doc[test_field] == test_value
         
         # let's submit changes to original source doc.
-        response = generic.post(**{'usrOID': self.usrOID, 'docs': [doc]})
+        response = generic.post(**{'docs': [doc]})
         doc      = response['response']['docs'][0]['doc']
 
         # original doc should now have updated value
@@ -243,8 +237,6 @@ class TestGenericMongo(MongoTestCase):
 
         # now let's pretent to initiate an update of this doc
         args                 = {}
-        args['usrOID']       = self.usrOID
-        
         sample_doc           = doc
         args['docs']         = [sample_doc]
         
@@ -279,8 +271,6 @@ class TestGenericMongo(MongoTestCase):
         
         # now let's pretent to initiate an update of this doc
         args                 = {}
-        args['usrOID']       = self.usrOID
-        
         args['docs']         = [doc]
         
         response             = generic.post(**args)
@@ -301,7 +291,6 @@ class TestGenericMongo(MongoTestCase):
         # Once any updates are made to tmp/clone copy, update original/source doc. Then delete the temp doc.
 
         args                 = {}
-        args['usrOID']       = self.usrOID
         args['docs']         = [tmp_doc]
         
         response             = generic.post(**args)

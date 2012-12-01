@@ -13,7 +13,7 @@ from models._cs import _cs
 from utils.nextid import nextId
 from utils.slugify import slugify
 
-def preSave(doc, usrOID):
+def preSave(doc, usr):
     response   = {}
     
     modelClass = getattr(models, doc['_c'])
@@ -42,7 +42,7 @@ def preSave(doc, usrOID):
         doc        = doc_remove_empty_keys(to_python(model, allow_none=True))
     
     # logit update
-    doc = logit(usrOID, doc)
+    doc = logit(usr, doc)
     response['doc'] = doc
     return {'response': response, 'status': 200}
 
@@ -113,7 +113,7 @@ class Generic(object):
             return {'response': response, 'status': 400} 
         
         # logit update
-        attrValClean = logit(usrOID, attrValClean, method='post')
+        attrValClean = logit(self.usr, attrValClean, method='post')
         
         resp = coll.update(where,
                 {"$push": { attrNam: attrValClean}, "$set": {'eIds': doc['eIds']}}
@@ -138,7 +138,7 @@ class Generic(object):
         docs         = []
         status       = 200
         
-        usrOID       = kwargs['usrOID']
+        usrOID       = self.usr['OID']
         docs_to_post = kwargs['docs']
         
         post_errors  = []
@@ -206,7 +206,7 @@ class Generic(object):
                     embedDoc['_c'] = attr_c
                     
                     # logit update
-                    embedDoc = logit(usrOID, embedDoc, method='post')
+                    embedDoc = logit(self.usr, embedDoc, method='post')
                     
                     collTmp.update(where,
                             {"$push": { attrNam: embedDoc}, "$set": {'eIds': doc['eIds']}}
@@ -289,7 +289,7 @@ class Generic(object):
                 del tmp_doc['isTmp']             
                 
                 # logit update
-                tmp_doc = logit(usrOID, tmp_doc)
+                tmp_doc = logit(self.usr, tmp_doc)
                 
                 # update original/source doc
                 doc = coll.update({'_id': _id}, {"$set": tmp_doc}, upsert=True, safe=True)
@@ -357,7 +357,7 @@ class Generic(object):
             # do not log if using temp doc
             #log date time user involved with this event
             if not useTmpDoc:
-                doc = logit(usrOID, doc, 'post')
+                doc = logit(self.usr, doc, 'post')
 
             doc['_c'] = _c
             doc_clean = doc_remove_empty_keys(doc)
@@ -407,7 +407,7 @@ class Generic(object):
         db = self.db
         # TODO: accomodate where clause to put changes to more than one doc.
         
-        usrOID     = kwargs['usrOID']
+        usrOID     = self.usr['OID']
         data       = kwargs['data']
         _c         = data['_c']
         modelClass = getattr(models, _c)
@@ -440,7 +440,7 @@ class Generic(object):
             # enhance to support putting/updating multiple list elements
             attrVal = elem[1][0]
             
-            resp    = preSave(attrVal, usrOID)
+            resp    = preSave(attrVal, self.usr)
             if not resp['status'] == 200:
                 return {'response': resp, 'status': 400}
             
@@ -473,7 +473,7 @@ class Generic(object):
                 return prep_response(response, status = status)
     
             # logit update
-            patch = logit(usrOID, patch)
+            patch = logit(self.usr, patch)
                     
             # patch update in tmp collection
             doc = collTmp.find_and_modify(
