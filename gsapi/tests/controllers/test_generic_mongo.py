@@ -17,10 +17,6 @@ from models.extensions import validate, validate_partial, doc_remove_empty_keys
 from schematics.serialize import to_python
 
 class TestGenericMongo(MongoTestCase):
-    print "Generic tests"
-    print "=============="
-    usr    = {"OID": "50468de92558713d84b03fd7", "at": (-84.163063, 9.980516)} 
-    # at location lnglat - lattitude, longitude (x,y) per: https://github.com/j2labs/schematics/blob/master/schematics/base.py
     def post_sample(self, doc):
         response = controllers.Generic(self.usr, self.db).post(**{'docs': [doc]})
         assert response['status'] == 200
@@ -118,8 +114,6 @@ class TestGenericMongo(MongoTestCase):
         
         # verify that eIds was correctly added
         assert doc['eIds'][test_field] == 3
-
-
     def test_put_listtype(self):
         '''Need doc here
             '''
@@ -171,8 +165,6 @@ class TestGenericMongo(MongoTestCase):
 
         # original doc should now have updated value
         assert doc[test_field][test_elemOffset]['address'] == test_value[0]['address']
-        
-
     def test_put(self):
         '''Need doc here
             '''
@@ -270,10 +262,7 @@ class TestGenericMongo(MongoTestCase):
         doc = self.post_sample({'_c': 'Prs', 'fNam': 'Larry', 'lNam': 'King', 'suffix': 'Sr'})
         
         # now let's pretent to initiate an update of this doc
-        args                 = {}
-        args['docs']         = [doc]
-        
-        response             = generic.post(**args)
+        response             = generic.post(**{'docs': [doc]})
         
         # let's get the tmp doc
         src_doc_id           = doc['_id']
@@ -289,11 +278,7 @@ class TestGenericMongo(MongoTestCase):
         )                   
         
         # Once any updates are made to tmp/clone copy, update original/source doc. Then delete the temp doc.
-
-        args                 = {}
-        args['docs']         = [tmp_doc]
-        
-        response             = generic.post(**args)
+        response             = generic.post(**{'docs': [tmp_doc]})
         
         assert response['status'] == 200
 

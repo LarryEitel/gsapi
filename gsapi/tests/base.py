@@ -53,20 +53,14 @@ class MongoTestCase(unittest.TestCase):
         self.db  = db
         self.app = app
 
+        # at location lnglat - lattitude, longitude (x,y) per: https://github.com/j2labs/schematics/blob/master/schematics/base.py
+        self.usr = {"OID": "50468de92558713d84b03fd7", "at": (-84.163063, 9.980516)} 
     def tearDown(self):
         pass
         # clean after testing
         #models.db.session.remove()
 
         # self.es.delete_index_if_exists(self.index_name)
-
-    def load_sample(self, filename):
-        path = os.sep.join(__file__.split(os.sep)[:-1])
-
-        json_fName = path + '/data/%s.json' % filename
-
-        return load_data(self.db, self.es, json_fName)
-
 class TestCase(unittest.TestCase):
 
     def setUp(self):
@@ -90,6 +84,8 @@ class TestCase(unittest.TestCase):
         db       = Connection(dbhost)[dbname]
         self.db  = db
         self.app = app
+        # at location lnglat - lattitude, longitude (x,y) per: https://github.com/j2labs/schematics/blob/master/schematics/base.py
+        self.usr = {"OID": "50468de92558713d84b03fd7", "at": (-84.163063, 9.980516)} 
 
         #es = get_es_conn(cfg=es_cfg, timeout=300.0)#incremented timeout for debugging
         #self.index_name = es_cfg['name']
@@ -108,13 +104,6 @@ class TestCase(unittest.TestCase):
         #models.db.session.remove()
 
         # self.es.delete_index_if_exists(self.index_name)
-
-    def load_sample(self, filename):
-        path = os.sep.join(__file__.split(os.sep)[:-1])
-
-        json_fName = path + '/data/%s.json' % filename
-
-        return load_data(self.db, self.es, json_fName)
 
 if __name__ == "__main__":
     unittest.main()
