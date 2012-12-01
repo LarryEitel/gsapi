@@ -12,6 +12,39 @@ from models.typ import Typ
 from utils.nextid import nextId
 from utils.slugify import slugify
 
+def preSave(doc, usrOID):
+    response = {}
+    
+    modelClass = getattr(models, doc['_c'])
+    errors = validate_partial(modelClass, doc)
+
+    if errors:
+        response['errors'] = errors['errors']
+        response['total_errors'] = errors['count']
+        return {'response': response, 'status': 400}
+    
+    # logit update
+    doc = logit(usrOID, doc)
+    response['doc'] = doc
+    
+    # init model instance
+    model      = modelClass(**doc)
+    
+    # if there is a vNam class property 
+    if hasattr(model, 'vNam') and 'dNam' in model._fields:
+        model.dNam = model.vNam
+        if hasattr(model, 'vNamS') and 'dNamS' in model._fields:
+            model.dNamS = model.vNamS
+            
+        doc        = to_python(model, allow_none=True)
+        doc_clean  = {}
+        for k, v in doc.iteritems():
+            if doc[k]:
+                doc_clean[k] = doc[k]
+        doc = doc_clean
+    
+    return {'response': response, 'status': 200}
+
 class Generic(object):
 
     def __init__(self, db, es = None):
@@ -319,27 +352,34 @@ class Generic(object):
         if eId and len(patch.keys()) > 1:
             # TODO Handle error
             pass
-        if eId:
-            for k, v in patch.iteritems():
-                attrNam = k
-                if type(v) == list:
-                    for el in v:
-                        patchClass = getattr(models, el['_c'])
-                        patch_errors = validate_partial(patchClass, el)
-                        break
-                    
-            # logit update
-            patch = logit(usrOID, el)
-                    
+
+        # if element eId was passed, expect to put/patch change to one element in a ListType attribute/field
+        if eId and len(patch) == 1:
+            elem = patch.popitem()
+            attrNam = elem[0]
+            attrVal = elem[1][0]
+            
+            resp = preSave(attrVal, usrOID)
+            if not resp['status'] == 200:
+                return {'response': resp, 'status': 400}
+            
+            attrVal = resp['response']['doc']
             # http://docs.mongodb.org/manual/applications/update/
             # patch update in tmp collection
             attrEl = attrNam + '.$'
             doc = collTmp.find_and_modify(
                 query = where,
-                update = { "$set": { attrEl: el }},
+                update = { "$set": { attrEl: attrVal }},
                 new = True
             )
-            pass
+            response['collection'] = collNamTmp
+            response['total_invalid'] = 0
+            response['id'] = id.__str__()
+    
+            # remove this, not needed
+            response['doc'] = doc
+
+            return {'response': response, 'status': 200}
         else:
             # validate patch
             # init modelClass for this doc
@@ -392,7 +432,7 @@ class Generic(object):
         # remove this, not needed
         response['doc'] = doc
 
-        return {'response': response, 'status_code': status}
+        return {'response': response, 'status': status}
 
     def get(self, **kwargs):
         """Docstring for get method:"""
