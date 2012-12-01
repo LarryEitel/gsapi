@@ -436,6 +436,8 @@ class Generic(object):
         if eId and len(patch) == 1:
             elem    = patch.popitem()
             attrNam = elem[0]
+
+            # enhance to support putting/updating multiple list elements
             attrVal = elem[1][0]
             
             resp    = preSave(attrVal, usrOID)
