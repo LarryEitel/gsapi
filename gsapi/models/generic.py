@@ -1,5 +1,5 @@
 from schematics.models import Model as _Model
-from schematics.types import StringType, DateTimeType, EmailType, FloatType
+from schematics.types import StringType, IntType, DateTimeType, EmailType, FloatType, BooleanType
 
 from schematics.types.mongo import ObjectIdType
 from mod import Mod

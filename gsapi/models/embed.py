@@ -3,7 +3,19 @@ from schematics.types import StringType, IntType, LongType, DateTimeType, EmailT
 from schematics.types.compound import ListType, ModelType
 from schematics.types.mongo import ObjectIdType
 from mod import Mod
+from typ import Typ
 
+class Embs(Mod):
+    '''convenience base for listtype fields, ie, emails, tels, etc'''
+    typ     = StringType() 
+    '''work'''
+    eId     = IntType(required=True, description='Element Id')
+    w       = FloatType(description='Sort weight, Sort list by weight value.', default=0)
+    prim    = BooleanType(default=False, description='Primary, When multiple emails appear in a list, indicates which is prim. At most one may be prim.')
+
+    meta           = {
+        '_c'        : 'Embs',
+        }
 
 class LnkTyp(Mod):
     fam         = BooleanType(description='Is Family Link/Relationship?')
@@ -18,27 +30,22 @@ class LnkTyp(Mod):
     mask        = StringType(description='Sharing Mask')
     '''1, 11, 111, etc used in sh(aring) docs'''
 
-class Lnk(Mod):
-    eId         = IntType(description='Element Id')
+class Lnk(Embs):
     d_c         = StringType(description='Document class "_c".')
-    dId         = LongType(description='Document Id.')
     lnkTypDNam  = LongType(description='Link Type Display Name')
     lnkTypDNamS = LongType(description='Link Type Display Name Short')
     dDNam       = LongType(description='Document Display Name')
     sDNamS      = LongType(description='Document Display Name Short')
 
-class Pth(Mod):
-    eId         = IntType(description='Element Id')
+class Pth(Embs):
     d_c      = StringType(description='Target document class "_c".')
-    dId      = LongType(description='Target document Id.')
     lnkTypId = LongType(description='Link Type Id.')
     lnkTitle = StringType(description='Link Title.')
     lnkNote  = StringType(description='Link Note.')
     lnks     = ListType(ModelType(Lnk))
     ids      = ListType(LongType())
 
-class Note(Mod):
-    eId      = IntType(description='Element Id')
+class Note(Embs):
     title    = StringType()
     note     = StringType()
     noteHTML = StringType()
@@ -51,11 +58,10 @@ class Note(Mod):
         }
 
 # https://developers.google.com/gdata/docs/2.0/elements#gdMessageKind
-class Msg(Mod):
+class Msg(Embs):
     '''Represents a message, such as an email, a discussion group posting, or a comment.'''
     content = StringType()
     title   = StringType(description='Message subject.')
-    geoPt   = GeoPointType(description='Geographic location the message was posted from.')
 
     meta = {
         '_c': 'Msg',
@@ -75,79 +81,50 @@ class Shr(Mod):
         '_c': 'Shr',
         }
 
-class Email(_Model):
-    eId     = IntType(required=True, description='Element Id')
+class Email(Embs):
     address = EmailType(required=True, description='Email Address')
-    
-    w       = FloatType(description='Sort weight, Sort list by weight value.', default=0)
-    
-    prim    = BooleanType(default=False, description='Primary, When multiple emails appear in a list, indicates which is prim. At most one may be prim.')
-
-    # def __unicode__(self):
-    #     return self.address
-
-    # @property
-    # def vNam(self):
-    #     return self.address
 
     meta = {
         '_c': 'Email',
         }
 
-    class Meta:
-        mixin = True
+    @property
+    def vNam(self):
+        dNam = 'typ_' + self.typ + ': ' + self.address.lower()
+        dNam += '(Primary)' if self.prim else ''
+        return dNam
 
-class Tel(Mod):
+    @property
+    def vNamS(self):
+        return self.dNam.replace(' ', '_')
+
+
+class Tel(Embs):
     '''https://developers.google.com/gdata/docs/2.0/elements#gdPhoneNumber'''
-    if 1: # Fields
-        eId         = IntType(description='Element Id')
-        address = EmailType(description='Email Address')
-        
-        w       = FloatType(description='Sort weight, Sort list by weight value.')
-        lbl     = StringType(description='Label, A simple string value used to name this phone number. It allows UIs to display a label such as "Work", "Personal", "Preferred", etc.')
-        
-        # enum  : home, work, other
-        typs    = ListType(StringType(description='Telephone Types'))
-        
-        uri     = StringType(description='An optional "tel URI", An optional "tel URI" used to represent the number in a formal way, useful for programmatic access, such as a VoIP/PSTN bridge. See RFC 3966 for more information on tel URIs.')
-        
-        notes   = ListType(ModelType(Note))
-        prim    = BooleanType(default=False, description='Primary, When multiple telephone numbers appear in a list, indicates which is prim. At most one may be prim.')
-        
-        # formatted_telephone_number
-        dNam    = StringType(description='Display human readable form of telephone number.')
-
-    if 1: # Methods
-        def __unicode__(self):
-            return self.address
+    address = EmailType(description='Email Address')
+    
+    # enum  : home, work, other
+    typs    = ListType(StringType(description='Telephone Types'))
+    
+    uri     = StringType(description='An optional "tel URI", An optional "tel URI" used to represent the number in a formal way, useful for programmatic access, such as a VoIP/PSTN bridge. See RFC 3966 for more information on tel URIs.')
+    
+    notes   = ModelType(Note)
 
     meta = {
         '_c': 'Tel',
         }
 
-class Im(Mod):
+class Im(Embs):
     '''https://developers.google.com/gdata/docs/2.0/elements#gdIm'''
-    if 1: # Fields
-        eId         = IntType(description='Element Id')
-        address  = StringType(description='IM Address')
-        dNam     = StringType(description='Display Name, A display name of the entity (e.g. a person) the email address belongs to.')
-        lbl      = StringType(description='Label, A simple string value used to name this IM address. It allows UIs to display a label such as "Work", "Personal", "Preferred", etc.')
-        w        = FloatType(description='Sort weight, Sort list by weight value.')
-        
-        # enum   : home, work, other
-        typs     = ListType(StringType(description='IM Types'))
-        
-        protocol = StringType(description='IM network, Identifies the IM network. The value may be either one of the standard values (shown below) or a URI identifying a proprietary IM network.')
-        '''['aim','msn','yahoo','skype','qq','gtalk','icq','jabber']'''
-        
-        
-        
-        prim     = BooleanType(default=False, description='Primary, When multiple email extensions appear in a contact kind, indicates which is prim. At most one email may be prim.')
-        notes    = ListType(ModelType(Note))
-
-    if 1: # Methods
-        def __unicode__(self):
-            return self.address
+    address  = StringType(description='IM Address')
+    
+    # enum   : home, work, other
+    typs     = ListType(StringType(description='IM Types'))
+    
+    protocol = StringType(description='IM network, Identifies the IM network. The value may be either one of the standard values (shown below) or a URI identifying a proprietary IM network.')
+    '''['aim','msn','yahoo','skype','qq','gtalk','icq','jabber']'''
+    
+    notes    = ModelType(Note)
 
     meta = {
         '_c': 'Im',
@@ -170,13 +147,10 @@ class PlAspectRating(_Model):
         '_c': 'PlAspectRate',
         }
 
-class Review(Mod):
+class Review(Embs):
     '''https://developers.google.com/maps/documentation/javascript/places#place_details_responses'''
-    eId     = IntType(description='Element Id')
     aspects = ListType(ModelType(PlAspectRating))
-    cBy     = ObjectIdType(description='Author')
     body    = StringType(description='the user\'s review.')
-    cOn     = DateTimeType(description='When Created/Added')
 
     meta = {
         '_c': 'Review',

@@ -1,4 +1,6 @@
+from models.extensions import nextEId
 import time
+
 def nextId(collection):
 	"Returns the next unique Id available for a collection via the __nextId collection field."
 
