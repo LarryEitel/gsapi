@@ -13,19 +13,21 @@ from utils.nextid import nextId
 from utils.slugify import slugify
 
 def preSave(doc, usrOID):
-    response = {}
+    response   = {}
     
     modelClass = getattr(models, doc['_c'])
-    errors = validate_partial(modelClass, doc)
+    # collNam    = modelClass.meta['collection']
+    # collNamTmp = collNam + '_tmp'
+    # collTmp    = db[collNamTmp]
+    # coll       = db[collNam]
+
+    # validate
+    errors     = validate_partial(modelClass, doc)
 
     if errors:
         response['errors'] = errors['errors']
         response['total_errors'] = errors['count']
         return {'response': response, 'status': 400}
-    
-    # logit update
-    doc = logit(usrOID, doc)
-    response['doc'] = doc
     
     # init model instance
     model      = modelClass(**doc)
@@ -36,13 +38,11 @@ def preSave(doc, usrOID):
         if hasattr(model, 'vNamS') and 'dNamS' in model._fields:
             model.dNamS = model.vNamS
             
-        doc        = to_python(model, allow_none=True)
-        doc_clean  = {}
-        for k, v in doc.iteritems():
-            if doc[k]:
-                doc_clean[k] = doc[k]
-        doc = doc_clean
+        doc        = doc_remove_empty_keys(to_python(model, allow_none=True))
     
+    # logit update
+    doc = logit(usrOID, doc)
+    response['doc'] = doc
     return {'response': response, 'status': 200}
 
 class Generic(object):
@@ -355,11 +355,11 @@ class Generic(object):
 
         # if element eId was passed, expect to put/patch change to one element in a ListType attribute/field
         if eId and len(patch) == 1:
-            elem = patch.popitem()
+            elem    = patch.popitem()
             attrNam = elem[0]
             attrVal = elem[1][0]
             
-            resp = preSave(attrVal, usrOID)
+            resp    = preSave(attrVal, usrOID)
             if not resp['status'] == 200:
                 return {'response': resp, 'status': 400}
             
