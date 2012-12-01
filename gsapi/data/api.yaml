@@ -21,7 +21,7 @@
 	name	: login
 	url		: https://gsapi.orgtec.com/api/login
 	input	: uNam, pw
-	output	: status_code
+	output	: status
 	desc	: This will allow a user to login in to system. Input are uName and pw. Ouput will be
 			  status code of operation.
 
@@ -29,7 +29,7 @@
 	name	: change_passwrod
 	url		: https://gsapi.orgtec.com/api/change_passwrod
 	input	: old_password, new_password
-	output	: status_code
+	output	: status
 	desc	: This api call will be used to change the password of a user. Input willl be old_password
 			  and new_password. Output will be status code of operation.
 
@@ -37,7 +37,7 @@
 	name	: register
 	url		: https://gsapi.orgtec.com/api/register
 	input	: prefix, fNam, fNam2, lNam, lNam2, suffix, gen, rBy, tags, uNam, pw
-	output	: status_code
+	output	: status
 	desc	: This api call will be used for registering a user. All mandatory parameters must be
 			  supplied and optional parameters may be supplied as well. Output will be status code
 			  of the operation.
@@ -46,7 +46,7 @@
 	name	: register_company
 	url		: https://gsapi.orgtec.com/api/register_company
 	input	: prefix, fNam, fNam2, lNam, lNam2, suffix, gen, rBy, tags, cNam, symbol
-	output	: status_code
+	output	: status
 	desc	: This api call will be used for registering a company. All mandatory parameters must be
 			  supplied and optional parameters may be supplied as well. Output will be status code
 			  of the operation.
@@ -55,7 +55,7 @@
 	name	: update
 	url		: https://gsapi.orgtec.com/api/update
 	input	: [prefix | fNam | fNam2 | lNam | lNam2 | suffix | gen | rBy | tags | uNam]
-	output	: status_code
+	output	: status
 	desc	: This api call will be used to update the data of the user. Data to be updated is
 			: the input. Output will be status code of the updated data.
 
@@ -89,7 +89,7 @@
 	name	: associate_user_user
 	url		: https://gsapi.orgtec.com/api/associate_user_user
 	input	: to_oid, from_oid, to_type, from_type, rel
-	output	: status_code
+	output	: status
 	desc	: This api call will associate two objects. The required input is to_oid, from_oid to_type, from_type,
 			  and relation between those objects. oids can be found by calling the search api call. Relation has to be
 			  taken from a pull down manu. Output is the status code of operation.
@@ -98,7 +98,7 @@
 	name	: delete
 	url		: https://gsapi.orgtec.com/api/delete
 	input	: oid
-	output	: status_code
+	output	: status
 	desc	: This api call will delete the object and related immediate children if they do not have any
 			  other association. Input will be oid to be deleted. Output will be status code of operation.
 
@@ -106,7 +106,7 @@
 	name 	: move
 	url		: https://gsapi.orgtec.com/api/move
 	input 	: oid, new_oid, rel
-	ouput	: status_code
+	ouput	: status
 	desc	: This api call will move one object. This is essentially a delete and associate operation. Input is
 			  the oid to be moved, new_oid with which oid has to be associated and rel. Output will be status code
 			  of operation.

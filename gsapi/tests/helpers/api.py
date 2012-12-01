@@ -6,7 +6,7 @@
 
         err = "\nInsertCnt of %s FAILED!" % _c
 
-        if rs.status_code == 200:
+        if rs.status == 200:
             data = json.loads(rs.data)
             doc = data['docs'][0]['doc']
             m = getattr(models, _c)(**doc)
@@ -14,7 +14,7 @@
                 print m.dNam
 
             return m
-        elif rs.status_code == 400:
+        elif rs.status == 400:
             data = json.loads(rs.data)
             print err
             print data['errors'][0]['errors']

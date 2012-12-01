@@ -15,7 +15,7 @@ class TestNextId(MongoTestCase):
     usrOID = "50468de92558713d84b03fd7"
     def post_sample(self, doc):
         response = controllers.Generic(self.db).post(**{'usrOID':self.usrOID, 'docs': [doc]})
-        assert response['status_code'] == 200
+        assert response['status'] == 200
         return response['response']['docs'][0]['doc']
         
     def test_nextid_id_empty_collection(self):

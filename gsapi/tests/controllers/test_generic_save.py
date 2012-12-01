@@ -97,7 +97,7 @@ class TestGeneric(TestCase):
         printIndentedString("WHERE:", 4)
         printParams('args', args, 4, 8)
 
-        assert response['status_code'] == 200
+        assert response['status'] == 200
         data = response['response']
 
 
@@ -147,7 +147,7 @@ class TestGeneric(TestCase):
         printIndentedString("WHERE:", 4)
         printParams('args', args, 4, 8)
 
-        assert response['status_code'] == 200
+        assert response['status'] == 200
         data = response['response']
         got_docs = data['docs']
 
@@ -215,7 +215,7 @@ class TestGeneric(TestCase):
         printIndentedString("WHERE:", 4)
         printParams('args', args, 4, 8)
 
-        assert response['status_code'] == 200
+        assert response['status'] == 200
         data = response['response']
         got_docs = data['docs']
 
@@ -263,7 +263,7 @@ class TestGeneric(TestCase):
             printIndentedString("WHERE:", 4)
             printParams('args', args, 4, 8)
 
-            assert response['status_code'] == 200
+            assert response['status'] == 200
             data = response['response']
             got_docs = data['docs']
 
@@ -287,7 +287,7 @@ class TestGeneric(TestCase):
             printIndentedString("WHERE:", 4)
             printParams('args', args, 4, 8)
 
-            assert response['status_code'] == 200
+            assert response['status'] == 200
 
             data = response['response']
             got_docs = data['docs']
@@ -311,7 +311,7 @@ class TestGeneric(TestCase):
             printIndentedString("WHERE:", 4)
             printParams('args', args, 4, 8)
 
-            assert response['status_code'] == 200
+            assert response['status'] == 200
 
             data = response['response']
             got_doc = data['doc']
@@ -337,7 +337,7 @@ class TestGeneric(TestCase):
             printIndentedString("WHERE:", 4)
             printParams('args', args, 4, 8)
 
-            assert response['status_code'] == 200
+            assert response['status'] == 200
 
             data = response['response']
             got_docs = data['docs']
@@ -367,7 +367,7 @@ class TestGeneric(TestCase):
             printIndentedString("WHERE:", 4)
             printParams('args', args, 4, 8)
 
-            assert response['status_code'] == 200
+            assert response['status'] == 200
 
             data = response['response']
             got_docs = data['docs']
@@ -397,7 +397,7 @@ class TestGeneric(TestCase):
             printIndentedString("WHERE:", 4)
             printParams('args', args, 4, 8)
 
-            assert response['status_code'] == 200
+            assert response['status'] == 200
 
             data = response['response']
             got_docs = data['docs']
@@ -423,7 +423,7 @@ class TestGeneric(TestCase):
             printIndentedString("WHERE:", 4)
             printParams('args', args, 4, 8)
 
-            assert response['status_code'] == 200
+            assert response['status'] == 200
 
             data = response['response']
             got_docs = data['docs']
@@ -451,7 +451,7 @@ class TestGeneric(TestCase):
             printIndentedString("WHERE:", 4)
             printParams('args', args, 4, 8)
 
-            assert response['status_code'] == 200
+            assert response['status'] == 200
 
             data = response['response']
             got_docs = data['docs']
@@ -478,7 +478,7 @@ class TestGeneric(TestCase):
             printIndentedString("WHERE:", 4)
             printParams('args', args, 4, 8)
 
-            assert response['status_code'] == 200
+            assert response['status'] == 200
 
             data = response['response']
             got_docs = data['docs']

@@ -83,36 +83,47 @@ class Shr(Mod):
 
 class Email(Embs):
     address = EmailType(required=True, description='Email Address')
-
-    meta = {
+    note    = StringType(description='note')
+    
+    meta    = {
         '_c': 'Email',
         }
 
     @property
     def vNam(self):
         dNam = 'typ_' + self.typ + ': ' + self.address.lower()
-        dNam += '(Primary)' if self.prim else ''
+        dNam += ' (Primary)' if self.prim else ''
+        dNam += (' ' + self.note) if self.note else ''
         return dNam
 
     @property
     def vNamS(self):
-        return self.dNam.replace(' ', '_')
-
+        return (self.typ + ':' + self.address).lower()
 
 class Tel(Embs):
     '''https://developers.google.com/gdata/docs/2.0/elements#gdPhoneNumber'''
-    address = EmailType(description='Email Address')
+    text  = StringType(description='Human-readable phone number')
     
-    # enum  : home, work, other
-    typs    = ListType(StringType(description='Telephone Types'))
+    uri   = StringType(description='An optional "tel URI", An optional "tel URI" used to represent the number in a formal way, useful for programmatic access, such as a VoIP/PSTN bridge. See RFC 3966 for more information on tel URIs.')
+    note  = StringType(description='note')
     
-    uri     = StringType(description='An optional "tel URI", An optional "tel URI" used to represent the number in a formal way, useful for programmatic access, such as a VoIP/PSTN bridge. See RFC 3966 for more information on tel URIs.')
+    note  = StringType(description='note')
     
-    notes   = ModelType(Note)
-
-    meta = {
+    meta  = {
         '_c': 'Tel',
         }
+
+    @property
+    def vNam(self):
+        dNam = 'typ_' + self.typ + ': ' + self.text.lower()
+        dNam += ' (Primary)' if self.prim else ''
+        dNam += (' ' + self.note) if self.note else ''
+        return dNam
+
+    @property
+    def vNamS(self):
+        return self.text.lower()
+
 
 class Im(Embs):
     '''https://developers.google.com/gdata/docs/2.0/elements#gdIm'''

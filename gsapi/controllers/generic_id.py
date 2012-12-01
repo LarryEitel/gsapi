@@ -29,7 +29,7 @@ class GenericId(Generic):
         except:
             response['error']  = 'Unable to query for max id.'
             response['status'] = 400
-            return {'response': response, 'status_code': status}
+            return {'response': response, 'status': status}
 
         maxTries = 5
         tries    = 0
@@ -59,4 +59,4 @@ class GenericId(Generic):
                 #         response['status'] = 400
                 #         break
 
-        return {'response': response, 'status_code': status}
+        return {'response': response, 'status': status}

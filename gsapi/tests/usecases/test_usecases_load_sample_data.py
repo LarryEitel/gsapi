@@ -31,7 +31,7 @@ class TestUseCaseLoadSampleData(TestCase):
             }]
         }
         rs           = generic.post(**args)
-        assert rs['status_code'] == 200 and rs['response']['total_inserted'] == 1
+        assert rs['status'] == 200 and rs['response']['total_inserted'] == 1
         doc = rs['response']['docs'][0]['doc']
 
 

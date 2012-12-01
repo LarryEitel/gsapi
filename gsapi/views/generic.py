@@ -87,7 +87,7 @@ def post(class_name):
 
     response = generic.post(**args)
 
-    return prep_response(response['response'], status = response['status_code'])
+    return prep_response(response['response'], status = response['status'])
 
 
 def put(class_name):
@@ -103,7 +103,7 @@ def put(class_name):
 
     response      = generic.put(**args)
 
-    return prep_response(response['response'], status = response['status_code'])
+    return prep_response(response['response'], status = response['status'])
 
 def get(class_name, id=None):
     from db import db
@@ -136,7 +136,7 @@ def get(class_name, id=None):
 
     resp['response']['links'] = links
 
-    return prep_response(resp['response'], status = resp['status_code'])
+    return prep_response(resp['response'], status = resp['status'])
 
 
 

@@ -9,6 +9,7 @@ from schematics.serialize import (to_python, to_json, make_safe_python,
 from models.extensions import validate, validate_partial, doc_remove_empty_keys, nextEId
 from models.logit import logit
 from models.typ import Typ
+from models._cs import _cs
 from utils.nextid import nextId
 from utils.slugify import slugify
 
@@ -47,11 +48,83 @@ def preSave(doc, usrOID):
 
 class Generic(object):
 
-    def __init__(self, db, es = None):
+    def __init__(self, usr, db, es = None):
         #: Doc comment for instance attribute db
-        self.db = db
-        self.es = es
-    
+        self.usr = usr
+        self.db  = db
+        self.es  = es
+    def post_attr(self, doc, attrNam, attr_c, attrVal, useTmpDoc = True):
+        ''' 
+            doc     = base doc to post/add attrVal to (in the attrNam field) 
+                Must contain _c, and _id
+            usr     = user object
+            coll    = collection
+            attr_c  = model class
+            _id     = doc id
+            attrNam = attribute/fieldname
+            attrVal = value to post/add
+            '''
+
+        db           = self.db
+        
+        errors       = {}
+        doc_info     = {}
+        response     = {}
+        status       = 200
+        post_errors  = []
+        total_errors = 0
+        
+        
+        doc_id         = doc['_id']        
+        usrOID       = self.usr['OID']
+        where        = {'_id': doc_id}
+        doc_c          = doc['_c']
+        docModel       = _cs[doc_c]['modelClass']()
+        collNam      = docModel.meta['collection']
+        coll         = db[collNam + '_tmp'] if useTmpDoc else db[collNam]
+        
+        attrModel    = _cs[attr_c]['modelClass']()
+        
+        
+
+        for k,v in attrVal.iteritems(): setattr(attrModel, k, v)
+        
+        # set the next element id eId
+        resp       = nextEId(doc, attrNam)
+
+        doc        = resp['doc']
+        
+        attrModel.eId  = resp['eId']
+        
+        if hasattr(attrModel, 'vNam') and 'dNam' in attrModel._fields and not attrModel.dNam:
+            attrModel.dNam = attrModel.vNam
+
+        # set dNamS if used:
+        # if dNamS is empty, set to value of slug
+        if hasattr(attrModel, 'vNam') and 'dNamS' in attrModel._fields and not attrModel.dNamS:
+            attrModel.dNamS = attrModel.vNamS
+
+        attrValClean   = doc_remove_empty_keys(to_python(attrModel, allow_none=True))
+        attrErrors = validate(_cs[attr_c]['modelClass'], attrValClean)
+        if attrErrors:
+            response['total_invalid'] = 1
+            response['errors']        = attrErrors
+            response['total_errors']  = 1
+            return {'response': response, 'status': 400} 
+        
+        # logit update
+        attrValClean = logit(usrOID, attrValClean, method='post')
+        
+        resp = coll.update(where,
+                {"$push": { attrNam: attrValClean}, "$set": {'eIds': doc['eIds']}}
+            )
+        
+        response['update_response'] = resp
+
+        return {'response': response, 'status': 200} 
+
+
+
     def post(self, **kwargs):
         '''Insert a doc
             newDocTmp: Initialize a temp (tmp) doc if no OID and no data.
@@ -116,7 +189,11 @@ class Generic(object):
                     # set dNamS if used:
                     # if dNamS is empty, set to value of slug
                     if 'dNamS' in model._fields and not model.dNamS:
-                        model.dNamS = model.slug
+                        if hasattr(model, 'vNam'):
+                            model.dNamS = model.vNamS
+                        else:
+                            model.dNamS = model.slug
+
 
                     embedDoc   = doc_remove_empty_keys(to_python(model, allow_none=True))
                     doc_errors = validate(modelClass, embedDoc)
@@ -128,6 +205,8 @@ class Generic(object):
                     
                     embedDoc['_c'] = attr_c
                     
+                    # logit update
+                    embedDoc = logit(usrOID, embedDoc, method='post')
                     
                     collTmp.update(where,
                             {"$push": { attrNam: embedDoc}, "$set": {'eIds': doc['eIds']}}
@@ -152,7 +231,7 @@ class Generic(object):
         
                 response['docs'] = docs
         
-                return {'response': response, 'status_code': status}                
+                return {'response': response, 'status': status}                
                 
             # Initialize a temp (tmp) doc if no OID and no data.
             elif not '_id' in doc_keys and len(doc_keys) == 1:
@@ -321,7 +400,7 @@ class Generic(object):
 
         response['docs'] = docs
 
-        return {'response': response, 'status_code': status}
+        return {'response': response, 'status': status}
     
     def put(self, **kwargs):
         """Update a doc"""
@@ -401,8 +480,6 @@ class Generic(object):
                 new = True
             )
 
-        # need to handle case where model has a dNam, etc. which may have been affected by patch
-
         # init model instance
         model      = modelClass(**doc)
         
@@ -410,16 +487,12 @@ class Generic(object):
         if hasattr(model, 'vNam') and 'dNam' in model._fields:
             doc        = collTmp.find_one(where)
             _id        = doc['_id']
+            
             model.dNam = model.vNam
             if hasattr(model, 'vNamS') and 'dNamS' in model._fields:
                 model.dNamS = model.vNamS
                 
-            doc        = to_python(model, allow_none=True)
-            doc_clean  = {'_c': _c}
-            for k, v in doc.iteritems():
-                if doc[k]:
-                    doc_clean[k] = doc[k]
-            doc = doc_clean
+            doc        = doc_remove_empty_keys(to_python(model, allow_none=True))
             collTmp.update(where, doc)
             # gotta put the _id back
             doc['_id'] = _id
@@ -451,7 +524,7 @@ class Generic(object):
             id = kwargs['id']
             doc = coll.find_one({"_id": ObjectId(id)})
             response['doc'] = doc
-            return {'response': response, 'status_code': status}
+            return {'response': response, 'status': status}
 
 
 
@@ -496,5 +569,5 @@ class Generic(object):
 
         response['docs'] = docs
 
-        return {'response': response, 'status_code': status}
+        return {'response': response, 'status': status}
 

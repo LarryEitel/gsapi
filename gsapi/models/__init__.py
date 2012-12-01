@@ -12,4 +12,3 @@ from wdg import *
 
 # # gonna map model _cls to model class instances
 # model_classes_by_id = {'cnt': contact.Contact, 'cmp': contact.Company, 'prs': contact.Person, 'usr':contact.User, 'eml':generic.Email}
-

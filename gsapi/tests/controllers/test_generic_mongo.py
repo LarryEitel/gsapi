@@ -25,18 +25,37 @@ class TestGenericMongo(MongoTestCase):
     print "Generic tests"
     print "=============="
     usrOID = "50468de92558713d84b03fd7"
+    usr    = {"OID": "50468de92558713d84b03fd7"}
     def post_sample(self, doc):
-        response = controllers.Generic(self.db).post(**{'usrOID':self.usrOID, 'docs': [doc]})
-        assert response['status_code'] == 200
+        response = controllers.Generic(self.usr, self.db).post(**{'usrOID':self.usrOID, 'docs': [doc]})
+        assert response['status'] == 200
         return response['response']['docs'][0]['doc']
+    def test_post_attr(self):
+        '''Post a new item to a listType attribute/field
+            '''
+        db      = self.db
+        generic = controllers.Generic(self.usr, db)
+
+        # lets create a some sample docs bypassing tmp process.
+        sample_doc = self.post_sample({'_c': 'Prs', 'fNam': 'Larry', 'lNam': 'Stooge'})
+        generic.post_attr(sample_doc, 'emails', 'Email', {'typ': 'work', '_c': 'Email', 'address': 'bill@ms.com', 'prim': '1'}, useTmpDoc=False)
+        generic.post_attr(sample_doc, 'emails', 'Email', {'typ': 'home', '_c': 'Email', 'address': 'steve@apple.com'}, useTmpDoc=False)
+        posted_to_doc = db['cnts'].find_one({'_id': sample_doc['_id']})
+        
+        # should now have 2 emails
+        assert len(posted_to_doc['emails']) == 2
+
+
     def test_post_listtype(self):
         '''Passing in doc with OID should clone the doc and save in tmp collection. Set isTmp = True.
             '''
         db      = self.db
-        generic = controllers.Generic(db)
+        generic = controllers.Generic(self.usr, db)
 
         # lets create a some sample docs bypassing tmp process.
         sample_doc = self.post_sample({'_c': 'Prs', 'fNam': 'Larry', 'lNam': 'Stooge'})
+
+
 
         # now let's pretent to initiate an update of this doc
         response = generic.post(**{'usrOID': "50468de92558713d84b03fd7", 'docs': [sample_doc]})
@@ -45,7 +64,7 @@ class TestGenericMongo(MongoTestCase):
         test_field   = 'emails'
         test_field_c = 'Email'
         test_value   = [{'typ': 'work', '_c': 'Email', 'address': 'bill@ms.com', 'prim': '1'},
-                        {'typ': 'home', '_c': 'Email', 'address': 'steve@apple.com'}]
+                        {'typ': 'home', '_c': 'Email', 'address': 'steve@apple.com', 'note': 'Deceased'}]
         doc = {
             '_c'     : sample_doc['_c'],
             '_id'    : sample_doc['_id'],
@@ -56,7 +75,7 @@ class TestGenericMongo(MongoTestCase):
 
         response = generic.post(**{'usrOID': "50468de92558713d84b03fd7", 'docs': [doc]})
 
-        assert response['status_code'] == 200
+        assert response['status'] == 200
         
         # let's get the tmp doc
         tmp_doc_id           = doc['_id']
@@ -81,7 +100,7 @@ class TestGenericMongo(MongoTestCase):
         '''Need doc here
             '''
         db       = self.db
-        generic  = controllers.Generic(db)
+        generic  = controllers.Generic(self.usr, db)
 
         # lets create a some sample docs bypassing tmp process.
         sample_docs = [
@@ -128,6 +147,7 @@ class TestGenericMongo(MongoTestCase):
                 "w"      : 0.0
             }]
         test_eId          = 2
+        test_elemOffset   = 1
         data              = {
                 "_c"   : sample_doc['_c'],
                 'where': {'_id': sample_doc['_id'], test_field + '.eId': test_eId},
@@ -137,17 +157,23 @@ class TestGenericMongo(MongoTestCase):
                 "eId"  : 2
                 }
         
+        # submit patch to tmp doc
         response = generic.put(**{'usrOID': ObjectId(self.usrOID), 'data': data})
-        doc      = response['response']['doc']
+        tmp_doc  = response['response']['doc']
+        
+        # let's submit changes to original source doc.
+        response = generic.post(**{'usrOID': self.usrOID, 'docs': [tmp_doc]})
+        doc      = response['response']['docs'][0]['doc']
 
-        pass
-
+        # original doc should now have updated value
+        assert doc[test_field][test_elemOffset]['address'] == test_value[0]['address']
+        
 
     def test_put(self):
         '''Need doc here
             '''
         db       = self.db
-        generic  = controllers.Generic(db)
+        generic  = controllers.Generic(self.usr, db)
 
         # lets create a some sample docs bypassing tmp process.
         sample_docs = [
@@ -200,7 +226,7 @@ class TestGenericMongo(MongoTestCase):
         '''Passing in doc with OID should clone the doc and save in tmp collection. Set isTmp = True.
             '''
         db      = self.db
-        generic = controllers.Generic(db)
+        generic = controllers.Generic(self.usr, db)
         
         # lets create a sample doc bypassing tmp process.
         doc = self.post_sample({'_c': 'Prs', 'fNam': 'Larry', 'lNam': 'King', 'suffix': 'Sr'})
@@ -221,7 +247,7 @@ class TestGenericMongo(MongoTestCase):
         # should be locked
         assert src_doc['locked']
         
-        assert response['status_code'] == 200
+        assert response['status'] == 200
         data     = response['response']
         
         assert data['total_inserted'] == 1
@@ -236,7 +262,7 @@ class TestGenericMongo(MongoTestCase):
         '''Passing in doc with OI and isTmp is set will move/clone the tmp doc into the base/primary doc collection and remove the tmp doc.
             '''
         db      = self.db
-        generic = controllers.Generic(db)
+        generic = controllers.Generic(self.usr, db)
 
         # lets create a sample doc bypassing tmp process.
         doc = self.post_sample({'_c': 'Prs', 'fNam': 'Larry', 'lNam': 'King', 'suffix': 'Sr'})
@@ -270,7 +296,7 @@ class TestGenericMongo(MongoTestCase):
         
         response             = generic.post(**args)
         
-        assert response['status_code'] == 200
+        assert response['status'] == 200
 
         # let's get the sample source doc that should now have been updated from the tmp copy
         src_doc              = db['cnts'].find_one({'_id': ObjectId(src_doc_id)})
