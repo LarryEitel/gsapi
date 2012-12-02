@@ -19,6 +19,7 @@ from pyes.helpers import SettingsBuilder
 from flask.ext.pymongo import PyMongo
 from auth import requires_auth
 import models
+from utils import myyaml
 
 app = Flask(__name__)
 
@@ -102,6 +103,6 @@ def main():
     app.debug = '-d' in sys.argv
     app.use_reloader = '-r' in sys.argv
     app.run()
-
+      
 if __name__ == '__main__':
     main()

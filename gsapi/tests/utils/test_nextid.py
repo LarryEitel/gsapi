@@ -13,15 +13,15 @@ from utils.nextid import nextId
 
 class TestNextId(MongoTestCase):
     def post_sample(self, doc):
-        response = controllers.Generic(self.usr, self.db).post(**{'docs': [doc]})
+        response = controllers.Generic(self.g).post(**{'docs': [doc]})
         assert response['status'] == 200
         return response['response']['docs'][0]['doc']
         
     def test_nextid_id_empty_collection(self):
         '''Doc this
             '''
-        db      = self.db
-        generic = controllers.Generic(self.usr, db)
+        db       = self.g['db']
+        generic = controllers.Generic(self.g)
         coll    = db['cnts']
 
         response = nextId(coll)
@@ -31,8 +31,8 @@ class TestNextId(MongoTestCase):
     def test_nextid_insert_new_record(self):
         '''Doc this
             '''
-        db      = self.db
-        generic = controllers.Generic(self.usr, db)
+        db       = self.g['db']
+        generic = controllers.Generic(self.g)
         
         # lets create a some sample docs bypassing tmp process.
         sample_doc = self.post_sample({'_c': 'Prs', 'fNam': 'Larry', 'lNam': 'Stooge'})

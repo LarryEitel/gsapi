@@ -27,6 +27,23 @@ _cs = {
 	'Usr'    : {'collNam': 'cnts'},
 	'Wdg'    : {'collNam': 'wdgs'},
     }
+    
+# collection names
+colls = {
+	'cnts'    : {'_c': 'Cmp'},
+	'cnts'    : {'_c': 'Cnt'},
+	'countrys': {'_c': 'Country'},
+	'events'  : {'_c': 'Event'},
+	'langs'   : {'_c': 'Lang'},
+	'locs'    : {'_c': 'Loc'},
+	'locs'    : {'_c': 'Loc'},
+	'pls'     : {'_c': 'Pl'},
+	'cnts'    : {'_c': 'Prs'},
+	'tags'    : {'_c': 'Tag'},
+	'taggrps' : {'_c': 'TagGrp'},
+	'cnts'    : {'_c': 'Usr'},
+	'wdgs'    : {'_c': 'Wdg'},
+    }
 
 # let's get the model class for each
 _cs_keys = _cs.keys()

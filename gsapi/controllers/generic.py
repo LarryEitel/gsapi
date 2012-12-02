@@ -4,6 +4,7 @@ import re
 import datetime
 from bson import ObjectId
 import models
+import globals
 from schematics.serialize import (to_python, to_json, make_safe_python,
                                   make_safe_json, blacklist, whitelist)
 from models.extensions import validate, validate_partial, doc_remove_empty_keys, nextEId
@@ -103,11 +104,12 @@ def initDocListTypes(doc, usr):
               
 class Generic(object):
 
-    def __init__(self, usr, db, es = None):
+    def __init__(self, g):
         #: Doc comment for instance attribute db
-        self.usr = usr
-        self.db  = db
-        self.es  = es
+        self.usr = g['usr']
+        self.db  = g['db']
+        self.es  = g['es']
+        
     def post_attr(self, doc, attrNam, attr_c, attrVal, useTmpDoc = True):
         ''' 
             doc     = base doc to post/add attrVal to (in the attrNam field) 
