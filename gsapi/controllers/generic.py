@@ -45,7 +45,43 @@ def preSave(doc, usr):
     doc = logit(usr, doc)
     response['doc'] = doc
     return {'response': response, 'status': 200}
+def docAttrsInit(doc, usr):
+    attrNams = doc.keys()
+    for attrNam in attrNams:
+        attrVal = doc[attrNam]
+        if type(attrVal) == list:
+            attrValList = attrVal 
+            for attrValListOffset in range(0, len(attrValList)):
+                attrValListItem = attrValList[attrValListOffset]
+                attr_c          = attrValListItem['_c']
+                modelClass      = _cs[attr_c]['modelClass']
+                model           = modelClass()
+                for k,v in attrValListItem.iteritems(): setattr(model, k, v)
 
+                resp       = nextEId(doc, attrNam)
+                doc        = resp['doc']
+                model.eId  = resp['eId']   
+                
+                if hasattr(model, 'vNam') and 'dNam' in model._fields and not model.dNam:
+                    model.dNam = model.vNam  
+                if 'dNamS' in model._fields and hasattr(model, 'vNamS') and not model.dNamS:
+                    model.dNamS = model.vNamS
+
+                attrValListItemClean   = doc_remove_empty_keys(to_python(model, allow_none=True))
+                errors = validate(modelClass, attrValListItemClean)
+
+                if errors:
+                    total_errors += errors['count']
+                    post_errors.append(errors)
+                    continue                    
+                
+                attrValListItemClean['_c'] = attr_c
+                
+                # logit update
+                attrValListItemClean = logit(usr, attrValListItemClean, method='post')                                                        
+                doc[attrNam][attrValListOffset] = attrValListItemClean
+    return doc
+              
 class Generic(object):
 
     def __init__(self, usr, db, es = None):
@@ -189,7 +225,7 @@ class Generic(object):
                     # set dNamS if used:
                     # if dNamS is empty, set to value of slug
                     if 'dNamS' in model._fields and not model.dNamS:
-                        if hasattr(model, 'vNam'):
+                        if hasattr(model, 'vNamS'):
                             model.dNamS = model.vNamS
                         else:
                             model.dNamS = model.slug
@@ -310,6 +346,10 @@ class Generic(object):
                 insertDoc  = True
                 useTmpDoc  = False
             
+            # need to cruz through all doc keys to handle arrays/listtype fields.
+            # they need to be initialized according to the appropriate model and validated, etc.
+            doc = docAttrsInit(doc, self.usr)
+
             # init model instance
             model       = modelClass(**doc)
             

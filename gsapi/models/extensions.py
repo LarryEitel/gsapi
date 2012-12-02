@@ -31,6 +31,9 @@ def nextEId(doc, attrNam):
 
 def doc_remove_empty_keys(doc):
     '''Remove any dict keys without a value'''
+    
+    # TODO: Need to recursively loop through all attribs and attribs of arrays to remove empty items.
+    
     doc_clean       = {}
     for k, v in doc.iteritems():
         if doc[k]:

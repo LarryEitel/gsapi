@@ -33,7 +33,7 @@ def get_es_conn(*args, **kwargs):
     return ES(("http", cfg['host'], cfg['port']), *args, **kwargs)
 
 class MongoTestCase(unittest.TestCase):
-
+    tests_data_yaml_dir = 'tests/data/yaml/'
     def setUp(self):
         app                   = run.app
         app.config['TESTING'] = True
@@ -62,6 +62,17 @@ class MongoTestCase(unittest.TestCase):
 
         # self.es.delete_index_if_exists(self.index_name)
 class TestCase(unittest.TestCase):
+    def setUp(self):
+        app                   = run.app
+        app.config['TESTING'] = True
+        self.host             = app.config['TESTING_HOST']
+        
+        self.app              =  app.test_client()
+
+    def tearDown(self):
+        pass
+
+class TestCase_(unittest.TestCase):
 
     def setUp(self):
         app                   = run.app

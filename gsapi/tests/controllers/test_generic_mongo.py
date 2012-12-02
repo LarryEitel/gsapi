@@ -15,6 +15,7 @@ import models
 import controllers
 from models.extensions import validate, validate_partial, doc_remove_empty_keys
 from schematics.serialize import to_python
+from utils import myyaml
 
 class TestGenericMongo(MongoTestCase):
     def post_sample(self, doc):
@@ -45,40 +46,49 @@ class TestGenericMongo(MongoTestCase):
         db       = self.db
         generic  = controllers.Generic(self.usr, db)
 
-        # lets create a some sample docs bypassing tmp process.
-        sample_doc = self.post_sample({'_c': 'Prs', 'fNam': 'Larry', 'lNam': 'Stooge'})
+        cnts = myyaml.pyObj(self.tests_data_yaml_dir + 'cnts.yaml')
+        prs_larry_stooge = cnts['larry_stooge']
         
-        # EMAILS
-        test_field   = 'emails'
-        test_field_c = 'Email'
-        test_values  = [{'typ': 'work', '_c': test_field_c, 'address': 'bill@ms.com', 'prim': '1'},
-                        {'typ': 'home', '_c': test_field_c, 'address': 'steve@apple.com', 'note': 'Deceased'}]        
-        for test_value in test_values:
-            generic.post_attr(sample_doc, test_field, test_field_c, test_value, useTmpDoc=False) 
-            
-        # TELS
-        test_field   = 'tels'
-        test_field_c = 'Tel'
-        test_values  = [{'typ': 'work', '_c': test_field_c, 'text': '(123) 456-7890', 'prim': '1'},
-                        {'typ': 'home', '_c': test_field_c, 'text': '(890) 123-4567', 'note': 'assistant: Sue'}]
-        for test_value in test_values:
-            generic.post_attr(sample_doc, test_field, test_field_c, test_value, useTmpDoc=False) 
-                        
-        # NOTES
-        test_field   = 'notes'
-        test_field_c = 'Note'
-        test_values  = [{'_c': test_field_c, 'title': 'Dentist Visit', 'note': 'Doctor did cleaning.'},]
-        for test_value in test_values:
-            generic.post_attr(sample_doc, test_field, test_field_c, test_value, useTmpDoc=False) 
-
-        # NOTES
-        test_field   = 'ims'
-        test_field_c = 'Im'
-        test_values  = [{'typ': 'personal', '_c': test_field_c, 'protocol': 'skype', 'address': 'fred_flintstone'},]
-        for test_value in test_values:
-            generic.post_attr(sample_doc, test_field, test_field_c, test_value, useTmpDoc=False) 
-
+        response = controllers.Generic(self.usr, self.db).post(**{'docs': [prs_larry_stooge]})
+        assert response['status'] == 200
+        sample_doc = response['response']['docs'][0]['doc']
         return db['cnts'].find_one({'_id': sample_doc['_id']})
+        
+    
+        ## lets create a some sample docs bypassing tmp process.
+        #sample_doc = self.post_sample({'_c': 'Prs', 'fNam': 'Larry', 'lNam': 'Stooge'})
+        
+        ## EMAILS
+        #test_field   = 'emails'
+        #test_field_c = 'Email'
+        #test_values  = [{'typ': 'work', '_c': test_field_c, 'address': 'bill@ms.com', 'prim': '1'},
+                        #{'typ': 'home', '_c': test_field_c, 'address': 'steve@apple.com', 'note': 'Deceased'}]        
+        #for test_value in test_values:
+            #generic.post_attr(sample_doc, test_field, test_field_c, test_value, useTmpDoc=False) 
+            
+        ## TELS
+        #test_field   = 'tels'
+        #test_field_c = 'Tel'
+        #test_values  = [{'typ': 'work', '_c': test_field_c, 'text': '(123) 456-7890', 'prim': '1'},
+                        #{'typ': 'home', '_c': test_field_c, 'text': '(890) 123-4567', 'note': 'assistant: Sue'}]
+        #for test_value in test_values:
+            #generic.post_attr(sample_doc, test_field, test_field_c, test_value, useTmpDoc=False) 
+                        
+        ## NOTES
+        #test_field   = 'notes'
+        #test_field_c = 'Note'
+        #test_values  = [{'_c': test_field_c, 'title': 'Dentist Visit', 'note': 'Doctor did cleaning.'},]
+        #for test_value in test_values:
+            #generic.post_attr(sample_doc, test_field, test_field_c, test_value, useTmpDoc=False) 
+
+        ## NOTES
+        #test_field   = 'ims'
+        #test_field_c = 'Im'
+        #test_values  = [{'typ': 'personal', '_c': test_field_c, 'protocol': 'skype', 'address': 'fred_flintstone'},]
+        #for test_value in test_values:
+            #generic.post_attr(sample_doc, test_field, test_field_c, test_value, useTmpDoc=False) 
+
+        
     def test_post_listtype(self):
         '''Passing in doc with OID should clone the doc and save in tmp collection. Set isTmp = True.
             '''

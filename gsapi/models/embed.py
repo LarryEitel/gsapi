@@ -3,7 +3,6 @@ from schematics.types import StringType, IntType, LongType, DateTimeType, EmailT
 from schematics.types.compound import ListType, ModelType
 from schematics.types.mongo import ObjectIdType
 from mod import Mod
-from typ import Typ
 
 class Embs(Mod):
     '''convenience base for listtype fields, ie, emails, tels, etc'''

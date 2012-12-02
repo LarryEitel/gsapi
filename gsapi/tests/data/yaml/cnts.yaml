@@ -1,0 +1,25 @@
+# http://yaml-online-parser.appspot.com
+# Attribute Types
+larry_stooge:
+  _c: Prs
+  slug  : larry_stooge
+  fNam  : Larry
+  lNam  : Stooge
+  emails: 
+    - _c     : Email
+      typ    : work
+      address: bill@ms.com      
+      prim   : true  
+    - _c     : Email
+      typ    : home
+      address: steve@apple.com      
+      note   : deceased
+  tels: 
+    - _c     : Tel
+      typ    : work
+      text   : (123) 456-7890      
+      prim   : true   
+    - _c     : Tel
+      typ    : home
+      text   : (890) 123-4567     
+      note   : assistant Sue
