@@ -12,9 +12,8 @@ import controllers
 from utils.nextid import nextId
 
 class TestNextId(MongoTestCase):
-    usrOID = "50468de92558713d84b03fd7"
     def post_sample(self, doc):
-        response = controllers.Generic(self.db).post(**{'usrOID':self.usrOID, 'docs': [doc]})
+        response = controllers.Generic(self.usr, self.db).post(**{'docs': [doc]})
         assert response['status'] == 200
         return response['response']['docs'][0]['doc']
         
@@ -22,7 +21,7 @@ class TestNextId(MongoTestCase):
         '''Doc this
             '''
         db      = self.db
-        generic = controllers.Generic(db)
+        generic = controllers.Generic(self.usr, db)
         coll    = db['cnts']
 
         response = nextId(coll)
@@ -33,7 +32,7 @@ class TestNextId(MongoTestCase):
         '''Doc this
             '''
         db      = self.db
-        generic = controllers.Generic(db)
+        generic = controllers.Generic(self.usr, db)
         
         # lets create a some sample docs bypassing tmp process.
         sample_doc = self.post_sample({'_c': 'Prs', 'fNam': 'Larry', 'lNam': 'Stooge'})

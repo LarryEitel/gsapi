@@ -54,7 +54,6 @@ class TestGenericMongo(MongoTestCase):
         sample_doc = response['response']['docs'][0]['doc']
         return db['cnts'].find_one({'_id': sample_doc['_id']})
         
-    
         ## lets create a some sample docs bypassing tmp process.
         #sample_doc = self.post_sample({'_c': 'Prs', 'fNam': 'Larry', 'lNam': 'Stooge'})
         

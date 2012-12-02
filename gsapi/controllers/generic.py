@@ -45,41 +45,60 @@ def preSave(doc, usr):
     doc = logit(usr, doc)
     response['doc'] = doc
     return {'response': response, 'status': 200}
-def docAttrsInit(doc, usr):
+def initDocListTypes(doc, usr):
+    '''When posting a doc with listType attributes/fields, they must be initialized with provided data and validated and saved back to the doc for further handling, ie, validation, etc.'''
     attrNams = doc.keys()
+    # loop through all doc keys
     for attrNam in attrNams:
         attrVal = doc[attrNam]
+
+        # is it a list
         if type(attrVal) == list:
             attrValList = attrVal 
+
+            # loop through all the elements in the list
             for attrValListOffset in range(0, len(attrValList)):
                 attrValListItem = attrValList[attrValListOffset]
                 attr_c          = attrValListItem['_c']
                 modelClass      = _cs[attr_c]['modelClass']
+
+                # init a class model for this item
                 model           = modelClass()
+
+                # set model attribute values
                 for k,v in attrValListItem.iteritems(): setattr(model, k, v)
 
+                # generate a next eId
                 resp       = nextEId(doc, attrNam)
                 doc        = resp['doc']
                 model.eId  = resp['eId']   
                 
+                # generate dNam
                 if hasattr(model, 'vNam') and 'dNam' in model._fields and not model.dNam:
-                    model.dNam = model.vNam  
+                    model.dNam = model.vNam 
+
+                # generate dNamS
                 if 'dNamS' in model._fields and hasattr(model, 'vNamS') and not model.dNamS:
                     model.dNamS = model.vNamS
 
+                # remove all empty fields
                 attrValListItemClean   = doc_remove_empty_keys(to_python(model, allow_none=True))
+
+                # validate
                 errors = validate(modelClass, attrValListItemClean)
 
+                # TODO: handle and test errors
                 if errors:
                     total_errors += errors['count']
                     post_errors.append(errors)
                     continue                    
                 
-                attrValListItemClean['_c'] = attr_c
-                
                 # logit update
-                attrValListItemClean = logit(usr, attrValListItemClean, method='post')                                                        
+                attrValListItemClean = logit(usr, attrValListItemClean, method='post')                   
+                # save cleaned listType item back to doc
                 doc[attrNam][attrValListOffset] = attrValListItemClean
+                
+    # now all listType items are clean, validated, and logged
     return doc
               
 class Generic(object):
@@ -348,7 +367,7 @@ class Generic(object):
             
             # need to cruz through all doc keys to handle arrays/listtype fields.
             # they need to be initialized according to the appropriate model and validated, etc.
-            doc = docAttrsInit(doc, self.usr)
+            doc = initDocListTypes(doc, self.usr)
 
             # init model instance
             model       = modelClass(**doc)
